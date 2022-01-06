@@ -1,9 +1,11 @@
 
 
+
+
 export enum ECompare {
     EQ,
     GT,
-    LT
+    LT,
 }
 
 export enum EPosition {

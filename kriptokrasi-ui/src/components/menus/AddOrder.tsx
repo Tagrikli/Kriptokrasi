@@ -1,9 +1,9 @@
 import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
 import { useState } from "react";
-import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "../../utils/data_types";
+import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "kriptokrasi-common/types";
 import { toast } from 'react-toastify';
 import { Box } from "@mui/system";
-import CONFIG from '../../../../krconfig.json';
+import CONFIG from 'kriptokrasi-common/config.json';
 
 const FIELD_IDS = {
     SPOT_VADELI_RADIO: 'spot-vadeli-radio',

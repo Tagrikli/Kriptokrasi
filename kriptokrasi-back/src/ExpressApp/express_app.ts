@@ -4,7 +4,7 @@ import config from "../utils/config";
 import { TAddOrderData } from "../utils/types";
 import cors from 'cors';
 import { dbManager } from "../Database/database";
-import { TAddOrder_Norm } from "../../kriptokrasi-ui/src/utils/data_types";
+import { TAddOrder_Norm } from "kriptokrasi-common/types";
 
 const app = express();
 

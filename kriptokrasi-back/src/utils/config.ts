@@ -1,5 +1,6 @@
 import fs, { read } from 'fs';
 import { logger } from '../Logger/logger';
+import { CONFIG_PATH } from 'kriptokrasi-common/consts';
 
 type TConfigData = {
     credentials: {
@@ -16,7 +17,7 @@ type TConfigData = {
 
 
 class ConfigParser {
-    filename = 'krconfig.json'
+    filename = CONFIG_PATH
     _config: TConfigData
 
     constructor() {
@@ -25,7 +26,7 @@ class ConfigParser {
 
     loadConfig() {
         try {
-            this._config = JSON.parse(fs.readFileSync('krconfig.json', { encoding: 'utf8' }));
+            this._config = JSON.parse(fs.readFileSync(this.filename, { encoding: 'utf8' }));
             logger.info('Config file provided')
         } catch {
             logger.warn('Provide the config file "krconfig.json"');
@@ -35,7 +36,7 @@ class ConfigParser {
 
     saveConfig() {
         try {
-            fs.writeFileSync('krconfig.json', JSON.stringify(this._config), { encoding: 'utf8' });
+            fs.writeFileSync(this.filename, JSON.stringify(this._config), { encoding: 'utf8' });
             logger.info('Config file updated');
         } catch {
             logger.warn('Config file update failed');

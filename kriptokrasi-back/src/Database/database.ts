@@ -6,7 +6,7 @@ import QUERIES from './query_parser';
 import { TANIMSIZ_KOD_TEXT, TARIHI_GECMIS_KOD_TEXT } from '../utils/consts';
 import { ROOT_PATH } from '..';
 import { logger } from '../Logger/logger';
-import { TAddOrder_Norm } from '../../kriptokrasi-ui/src/utils/data_types';
+import { TAddOrder_Norm } from 'kriptokrasi-common/types';
 
 
 
