@@ -1,0 +1,292 @@
+{
+    "INDICATORS": [
+        {
+            "name": "RSI",
+            "value": "Relative Strength Index"
+        },
+        {
+            "name": "ICHIMOKU",
+            "value": "ICHIMOKU Kinko Hyo by KIVANC fr3762"
+        },
+        {
+            "name": "MA",
+            "value": "Moving Average"
+        },
+        {
+            "name": "EMA",
+            "value": ""
+        },
+        {
+            "name": "MACD",
+            "value": "MACD"
+        },
+        {
+            "name": "AUTOFIB",
+            "value": "Auto fibonacci Retracament Levels by KIVANÇ"
+        },
+        {
+            "name": "Auto Destek Direnc",
+            "value": "Automatic Support and Resistance"
+        }
+    ],
+    "SYMBOLS": [
+        {
+            "name": "BTCUSDT",
+            "value": "BTCUSDT"
+        },
+        {
+            "name": "ETHUSDT",
+            "value": "ETHUSDT"
+        },
+        {
+            "name": "SOLUSDT",
+            "value": "SOLUSDT"
+        },
+        {
+            "name": "ADAUSDT",
+            "value": "ADAUSDT"
+        },
+        {
+            "name": "BTCUSDTPERP",
+            "value": "BTCUSDTPERP"
+        },
+        {
+            "name": "AVAXUSDT",
+            "value": "AVAXUSDT"
+        },
+        {
+            "name": "DOTUSDT",
+            "value": "DOTUSDT"
+        },
+        {
+            "name": "XRPUSDT",
+            "value": "XRPUSDT"
+        },
+        {
+            "name": "BNBUSDT",
+            "value": "BNBUSDT"
+        },
+        {
+            "name": "ATOMUSDT",
+            "value": "ATOMUSDT"
+        },
+        {
+            "name": "FTMUSDT",
+            "value": "FTMUSDT"
+        },
+        {
+            "name": "MATICUSDT",
+            "value": "MATICUSDT"
+        },
+        {
+            "name": "DOGEUSDT",
+            "value": "DOGEUSDT"
+        },
+        {
+            "name": "LUNAUSDT",
+            "value": "LUNAUSDT"
+        },
+        {
+            "name": "BTCPERP",
+            "value": "BTCPERP"
+        },
+        {
+            "name": "SHIBUSDT",
+            "value": "SHIBUSDT"
+        },
+        {
+            "name": "LINKUSDT",
+            "value": "LINKUSDT"
+        },
+        {
+            "name": "SLPUSDT",
+            "value": "SLPUSDT"
+        },
+        {
+            "name": "ALGOUSDT",
+            "value": "ALGOUSDT"
+        },
+        {
+            "name": "TRXUSDT",
+            "value": "TRXUSDT"
+        },
+        {
+            "name": "EGLDUSDT",
+            "value": "EGLDUSDT"
+        },
+        {
+            "name": "EOSUSDT",
+            "value": "EOSUSDT"
+        },
+        {
+            "name": "VETUSDT",
+            "value": "VETUSDT"
+        },
+        {
+            "name": "CAKEUSDT",
+            "value": "CAKEUSDT"
+        },
+        {
+            "name": "ETHUSDTPERP",
+            "value": "ETHUSDTPERP"
+        },
+        {
+            "name": "ICPUSDT",
+            "value": "ICPUSDT"
+        },
+        {
+            "name": "LTCUSDT",
+            "value": "LTCUSDT"
+        },
+        {
+            "name": "NEARUSDT",
+            "value": "NEARUSDT"
+        },
+        {
+            "name": "SOLUSDTPERP",
+            "value": "SOLUSDTPERP"
+        },
+        {
+            "name": "OMGUSDT",
+            "value": "OMGUSDT"
+        },
+        {
+            "name": "FTTUSDT",
+            "value": "FTTUSDT"
+        },
+        {
+            "name": "BTCUSD",
+            "value": "BTCUSD"
+        },
+        {
+            "name": "ONEUSDT",
+            "value": "ONEUSDT"
+        },
+        {
+            "name": "XTZUSDT",
+            "value": "XTZUSDT"
+        },
+        {
+            "name": "CELOUSDT",
+            "value": "CELOUSDT"
+        },
+        {
+            "name": "ADAUSD",
+            "value": "ADAUSD"
+        },
+        {
+            "name": "GALAUSDT",
+            "value": "GALAUSDT"
+        },
+        {
+            "name": "AXSUSDT",
+            "value": "AXSUSDT"
+        },
+        {
+            "name": "ETHBTC",
+            "value": "ETHBTC"
+        },
+        {
+            "name": "SUSHIUSDT",
+            "value": "SUSHIUSDT"
+        },
+        {
+            "name": "SRMUSDT",
+            "value": "SRMUSDT"
+        },
+        {
+            "name": "THETAUSDT",
+            "value": "THETAUSDT"
+        },
+        {
+            "name": "C98USDT",
+            "value": "C98USDT"
+        },
+        {
+            "name": "ALICEUSDT",
+            "value": "ALICEUSDT"
+        },
+        {
+            "name": "AAVEUSDT",
+            "value": "AAVEUSDT"
+        },
+        {
+            "name": "HBARUSDT",
+            "value": "HBARUSDT"
+        },
+        {
+            "name": "CELRUSDT",
+            "value": "CELRUSDT"
+        },
+        {
+            "name": "AUDIOUSDT",
+            "value": "AUDIOUSDT"
+        },
+        {
+            "name": "CRVUSDT",
+            "value": "CRVUSDT"
+        },
+        {
+            "name": "AVAXUSDTPERP",
+            "value": "AVAXUSDTPERP"
+        }
+    ],
+    "INTERVALS": [
+        {
+            "name": "1 Dakika",
+            "index": 4
+        },
+        {
+            "name": "3 Dakika",
+            "index": 5
+        },
+        {
+            "name": "5 Dakika",
+            "index": 6
+        },
+        {
+            "name": "15 Dakika",
+            "index": 7
+        },
+        {
+            "name": "30 Dakika",
+            "index": 8
+        },
+        {
+            "name": "45 Dakika",
+            "index": 9
+        },
+        {
+            "name": "1 Saat",
+            "index": 10
+        },
+        {
+            "name": "2 Saat",
+            "index": 11
+        },
+        {
+            "name": "3 Saat",
+            "index": 12
+        },
+        {
+            "name": "4 Saat",
+            "index": 13
+        },
+        {
+            "name": "1 Day",
+            "index": 14
+        },
+        {
+            "name": "1 Week",
+            "index": 15
+        },
+        {
+            "name": "1 Month",
+            "index": 16
+        }
+    ],
+    "TIMEFRAMES": [
+        {"name":"5 Dakika", "value":"5m"}, {"name":"15 Dakika", "value":"15m"},{ "name": "30 Dakika", "value": "30m"},
+        {"name":"1 Saat", "value": "1h"}, { "name": "4 Saat", "value": "4h"}, { "name": "1 Gun", "value": "1d"}],
+    "EXCHANGE_TYPES": [{"name": "Spot", "value" :"spot"}, { "name": "Vadeli", "value": "futures"}]
+}
