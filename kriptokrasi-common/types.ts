@@ -19,15 +19,16 @@ export enum EType {
 }
 
 export type TAddOrder_Temp = {
-    type: EType,
-    position: EPosition,
+    type: EType | string,
+    position: EPosition | string,
     symbol: String | Number,
     buy_price: Number,
     leverage: Number
-    buy_condition: ECompare,
-    tp_condition: ECompare,
+    buy_condition: ECompare | string,
+    tp_condition: ECompare | string,
     stop_loss: Number,
-    sl_condition: ECompare
+    sl_condition: ECompare | string
+    active: number
 }
 
 export type TAddOrder_Array = TAddOrder_Temp & {
@@ -41,4 +42,16 @@ export type TAddOrder_Norm = TAddOrder_Temp & {
     'take-profit-3': number,
     'take-profit-4': number,
     'take-profit-5': number,
+}
+
+
+export enum EDialogAction {
+    REMOVE_ITEM,
+    UPLOAD_ITEM
+}
+
+export type TDialog = {
+    title: string,
+    content: string,
+    action: EDialogAction
 }

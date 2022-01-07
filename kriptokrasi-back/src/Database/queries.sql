@@ -38,7 +38,7 @@ SELECT *
 FROM users
 where vip = 1;
 /* */
-CREATE TABLE IF NOT EXISTS "waiting_orders" (
+CREATE TABLE IF NOT EXISTS "orders" (
     "id" INTEGER NOT NULL,
     "symbol" TEXT,
     "position" INTEGER,
@@ -54,11 +54,24 @@ CREATE TABLE IF NOT EXISTS "waiting_orders" (
     "take-profit-3" INTEGER,
     "take-profit-4" INTEGER,
     "take-profit-5" INTEGER,
+    "active" INTEGER,
     PRIMARY KEY("id")
 );
-/* */
-INSERT INTO "waiting_orders"
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-/* */
+/* INSERT INTO ORDERS */
+INSERT INTO orders
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+/* SELECT ACTIVE ORDERS */
 SELECT *
-FROM "waiting_orders";
+FROM orders
+WHERE active = 1;
+/* SELECT INACTIVE ORDERS */
+SELECT *
+FROM orders
+WHERE active = 0;
+/* DELETE ORDER BY ID */
+DELETE FROM orders
+WHERE id = ?;
+/* ACTIVATE ORDER BY ID */
+UPDATE orders
+SET active = 1
+WHERE id = ?;

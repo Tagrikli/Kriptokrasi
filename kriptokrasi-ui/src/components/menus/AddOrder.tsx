@@ -1,9 +1,10 @@
-import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
+import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
 import { useState } from "react";
-import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "kriptokrasi-common/types";
+import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "../../kriptokrasi-common/types";
 import { toast } from 'react-toastify';
 import { Box } from "@mui/system";
-import CONFIG from 'kriptokrasi-common/config.json';
+import CONFIG from '../../kriptokrasi-common/config.json';
+import { MESSAGES } from "../../kriptokrasi-common/consts";
 
 const FIELD_IDS = {
     SPOT_VADELI_RADIO: 'spot-vadeli-radio',
@@ -31,6 +32,7 @@ var default_data: TAddOrder_Array = {
     tp_condition: ECompare.EQ,
     stop_loss: defaultPrice,
     sl_condition: ECompare.EQ,
+    active: 0
 }
 
 const finalizeData = (data: TAddOrder_Array) => {
@@ -66,7 +68,7 @@ export default function AddOrder() {
 
         try {
 
-            let result = await fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/create_waiting_order/`, {
+            let result = await fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/create_order/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -77,13 +79,16 @@ export default function AddOrder() {
 
             if (result.status === 200) {
                 setLoading(false);
-                toast.success('Bekleyen emir eklendi!');
+                toast.success(MESSAGES.SUCCESS.ORDER.ADD);
+            } else {
+                setLoading(false);
+                toast.error(MESSAGES.ERROR.ORDER.ADD);
             }
 
-        } catch (error) {
+
+        } catch (error: any) {
             setLoading(false);
-            toast.error(`Bir hata mevcut :(
-                ${error}`);
+            toast.error(error.message);
         }
 
     }
@@ -154,7 +159,7 @@ export default function AddOrder() {
     }
 
 
-    return <Container sx={{
+    return <Container maxWidth="md" sx={{
         display: 'flex',
         flexDirection: 'column',
         p: { xs: 4, md: 10 },
@@ -166,11 +171,13 @@ export default function AddOrder() {
             <Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
 
                 <FormControl component="fieldset">
+                    <FormLabel component="legend">Tür</FormLabel>
                     <RadioGroup
-                        defaultValue={1}
+                        defaultValue={0}
                         name={FIELD_IDS.SPOT_VADELI_RADIO}
                         id={FIELD_IDS.SPOT_VADELI_RADIO}
                         onChange={changeHandler}
+                        row
                     >
                         <FormControlLabel value={0} control={<Radio />} label="Spot" />
                         <FormControlLabel value={1} control={<Radio />} label="Vadeli" />
@@ -178,11 +185,13 @@ export default function AddOrder() {
                 </FormControl>
 
                 <FormControl component="fieldset">
+                    <FormLabel component="legend">Pozisyon</FormLabel>
                     <RadioGroup
-                        defaultValue={1}
+                        defaultValue={0}
                         name={FIELD_IDS.LONG_SHORT_RADIO}
                         id={FIELD_IDS.LONG_SHORT_RADIO}
                         onChange={changeHandler}
+                        row
                     >
                         <FormControlLabel value={0} control={<Radio />} label="Long" />
                         <FormControlLabel value={1} control={<Radio />} label="Short" />

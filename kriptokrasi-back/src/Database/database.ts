@@ -52,11 +52,29 @@ export default class DatabaseManager {
         logger.info('New user created');
     }
 
-    async getWaitingOrders() {
-        return (await this.db.all(QUERIES.SELECT_WAITING_ORDERS));
+    async getInactiveOrders() {
+        return (await this.db.all(QUERIES.SELECT_INACTIVE_ORDERS));
     }
 
-    async createWaitingOrder(order: TAddOrder_Norm) {
+    async getActiveOrders() {
+        return (await this.db.all(QUERIES.SELECT_ACTIVE_ORDERS));
+    }
+
+    async deleteOrders(order_ids: number[]) {
+        order_ids.forEach(async order_id => {
+            await this.db.run(QUERIES.DELETE_ORDERS_BY_ID, order_id);
+        })
+    }
+
+    async activateOrders(order_ids: number[]) {
+
+        order_ids.forEach(async order_id => {
+            await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, order_id);
+        })
+
+    }
+
+    async createOrder(order: TAddOrder_Norm) {
         await this.db.run(QUERIES.INSERT_WAITING_ORDER, [
             order.id,
             order.symbol,
@@ -73,6 +91,7 @@ export default class DatabaseManager {
             order['take-profit-3'],
             order['take-profit-4'],
             order['take-profit-5'],
+            order.active,
         ])
     }
 

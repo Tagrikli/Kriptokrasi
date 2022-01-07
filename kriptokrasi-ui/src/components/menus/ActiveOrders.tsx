@@ -1,5 +1,5 @@
 import { DataGrid, GridAlignment, GridValueFormatterParams, GridSelectionModel } from '@mui/x-data-grid';
-import { Backdrop, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
+import { Backdrop, Button, CircularProgress, Container, Typography, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import CONFIG from '../../kriptokrasi-common/config.json';
 import { ECompare, EPosition, EType, TAddOrder_Norm } from '../../kriptokrasi-common/types';
@@ -177,7 +177,7 @@ const beautifyData = (data_arr: TAddOrder_Norm[]) => {
 
 
 
-export default function WaitingOrders() {
+export default function ActiveOrders() {
 
     const [rows, setRows] = useState<TAddOrder_Norm[]>([]);
     const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
@@ -220,40 +220,9 @@ export default function WaitingOrders() {
         }
     }
 
-    const uploadClickHandler = async () => {
-        const sel_count = selectionModel.length;
-
-        if (sel_count) {
-            setLoading(true);
-            const selections = selectionModel;
-
-            try {
-                let response = await fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/activate_orders`, {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(selections)
-                })
-
-                if (response.status === 200) {
-                    setLoading(false);
-                    toast.success(MESSAGES.SUCCESS.ORDER.ACTIVATE);
-
-                } else {
-                    setLoading(false);
-                    toast.error(MESSAGES.ERROR.ORDER.ACTIVATE)
-                }
-
-            } catch (error: any) {
-                setLoading(false);
-                toast.error(error.message);
-            }
-        }
-    }
 
     useEffect(() => {
-        fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/get_inactive_orders`)
+        fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/get_active_orders`)
             .then(data => data.json())
             .then((data_arr: TAddOrder_Norm[]) => { setRows(beautifyData(data_arr)); console.log(data_arr); });
     }, [loading])
@@ -263,6 +232,7 @@ export default function WaitingOrders() {
         p: { xs: 0, md: 5 },
     }}
     >
+        
 
         <DataGrid
             autoHeight={true}
@@ -277,10 +247,8 @@ export default function WaitingOrders() {
 
 
         <Stack spacing={3} direction={'row'} p={5}>
-            <Button color='success' onClick={uploadClickHandler}>YÜKLE</Button>
             <Button color='error' onClick={deleteClickHandler}>SEÇİLENLERİ SİL</Button>
         </Stack>
-
 
         <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -289,6 +257,6 @@ export default function WaitingOrders() {
             <CircularProgress size={60} color="inherit" />
         </Backdrop>
 
-    </Container>
+    </Container >
 
 }

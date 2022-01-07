@@ -18,38 +18,76 @@ app.get('/', (req, res) => {
 
 //======= API =======//
 
-app.post('/api/v1/create_waiting_order', (req, res) => {
-    const waiting_order: TAddOrder_Norm = req.body;
+app.post('/api/v1/create_order', (req, res) => {
+    const order: TAddOrder_Norm = req.body;
 
-    dbManager.createWaitingOrder(waiting_order);
+    dbManager.createOrder(order).then(() => {
+        res.sendStatus(200);
+    }).catch(reason => {
+        logger.error(reason);
+    });
 
-    //add_order_data degiskenini kullanarak islem yapabilirsin...
-    logger.info('New data recieved [AddOrderData]');
-    logger.info(JSON.stringify(waiting_order, null, 4));
-    res.sendStatus(200);
 })
 
-app.get('/api/v1/get_waiting_orders', (req, res) => {
 
-    try {
-        dbManager.getWaitingOrders().then(orders => {
-            res.send(orders);
-        })
-    } catch {
+app.get('/api/v1/get_inactive_orders', (req, res) => {
+
+    dbManager.getInactiveOrders().then(orders => {
+        res.send(orders);
+    }).catch(reason => {
         res.sendStatus(500);
-        logger.error('Get Waiting Orders failed');
-    }
+        logger.error(reason);
+    })
+
+
+})
+
+app.get('/api/v1/get_active_orders', (req, res) => {
+
+    dbManager.getActiveOrders().then(orders => {
+        res.send(orders);
+    }).catch(reason => {
+        res.sendStatus(500);
+        logger.error(reason);
+    })
 
 
 })
 
 
-app.get('/api/v1/delete_waiting_orders');       //  ?ids=12,23,34,45
-app.get('/api/v1/save_waiting_orders');         //  ?ids=12,23,34,45
-app.get('/api/v1/upload_waiting_orders');       //  ?ids=12,23,34,45
+app.post('/api/v1/delete_orders', (req, res) => {
 
-app.get('/api/v1/delete_active_orders');        //  ?ids=12,23,34,45
-app.get('/api/v1/delete_history');        //  ?ids=12,23,34,45
+    const orderIds = req.body;
+
+    console.log(orderIds);
+
+    dbManager.deleteOrders(orderIds).then(() => {
+        res.sendStatus(200);
+    }).catch(reason => {
+        res.sendStatus(500);
+        logger.error(reason);
+
+    })
+
+});
+
+
+app.post('/api/v1/activate_orders', (req, res) => {
+
+
+    const orderIds = req.body;
+
+    dbManager.activateOrders(orderIds).then(() => {
+        res.sendStatus(200);
+    }).catch(reason => {
+        res.sendStatus(500);
+        logger.error(reason);
+    })
+
+});
+
+app.post('/api/v1/delete_active_orders');
+app.get('/api/v1/delete_history');
 
 
 app.post('/api/v1/post_telegram_message')       //  req.body => message content
