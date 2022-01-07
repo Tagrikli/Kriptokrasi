@@ -8,7 +8,7 @@ import MenuRenderer from './components/MenuRenderer';
 
 function App() {
 
-  const [menu, setMenu] = useState(1);
+  const [menu, setMenu] = useState(-1);
 
 
   const menuSelection = (index: number) => {
