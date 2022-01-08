@@ -4,13 +4,13 @@ import { logger } from '../Logger/logger';
 
 const client = new MainClient()
 
-const wsClient = new WebsocketClient({});
+const binance_ws = new WebsocketClient({});
 
-wsClient.on("message", (data) => {
+binance_ws.on("message", (data) => {
 
     logger.debug(JSON.stringify(data, null, 2));
 
 });
 
 
-wsClient.subscribeMarkPrice("BTCUST","usdm")
+//binance_ws.subscribeMarkPrice("BTCUST","usdm")

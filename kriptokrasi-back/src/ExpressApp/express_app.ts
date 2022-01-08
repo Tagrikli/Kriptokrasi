@@ -5,8 +5,15 @@ import cors from 'cors';
 import { dbManager } from "../Database/database";
 import { TAddOrder_Norm } from '../kriptokrasi-common/types';
 import { webhookCallback } from "../TelegramBot/telegram_bot";
+import { WebSocket } from 'ws';
+import http from 'http';
+
 
 const app = express();
+const server = http.createServer(app);
+export const wsServer = new WebSocket.Server({ server })
+import './ws_functions';
+
 
 app.use(cors());
 app.use(express.json());
@@ -109,12 +116,10 @@ app.post('/api/v1/activate_orders', (req, res) => {
 app.post('/api/v1/delete_active_orders');
 app.get('/api/v1/delete_history');
 
-
-
 app.post('/api/v1/post_telegram_message')       //  req.body => message content
 
 //===================//
 
-app.listen(config.network.express_port, () => {
+server.listen(config.network.express_port, () => {
     logger.info(`Express server started at http://localhost:${config.network.express_port}`)
 })
