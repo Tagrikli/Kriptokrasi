@@ -11,3 +11,4 @@ import './utils/config';                    //Loads config file
 import './TelegramClient/telegram_client';  //Runs telegram client
 import './TelegramBot/telegram_bot';        //Launches telegram bot
 import './ExpressApp/express_app';          //Starts express server
+import './BinanceAPI/main';

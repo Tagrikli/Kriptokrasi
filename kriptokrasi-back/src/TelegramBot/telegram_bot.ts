@@ -25,19 +25,15 @@ export async function webhookCallback(message: string) {
 
 }
 
-bot.start((ctx) => {
-    if (!dbManager.userExists(ctx.message.from.id)) dbManager.createUser(ctx.message.from);
+bot.start(async (ctx) => {
+    if (!(await dbManager.userExists(ctx.message.from.id))) dbManager.createUser(ctx.message.from);
     ctx.reply("Seçiminizi yapınız...", { reply_markup: KEYBOARDS.INITIAL });
 });
 
-
-
 bot.hears('Welcome', (ctx) => {
 
-    let user_id = ctx.message.from.id;
-    if (!dbManager.userExists(user_id)) dbManager.createUser(ctx.message.from);
-
     ctx.reply('Welcome.');
+
 })
 
 bot.use(async (ctx, next) => {

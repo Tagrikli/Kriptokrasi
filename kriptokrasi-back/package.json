@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/puppeteer": "^5.4.4",
     "axios": "^0.24.0",
+    "binance": "^2.0.27",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

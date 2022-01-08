@@ -17,9 +17,10 @@ export default class TelegramApp {
 
         this.client = new TelegramClient(new StringSession(session_string), api_id, api_hash, {
             autoReconnect: true,
-            connectionRetries: 5,
-            retryDelay: 1000
+            connectionRetries: 10,
+            retryDelay: 5000,
         });
+
 
     }
 

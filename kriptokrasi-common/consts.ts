@@ -3,9 +3,9 @@ export const MESSAGES = {
     ERROR: {
 
         ORDER: {
-            ADD: 'Emir eklenemedi :(',
-            DELETE: 'Emir silinemedi :(',
-            ACTIVATE: 'Emir aktive edilemedi :(',
+            ADD: 'Emir(ler) eklenemedi :(',
+            DELETE: 'Emir(ler) silinemedi :(',
+            ACTIVATE: 'Emir(ler) aktive edilemedi :(',
         },
 
         SERVER: {
@@ -19,9 +19,9 @@ export const MESSAGES = {
 
 
         ORDER: {
-            ADD: 'Emir eklendi!',
-            DELETE: 'Emir silindi!',
-            ACTIVATE: 'Emir aktive edildi!',
+            ADD: 'Emir(ler) eklendi!',
+            DELETE: 'Emir(ler) silindi!',
+            ACTIVATE: 'Emir(ler) aktive edildi!',
         },
     }
 
