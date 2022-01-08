@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 export const ROOT_PATH = __dirname;
 import { logger } from './Logger/logger';
+
 logger.info('Program starting...')
-
-
+logger.info(`USER: ${process.env.NODE_USER}`);
 
 import './utils/config';                    //Loads config file
 import './TelegramClient/telegram_client';  //Runs telegram client

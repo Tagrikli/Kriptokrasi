@@ -10,7 +10,7 @@ import { logger } from "../Logger/logger";
 import config from "../utils/config";
 
 
-export const bot = new Telegraf<TContext>(config.data.credentials.telegram_token);
+export const bot = new Telegraf<TContext>(config.credentials.bot.token);
 
 
 bot.start((ctx) => {
@@ -37,7 +37,7 @@ bot.use(async (ctx, next) => {
     ctx.vip = (await dbManager.isVIP(user_id)).vip;
 
     if (!ctx.vip) {
-        ctx.reply('Botu kullanabilmek için üye olunuz.', {reply_markup: KEYBOARDS.INITIAL});
+        ctx.reply('Botu kullanabilmek için üye olunuz.', { reply_markup: KEYBOARDS.INITIAL });
         return;
     }
     await next();

@@ -7,15 +7,15 @@ import { logger } from "../Logger/logger";
 
 
 const app = new TelegramApp(
-    config.data.credentials.api_id,
-    config.data.credentials.api_hash,
-    config.data.credentials.session_string);
+    config.credentials.app.api_id,
+    config.credentials.app.api_hash,
+    config.credentials.app.session);
 
 
 app.start().then(() => {
     app.getDialogByTitle('CryptoMeter.io Bot').then((dialog) => {
         app.addMessageHandler(dialog, sendMessage);
-        
+
     });
 });
 

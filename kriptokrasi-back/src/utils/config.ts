@@ -1,29 +1,23 @@
 import fs, { read } from 'fs';
 import { logger } from '../Logger/logger';
 import path from 'path';
+import { TConfigCredential, TConfigData } from './types';
+import { throws } from 'assert';
+import { runInThisContext } from 'vm';
 
-type TConfigData = {
-    credentials: {
-        api_id: number,
-        api_hash: string,
-        session_string: string,
-        telegram_token: string,
-    },
-    network: {
-        express_port: number
-    }
-}
+
 
 
 
 class ConfigParser {
     config_path = ''
     _config: TConfigData
+    _user: string
 
     constructor() {
 
         this.config_path = path.join(__dirname, '..', 'kriptokrasi-common', 'config.json');
-
+        this._user = process.env.NODE_USER
         this.loadConfig();
     }
 
@@ -46,13 +40,19 @@ class ConfigParser {
         }
     }
 
-    get data() {
-        return this._config;
+    get credentials(): TConfigCredential {
+        return this._config.credentials[this._user];
     }
 
-    set data(data: TConfigData) {
-        this._config = data;
+    set credentials(data: TConfigCredential) {
+        this._config.credentials[this._user] = data;
     }
+
+    get network() {
+        return this._config.network;
+    }
+
+
 
 }
 

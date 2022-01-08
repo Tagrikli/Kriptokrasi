@@ -38,9 +38,9 @@ export default class TelegramApp {
 
     saveSession() {
         let session_string = this.client.session.save() as unknown as string;
-        let new_data = config.data;
-        new_data.credentials.session_string = session_string;
-        config.data = new_data
+        let new_data = config.credentials;
+        new_data.app.session = session_string;
+        config.credentials = new_data
         config.saveConfig();
     }
 

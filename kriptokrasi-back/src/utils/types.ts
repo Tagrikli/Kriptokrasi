@@ -55,13 +55,23 @@ export enum ECompare {
     LTE
 }
 
-export type TAddOrderData = {
-    symbol: String | Number,
-    buy_price: Number,
-    leverage: Number
-    buy_condition: ECompare,
-    take_profit: number[]
-    tp_condition: ECompare,
-    stop_loss: Number,
-    sl_condition: ECompare
+
+export type TConfigCredential = {
+    app: {
+        api_id: number,
+        api_hash: string,
+        session: string
+    },
+    bot: {
+        token: string
+    }
+}
+
+export type TConfigData = {
+    credentials: {
+        [user: string]: TConfigCredential
+    },
+    network: {
+        express_port: number
+    }
 }

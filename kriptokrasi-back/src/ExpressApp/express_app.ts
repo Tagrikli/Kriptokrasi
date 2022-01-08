@@ -1,7 +1,6 @@
 import express from "express";
 import { logger } from "../Logger/logger";
 import config from "../utils/config";
-import { TAddOrderData } from "../utils/types";
 import cors from 'cors';
 import { dbManager } from "../Database/database";
 import { TAddOrder_Norm } from '../kriptokrasi-common/types';
@@ -94,6 +93,6 @@ app.post('/api/v1/post_telegram_message')       //  req.body => message content
 
 //===================//
 
-app.listen(config.data.network.express_port, () => {
-    logger.info(`Express server started at http://localhost:${config.data.network.express_port}`)
+app.listen(config.network.express_port, () => {
+    logger.info(`Express server started at http://localhost:${config.network.express_port}`)
 })
