@@ -4,14 +4,35 @@ import config from "../utils/config";
 import cors from 'cors';
 import { dbManager } from "../Database/database";
 import { TAddOrder_Norm } from '../kriptokrasi-common/types';
+import { webhookCallback } from "../TelegramBot/telegram_bot";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.text());
 
 app.get('/', (req, res) => {
     res.send('Selamlar'); //Buraya react sayfasi gelicek react sayfasi bitince...
+})
+
+//======= WEBHOOK =======//
+
+
+app.post('/tradingview_webhook', (req, res) => {
+
+
+
+    if (req.is('text/plain')) {
+        let message: string = req.body
+
+        logger.debug(JSON.stringify(req.body));
+        webhookCallback(message);
+        res.sendStatus(200);
+        return;
+    }
+
+    res.sendStatus(500);
 })
 
 
@@ -87,6 +108,7 @@ app.post('/api/v1/activate_orders', (req, res) => {
 
 app.post('/api/v1/delete_active_orders');
 app.get('/api/v1/delete_history');
+
 
 
 app.post('/api/v1/post_telegram_message')       //  req.body => message content

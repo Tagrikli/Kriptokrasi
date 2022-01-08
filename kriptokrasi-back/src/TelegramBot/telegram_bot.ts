@@ -12,11 +12,24 @@ import config from "../utils/config";
 
 export const bot = new Telegraf<TContext>(config.credentials.bot.token);
 
+export async function webhookCallback(message: string) {
+
+    try {
+
+        const users = await dbManager.getAllVipUsers(true);
+        users.forEach(async user => bot.telegram.sendMessage(user.user_id, message));
+
+    } catch (reason) {
+        logger.error(reason);
+    }
+
+}
 
 bot.start((ctx) => {
     if (!dbManager.userExists(ctx.message.from.id)) dbManager.createUser(ctx.message.from);
     ctx.reply("Seçiminizi yapınız...", { reply_markup: KEYBOARDS.INITIAL });
 });
+
 
 
 bot.hears('Welcome', (ctx) => {
@@ -484,6 +497,8 @@ bot.hears(/.*/, async (ctx) => {
     Queries.removeQuery(ctx.chat.id);
     ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL })
 })
+
+
 
 bot.launch().then(() => {
     logger.info('Telegram Bot started')
