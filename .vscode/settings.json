@@ -1,0 +1,17 @@
+{
+    "emeraldwalk.runonsave": {
+        "autoClearConsole": true,
+        "commands": [
+            {
+                "isAsync": true,
+                "match": "./kriptokrasi-common/*",
+                "cmd": "cp -r ./kriptokrasi-common ./kriptokrasi-ui/src/"
+            },
+            {
+                "isAsync": true,
+                "match": "./kriptokrasi-common/*",
+                "cmd": "cp -r ./kriptokrasi-common ./kriptokrasi-back/src/"
+            }
+        ]
+    }
+}
