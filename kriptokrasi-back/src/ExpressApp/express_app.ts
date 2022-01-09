@@ -14,17 +14,18 @@ const server = http.createServer(app);
 export const wsServer = new WebSocket.Server({ server })
 import './ws_functions';
 
-if (process.env.MODE === 'production') {
+if (process.env.MODE === 'prod') {
 
-    app.use(express.static('public'));
-
+    app.use(express.static('build'));
     app.get('/', (req, res) => {
         res.sendFile('index.html');
     })
 
 } else {
-
     app.use(cors());
+    app.get('/', (req, res) => {
+        res.send('Developement mode in progress...');
+    })
 }
 
 app.use(express.json());
