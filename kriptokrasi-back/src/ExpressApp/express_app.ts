@@ -14,14 +14,23 @@ const server = http.createServer(app);
 export const wsServer = new WebSocket.Server({ server })
 import './ws_functions';
 
+if (process.env.MODE === 'production') {
 
-app.use(cors());
+    app.use(express.static('public'));
+
+    app.get('/', (req, res) => {
+        res.sendFile('index.html');
+    })
+
+} else {
+
+    app.use(cors());
+}
+
 app.use(express.json());
 app.use(express.text());
 
-app.get('/', (req, res) => {
-    res.send('Selamlar'); //Buraya react sayfasi gelicek react sayfasi bitince...
-})
+
 
 //======= WEBHOOK =======//
 
