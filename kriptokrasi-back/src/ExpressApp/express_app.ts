@@ -38,7 +38,7 @@ app.use(express.text());
 //======= WEBHOOK =======//
 
 
-app.post('/tradingview_webhook', (req, res) => {
+app.post('/webhook', (req, res) => {
 
 
 
