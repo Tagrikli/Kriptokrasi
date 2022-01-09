@@ -1,4 +1,5 @@
-import Database from 'sqlite-async';
+import sqlite3 from 'sqlite3';
+import { open, Database } from 'sqlite';
 import path from 'path';
 import { PATH } from '../utils/paths';
 import { User } from 'telegraf/typings/core/types/typegram';
@@ -20,7 +21,10 @@ export default class DatabaseManager {
     }
 
     async open() {
-        this.db = await Database.open(this.db_dir);
+        this.db = await open({
+            filename: this.db_dir,
+            driver: sqlite3.cached.Database
+        });
         logger.info('Database opened')
     }
 
