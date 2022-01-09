@@ -32,6 +32,6 @@
         }
     },
     "network": {
-        "express_port": 5000
+        "express_port": 5010
     }
 }
