@@ -3,8 +3,7 @@ import { useState } from "react";
 import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "../../kriptokrasi-common/types";
 import { toast } from 'react-toastify';
 import { Box } from "@mui/system";
-import CONFIG from '../../kriptokrasi-common/config.json';
-import { MESSAGES } from "../../kriptokrasi-common/consts";
+import { BASE_URL, MESSAGES } from "../../kriptokrasi-common/consts";
 
 const FIELD_IDS = {
     SPOT_VADELI_RADIO: 'spot-vadeli-radio',
@@ -68,7 +67,7 @@ export default function AddOrder() {
 
         try {
 
-            let result = await fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/create_order/`, {
+            let result = await fetch(`${BASE_URL()}/api/v1/create_order/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

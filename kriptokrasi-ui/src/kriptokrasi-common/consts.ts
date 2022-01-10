@@ -1,3 +1,5 @@
+import CONFIG from './config.json'
+
 export const MESSAGES = {
 
     ERROR: {
@@ -29,5 +31,5 @@ export const MESSAGES = {
 
 }
 
+export const BASE_URL = () => `http://${window.location.origin}:${CONFIG.network.express_port}`;
 
-export { }

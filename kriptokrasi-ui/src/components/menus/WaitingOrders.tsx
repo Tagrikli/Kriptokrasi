@@ -1,10 +1,9 @@
 import { DataGrid, GridAlignment, GridValueFormatterParams, GridSelectionModel } from '@mui/x-data-grid';
 import { Backdrop, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
-import CONFIG from '../../kriptokrasi-common/config.json';
 import { ECompare, EPosition, EType, TAddOrder_Norm } from '../../kriptokrasi-common/types';
 import { toast } from 'react-toastify';
-import { MESSAGES } from '../../kriptokrasi-common/consts';
+import { BASE_URL, MESSAGES } from '../../kriptokrasi-common/consts';
 
 const customFormatter = (params: GridValueFormatterParams) => parseFloat(params.value as string).toFixed(6);
 
@@ -196,7 +195,7 @@ export default function WaitingOrders() {
             const selections = selectionModel;
 
             try {
-                let response = await fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/delete_orders`, {
+                let response = await fetch(`${BASE_URL()}/api/v1/delete_orders`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -228,7 +227,7 @@ export default function WaitingOrders() {
             const selections = selectionModel;
 
             try {
-                let response = await fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/activate_orders`, {
+                let response = await fetch(`${BASE_URL()}/api/v1/activate_orders`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -253,7 +252,7 @@ export default function WaitingOrders() {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:${CONFIG.network.express_port}/api/v1/get_inactive_orders`)
+        fetch(`${BASE_URL()}/api/v1/get_inactive_orders`)
             .then(data => data.json())
             .then((data_arr: TAddOrder_Norm[]) => { setRows(beautifyData(data_arr)); console.log(data_arr); });
     }, [loading])
