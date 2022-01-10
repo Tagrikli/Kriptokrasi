@@ -31,5 +31,5 @@ export const MESSAGES = {
 
 }
 
-export const BASE_URL = () => `http://${window.location.origin}:${CONFIG.network.express_port}`;
+export const BASE_URL = () => `${window.location.origin}:${CONFIG.network.express_port}`;
 
