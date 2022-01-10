@@ -67,7 +67,7 @@ export default function AddOrder() {
 
         try {
 
-            let result = await fetch(`${BASE_URL()}/api/v1/create_order/`, {
+            let result = await fetch(`${BASE_URL}/api/v1/create_order/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

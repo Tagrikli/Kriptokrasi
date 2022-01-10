@@ -31,11 +31,11 @@ export const MESSAGES = {
 
 }
 
-var BASE_URL = () => '/';
+var BASE_URL = '';
 
 if (process.env.NODE_ENV === 'development') {
 
-    BASE_URL = () => `localhost:${CONFIG.network.express_port}`;
+    BASE_URL = `localhost:${CONFIG.network.express_port}`;
 
 }
 

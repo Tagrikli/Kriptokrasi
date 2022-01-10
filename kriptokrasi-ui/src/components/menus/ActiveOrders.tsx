@@ -195,7 +195,7 @@ export default function ActiveOrders() {
             const selections = selectionModel;
 
             try {
-                let response = await fetch(`${BASE_URL()}/api/v1/delete_orders`, {
+                let response = await fetch(`${BASE_URL}/api/v1/delete_orders`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -221,7 +221,7 @@ export default function ActiveOrders() {
 
 
     useEffect(() => {
-        fetch(`${BASE_URL()}/api/v1/get_active_orders`)
+        fetch(`${BASE_URL}/api/v1/get_active_orders`)
             .then(data => data.json())
             .then((data_arr: TAddOrder_Norm[]) => { setRows(beautifyData(data_arr)); console.log(data_arr); });
     }, [loading])

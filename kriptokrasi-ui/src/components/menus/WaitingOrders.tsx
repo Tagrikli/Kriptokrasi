@@ -195,7 +195,7 @@ export default function WaitingOrders() {
             const selections = selectionModel;
 
             try {
-                let response = await fetch(`${BASE_URL()}/api/v1/delete_orders`, {
+                let response = await fetch(`${BASE_URL}/api/v1/delete_orders`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -227,7 +227,7 @@ export default function WaitingOrders() {
             const selections = selectionModel;
 
             try {
-                let response = await fetch(`${BASE_URL()}/api/v1/activate_orders`, {
+                let response = await fetch(`${BASE_URL}/api/v1/activate_orders`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -252,7 +252,7 @@ export default function WaitingOrders() {
     }
 
     useEffect(() => {
-        fetch(`${BASE_URL()}/api/v1/get_inactive_orders`)
+        fetch(`${BASE_URL}/api/v1/get_inactive_orders`)
             .then(data => data.json())
             .then((data_arr: TAddOrder_Norm[]) => { setRows(beautifyData(data_arr)); console.log(data_arr); });
     }, [loading])
