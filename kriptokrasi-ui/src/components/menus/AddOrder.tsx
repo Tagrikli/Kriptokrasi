@@ -1,5 +1,5 @@
 import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "../../kriptokrasi-common/types";
 import { toast } from 'react-toastify';
 import { Box } from "@mui/system";
@@ -56,6 +56,20 @@ export default function AddOrder() {
 
     const [data, setData] = useState(default_data);
     const [loading, setLoading] = useState(false);
+    const [symbols, setSymbols] = useState<string[]>([]);
+
+   
+
+
+    const getSymbols = async () => {
+        fetch(`${BASE_URL}/api/v1/get_symbols`).then(values => values.json()).then(values => setSymbols(values));
+    }
+
+
+    useEffect(() => {
+        getSymbols();
+    }, []);
+
 
     const createOrder = async () => {
 
@@ -99,7 +113,8 @@ export default function AddOrder() {
         const id: string = event.target.id;
         const name = event.target.name;
 
-        const value = parseFloat(event.target.value);
+        const value = event.target.value;
+
 
 
         if (id) {
@@ -108,20 +123,20 @@ export default function AddOrder() {
 
                 const index = parseInt(id.split('-')[2]);
                 var take_profit_ = [...data.take_profit];
-                take_profit_[index] = value;
+                take_profit_[index] = parseFloat(value);
                 setData({ ...data, take_profit: take_profit_ });
 
             } else {
 
                 switch (id) {
                     case FIELD_IDS.BUY_PRICE:
-                        setData({ ...data, buy_price: value });
+                        setData({ ...data, buy_price: parseFloat(value) });
                         break;
                     case FIELD_IDS.LEVERAGE:
-                        setData({ ...data, leverage: value });
+                        setData({ ...data, leverage: parseInt(value) });
                         break;
                     case FIELD_IDS.STOP_LOSS:
-                        setData({ ...data, stop_loss: value });
+                        setData({ ...data, stop_loss: parseFloat(value) });
                         break;
 
                 }
@@ -133,20 +148,20 @@ export default function AddOrder() {
                     setData({ ...data, symbol: value });
                     break;
                 case FIELD_IDS.BUY_COND:
-                    setData({ ...data, buy_condition: value });
+                    setData({ ...data, buy_condition: parseInt(value) });
                     break;
 
                 case FIELD_IDS.TP_COND:
-                    setData({ ...data, tp_condition: value });
+                    setData({ ...data, tp_condition: parseInt(value) });
                     break;
                 case FIELD_IDS.SL_COND:
-                    setData({ ...data, sl_condition: value });
+                    setData({ ...data, sl_condition: parseInt(value) });
                     break;
                 case FIELD_IDS.SPOT_VADELI_RADIO:
-                    setData({ ...data, type: value });
+                    setData({ ...data, type: parseInt(value) });
                     break;
                 case FIELD_IDS.LONG_SHORT_RADIO:
-                    setData({ ...data, position: value });
+                    setData({ ...data, position: parseInt(value) });
                     break;
 
             }
@@ -207,11 +222,8 @@ export default function AddOrder() {
                     label="Sembol"
                     onChange={changeHandler}
                     name={FIELD_IDS.SYMBOL_SELECT}
-                    defaultValue={10}
                 >
-                    <MenuItem value={10}>BTCUSDT</MenuItem>
-                    <MenuItem value={20}>BTCPODT</MenuItem>
-                    <MenuItem value={30}>ETHUSTD</MenuItem>
+                    {symbols.map((symbol: string, index: number) => <MenuItem key={index} value={symbol}>{symbol}</MenuItem>)}
                 </Select>
             </FormControl>
 

@@ -34,6 +34,7 @@ export type TAddOrder_Array = TAddOrder_Temp & {
 }
 
 export type TAddOrder_Norm = TAddOrder_Temp & {
+    live_price: number,
     id: number,
     'take-profit-1': number,
     'take-profit-2': number,

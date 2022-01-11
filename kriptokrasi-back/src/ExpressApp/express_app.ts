@@ -13,6 +13,9 @@ const app = express();
 const server = http.createServer(app);
 export const wsServer = new WebSocket.Server({ server })
 import './ws_functions';
+import { client } from "../BinanceAPI/main";
+
+var SYMBOLS: string[] = [];
 
 const MODE = process.env.MODE;
 
@@ -24,10 +27,14 @@ if (MODE === 'prod') {
     })
 
 } else if (MODE === 'dev') {
+
+
     app.use(cors());
     app.get('/', (req, res) => {
         res.send('Developement mode in progress...');
     })
+
+
 }
 
 app.use(express.json());
@@ -57,6 +64,24 @@ app.post('/webhook', (req, res) => {
 
 //======= API =======//
 
+app.get('/api/v1/get_symbols', async (req, res) => {
+
+    try {
+
+        let result = await client.getExchangeInfo();
+        const symbol_list = result.symbols.map(symbol => symbol.symbol);
+        res.send(symbol_list);
+
+    } catch (reason) {
+
+        res.sendStatus(500);
+        logger.error(reason);
+
+    }
+
+
+})
+
 app.post('/api/v1/create_order', (req, res) => {
     const order: TAddOrder_Norm = req.body;
 
@@ -72,6 +97,7 @@ app.post('/api/v1/create_order', (req, res) => {
 app.get('/api/v1/get_inactive_orders', (req, res) => {
 
     dbManager.getInactiveOrders().then(orders => {
+        SYMBOLS = orders.map(order => order.symbol)
         res.send(orders);
     }).catch(reason => {
         res.sendStatus(500);
@@ -79,11 +105,13 @@ app.get('/api/v1/get_inactive_orders', (req, res) => {
     })
 
 
+
 })
 
 app.get('/api/v1/get_active_orders', (req, res) => {
 
     dbManager.getActiveOrders().then(orders => {
+        SYMBOLS = orders.map(order => order.symbol)
         res.send(orders);
     }).catch(reason => {
         res.sendStatus(500);
@@ -131,6 +159,8 @@ app.get('/api/v1/delete_history');
 app.post('/api/v1/post_telegram_message')       //  req.body => message content
 
 //===================//
+
+export { SYMBOLS }
 
 server.listen(config.network.express_port, () => {
     logger.info(`Express server started at http://localhost:${config.network.express_port}`)

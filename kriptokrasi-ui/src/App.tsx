@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import MenuRenderer from './components/MenuRenderer';
-import './ws_falan';
 
 
 function App() {

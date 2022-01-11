@@ -1,16 +1,26 @@
+import { any } from 'async';
 import { MainClient, WebsocketClient } from 'binance';
 import { logger } from '../Logger/logger';
+import { SYMBOLS, wsServer } from '../ExpressApp/express_app';
+
+export const client = new MainClient();
+
+const wsClient = new WebsocketClient({ beautify: true });
 
 
-const client = new MainClient()
+wsClient.on('formattedMessage', (data) => {
 
-const binance_ws = new WebsocketClient({});
 
-binance_ws.on("message", (data) => {
+    let symbol = (data as any).symbol;
+    let bid_price = (data as any).bidPrice;
 
-    logger.debug(JSON.stringify(data, null, 2));
+    if (SYMBOLS.includes(symbol)) {
+        let message = { symbol: symbol, bid_price: bid_price };
+        wsServer.clients.forEach(client => client.send(JSON.stringify(message)));
+    }
 
 });
 
 
-//binance_ws.subscribeMarkPrice("BTCUST","usdm")
+
+wsClient.subscribeAllBookTickers('spot')

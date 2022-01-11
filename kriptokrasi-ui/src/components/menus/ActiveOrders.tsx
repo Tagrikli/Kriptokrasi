@@ -3,115 +3,11 @@ import { Backdrop, Button, CircularProgress, Container, Typography, Stack } from
 import { useEffect, useState } from 'react';
 import { ECompare, EPosition, EType, TAddOrder_Norm } from '../../kriptokrasi-common/types';
 import { toast } from 'react-toastify';
-import { BASE_URL, MESSAGES } from '../../kriptokrasi-common/consts';
-
-const customFormatter = (params: GridValueFormatterParams) => parseFloat(params.value as string).toFixed(6);
-
-
-const columns = [
-    {
-        field: 'id',
-        headerName: 'ID',
-    },
-    {
-        field: 'symbol',
-        headerName: 'Coin',
-    },
-    {
-        field: 'live_price',
-        headerName: 'Anlik Fiyat',
-    },
-    {
-        field: 'buy_price',
-        headerName: 'Alinacak Fiyat',
-        type: 'number',
-        valueFormatter: customFormatter,
-    },
-    {
-        field: 'diff',
-        headerName: 'Fark',
-        valueFormatter: customFormatter,
-        type: 'number',
-    },
-    {
-        field: 'type',
-        headerName: 'Tür',
-        type: 'string',
-    },
-    {
-        field: 'leverage',
-        headerName: 'Kaldıraç',
-        type: 'number',
-    },
-    {
-        field: 'buy_condition',
-        headerName: 'Alış Şartı',
-        type: 'string',
-        align: 'center' as GridAlignment
-    },
-    {
-        field: 'position',
-        headerName: 'Pozisyon',
-        type: 'string',
-    },
-    {
-        field: 'take-profit-1',
-        headerName: 'TP1',
-        valueFormatter: customFormatter,
-
-        type: 'number',
-    },
-    {
-        field: 'take-profit-2',
-        headerName: 'TP2',
-        valueFormatter: customFormatter,
-
-        type: 'number',
-    },
-    {
-        field: 'take-profit-3',
-        headerName: 'TP3',
-        valueFormatter: customFormatter,
-
-        type: 'number',
-    },
-    {
-        field: 'take-profit-4',
-        headerName: 'TP4',
-        valueFormatter: customFormatter,
-
-        type: 'number',
-    },
-    {
-        field: 'take-profit-5',
-        headerName: 'TP5',
-        valueFormatter: customFormatter,
-
-        type: 'number',
-    },
-    {
-        field: 'tp_condition',
-        headerName: 'TP Şartı',
-        type: 'string',
-        align: 'center' as GridAlignment
-
-    },
-    {
-        field: 'stop_loss',
-        headerName: 'SL',
-        valueFormatter: customFormatter,
-        type: 'number',
-    },
-    {
-        field: 'sl_condition',
-        headerName: 'SL Şartı',
-        type: 'string',
-        align: 'center' as GridAlignment
-    },
+import { BASE_URL, MESSAGES, WS_URL } from '../../kriptokrasi-common/consts';
+import { GRID_COLUMNS } from '../../kriptokrasi-common/consts';
 
 
 
-];
 
 
 const beautifyData = (data_arr: TAddOrder_Norm[]) => {
@@ -163,7 +59,7 @@ const beautifyData = (data_arr: TAddOrder_Norm[]) => {
         data.buy_condition = condModify(data.buy_condition);
         data.sl_condition = condModify(data.sl_condition);
         data.tp_condition = condModify(data.tp_condition);
-
+        data.live_price = 0;
 
         return data;
 
@@ -176,15 +72,37 @@ const beautifyData = (data_arr: TAddOrder_Norm[]) => {
 
 
 
-export default function ActiveOrders() {
+export default function ActiveOrders(props: { ws: WebSocket }) {
 
     const [rows, setRows] = useState<TAddOrder_Norm[]>([]);
     const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
     const [loading, setLoading] = useState(false);
 
+
+
+    props.ws.onmessage = (message) => {
+
+        const data = JSON.parse(message.data);
+
+        const [symbol, bid_price] = [data.symbol, data.bid_price];
+
+        const row_index = rows.findIndex(row => row.symbol === symbol);
+        if (row_index !== -1) {
+
+            let rows_ = rows.slice();
+
+            rows_[row_index].live_price = bid_price;
+            setRows(rows_);
+
+        }
+        //console.log(data);
+
+    }
+
     const selectionModelChangeHandler = (selection_model: GridSelectionModel) => {
         setSelectionModel(selection_model);
     }
+
 
     const deleteClickHandler = async () => {
 
@@ -236,7 +154,7 @@ export default function ActiveOrders() {
         <DataGrid
             autoHeight={true}
             rows={rows}
-            columns={columns}
+            columns={GRID_COLUMNS}
             pageSize={10}
             rowsPerPageOptions={[5]}
             checkboxSelection
