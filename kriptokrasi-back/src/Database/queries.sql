@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
     message TEXT,
     creation_time timestamp,
     user_id INTEGER,
-    PRIMARY KEY('id' AUTOINCREMENT)
+    PRIMARY KEY('id')
 );
 /* 3*/
 SELECT *
@@ -38,7 +38,7 @@ SELECT *
 FROM users
 where vip = 1;
 /* 6*/
-CREATE TABLE IF NOT EXISTS "orders" (
+CREATE TABLE IF NOT EXISTS `orders` (
     "id" INTEGER NOT NULL,
     "symbol" TEXT,
     "position" INTEGER,
@@ -55,9 +55,9 @@ CREATE TABLE IF NOT EXISTS "orders" (
     "take-profit-4" INTEGER,
     "take-profit-5" INTEGER,
     "status" INTEGER,
-    PRIMARY KEY("id")
+    PRIMARY KEY('id', AUTOINCREMENT)
 );
-/* 7INSERT INTO ORDERS */
+/* 7 INSERT INTO ORDERS */
 INSERT INTO orders
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 /* 8 SELECT ACTIVE ORDERS */
@@ -68,19 +68,8 @@ WHERE status = 1;
 SELECT *
 FROM orders
 WHERE status = 0;
-/*10 SELECT PAST ORDERS */
-SELECT *
-FROM orders
-WHERE status = 2;
-/* 11 DELETE ORDER BY ID */
-DELETE FROM orders
-WHERE id = ?;
-/* 12 ACTIVATE ORDER BY ID */
-UPDATE orders
-SET active = 1
-WHERE id = ?;
-/* 13 CREATE PAST TABLE*/
-CREATE TABLE IF NOT EXISTS "past" (
+/*10 CREATE PAST ORDERS */
+CREATE TABLE IF NOT EXISTS `past` (
     "id" INTEGER NOT NULL,
     "symbol" TEXT,
     "timestamp" TEXT,
@@ -93,3 +82,20 @@ CREATE TABLE IF NOT EXISTS "past" (
     "cancel" INTEGER,
     PRIMARY KEY("id")
 ); 
+/* 11 DELETE ORDER BY ID */
+DELETE FROM orders
+WHERE id = ?;
+/* 12 ACTIVATE ORDER BY ID */
+UPDATE orders
+SET active = 1
+WHERE id = ?;
+/* 13 CREATE PAST TABLE*/
+SELECT *
+FROM past;
+/* 14 SELECT ORDER BY ID */
+SELECT * 
+FROM orders
+WHERE id =?;
+/* 15 INSERT PAST ORDER*/
+INSERT INTO past
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);

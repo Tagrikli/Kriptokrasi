@@ -35,9 +35,13 @@ export default class DatabaseManager {
 
     async initTables() {
         await this.db.run(QUERIES.CREATE_USERS_TABLE);
-        await this.db.run(QUERIES.CREATE_CODES_TABLE);
+        logger.info('Users table created!');
+        //await this.db.run(QUERIES.CREATE_CODES_TABLE);
+        logger.info('Codes table created!');
         await this.db.run(QUERIES.CREATE_POSTS_TABLE);
+        logger.info('Posts table created!');
         await this.db.run(QUERIES.CREATE_ORDERS_TABLE);
+        logger.info('Orders table created!');
         await this.db.run(QUERIES.CREATE_PAST_TABLE);
         logger.debug('Database tables created');
     }
@@ -89,6 +93,43 @@ export default class DatabaseManager {
 
     }
 
+    async cancelOrder (order_id: number){
+        let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID, [order_id]);
+        if (order[15]==1){ // the order is active
+            let momentaryPrice = 11; // get the anlik fiyat
+            let profit = (momentaryPrice - order.buy_price) * (100 / order.buy_price);
+            await this.db.run(QUERIES.INSERT_PAST_ORDER, [
+                order.id,
+                order.symbol,
+                Date.now().toString(), //timestamp
+                order.position,
+                order.type,
+                order.leverage,
+                order.buy_price,
+                profit,
+                momentaryPrice, 
+                order.status,
+            ])
+        }
+        else{
+            await this.db.run(QUERIES.INSERT_PAST_ORDER, [
+                order.id,
+                order.symbol,
+                Date.now().toString(), //timestamp
+                order.position,
+                order.type,
+                order.leverage,
+                order.buy_price,
+                '-',
+                '-',
+                order.status,
+            ])
+        }
+        // delete the order from the orders table
+        await this.db.run(QUERIES.DELETE_ORDERS_BY_ID, order_id);
+        
+    }
+
     async createOrder(order: TAddOrder_Norm) {
         await this.db.run(QUERIES.INSERT_WAITING_ORDER, [
             order.id,
@@ -106,7 +147,7 @@ export default class DatabaseManager {
             order['take-profit-3'],
             order['take-profit-4'],
             order['take-profit-5'],
-            order.active,
+            order.status,
         ])
     }
 

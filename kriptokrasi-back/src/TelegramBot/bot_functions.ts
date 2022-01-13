@@ -332,11 +332,11 @@ export async function answerActiveOrders(){
     for (let i=0; i<activeOrders.length; i++){
         let momentaryPrice = 1000 //bir fonksiyon gelmeli
         let tps = profitCalculator(momentaryPrice, [activeOrders[i][5], activeOrders[i][10], activeOrders[i][11], activeOrders[i][12], activeOrders[i][13], activeOrders[i][14]])
-        if (activeOrders[3] == 0) {
+        if (activeOrders[i][3] == 0) {
             reply += `
             STOP
-            Coin Adı:  ${activeOrders[1]}
-            Giriş Fiyatı :  ${activeOrders[5]}
+            Coin Adı:  ${activeOrders[i][1]}
+            Giriş Fiyatı :  ${activeOrders[i][5]}
             Anlık Kâr :  % ${tps[0]}
             Anlık Fiyat : % ${momentaryPrice}
             TP1 : ${tps[1]}
@@ -344,7 +344,7 @@ export async function answerActiveOrders(){
             TP3 : ${tps[3]}
             TP4 : ${tps[4]}
             TP5 : ${tps[5]}
-            Stop Fiyatı : ${activeOrders[6]}
+            Stop Fiyatı : ${activeOrders[i][6]}
             Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
         else{
@@ -407,44 +407,32 @@ export async function profitCalculator(price, buyPrices){
     else return [(buyPrices[0] - price) * (100 / buyPrices[0]), buyPrices[1], buyPrices[2], buyPrices[3], buyPrices[4], buyPrices[5]];
 }
 
-/*export async function answerPastOrders {
+export async function answerPastOrders() {
     let pastOrders = await dbManager.getPastOrders();
-    if (activeOrders == []) return `Aktif emir bulunmamaktadır.`;
+    if (pastOrders == []) return `Geçmiş emir bulunmamaktadır.`;
     let reply = `-------`
-    for (let i=0; i<activeOrders.length; i++){
-        let momentaryPrice = 1000 //bir fonksiyon gelmeli
-        let tps = profitCalculator(momentaryPrice, [activeOrders[i][5], activeOrders[i][10], activeOrders[i][11], activeOrders[i][12], activeOrders[i][13], activeOrders[i][14]])
-        if (activeOrders[3] == 0) {
+    for (let i=0; i<pastOrders.length; i++){
+        if (pastOrders[i][3] == 0) {
             reply += `
             STOP
-            Coin Adı:  ${activeOrders[1]}
-            Giriş Fiyatı :  ${activeOrders[5]}
-            Anlık Kâr :  % ${tps[0]}
-            Anlık Fiyat : % ${momentaryPrice}
-            TP1 : ${tps[1]}
-            TP2 : ${tps[2]}
-            TP3 : ${tps[3]}
-            TP4 : ${tps[4]}
-            TP5 : ${tps[5]}
-            Stop Fiyatı : ${activeOrders[6]}
+            Tarih: ${pastOrders[i][2]}
+            Coin Adı:  ${pastOrders[i][1]}
+            Giriş Fiyatı :  ${pastOrders[i][6]}
+            Satış Fiyatı : ${pastOrders[i][7]}
+            Kar: ${pastOrders[i][8]}
             Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
         else{
             reply += `
             VADELI
-            Coin Adı:  ${activeOrders[i][1]}
-            Giriş Fiyatı :  ${activeOrders[i][5]}
-            Anlık Kâr :  % ${tps[0]}
-            Anlık Fiyat : % ${momentaryPrice}
-            Kaldıraç : ${activeOrders[i][4]}
-            TP1 : ${tps[1]}
-            TP2 : ${tps[2]}
-            TP3 : ${tps[3]}
-            TP4 : ${tps[4]}
-            TP5 : ${tps[5]}
-            Stop Fiyatı : ${activeOrders[i][6]}
+            Tarih: ${pastOrders[i][2]}
+            Coin Adı:  ${pastOrders[i][1]}
+            Giriş Fiyatı :  ${pastOrders[i][6]}
+            Satış Fiyatı : ${pastOrders[i][7]}
+            Kaldıraç : ${pastOrders[i][5]}
+            Kar: ${pastOrders[i][8]}
             Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
     }
     return reply;
-}*/
+}
