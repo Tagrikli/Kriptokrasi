@@ -87,8 +87,10 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
             let rows_ = rows.slice();
 
             rows_[row_index].live_price = bid_price;
+            rows_[row_index].difference = rows_[row_index].live_price - rows_[row_index].buy_price;
             setRows(rows_);
 
+            
         }
         //console.log(data);
 

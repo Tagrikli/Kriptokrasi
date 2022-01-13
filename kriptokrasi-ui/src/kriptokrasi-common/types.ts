@@ -19,12 +19,12 @@ export enum EType {
 export type TAddOrder_Temp = {
     type: EType | string,
     position: EPosition | string,
-    symbol: String | Number,
-    buy_price: Number,
-    leverage: Number
+    symbol: string,
+    buy_price: number,
+    leverage: number
     buy_condition: ECompare | string,
     tp_condition: ECompare | string,
-    stop_loss: Number,
+    stop_loss: number,
     sl_condition: ECompare | string
     active: number
 }
@@ -34,6 +34,7 @@ export type TAddOrder_Array = TAddOrder_Temp & {
 }
 
 export type TAddOrder_Norm = TAddOrder_Temp & {
+    difference: number
     live_price: number,
     id: number,
     'take-profit-1': number,

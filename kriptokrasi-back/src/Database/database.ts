@@ -8,6 +8,7 @@ import { TANIMSIZ_KOD_TEXT, TARIHI_GECMIS_KOD_TEXT } from '../utils/consts';
 import { ROOT_PATH } from '..';
 import { logger } from '../Logger/logger';
 import { TAddOrder_Norm } from '../kriptokrasi-common/types';
+import { brain } from '../Brain/main';
 
 
 
@@ -17,7 +18,10 @@ export default class DatabaseManager {
 
     constructor() {
         this.db_dir = path.join(ROOT_PATH, PATH.DB_DIR, 'database.sqlite');
-        this.open().then(() => this.initTables());
+        this.open().then(() => {
+            this.initTables();
+            brain.updateOrders();
+        });
     }
 
     async open() {
@@ -75,6 +79,8 @@ export default class DatabaseManager {
         order_ids.forEach(async order_id => {
             await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, order_id);
         })
+
+        brain.updateOrders();
 
     }
 

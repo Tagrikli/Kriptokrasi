@@ -91,6 +91,7 @@ export default function ActiveOrders(props: { ws: WebSocket }) {
 
             let rows_ = rows.slice();
 
+            
             rows_[row_index].live_price = bid_price;
             setRows(rows_);
 

@@ -46,19 +46,21 @@ export const GRID_COLUMNS = [
     },
     {
         field: 'live_price',
-        headerName: 'Anlik Fiyat',
+        headerName: 'Anlık Fiyat',
+        type: 'number',
+        valueFormatter: customFormatter,
     },
     {
         field: 'buy_price',
-        headerName: 'Alinacak Fiyat',
+        headerName: 'Alınacak Fiyat',
         type: 'number',
         valueFormatter: customFormatter,
     },
     {
-        field: 'diff',
+        field: 'difference',
         headerName: 'Fark',
-        valueFormatter: customFormatter,
         type: 'number',
+        valueFormatter: customFormatter,
     },
     {
         field: 'type',
