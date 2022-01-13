@@ -60,14 +60,18 @@ export default class DatabaseManager {
         logger.info('New user created');
     }
 
-    async getInactiveOrders() {
-        return (await this.db.all(QUERIES.SELECT_INACTIVE_ORDERS));
+    async getWaitingOrders() {
+        return (await this.db.all(QUERIES.SELECT_WAITING_ORDERS));
     }
 
     async getActiveOrders() {
         return (await this.db.all(QUERIES.SELECT_ACTIVE_ORDERS));
     }
 
+    async getPastOrders(){
+        return (await this.db.all(QUERIES.SELECT_PAST_ORDERS));
+    }
+    
     async deleteOrders(order_ids: number[]) {
         order_ids.forEach(async order_id => {
             await this.db.run(QUERIES.DELETE_ORDERS_BY_ID, order_id);

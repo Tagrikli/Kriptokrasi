@@ -1,4 +1,4 @@
-/*  */
+/* 0 */
 CREATE TABLE IF NOT EXISTS `users` (
     user_id INTEGER NOT NULL,
     is_bot INTEGER,
@@ -10,14 +10,14 @@ CREATE TABLE IF NOT EXISTS `users` (
     vip INTEGER,
     PRIMARY KEY('user_id')
 );
-/* */
+/*1 */
 CREATE TABLE IF NOT EXISTS `codes` (
     code_id PRIMARY KEY,
     code_timeout INTEGER,
     user_id INTEGER,
     code_day INTEGER
 );
-/* */
+/* 2*/
 CREATE TABLE IF NOT EXISTS `posts` (
     id INTEGER,
     message TEXT,
@@ -25,19 +25,19 @@ CREATE TABLE IF NOT EXISTS `posts` (
     user_id INTEGER,
     PRIMARY KEY('id' AUTOINCREMENT)
 );
-/* */
+/* 3*/
 SELECT *
 FROM users
 WHERE user_id = ?;
-/* */
+/* 4*/
 INSERT
     OR IGNORE INTO users
 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-/* */
+/* 5*/
 SELECT *
 FROM users
 where vip = 1;
-/* */
+/* 6*/
 CREATE TABLE IF NOT EXISTS "orders" (
     "id" INTEGER NOT NULL,
     "symbol" TEXT,
@@ -54,24 +54,28 @@ CREATE TABLE IF NOT EXISTS "orders" (
     "take-profit-3" INTEGER,
     "take-profit-4" INTEGER,
     "take-profit-5" INTEGER,
-    "active" INTEGER,
+    "status" INTEGER,
     PRIMARY KEY("id")
 );
-/* INSERT INTO ORDERS */
+/* 7INSERT INTO ORDERS */
 INSERT INTO orders
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-/* SELECT ACTIVE ORDERS */
+/* 8 SELECT ACTIVE ORDERS */
 SELECT *
 FROM orders
-WHERE active = 1;
-/* SELECT INACTIVE ORDERS */
+WHERE status = 1;
+/* 9 SELECT WAITING ORDERS */
 SELECT *
 FROM orders
-WHERE active = 0;
-/* DELETE ORDER BY ID */
+WHERE status = 0;
+/*10 SELECT PAST ORDERS */
+SELECT *
+FROM orders
+WHERE status = 2;
+/* 11 DELETE ORDER BY ID */
 DELETE FROM orders
 WHERE id = ?;
-/* ACTIVATE ORDER BY ID */
+/* 12 ACTIVATE ORDER BY ID */
 UPDATE orders
 SET active = 1
 WHERE id = ?;
