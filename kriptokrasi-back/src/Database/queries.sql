@@ -79,3 +79,17 @@ WHERE id = ?;
 UPDATE orders
 SET active = 1
 WHERE id = ?;
+/* 13 CREATE PAST TABLE*/
+CREATE TABLE IF NOT EXISTS "past" (
+    "id" INTEGER NOT NULL,
+    "symbol" TEXT,
+    "timestamp" TEXT,
+    "position" INTEGER,
+    "type" INTEGER,
+    "leverage" INTEGER,
+    "buy_price" INTEGER,
+    "sell_price" INTEGER,
+    "profit" INTEGER,
+    "cancel" INTEGER,
+    PRIMARY KEY("id")
+); 

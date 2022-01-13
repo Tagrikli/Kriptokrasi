@@ -37,7 +37,8 @@ export default class DatabaseManager {
         await this.db.run(QUERIES.CREATE_USERS_TABLE);
         await this.db.run(QUERIES.CREATE_CODES_TABLE);
         await this.db.run(QUERIES.CREATE_POSTS_TABLE);
-        await this.db.run(QUERIES.CREATE_WAITING_ORDERS_TABLE)
+        await this.db.run(QUERIES.CREATE_ORDERS_TABLE);
+        await this.db.run(QUERIES.CREATE_PAST_TABLE);
         logger.debug('Database tables created');
     }
 
@@ -71,7 +72,7 @@ export default class DatabaseManager {
     async getPastOrders(){
         return (await this.db.all(QUERIES.SELECT_PAST_ORDERS));
     }
-    
+
     async deleteOrders(order_ids: number[]) {
         order_ids.forEach(async order_id => {
             await this.db.run(QUERIES.DELETE_ORDERS_BY_ID, order_id);
