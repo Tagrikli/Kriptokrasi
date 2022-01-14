@@ -1,4 +1,4 @@
-import { MainClient, WebsocketClient } from 'binance';
+import { BasicSymbolParam, MainClient, WebsocketClient } from 'binance';
 import { logger } from '../Logger/logger';
 import { brain } from '../Brain/main';
 
@@ -27,6 +27,11 @@ class BinanceManager {
         return result.symbols.map(symbol => symbol.symbol);
     }
 
+    async getPriceForSymbol(symbol: string){
+        const coin :BasicSymbolParam = ({symbol: symbol, isIsolated:'FALSE'});
+        const result =  await this.client.getSymbolPriceTicker(coin);
+        return result["price"] ;
+    }
 
     updateSymbols(symbols: string[]) {
         this.symbols = symbols;

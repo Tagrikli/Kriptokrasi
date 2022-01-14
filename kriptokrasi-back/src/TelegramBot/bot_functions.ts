@@ -1,6 +1,7 @@
 import axios from "axios";
 import { bot } from "./telegram_bot";
 import { dbManager } from "../Database/database";
+import { binance_manager } from "../BinanceAPI/main";
 import e from "express";
 
 
@@ -288,7 +289,7 @@ export async function answerWaitingOrders(){
     if (waitingOrders == []) return `Bekleyen emir bulunmamaktadır.`;
     let reply = ``
     for (let i=0; i<waitingOrders.length; i++){
-        let momentaryPrice = 1000 //bir fonksiyon gelmeli
+        let momentaryPrice = await binance_manager.getPriceForSymbol(waitingOrders[i][1]); 
         if (waitingOrders[i][3] == 0)  {
             reply += `
                 SPOT
@@ -330,7 +331,7 @@ export async function answerActiveOrders(){
     if (activeOrders == []) return `Aktif emir bulunmamaktadır.`;
     let reply = `-------`
     for (let i=0; i<activeOrders.length; i++){
-        let momentaryPrice = 1000 //bir fonksiyon gelmeli
+        let momentaryPrice = await binance_manager.getPriceForSymbol(activeOrders[i][1]); 
         let tps = profitCalculator(momentaryPrice, [activeOrders[i][5], activeOrders[i][10], activeOrders[i][11], activeOrders[i][12], activeOrders[i][13], activeOrders[i][14]])
         if (activeOrders[i][3] == 0) {
             reply += `
@@ -436,3 +437,32 @@ export async function answerPastOrders() {
     }
     return reply;
 }
+
+export async function sendActivationMessage(symbol: string, type: string){
+    let tempType = 'spot';
+    if (type != 'spot') tempType = 'long islem';
+    let message = `${symbol} ${tempType} işlemine giriş yapılmıştır.`
+    return message;
+}
+
+export async function sendPastOrderMessage (symbol: string, buy_price: number, type: string){
+    let tempType = 'spot';
+    if (type != 'spot') tempType = 'long islem';
+    const momentaryPrice = await binance_manager.getPriceForSymbol(symbol);
+    const momentaryProfit = (buy_price - momentaryPrice) * (100 / buy_price);
+    let message = 
+    `Coin : ${symbol} 
+    Tip: ${tempType}
+    Alış Fiyatı : ${buy_price} 
+    Satış Fiyatı : ${momentaryPrice}
+    Zarar: % ${momentaryProfit}
+    İşlem kapanmıştır`;
+    return message;
+}
+ export async function sendTPMessage (symbol: string, ) {
+    let message = `${symbol} 
+    vadeli TP3 ✅
+    Kar : %14.711`;
+    return message;
+ }
+
