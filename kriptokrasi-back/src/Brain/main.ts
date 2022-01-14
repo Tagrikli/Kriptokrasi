@@ -2,6 +2,7 @@ import { WebSocket, WebSocketServer } from "ws";
 import { dbManager } from "../Database/database";
 import { TAddOrder_Norm } from "../kriptokrasi-common/types";
 import { logger } from "../Logger/logger";
+import { ECompare } from "../utils/types";
 
 
 class Brain {
@@ -59,7 +60,7 @@ class Brain {
             if (order = this.gottaActivate(symbol, bid_price)) {
                 logger.debug('Order Activated');
                 dbManager.activateOrders([order.id]);
-                
+
             }
 
         }
@@ -75,8 +76,13 @@ class Brain {
     }
 
 
+
     gottaActivate(symbol: string, bid_price: number) {
-        return this.inactive_orders.find(order => (order.symbol === symbol && order.buy_price <= bid_price));
+        return this.inactive_orders.find(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.buy_price, order.buy_condition)));
+    }
+
+    gottaStopLoss(symbol: string, bid_price: number) {
+        return this.active_orders.find(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.stop_loss, order.sl_condition)));
     }
 
     gottaBuy() {
@@ -84,7 +90,11 @@ class Brain {
 
     }
 
-
+    conditionWorker(livePrice, orderPrice, condition) {
+        if (condition == ECompare.GT) return (livePrice > orderPrice);
+        else if (condition == ECompare.EQ) return (livePrice == orderPrice);
+        else if (condition == ECompare.LT) return (livePrice < orderPrice);
+    }
 
 
 }
