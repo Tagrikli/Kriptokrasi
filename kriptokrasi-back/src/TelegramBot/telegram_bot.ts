@@ -79,6 +79,7 @@ bot.hears(BUTTON_LIST.INITIAL, async (ctx) => {
             ctx.reply("Hangi bilgiyi isterdiniz?", { reply_markup: KEYBOARDS.DATA });
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
 });
@@ -94,6 +95,7 @@ bot.hears(BUTTON_LIST.LESSON, async (ctx) => {
             ctx.reply(vadeli_egitimi, { reply_markup: KEYBOARDS.INITIAL });
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
 });
@@ -119,21 +121,21 @@ bot.hears(BUTTON_LIST.DATA, async (ctx) => {
             break;
         case BUTTON_LIST.DATA[3]://Likidite (Toplam)
             Queries.newQuery(chat_id, PROC_CONTEXT.TOTALLIQUIDATION);
-            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case BUTTON_LIST.DATA[4]://Likidite (BitCoin Ozel)
             Queries.newQuery(chat_id, PROC_CONTEXT.BINANCELIQUIDATION);
             let LBOreply = await getBtcLiq();
-            ctx.reply(LBOreply, { reply_markup: KEYBOARDS.DATA })
+            ctx.reply(LBOreply, { reply_markup: KEYBOARDS.INITIAL })
             break;
         case BUTTON_LIST.DATA[5]://Likidite (Bitmex Ozel)
             Queries.newQuery(chat_id, PROC_CONTEXT.BITMEXLIQUIDATION);
-            ctx.reply("mp yazip coin paritesi seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("mp yazip coin paritesi seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case BUTTON_LIST.DATA[6]://Trend Sorgu
             Queries.newQuery(chat_id, PROC_CONTEXT.TRENDINDICATOR);
             let TSreply = await getTrendInd();
-            ctx.reply(TSreply, { reply_markup: KEYBOARDS.DATA })
+            ctx.reply(TSreply, { reply_markup: KEYBOARDS.INITIAL })
             waitlist.push(chat_id);
             break;
         case BUTTON_LIST.DATA[7]://Hizli Hareket
@@ -162,11 +164,11 @@ bot.hears(BUTTON_LIST.DATA, async (ctx) => {
             break;
         case BUTTON_LIST.DATA[13]://Gunluk Volume
             Queries.newQuery(chat_id, PROC_CONTEXT.DAILYVOL);
-            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case BUTTON_LIST.DATA[14]://Saatlik Volume
             Queries.newQuery(chat_id, PROC_CONTEXT.HOURLYVOL);
-            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case BUTTON_LIST.DATA[15]://Birlestirilmis Volume
             Queries.newQuery(chat_id, PROC_CONTEXT.MERGEDVOL);
@@ -181,6 +183,7 @@ bot.hears(BUTTON_LIST.DATA, async (ctx) => {
             ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
 
@@ -202,36 +205,37 @@ bot.hears(BUTTON_LIST.STOCK, async (ctx) => {
     Queries.addData(chat_id, message);
     switch (query.context) {
         case PROC_CONTEXT.LONGSHORT:
-            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.RAPIDMOVEMENT:
-            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.OPENINTEREST:
-            ctx.reply("mp yazip coin paritesi seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("mp yazip coin paritesi seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.CURRENTLS:
-            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.TICKERLIST:
-            ctx.reply("mp yazip parite seciniz.", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("mp yazip parite seciniz.", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.XTRADE:
-            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.LIVETRADE:
-            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.OHLCV:
             ctx.reply("Zaman araligi seçiniz:", { reply_markup: KEYBOARDS.TIMEFRAME });
             break;
         case PROC_CONTEXT.HOURLY24VF:
-            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("pa yazip parite seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.INDICATOR:
             ctx.reply("Kaynak seciniz:", { reply_markup: KEYBOARDS.SOURCE });
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
 })
@@ -251,6 +255,7 @@ bot.hears(BUTTON_LIST.EXCHANGE, async (ctx) => {
             break;
 
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
     ctx.reply("Zaman araligi seciniz:", { reply_markup: KEYBOARDS.TIMEFRAME });
@@ -278,6 +283,7 @@ bot.hears(BUTTON_LIST.SOURCE, async (ctx) => {
             Queries.addDataSafe(chat_id, context, "volume");
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
     ctx.reply("Period yaziniz", { reply_markup: KEYBOARDS.DATA });
@@ -311,23 +317,25 @@ bot.hears(BUTTON_LIST.TIMEFRAME, async (ctx) => {
             timeframe = 'd';
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
     Queries.addData(chat_id, timeframe);
     switch (query.context) {
         case PROC_CONTEXT.VOLUMEFLOW:
-            ctx.reply("fromto yazip parite seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("fromto yazip parite seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.OHLCV:
-            ctx.reply("pa yazip parite seçiniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("pa yazip parite seçiniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.INDICATOR:
-            ctx.reply("mp yazip coin seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("mp yazip coin seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         case PROC_CONTEXT.MERGEDVOL:
-            ctx.reply("symb yazip coin seciniz:", { reply_markup: KEYBOARDS.DATA });
+            ctx.reply("symb yazip coin seciniz:", { reply_markup: KEYBOARDS.INITIAL });
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
 })
@@ -341,7 +349,7 @@ bot.hears(/^[0-9]{1,3}/, async (ctx) => {
         ctx.reply("Zaman araligi seciniz.", { reply_markup: KEYBOARDS.TIMEFRAME })
     }
     else {
-        ctx.reply("Lutfen islem seciniz", { reply_markup: KEYBOARDS.DATA });
+        ctx.reply("Lutfen islem seciniz", { reply_markup: KEYBOARDS.INITIAL });
     }
 });
 
@@ -355,36 +363,37 @@ bot.hears(/(?<=symb ).*/, async (ctx) => {
     switch (query.context) {
         case PROC_CONTEXT.CURRENTLS:
             reply = await getCurrentLS([query.data[0], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.MERGEDVOL:
             reply = await getMergedVolume([query.data[0], query.data[1], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.XTRADE:
             reply = await getXTrade([query.data[0], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.TOTALLIQUIDATION:
             reply = await getTotalLiq([coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.HOURLYVOL:
             reply = await getHourlyVolume([coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.DAILYVOL:
             reply = await getDailyVolume([coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         default:
             Queries.removeQuery(chat_id);
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             break;
     }
 
@@ -402,30 +411,31 @@ bot.hears(/(?<=pa ).*/, async (ctx) => {
     switch (query.context) {
         case PROC_CONTEXT.LIVETRADE:
             reply = await getLiveTrade([query.data[0], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.OHLCV:
             reply = await getOhlcv([query.data[0], query.data[1], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.LONGSHORT:
             reply = await getLongShort([query.data[0], query.data[1], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.RAPIDMOVEMENT:
             reply = await getRapidMov([query.data[0], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.HOURLY24VF:
             reply = await getTradeVol24h([query.data[0], coin]);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             Queries.removeQuery(chat_id);
             break;
     }
@@ -445,25 +455,26 @@ bot.hears(/(?<=mp ).*/, async (ctx) => {
     switch (query.context) {
         case PROC_CONTEXT.INDICATOR:
             reply = await getIndicator(query.data);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.BITMEXLIQUIDATION:
             reply = await getBitmexLiq(query.data);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.OPENINTEREST:
             reply = await getOpenInterest(query.data);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         case PROC_CONTEXT.TICKERLIST:
             reply = await getTickerList(query.data);
-            ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+            ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             Queries.removeQuery(chat_id);
             break;
         default:
+            ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
             Queries.removeQuery(chat_id);
             break;
 
@@ -477,14 +488,17 @@ bot.hears(/(?<=fromto ).*/, async (ctx) => {
     const message = ctx.message.text;
     const coins = message.split(' ');//split yapicammmmmm
     const chat_id = ctx.message.chat.id;
-    const context = PROC_CONTEXT.VOLUMEFLOW;
     let query = Queries.getQuery(chat_id);
-    Queries.addDataSafe(chat_id, context, coins[1]);
-    Queries.addDataSafe(chat_id, context, coins[2]);
-    let reply = await getVolFlow(query.data);
-    ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+    if (query.context == PROC_CONTEXT.VOLUMEFLOW){
+        Queries.addDataSafe(chat_id, query.context, coins[1]);
+        Queries.addDataSafe(chat_id, query.context, coins[2]);
+        let reply = await getVolFlow(query.data);
+        ctx.reply(reply, { reply_markup: KEYBOARDS.DATA });
+    }
+    else ctx.reply("Lütfen önce işlem seçiniz.", {reply_markup: KEYBOARDS.INITIAL});
+    
+    
     Queries.removeQuery(chat_id);
-
     waitlist.push(chat_id);
 
 })
