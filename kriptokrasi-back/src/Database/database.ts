@@ -7,7 +7,7 @@ import QUERIES from './query_parser';
 import { TANIMSIZ_KOD_TEXT, TARIHI_GECMIS_KOD_TEXT } from '../utils/consts';
 import { ROOT_PATH } from '..';
 import { logger } from '../Logger/logger';
-import { TAddOrder_Norm } from '../kriptokrasi-common/types';
+import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/types/order_types';
 import { brain } from '../Brain/main';
 
 
@@ -65,17 +65,42 @@ export default class DatabaseManager {
         logger.info('New user created');
     }
 
-    async getWaitingOrders() {
-        return (await this.db.all(QUERIES.SELECT_WAITING_ORDERS));
+
+    async getOrders(type: EStatus) {
+
+
+        if (type === EStatus.ACTIVE || type === EStatus.WAITING) {
+
+            let orders: TOrder[] = []
+
+            let _orders = (type === EStatus.WAITING) ?
+                (await this.db.all(QUERIES.SELECT_WAITING_ORDERS)) :
+                (await this.db.all(QUERIES.SELECT_ACTIVE_ORDERS))
+
+
+            _orders.forEach(order => {
+                let tp_data = order.tp_data.split(',');
+                delete order.tp_data;
+                let result = { ...order, tp_data: tp_data };
+                orders.push(result);
+            })
+
+            return orders;
+
+
+        } else if (type === EStatus.PAST) {
+
+
+            let result = await this.db.all(QUERIES.SELECT_PAST_ORDERS) as TOrder_Past[];
+            let orders: TOrder_Past[] = result.slice();
+            return orders;
+
+        }
+
+        return [];
+
     }
 
-    async getActiveOrders() {
-        return (await this.db.all(QUERIES.SELECT_ACTIVE_ORDERS));
-    }
-
-    async getPastOrders(){
-        return (await this.db.all(QUERIES.SELECT_PAST_ORDERS));
-    }
 
     async deleteOrders(order_ids: number[]) {
         order_ids.forEach(async order_id => {
@@ -93,9 +118,9 @@ export default class DatabaseManager {
 
     }
 
-    async cancelOrder (order_id: number){
+    async cancelOrder(order_id: number) {
         let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID, [order_id]);
-        if (order[15]==1){ // the order is active
+        if (order[15] == 1) { // the order is active
             let momentaryPrice = 11; // get the anlik fiyat
             let profit = (momentaryPrice - order.buy_price) * (100 / order.buy_price);
             await this.db.run(QUERIES.INSERT_PAST_ORDER, [
@@ -107,11 +132,11 @@ export default class DatabaseManager {
                 order.leverage,
                 order.buy_price,
                 profit,
-                momentaryPrice, 
+                momentaryPrice,
                 order.status,
             ])
         }
-        else{
+        else {
             await this.db.run(QUERIES.INSERT_PAST_ORDER, [
                 order.id,
                 order.symbol,
@@ -127,10 +152,13 @@ export default class DatabaseManager {
         }
         // delete the order from the orders table
         await this.db.run(QUERIES.DELETE_ORDERS_BY_ID, order_id);
-        
+
     }
 
-    async createOrder(order: TAddOrder_Norm) {
+    async createOrder(order: TOrder) {
+
+        let tp_orders = order.tp_data.join(',');
+
         await this.db.run(QUERIES.INSERT_WAITING_ORDER, [
             order.id,
             order.symbol,
@@ -142,11 +170,7 @@ export default class DatabaseManager {
             order.buy_condition,
             order.tp_condition,
             order.sl_condition,
-            order['take-profit-1'],
-            order['take-profit-2'],
-            order['take-profit-3'],
-            order['take-profit-4'],
-            order['take-profit-5'],
+            tp_orders,
             order.status,
         ])
     }

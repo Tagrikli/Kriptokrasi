@@ -55,4 +55,3 @@ export enum ECompare {
     LTE
 }
 
-

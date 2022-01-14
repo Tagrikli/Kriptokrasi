@@ -49,17 +49,13 @@ CREATE TABLE IF NOT EXISTS `orders` (
     "buy_condition" INTEGER,
     "tp_condition" INTEGER,
     "sl_condition" INTEGER,
-    "take-profit-1" INTEGER,
-    "take-profit-2" INTEGER,
-    "take-profit-3" INTEGER,
-    "take-profit-4" INTEGER,
-    "take-profit-5" INTEGER,
+    "tp_data" TEXT,
     "status" INTEGER,
     PRIMARY KEY('id', AUTOINCREMENT)
 );
 /* 7 INSERT INTO ORDERS */
 INSERT INTO orders
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 /* 8 SELECT ACTIVE ORDERS */
 SELECT *
 FROM orders
@@ -81,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `past` (
     "profit" INTEGER,
     "cancel" INTEGER,
     PRIMARY KEY("id")
-); 
+);
 /* 11 DELETE ORDER BY ID */
 DELETE FROM orders
 WHERE id = ?;
@@ -93,9 +89,22 @@ WHERE id = ?;
 SELECT *
 FROM past;
 /* 14 SELECT ORDER BY ID */
-SELECT * 
+SELECT *
 FROM orders
-WHERE id =?;
+WHERE id = ?;
 /* 15 INSERT PAST ORDER*/
 INSERT INTO past
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+/*16 CREATE TP TABLE*/
+CREATE TABLE IF NOT EXISTS `lastTPS` (
+    "id" INTEGER NOT NULL,
+    "lastTP" INTEGER NOT NULL,
+    PRIMARY KEY("id")
+);
+/*17 INSERT TO TP TABLE */
+INSERT INTO lastTPs
+VALUES (?, 0);
+/* 18 UPDATE TPS*/
+UPDATE lastTPS
+SET lastTP = lastTP + 1
+WHERE id = ?;

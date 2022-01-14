@@ -1,77 +1,18 @@
-import { DataGrid, GridAlignment, GridValueFormatterParams, GridSelectionModel } from '@mui/x-data-grid';
-import { Backdrop, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
+import { DataGrid, GridSelectionModel } from '@mui/x-data-grid';
+import { Backdrop, Button, CircularProgress, Container, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { ECompare, EPosition, EType, TAddOrder_Norm } from '../../kriptokrasi-common/types';
 import { toast } from 'react-toastify';
-import { BASE_URL, MESSAGES, WS_URL } from '../../kriptokrasi-common/consts';
-import { GRID_COLUMNS } from '../../kriptokrasi-common/consts';
-
-
-
-
-const beautifyData = (data_arr: TAddOrder_Norm[]) => {
-
-    let beautified = data_arr.map(data => {
-
-        let position = data.position;
-        switch (position) {
-            case EPosition.LONG:
-                data.position = 'LONG';
-                break;
-            case EPosition.SHORT:
-                data.position = 'SHORT';
-                break;
-
-            default:
-                break;
-        }
-
-
-        let type = data.type;
-        switch (type) {
-            case EType.SPOT:
-                data.type = 'SPOT';
-                break;
-            case EType.VADELI:
-                data.type = 'VADELI';
-                break;
-            default:
-                break;
-        }
-
-        const condModify = (condition: ECompare | string) => {
-
-            switch (condition) {
-                case ECompare.EQ:
-                    return '=';
-                case ECompare.LT:
-                    return '<';
-                case ECompare.GT:
-                    return '>';
-                default:
-                    return ''
-            }
-        }
-
-        data.buy_condition = condModify(data.buy_condition);
-        data.sl_condition = condModify(data.sl_condition);
-        data.tp_condition = condModify(data.tp_condition);
-        data.live_price = 0;
-
-        return data;
-
-    })
-
-    return beautified;
-
-}
-
+import { BASE_URL } from '../../kriptokrasi-common/consts';
+import { MESSAGES } from '../../utils/messages';
+import { GRID_COLUMNS } from '../../utils/consts';
+import { beautifyData } from '../../utils/order_functions';
+import { TOrder } from '../../kriptokrasi-common/types/order_types';
 
 
 
 export default function WaitingOrders(props: { ws: WebSocket }) {
 
-    const [rows, setRows] = useState<TAddOrder_Norm[]>([]);
+    const [rows, setRows] = useState<TOrder[]>([]);
     const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
     const [loading, setLoading] = useState(false);
 
@@ -79,7 +20,8 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
 
         const data = JSON.parse(message.data);
 
-        const [symbol, bid_price] = [data.symbol, data.bid_price];
+        const symbol: string = data.symbol;
+        const bid_price: number = data.bid_price;
 
         const row_index = rows.findIndex(row => row.symbol === symbol);
         if (row_index !== -1) {
@@ -87,10 +29,10 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
             let rows_ = rows.slice();
 
             rows_[row_index].live_price = bid_price;
-            rows_[row_index].difference = rows_[row_index].live_price - rows_[row_index].buy_price;
+            rows_[row_index].difference = bid_price - rows_[row_index].buy_price;
             setRows(rows_);
 
-            
+
         }
         //console.log(data);
 
@@ -171,7 +113,7 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
 
         fetch(`${BASE_URL}/api/v1/get_inactive_orders`)
             .then(data => data.json())
-            .then((data_arr: TAddOrder_Norm[]) => { setRows(beautifyData(data_arr)); console.log(data_arr); });
+            .then((data_arr: TOrder[]) => { setRows(beautifyData(data_arr)); console.log(data_arr); });
 
     }, [loading])
 

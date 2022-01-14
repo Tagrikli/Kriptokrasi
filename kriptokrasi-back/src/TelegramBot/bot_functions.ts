@@ -2,7 +2,6 @@ import axios from "axios";
 import { bot } from "./telegram_bot";
 import { dbManager } from "../Database/database";
 import { binance_manager } from "../BinanceAPI/main";
-import e from "express";
 
 
 
@@ -283,6 +282,7 @@ export async function getOpenInterest(data: string[]) {
     //let msg = `Son 3 skor: ${response.data[0]}`;
     return response.data["data"]
 }
+
 
 export async function answerWaitingOrders(){
     let waitingOrders = await dbManager.getWaitingOrders();

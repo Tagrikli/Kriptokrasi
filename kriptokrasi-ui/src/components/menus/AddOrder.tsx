@@ -1,9 +1,13 @@
-import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
+import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, IconButton, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "../../kriptokrasi-common/types";
+//import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "../../kriptokrasi-common/types";
+import { EPosition, ECompare, EType, TOrder, EStatus } from "../../kriptokrasi-common/types/order_types";
 import { toast } from 'react-toastify';
 import { Box } from "@mui/system";
-import { BASE_URL, MESSAGES } from "../../kriptokrasi-common/consts";
+import { BASE_URL } from "../../kriptokrasi-common/consts";
+import { MESSAGES } from "../../utils/messages";
+import { Add, Close } from '@mui/icons-material';
+
 
 const FIELD_IDS = {
     SPOT_VADELI_RADIO: 'spot-vadeli-radio',
@@ -12,29 +16,35 @@ const FIELD_IDS = {
     BUY_PRICE: 'buy-price',
     LEVERAGE: 'leverage',
     BUY_COND: 'buy-condition',
-    TAKE_PROFIT: (index: number) => `take-profit-${index}`,
+    TAKE_PROFIT: (index: number) => `take_profit_${index}`,
     TP_COND: 'tp-condition',
     STOP_LOSS: 'stop-loss',
     SL_COND: 'sl-condition'
 }
 
-const defaultPrice = 0.000001;
+const DEFAULT_PRICE = 0.000001;
 
-var default_data: TAddOrder_Array = {
+const DEFAULT_ORDER: TOrder = {
+
     position: EPosition.LONG,
     type: EType.SPOT,
     symbol: 'ABCDE',
-    buy_price: defaultPrice,
-    leverage: 1,
+
+    buy_price: DEFAULT_PRICE,
     buy_condition: ECompare.EQ,
-    take_profit: [...Array(5).fill(defaultPrice)],
+
+    leverage: 1,
+
+    tp_data: [],
     tp_condition: ECompare.EQ,
-    stop_loss: defaultPrice,
+
+    stop_loss: DEFAULT_PRICE,
     sl_condition: ECompare.EQ,
-    active: 0
+
+    status: EStatus.WAITING
 }
 
-const finalizeData = (data: TAddOrder_Array) => {
+const finalizeData = (data: TOrder) => {
 
     let data_ = { ...data } as any;
 
@@ -48,17 +58,15 @@ const finalizeData = (data: TAddOrder_Array) => {
         tp_obj[label] = tps[i];
     }
 
-    return { id: Date.now(), ...data_, ...tp_obj } as TAddOrder_Norm;
+    return { id: Date.now(), ...data_, ...tp_obj } as TOrder;
 }
 
 
 export default function AddOrder() {
 
-    const [data, setData] = useState(default_data);
+    const [data, setData] = useState(DEFAULT_ORDER);
     const [loading, setLoading] = useState(false);
     const [symbols, setSymbols] = useState<string[]>([]);
-
-   
 
 
     const getSymbols = async () => {
@@ -69,6 +77,33 @@ export default function AddOrder() {
     useEffect(() => {
         getSymbols();
     }, []);
+
+
+    useEffect(() => {
+        console.log(data);
+
+    }, [data]);
+
+    const removeTpHandler = () => {
+
+
+        let tp_data_ = data.tp_data.slice();
+        tp_data_.splice(tp_data_.length - 1, 1);
+        setData({ ...data, tp_data: tp_data_ });
+
+    }
+
+    const addTpHandler = () => {
+
+        let tp_data_ = data.tp_data.slice();
+        tp_data_.push(DEFAULT_PRICE);
+
+        console.log(tp_data_);
+
+
+        setData({ ...data, tp_data: tp_data_ });
+
+    }
 
 
     const createOrder = async () => {
@@ -119,12 +154,12 @@ export default function AddOrder() {
 
         if (id) {
 
-            if (id.includes('take-profit')) {
+            if (id.includes('take_profit')) {
 
-                const index = parseInt(id.split('-')[2]);
-                var take_profit_ = [...data.take_profit];
-                take_profit_[index] = parseFloat(value);
-                setData({ ...data, take_profit: take_profit_ });
+                const index = parseInt(id.split('_')[2]);
+                var tp_data_ = [...data.tp_data];
+                tp_data_[index] = parseFloat(value);
+                setData({ ...data, tp_data: tp_data_ });
 
             } else {
 
@@ -228,7 +263,7 @@ export default function AddOrder() {
             </FormControl>
 
 
-            <TextField type="number" onChange={changeHandler} id={FIELD_IDS.BUY_PRICE} label="Alış Fiyatı" variant="outlined" defaultValue={defaultPrice} InputProps={{ inputProps: { step: defaultPrice } }} />
+            <TextField type="number" onChange={changeHandler} id={FIELD_IDS.BUY_PRICE} label="Alış Fiyatı" variant="outlined" defaultValue={DEFAULT_PRICE} InputProps={{ inputProps: { step: DEFAULT_PRICE } }} />
             <TextField type="number" onChange={changeHandler} id={FIELD_IDS.LEVERAGE} label="Kaldıraç" variant="outlined" defaultValue={1} />
             <FormControl >
 
@@ -250,14 +285,19 @@ export default function AddOrder() {
 
 
 
-            {[...Array(5).keys()].map(index =>
-                <TextField key={index} type="number" onChange={changeHandler} id={FIELD_IDS.TAKE_PROFIT(index)} label={`Take Profit ${index + 1}`} variant="outlined" defaultValue={defaultPrice} InputProps={{ inputProps: { step: defaultPrice } }} />
+
+            {data.tp_data.map((tp, index) =>
+                <TextField sx={{ width: '%100' }} key={index} type="number" onChange={changeHandler} id={FIELD_IDS.TAKE_PROFIT(index)} label={`Take Profit ${index + 1}`} variant="outlined" defaultValue={DEFAULT_PRICE} InputProps={{ inputProps: { step: DEFAULT_PRICE } }} />
             )}
 
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                <Button color='primary' onClick={addTpHandler} endIcon={<Add />}>Add Take Profit</Button>
+                <Button color='secondary' onClick={removeTpHandler} endIcon={<Close />}>Remove Take Profit </Button>
+            </Box>
+
             <FormControl >
-
                 <InputLabel id="tp-condition-label">TP Şartı</InputLabel>
-
                 <Select
                     labelId="tp-condition-label"
                     id={FIELD_IDS.TP_COND}
@@ -273,7 +313,7 @@ export default function AddOrder() {
             </FormControl>
 
 
-            <TextField type="number" id={FIELD_IDS.STOP_LOSS} onChange={changeHandler} label="Stop Loss" variant="outlined" defaultValue={defaultPrice} InputProps={{ inputProps: { step: defaultPrice } }} />
+            <TextField type="number" id={FIELD_IDS.STOP_LOSS} onChange={changeHandler} label="Stop Loss" variant="outlined" defaultValue={DEFAULT_PRICE} InputProps={{ inputProps: { step: DEFAULT_PRICE } }} />
 
 
             <FormControl >
@@ -307,7 +347,7 @@ export default function AddOrder() {
             <CircularProgress size={60} color="inherit" />
         </Backdrop>
 
-    </Container>
+    </Container >
 
 
 

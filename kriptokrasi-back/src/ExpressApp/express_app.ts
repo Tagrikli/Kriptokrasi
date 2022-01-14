@@ -3,7 +3,7 @@ import { logger } from "../Logger/logger";
 import config from "../utils/config";
 import cors from 'cors';
 import { dbManager } from "../Database/database";
-import { TAddOrder_Norm } from '../kriptokrasi-common/types';
+import { TOrder } from '../kriptokrasi-common/types/order_types';
 import { webhookCallback } from "../TelegramBot/telegram_bot";
 import { WebSocket } from 'ws';
 import http from 'http';
@@ -15,6 +15,7 @@ export const wsServer = new WebSocket.Server({ server })
 import './ws_functions';
 import { brain } from "../Brain/main";
 import { binance_manager } from "../BinanceAPI/main";
+import { EStatus } from "../kriptokrasi-common/types/order_types";
 
 var SYMBOLS: string[] = [];
 
@@ -102,9 +103,9 @@ app.post('/api/v1/create_order', (req, res) => {
 })
 
 
-app.get('/api/v1/get_inactive_orders', (req, res) => {
+app.get('/api/v1/get_waiting_orders', (req, res) => {
 
-    dbManager.getInactiveOrders().then(orders => {
+    dbManager.getOrders(EStatus.WAITING).then(orders => {
         res.send(orders);
     }).catch(reason => {
         res.sendStatus(500);
@@ -117,13 +118,23 @@ app.get('/api/v1/get_inactive_orders', (req, res) => {
 
 app.get('/api/v1/get_active_orders', (req, res) => {
 
-    dbManager.getActiveOrders().then(orders => {
+    dbManager.getOrders(EStatus.ACTIVE).then(orders => {
         res.send(orders);
     }).catch(reason => {
         res.sendStatus(500);
         logger.error(reason);
     })
 
+})
+
+app.get('/api/v1/get_past_orders', (req, res) => {
+
+    dbManager.getOrders(EStatus.PAST).then(orders => {
+        res.send(orders);
+    }).catch(reason => {
+        res.sendStatus(500);
+        logger.error(reason);
+    })
 
 })
 
