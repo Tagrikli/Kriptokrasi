@@ -1,4 +1,4 @@
-import { logger } from "./Logger/logger";
+import logger from "./Logger/logger";
 
 
 export default class Waitlist {

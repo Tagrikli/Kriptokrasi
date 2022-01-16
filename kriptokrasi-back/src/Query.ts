@@ -1,4 +1,4 @@
-import { logger } from "./Logger/logger";
+import logger from "./Logger/logger";
 import { ERROR_MESSAGES } from "./utils/errors";
 import { PROC_CONTEXT } from "./utils/types";
 

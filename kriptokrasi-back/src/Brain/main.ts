@@ -1,23 +1,23 @@
-import { WebSocket, WebSocketServer } from "ws";
-import { dbManager } from "../Database/database";
-import { TAddOrder_Norm } from "../kriptokrasi-common/types";
-import { logger } from "../Logger/logger";
+import { WebSocketServer } from "ws";
+import DatabaseManager from "../Database/database";
+import { EStatus, TOrder } from "../kriptokrasi-common/types/order_types";
+import logger from "../Logger/logger";
 import { ECompare } from "../utils/types";
 
 
 class Brain {
-    active_orders: TAddOrder_Norm[] = [];
+    active_orders: TOrder[] = [];
     active_orders_symbol: string[] = []
 
-    inactive_orders: TAddOrder_Norm[] = [];
+    inactive_orders: TOrder[] = [];
     inactive_orders_symbol: string[] = []
-
 
     wsServer: WebSocketServer
 
+    db: DatabaseManager
 
-    constructor() {
-
+    constructor(db: DatabaseManager) {
+        this.db = db;
 
     }
 
@@ -27,16 +27,18 @@ class Brain {
 
 
     async updateOrders() {
-        this.active_orders = await dbManager.getActiveOrders();
+        this.active_orders = await this.db.getOrders(EStatus.ACTIVE) as TOrder[];
         this.active_orders_symbol = this.active_orders.map(order => order.symbol);
 
-        this.inactive_orders = await dbManager.getInactiveOrders();
+        this.inactive_orders = await this.db.getOrders(EStatus.WAITING) as TOrder[];
         this.inactive_orders_symbol = this.inactive_orders.map(order => order.symbol);
     }
 
 
     onBinanceBookTicker(data: any) {
 
+
+        logger.brain(JSON.stringify(data));
 
         const symbol = data.symbol;
         const bid_price = data.bidPrice;
@@ -56,10 +58,10 @@ class Brain {
         //Check to activate && Activate
         if (in_inactives) {
 
-            let order: TAddOrder_Norm;
+            let order: TOrder;
             if (order = this.gottaActivate(symbol, bid_price)) {
-                logger.debug('Order Activated');
-                dbManager.activateOrders([order.id]);
+                logger.brain('Order Activated');
+                this.db.activateOrders([order.id]);
 
             }
 
@@ -99,4 +101,4 @@ class Brain {
 
 }
 
-export const brain = new Brain();
+export default Brain;

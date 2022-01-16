@@ -3,47 +3,47 @@ import { open, Database } from 'sqlite';
 import path from 'path';
 import { PATH } from '../utils/paths';
 import { User } from 'telegraf/typings/core/types/typegram';
-import QUERIES from './query_parser';
-import { TANIMSIZ_KOD_TEXT, TARIHI_GECMIS_KOD_TEXT } from '../utils/consts';
+import QUERIES from './queries';
 import { ROOT_PATH } from '..';
-import { logger } from '../Logger/logger';
+import logger from '../Logger/logger';
 import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/types/order_types';
-import { brain } from '../Brain/main';
 
 
-
-export default class DatabaseManager {
+class DatabaseManager {
     db: Database | undefined;
     db_dir: string
 
     constructor() {
         this.db_dir = path.join(ROOT_PATH, PATH.DB_DIR, 'database.sqlite');
-        this.open().then(() => {
-            this.initTables();
-            brain.updateOrders();
-        });
     }
+
+
+    async init() {
+        await this.open();
+        await this.initTables();
+    }
+
 
     async open() {
         this.db = await open({
             filename: this.db_dir,
             driver: sqlite3.cached.Database
         });
-        logger.info('Database opened')
+        logger.database('Database opened')
     }
 
 
     async initTables() {
         await this.db.run(QUERIES.CREATE_USERS_TABLE);
-        logger.info('Users table created!');
+        logger.database('Users table created');
         //await this.db.run(QUERIES.CREATE_CODES_TABLE);
-        logger.info('Codes table created!');
+        //logger.database('Codes table created!');
         await this.db.run(QUERIES.CREATE_POSTS_TABLE);
-        logger.info('Posts table created!');
+        logger.database('Posts table created');
         await this.db.run(QUERIES.CREATE_ORDERS_TABLE);
-        logger.info('Orders table created!');
+        logger.database('Orders table created');
         await this.db.run(QUERIES.CREATE_PAST_TABLE);
-        logger.debug('Database tables created');
+        logger.database('Database tables created');
     }
 
 
@@ -62,7 +62,7 @@ export default class DatabaseManager {
                 undefined,
                 undefined,
                 false]);
-        logger.info('New user created');
+        logger.database('New user created');
     }
 
 
@@ -102,6 +102,7 @@ export default class DatabaseManager {
     }
 
 
+
     async deleteOrders(order_ids: number[]) {
         order_ids.forEach(async order_id => {
             await this.db.run(QUERIES.DELETE_ORDERS_BY_ID, order_id);
@@ -113,8 +114,6 @@ export default class DatabaseManager {
         order_ids.forEach(async order_id => {
             await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, order_id);
         })
-
-        brain.updateOrders();
 
     }
 
@@ -183,26 +182,26 @@ export default class DatabaseManager {
         return { timeout: timeout, vip: approved };
     }
 
-    codeEntry(user_id: Number, code: String) { // kod bir sayi mi
-        this.db.get('SELECT * FROM kodlar WHERE kod_id=?', [code], (err, row1) => {
-            if (err) return TANIMSIZ_KOD_TEXT;
-            else {
-                const user_cur = this.db.get("SELECT * FROM users WHERE kod_id=?", [code], (err2, row2) => {
-                    if (err2) return "User doesn't exist";
-                    else {
-                        if (row1[1] < Date.now()) return TARIHI_GECMIS_KOD_TEXT;
-                        if (row2) return "Kod kullanımda."
-                        else {
-                            let code_end_day = row1[3].toInt();
-                            this.db.run("UPDATE users SET code_id=?, code_timeout=?, code_day=? WHERE user_id =?", [row1[0], Date.now() + row1[3].toFloat() * 86400.0, code_end_day, user_id], () => {
-                                return `${code_end_day} {KOD_ONAY_TEXT}`
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    }
+    // codeEntry(user_id: Number, code: String) { // kod bir sayi mi
+    //     this.db.get('SELECT * FROM kodlar WHERE kod_id=?', [code], (err, row1) => {
+    //         if (err) return TANIMSIZ_KOD_TEXT;
+    //         else {
+    //             const user_cur = this.db.get("SELECT * FROM users WHERE kod_id=?", [code], (err2, row2) => {
+    //                 if (err2) return "User doesn't exist";
+    //                 else {
+    //                     if (row1[1] < Date.now()) return TARIHI_GECMIS_KOD_TEXT;
+    //                     if (row2) return "Kod kullanımda."
+    //                     else {
+    //                         let code_end_day = row1[3].toInt();
+    //                         this.db.run("UPDATE users SET code_id=?, code_timeout=?, code_day=? WHERE user_id =?", [row1[0], Date.now() + row1[3].toFloat() * 86400.0, code_end_day, user_id], () => {
+    //                             return `${code_end_day} {KOD_ONAY_TEXT}`
+    //                         });
+    //                     }
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
 
 
     async getAllVipUsers(filter: boolean) {
@@ -233,4 +232,4 @@ export default class DatabaseManager {
 }
 
 
-export const dbManager = new DatabaseManager();
+export default DatabaseManager

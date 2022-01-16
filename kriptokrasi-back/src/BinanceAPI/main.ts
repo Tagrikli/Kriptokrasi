@@ -1,7 +1,6 @@
 import { BasicSymbolParam, MainClient, WebsocketClient } from 'binance';
-import { logger } from '../Logger/logger';
-import { brain } from '../Brain/main';
-
+import logger from '../Logger/logger';
+import Brain from '../Brain/main';
 
 
 class BinanceManager {
@@ -10,13 +9,24 @@ class BinanceManager {
     symbols: string[]
 
 
-    constructor() {
+    onBookTicker: (data: any) => void;
+
+    constructor(brain: Brain) {
+        this.symbols = [];
+
         this.client = new MainClient();
         this.wsClient = new WebsocketClient({ beautify: true });
-        this.wsClient.on('formattedMessage', this.onFormattedMessage);
 
-        this.symbols = [];
+        this.wsClient.on('formattedMessage', (data) => this.onFormattedMessage(data));
+
     }
+
+
+
+    bindOnBookTicker(callback: any) {
+        this.onBookTicker = callback;
+    }
+
 
     initSubscriptions() {
         this.wsClient.subscribeAllBookTickers('spot')
@@ -27,35 +37,37 @@ class BinanceManager {
         return result.symbols.map(symbol => symbol.symbol);
     }
 
-    async getPriceForSymbol(symbol: string){
-        const coin :BasicSymbolParam = ({symbol: symbol, isIsolated:'FALSE'});
-        const result =  await this.client.getSymbolPriceTicker(coin);
-        return result["price"] ;
+    async getPriceForSymbol(symbol: string) {
+        const coin: BasicSymbolParam = ({ symbol: symbol, isIsolated: 'FALSE' });
+        const result = await this.client.getSymbolPriceTicker(coin);
+        return result["price"];
     }
 
     updateSymbols(symbols: string[]) {
         this.symbols = symbols;
     }
 
-    onFormattedMessage(data) {
+    onFormattedMessage(data: any) {
+
 
         const event_type = data.eventType;
 
 
         switch (event_type) {
             case 'bookTicker':
-                brain.onBinanceBookTicker(data);
+                this.onBookTicker(data);
                 break;
-
 
             default:
                 break;
         }
+
+
     }
+
 
 }
 
-const binance_manager = new BinanceManager();
-binance_manager.initSubscriptions();
 
-export { binance_manager };
+
+export default BinanceManager;

@@ -1,185 +1,213 @@
-import express from "express";
-import { logger } from "../Logger/logger";
-import config from "../utils/config";
+import express, { Express } from "express";
+import logger from "../Logger/logger";
 import cors from 'cors';
-import { dbManager } from "../Database/database";
+import DatabaseManager from "../Database/database";
 import { TOrder } from '../kriptokrasi-common/types/order_types';
-import { webhookCallback } from "../TelegramBot/telegram_bot";
-import { WebSocket } from 'ws';
+import { WebSocket, WebSocketServer } from 'ws';
 import http from 'http';
-
-
-const app = express();
-const server = http.createServer(app);
-export const wsServer = new WebSocket.Server({ server })
-import './ws_functions';
-import { brain } from "../Brain/main";
-import { binance_manager } from "../BinanceAPI/main";
+import Brain from "../Brain/main";
+import BinanceManager from "../BinanceAPI/main";
 import { EStatus } from "../kriptokrasi-common/types/order_types";
 
-var SYMBOLS: string[] = [];
 
-const MODE = process.env.MODE;
+class ExpressApp {
+    mode: string;
+    port: number;
+    db: DatabaseManager;
+    brain: Brain;
+    binance: BinanceManager
 
-if (MODE === 'prod') {
+    app: Express;
+    server: http.Server;
+    wss: WebSocketServer;
 
-    app.use(express.static('build'));
-    app.get('/', (req, res) => {
-        res.sendFile('index.html');
-    })
+    webhookCallback: (message: any) => void;
 
-} else if (MODE === 'dev') {
+    constructor(port: number, db: DatabaseManager, brain: Brain, binance: BinanceManager) {
+        this.port = port;
+        this.db = db;
+        this.brain = brain;
+        this.binance = binance;
+        this.mode = process.env.MODE;
+    }
+
+    initExpress() {
+
+        this.app = express();
 
 
-    app.use(cors());
-    app.get('/', (req, res) => {
-        res.send('Developement mode in progress...');
-    })
+        if (this.mode === 'production') {
 
+            this.app.use(express.static('build'));
+            this.app.get('/', (req, res) => {
+                res.sendFile('index.html');
+            })
+
+        } else if (this.mode === 'development') {
+            this.app.use(cors());
+            this.app.get('/', (req, res) => {
+                res.send('Developement mode in progress...');
+            })
+        }
+
+        this.app.use(express.json());
+        this.app.use(express.text());
+
+
+        this.app.get('/api/v1/get_symbols', async (req, res) => {
+
+            try {
+                const symbol_list = await this.binance.getAllSymbols();
+                res.send(symbol_list);
+            } catch (reason) {
+                res.sendStatus(500);
+                logger.error(reason);
+            }
+        })
+
+        this.app.post('/api/v1/create_order', (req, res) => {
+            const order: TOrder = req.body;
+            this.db.createOrder(order).then(() => {
+                this.brain.updateOrders();
+                res.sendStatus(200);
+            }).catch(reason => {
+                logger.error(reason);
+            });
+
+        })
+
+
+        this.app.get('/api/v1/get_waiting_orders', (req, res) => {
+
+            this.db.getOrders(EStatus.WAITING).then(orders => {
+                res.send(orders);
+            }).catch(reason => {
+                res.sendStatus(500);
+                logger.error(reason);
+            })
+
+        })
+
+        this.app.get('/api/v1/get_active_orders', (req, res) => {
+
+            this.db.getOrders(EStatus.ACTIVE).then(orders => {
+                res.send(orders);
+            }).catch(reason => {
+                res.sendStatus(500);
+                logger.error(reason);
+            })
+
+        })
+
+        this.app.get('/api/v1/get_past_orders', (req, res) => {
+
+            this.db.getOrders(EStatus.PAST).then(orders => {
+                res.send(orders);
+            }).catch(reason => {
+                res.sendStatus(500);
+                logger.error(reason);
+            })
+
+        })
+
+
+        this.app.post('/api/v1/delete_orders', (req, res) => {
+
+            const orderIds = req.body;
+
+            console.log(orderIds);
+
+            this.db.deleteOrders(orderIds).then(() => {
+                this.brain.updateOrders();
+                res.sendStatus(200);
+            }).catch(reason => {
+                res.sendStatus(500);
+                logger.error(reason);
+
+            })
+
+        });
+
+
+        this.app.post('/api/v1/activate_orders', (req, res) => {
+
+
+            const orderIds = req.body;
+
+            this.db.activateOrders(orderIds).then(() => {
+                this.brain.updateOrders();
+                res.sendStatus(200);
+            }).catch(reason => {
+                res.sendStatus(500);
+                logger.error(reason);
+            })
+
+        });
+
+        this.app.post('/webhook', (req, res) => {
+
+
+            if (this.webhookCallback) {
+                if (req.is('text/plain')) {
+                    let message: string = req.body
+
+                    logger.express(JSON.stringify(req.body));
+                    this.webhookCallback(message);
+                    res.sendStatus(200);
+                    return;
+                }
+
+            } else {
+                logger.error('Webhook Callback not binded');
+            }
+
+            res.sendStatus(500);
+
+        })
+
+
+        this.app.post('/api/v1/delete_active_orders');
+        this.app.get('/api/v1/delete_history');
+        this.app.post('/api/v1/post_telegram_message')
+
+    }
+
+    initServer() {
+        this.server = http.createServer(this.app);
+    }
+
+    initWebsocket() {
+
+        this.wss = new WebSocket.Server({ server: this.server });
+        this.wss.on('connection', (ws) => {
+            logger.express('New WebSocket connection');
+        })
+
+        this.brain.bindWebsocket(this.wss);
+
+    }
+
+    bindWebhookCallback(callback) {
+        this.webhookCallback = callback;
+    }
+
+
+    start() {
+
+        this.initExpress();
+        this.initServer();
+        this.initWebsocket();
+
+        this.server.listen(this.port, () => {
+            logger.express(`Express server started at http://localhost:${this.port}`)
+        })
+
+    }
 
 }
 
-app.use(express.json());
-app.use(express.text());
-
-//======= WEBSOCKET SERVER =======//
 
 
-wsServer.on('connection', (ws) => {
-    logger.debug('New WebSocket connection');
-})
-
-brain.bindWebsocket(wsServer)
-
-//======= WEBHOOK =======//
+export default ExpressApp;
 
 
-app.post('/webhook', (req, res) => {
-
-
-
-    if (req.is('text/plain')) {
-        let message: string = req.body
-
-        logger.debug(JSON.stringify(req.body));
-        webhookCallback(message);
-        res.sendStatus(200);
-        return;
-    }
-
-    res.sendStatus(500);
-})
-
-
-//======= API =======//
-
-app.get('/api/v1/get_symbols', async (req, res) => {
-
-    try {
-
-        const symbol_list = await binance_manager.getAllSymbols();
-        res.send(symbol_list);
-
-    } catch (reason) {
-
-        res.sendStatus(500);
-        logger.error(reason);
-
-    }
-
-
-})
-
-app.post('/api/v1/create_order', (req, res) => {
-    const order: TAddOrder_Norm = req.body;
-
-    dbManager.createOrder(order).then(() => {
-        brain.updateOrders();
-        res.sendStatus(200);
-    }).catch(reason => {
-        logger.error(reason);
-    });
-
-})
-
-
-app.get('/api/v1/get_waiting_orders', (req, res) => {
-
-    dbManager.getOrders(EStatus.WAITING).then(orders => {
-        res.send(orders);
-    }).catch(reason => {
-        res.sendStatus(500);
-        logger.error(reason);
-    })
-
-
-
-})
-
-app.get('/api/v1/get_active_orders', (req, res) => {
-
-    dbManager.getOrders(EStatus.ACTIVE).then(orders => {
-        res.send(orders);
-    }).catch(reason => {
-        res.sendStatus(500);
-        logger.error(reason);
-    })
-
-})
-
-app.get('/api/v1/get_past_orders', (req, res) => {
-
-    dbManager.getOrders(EStatus.PAST).then(orders => {
-        res.send(orders);
-    }).catch(reason => {
-        res.sendStatus(500);
-        logger.error(reason);
-    })
-
-})
-
-
-app.post('/api/v1/delete_orders', (req, res) => {
-
-    const orderIds = req.body;
-
-    console.log(orderIds);
-
-    dbManager.deleteOrders(orderIds).then(() => {
-        brain.updateOrders();
-        res.sendStatus(200);
-    }).catch(reason => {
-        res.sendStatus(500);
-        logger.error(reason);
-
-    })
-
-});
-
-
-app.post('/api/v1/activate_orders', (req, res) => {
-
-
-    const orderIds = req.body;
-
-    dbManager.activateOrders(orderIds).then(() => {
-        brain.updateOrders();
-        res.sendStatus(200);
-    }).catch(reason => {
-        res.sendStatus(500);
-        logger.error(reason);
-    })
-
-});
-
-app.post('/api/v1/delete_active_orders');
-app.get('/api/v1/delete_history');
-
-app.post('/api/v1/post_telegram_message')       //  req.body => message content
-
-//===================//
-
-
-server.listen(config.network.express_port, () => {
-    logger.info(`Express server started at http://localhost:${config.network.express_port}`)
-})

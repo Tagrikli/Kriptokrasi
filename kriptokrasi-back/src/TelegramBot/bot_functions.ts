@@ -1,9 +1,20 @@
 import axios from "axios";
-import { bot } from "./telegram_bot";
-import { dbManager } from "../Database/database";
-import { binance_manager } from "../BinanceAPI/main";
+import BinanceManager from "../BinanceAPI/main";
+import DatabaseManager from "../Database/database";
+import { EStatus, TOrder, TOrder_Past } from "../kriptokrasi-common/types/order_types";
+
+class BotFunctions{
+
+    db: DatabaseManager;
+    binance: BinanceManager;
 
 
+
+
+
+
+
+}
 
 export async function getIndicator(data: string[]) {
     const ind = data[0].toLowerCase();
@@ -284,13 +295,13 @@ export async function getOpenInterest(data: string[]) {
 }
 
 
-export async function answerWaitingOrders(){
-    let waitingOrders = await dbManager.getWaitingOrders();
+export async function answerWaitingOrders(waitingOrders:TOrder[],binance_manager:BinanceManager) {
+    //let waitingOrders = await dbManager.getOrders(EStatus.WAITING);
     if (waitingOrders == []) return `Bekleyen emir bulunmamaktadır.`;
     let reply = ``
-    for (let i=0; i<waitingOrders.length; i++){
-        let momentaryPrice = await binance_manager.getPriceForSymbol(waitingOrders[i][1]); 
-        if (waitingOrders[i][3] == 0)  {
+    for (let i = 0; i < waitingOrders.length; i++) {
+        let momentaryPrice = await binance_manager.getPriceForSymbol(waitingOrders[i][1]);
+        if (waitingOrders[i][3] == 0) {
             reply += `
                 SPOT
                 Coin Adı:  ${waitingOrders[i][1]}
@@ -321,17 +332,17 @@ export async function answerWaitingOrders(){
                 Stop Fiyatı : ${waitingOrders[i][6]}
                 Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
-        
+
     }
     return reply;
 }
 
-export async function answerActiveOrders(){
-    let activeOrders = await dbManager.getActiveOrders();
+export async function answerActiveOrders(activeOrders:TOrder[],binance_manager:BinanceManager) {
+    //let activeOrders = await dbManager.getOrders(EStatus.ACTIVE);
     if (activeOrders == []) return `Aktif emir bulunmamaktadır.`;
     let reply = `-------`
-    for (let i=0; i<activeOrders.length; i++){
-        let momentaryPrice = await binance_manager.getPriceForSymbol(activeOrders[i][1]); 
+    for (let i = 0; i < activeOrders.length; i++) {
+        let momentaryPrice = await binance_manager.getPriceForSymbol(activeOrders[i][1]);
         let tps = profitCalculator(momentaryPrice, [activeOrders[i][5], activeOrders[i][10], activeOrders[i][11], activeOrders[i][12], activeOrders[i][13], activeOrders[i][14]])
         if (activeOrders[i][3] == 0) {
             reply += `
@@ -348,7 +359,7 @@ export async function answerActiveOrders(){
             Stop Fiyatı : ${activeOrders[i][6]}
             Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
-        else{
+        else {
             reply += `
             VADELI
             Coin Adı:  ${activeOrders[i][1]}
@@ -365,54 +376,54 @@ export async function answerActiveOrders(){
             Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
     }
-    
+
     return reply;
 }
 
-export async function profitCalculator(price, buyPrices){
-    if (price>=buyPrices[5]) {
+export async function profitCalculator(price, buyPrices) {
+    if (price >= buyPrices[5]) {
         let tp5 = (buyPrices[5] - price) * (20 / buyPrices[5]) + (buyPrices[4] - price) * (20 / buyPrices[4]) + (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp4 = (buyPrices[4] - price) * (20 / buyPrices[4]) + (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp3 = (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp2 = (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp1 = (buyPrices[1] - price) * (20 / buyPrices[1]);
-        
+
         return [(buyPrices[0] - price) * (100 / buyPrices[0]), tp1, tp2, tp3, tp4, tp5];
     }
-    else if (price >= buyPrices[4] ){
+    else if (price >= buyPrices[4]) {
         let tp4 = (buyPrices[4] - price) * (20 / buyPrices[4]) + (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp3 = (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp2 = (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp1 = (buyPrices[1] - price) * (20 / buyPrices[1]);
-        
+
         return [(buyPrices[0] - price) * (100 / buyPrices[0]), tp1, tp2, tp3, tp4, buyPrices[5]];
     }
-    else if (price >= buyPrices[3] ){
+    else if (price >= buyPrices[3]) {
         let tp3 = (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp2 = (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp1 = (buyPrices[1] - price) * (20 / buyPrices[1]);
-        
+
         return [(buyPrices[0] - price) * (100 / buyPrices[0]), tp1, tp2, tp3, buyPrices[4], buyPrices[5]];
     }
-    else if (price >= buyPrices[2]){
+    else if (price >= buyPrices[2]) {
         let tp2 = (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]);
         let tp1 = (buyPrices[1] - price) * (20 / buyPrices[1]);
-        
+
         return [(buyPrices[0] - price) * (100 / buyPrices[0]), tp1, tp2, buyPrices[3], buyPrices[4], buyPrices[5]];
     }
-    else if (price >= buyPrices[1] ){
+    else if (price >= buyPrices[1]) {
         let tp1 = (buyPrices[1] - price) * (20 / buyPrices[1]);
-        
+
         return [(buyPrices[0] - price) * (100 / buyPrices[0]), tp1, buyPrices[2], buyPrices[3], buyPrices[4], buyPrices[5]];
     }
     else return [(buyPrices[0] - price) * (100 / buyPrices[0]), buyPrices[1], buyPrices[2], buyPrices[3], buyPrices[4], buyPrices[5]];
 }
 
-export async function answerPastOrders() {
-    let pastOrders = await dbManager.getPastOrders();
+export async function answerPastOrders(pastOrders:TOrder_Past[]) {
+    //let pastOrders = await dbManager.getOrders(EStatus.PAST);
     if (pastOrders == []) return `Geçmiş emir bulunmamaktadır.`;
     let reply = `-------`
-    for (let i=0; i<pastOrders.length; i++){
+    for (let i = 0; i < pastOrders.length; i++) {
         if (pastOrders[i][3] == 0) {
             reply += `
             STOP
@@ -423,7 +434,7 @@ export async function answerPastOrders() {
             Kar: ${pastOrders[i][8]}
             Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
-        else{
+        else {
             reply += `
             VADELI
             Tarih: ${pastOrders[i][2]}
@@ -438,20 +449,20 @@ export async function answerPastOrders() {
     return reply;
 }
 
-export async function sendActivationMessage(symbol: string, type: string){
+export async function sendActivationMessage(symbol: string, type: string) {
     let tempType = 'spot';
     if (type != 'spot') tempType = 'long islem';
     let message = `${symbol} ${tempType} işlemine giriş yapılmıştır.`
     return message;
 }
 
-export async function sendPastOrderMessage (symbol: string, buy_price: number, type: string){
+export async function sendPastOrderMessage(symbol: string, buy_price: number, type: string, binance_manager:BinanceManager) {
     let tempType = 'spot';
     if (type != 'spot') tempType = 'long islem';
     const momentaryPrice = await binance_manager.getPriceForSymbol(symbol);
     const momentaryProfit = (buy_price - momentaryPrice) * (100 / buy_price);
-    let message = 
-    `Coin : ${symbol} 
+    let message =
+        `Coin : ${symbol} 
     Tip: ${tempType}
     Alış Fiyatı : ${buy_price} 
     Satış Fiyatı : ${momentaryPrice}
@@ -459,10 +470,10 @@ export async function sendPastOrderMessage (symbol: string, buy_price: number, t
     İşlem kapanmıştır`;
     return message;
 }
- export async function sendTPMessage (symbol: string, ) {
+export async function sendTPMessage(symbol: string,) {
     let message = `${symbol} 
     vadeli TP3 ✅
     Kar : %14.711`;
     return message;
- }
+}
 
