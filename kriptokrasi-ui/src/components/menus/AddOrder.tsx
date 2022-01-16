@@ -1,12 +1,12 @@
-import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, IconButton, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
+import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-//import { EType, EPosition, ECompare, TAddOrder_Norm, TAddOrder_Array } from "../../kriptokrasi-common/types";
-import { EPosition, ECompare, EType, TOrder, EStatus } from "../../kriptokrasi-common/types/order_types";
+import { EPosition, ECompare, EType, TOrder, EStatus } from "../../kriptokrasi-common/order_types";
 import { toast } from 'react-toastify';
 import { Box } from "@mui/system";
-import { BASE_URL } from "../../kriptokrasi-common/consts";
 import { MESSAGES } from "../../utils/messages";
 import { Add, Close } from '@mui/icons-material';
+import { EXPRESS_ENDPOINTS } from "../../utils/endpoint_manager";
+
 
 const TP_PREFIX = 'take_profit_';
 const extractTpIndex = (tp_id: string) => parseInt(tp_id.split('_')[2]);
@@ -61,7 +61,7 @@ export default function AddOrder() {
 
 
     const getSymbols = async () => {
-        fetch(`${BASE_URL}/api/v1/get_symbols`).then(values => values.json()).then(values => setSymbols(values));
+        fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then(values => setSymbols(values));
     }
 
 
@@ -105,9 +105,11 @@ export default function AddOrder() {
         console.log(order_prepared);
 
 
+
+
         try {
 
-            let result = await fetch(`${BASE_URL}/api/v1/create_order/`, {
+            let result = await fetch(EXPRESS_ENDPOINTS.CREATE_ORDER, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

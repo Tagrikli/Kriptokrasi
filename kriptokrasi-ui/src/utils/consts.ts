@@ -1,8 +1,7 @@
 import { GridAlignment } from "@mui/x-data-grid";
 import { customFormatter } from "./utils";
 
-
-
+export const DEV = true;
 
 export const GRID_COLUMNS = [
     {
@@ -110,4 +109,5 @@ export const GRID_COLUMNS = [
 
 
 ];
+
 

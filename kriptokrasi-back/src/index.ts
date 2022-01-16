@@ -11,6 +11,7 @@ import TelegramBot from './TelegramBot/telegram_bot';
 import BinanceManager from './BinanceAPI/main';
 import Brain from './Brain/main';
 import ExpressApp from './ExpressApp/express_app';
+import NETWORK from './kriptokrasi-common/network.json';
 
 
 (async () => {
@@ -49,7 +50,7 @@ import ExpressApp from './ExpressApp/express_app';
 
     //Initialize and start express server.
     const expressApp = new ExpressApp(
-        config.network.express_port,
+        NETWORK.PORT,
         dbManager,
         brain,
         binanceManager)

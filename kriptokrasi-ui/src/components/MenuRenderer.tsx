@@ -1,16 +1,13 @@
-import { BASE_URL, WS_URL } from "../kriptokrasi-common/consts";
 import ActiveOrders from "./menus/ActiveOrders";
 import AddOrder from "./menus/AddOrder";
 import WaitingOrders from "./menus/WaitingOrders";
-
-
-
+import { WEBSOCKET_URL } from "../utils/endpoint_manager";
 
 
 
 export default function MenuRenderer(props: { index: number }) {
 
-    const ws = new WebSocket(`ws://${WS_URL}`);
+    const ws = new WebSocket(WEBSOCKET_URL);
 
 
 

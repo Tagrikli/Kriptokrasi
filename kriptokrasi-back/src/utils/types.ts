@@ -1,6 +1,5 @@
 import { Context } from "telegraf"
 import { ReplyKeyboardMarkup } from "telegraf/typings/core/types/typegram"
-
 import { User } from 'telegraf/typings/core/types/typegram'
 
 export interface TContext extends Context {
@@ -47,11 +46,4 @@ export enum PROC_CONTEXT {
     OPENINTEREST,
 }
 
-export enum ECompare {
-    EQ,
-    GT,
-    GTE,
-    LT,
-    LTE
-}
 

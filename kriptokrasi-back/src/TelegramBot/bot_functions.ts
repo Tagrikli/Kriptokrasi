@@ -1,20 +1,7 @@
 import axios from "axios";
 import BinanceManager from "../BinanceAPI/main";
-import DatabaseManager from "../Database/database";
-import { EStatus, TOrder, TOrder_Past } from "../kriptokrasi-common/types/order_types";
+import { TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
 
-class BotFunctions{
-
-    db: DatabaseManager;
-    binance: BinanceManager;
-
-
-
-
-
-
-
-}
 
 export async function getIndicator(data: string[]) {
     const ind = data[0].toLowerCase();

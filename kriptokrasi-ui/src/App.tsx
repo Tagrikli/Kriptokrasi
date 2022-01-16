@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import MenuRenderer from './components/MenuRenderer';
 
+import './utils/endpoint_manager'
 
 function App() {
 

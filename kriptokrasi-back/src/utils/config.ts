@@ -1,17 +1,30 @@
 import fs from 'fs';
 import logger from '../Logger/logger';
 import path from 'path';
-import { TConfigCredential, TConfigData } from '../kriptokrasi-common/types/config_types';
-import { runInThisContext } from 'vm';
+
+type TCredential = {
+    app: {
+        api_id: number,
+        api_hash: string,
+        session: string
+    },
+    bot: {
+        token: string
+    }
+}
+
+type TCredentials = {
+    [user: string]: TCredential
+}
 
 
 class ConfigParser {
     config_path = ''
-    _config: TConfigData
+    _config: TCredentials
     _user: string
 
     constructor() {
-        this.config_path = path.join(__dirname, '..', 'kriptokrasi-common', 'config.json');
+        this.config_path = path.join(__dirname, '..', 'credentials.json');
         this._user = process.env.NODE_USER
         this.loadConfig();
     }
@@ -35,29 +48,19 @@ class ConfigParser {
         }
     }
 
-
-
-    get credentials(): TConfigCredential {
-        return this._config.credentials[this._user];
+    get credentials(): TCredential {
+        return this._config[this._user];
     }
 
-
-    set credentials(data: TConfigCredential) {
-        this._config.credentials[this._user] = data;
+    set credentials(data: TCredential) {
+        this._config[this._user] = data;
         this.saveConfig();
     }
 
     saveSession(session: string) {
-        this._config.credentials[this._user].app.session = session;
+        this._config[this._user].app.session = session;
         this.saveConfig();
     }
-
-    get network() {
-        return this._config.network;
-    }
-
-
-
 }
 
 

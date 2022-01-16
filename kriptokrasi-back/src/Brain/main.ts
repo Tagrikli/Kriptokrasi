@@ -1,8 +1,7 @@
+import logger from "../Logger/logger";
 import { WebSocketServer } from "ws";
 import DatabaseManager from "../Database/database";
-import { EStatus, TOrder } from "../kriptokrasi-common/types/order_types";
-import logger from "../Logger/logger";
-import { ECompare } from "../utils/types";
+import { EStatus, TOrder, ECompare } from "../kriptokrasi-common/order_types";
 
 
 class Brain {

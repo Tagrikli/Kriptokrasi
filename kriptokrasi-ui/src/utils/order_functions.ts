@@ -1,4 +1,4 @@
-import { ECompare, EPosition, EType, TOrder } from "../kriptokrasi-common/types/order_types";
+import { ECompare, EPosition, EType, TOrder } from "../kriptokrasi-common/order_types";
 
 export const beautifyData = (data_arr: TOrder[]) => {
 

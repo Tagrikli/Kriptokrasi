@@ -1,7 +1,10 @@
+
 export enum ECompare {
     EQ,
     GT,
     LT,
+    GTE,
+    LTE
 }
 
 export enum EPosition {

@@ -2,11 +2,11 @@ import { DataGrid, GridSelectionModel } from '@mui/x-data-grid';
 import { Backdrop, Button, CircularProgress, Container, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { BASE_URL } from '../../kriptokrasi-common/consts';
 import { MESSAGES } from '../../utils/messages';
 import { GRID_COLUMNS } from '../../utils/consts';
 import { beautifyData } from '../../utils/order_functions';
-import { TOrder } from '../../kriptokrasi-common/types/order_types';
+import { TOrder } from '../../kriptokrasi-common/order_types';
+import { EXPRESS_ENDPOINTS } from '../../utils/endpoint_manager';
 
 
 
@@ -51,7 +51,7 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
             const selections = selectionModel;
 
             try {
-                let response = await fetch(`${BASE_URL}/api/v1/delete_orders`, {
+                let response = await fetch(EXPRESS_ENDPOINTS.DELETE_ORDERS, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -83,7 +83,7 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
             const selections = selectionModel;
 
             try {
-                let response = await fetch(`${BASE_URL}/api/v1/activate_orders`, {
+                let response = await fetch(EXPRESS_ENDPOINTS.ACTIVATE_ORDERS, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -111,7 +111,7 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
 
     useEffect(() => {
 
-        fetch(`${BASE_URL}/api/v1/get_inactive_orders`)
+        fetch(EXPRESS_ENDPOINTS.GET_WAITING_ORDERS)
             .then(data => data.json())
             .then((data_arr: TOrder[]) => { setRows(beautifyData(data_arr)); console.log(data_arr); });
 

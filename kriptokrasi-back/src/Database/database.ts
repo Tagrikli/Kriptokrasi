@@ -6,7 +6,7 @@ import { User } from 'telegraf/typings/core/types/typegram';
 import QUERIES from './queries';
 import { ROOT_PATH } from '..';
 import logger from '../Logger/logger';
-import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/types/order_types';
+import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/order_types';
 
 
 class DatabaseManager {

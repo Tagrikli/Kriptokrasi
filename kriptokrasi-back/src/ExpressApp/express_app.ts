@@ -2,13 +2,12 @@ import express, { Express } from "express";
 import logger from "../Logger/logger";
 import cors from 'cors';
 import DatabaseManager from "../Database/database";
-import { TOrder } from '../kriptokrasi-common/types/order_types';
+import { TOrder, EStatus } from '../kriptokrasi-common/order_types';
 import { WebSocket, WebSocketServer } from 'ws';
 import http from 'http';
 import Brain from "../Brain/main";
 import BinanceManager from "../BinanceAPI/main";
-import { EStatus } from "../kriptokrasi-common/types/order_types";
-
+import ENDPOINTS from "../kriptokrasi-common/endpoints";
 
 class ExpressApp {
     mode: string;
@@ -54,7 +53,7 @@ class ExpressApp {
         this.app.use(express.text());
 
 
-        this.app.get('/api/v1/get_symbols', async (req, res) => {
+        this.app.get(ENDPOINTS.GET_SYMBOLS, async (req, res) => {
 
             try {
                 const symbol_list = await this.binance.getAllSymbols();
@@ -65,7 +64,7 @@ class ExpressApp {
             }
         })
 
-        this.app.post('/api/v1/create_order', (req, res) => {
+        this.app.post(ENDPOINTS.CREATE_ORDER, (req, res) => {
             const order: TOrder = req.body;
             logger.express('New order!');
             this.db.createOrder(order).then(() => {
@@ -78,7 +77,7 @@ class ExpressApp {
         })
 
 
-        this.app.get('/api/v1/get_waiting_orders', (req, res) => {
+        this.app.get(ENDPOINTS.GET_WAITING_ORDERS, (req, res) => {
 
             this.db.getOrders(EStatus.WAITING).then(orders => {
                 res.send(orders);
@@ -89,7 +88,7 @@ class ExpressApp {
 
         })
 
-        this.app.get('/api/v1/get_active_orders', (req, res) => {
+        this.app.get(ENDPOINTS.GET_ACTIVE_ORDERS, (req, res) => {
 
             this.db.getOrders(EStatus.ACTIVE).then(orders => {
                 res.send(orders);
@@ -100,7 +99,7 @@ class ExpressApp {
 
         })
 
-        this.app.get('/api/v1/get_past_orders', (req, res) => {
+        this.app.get(ENDPOINTS.GET_PAST_ORDERS, (req, res) => {
 
             this.db.getOrders(EStatus.PAST).then(orders => {
                 res.send(orders);
@@ -112,7 +111,7 @@ class ExpressApp {
         })
 
 
-        this.app.post('/api/v1/delete_orders', (req, res) => {
+        this.app.post(ENDPOINTS.DELETE_ORDERS, (req, res) => {
 
             const orderIds = req.body;
 
@@ -130,7 +129,7 @@ class ExpressApp {
         });
 
 
-        this.app.post('/api/v1/activate_orders', (req, res) => {
+        this.app.post(ENDPOINTS.ACTIVATE_ORDERS, (req, res) => {
 
 
             const orderIds = req.body;
@@ -145,7 +144,7 @@ class ExpressApp {
 
         });
 
-        this.app.post('/webhook', (req, res) => {
+        this.app.post(ENDPOINTS.WEBHOOK, (req, res) => {
 
 
             if (this.webhookCallback) {
@@ -166,10 +165,6 @@ class ExpressApp {
 
         })
 
-
-        this.app.post('/api/v1/delete_active_orders');
-        this.app.get('/api/v1/delete_history');
-        this.app.post('/api/v1/post_telegram_message')
 
     }
 
