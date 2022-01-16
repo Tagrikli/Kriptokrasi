@@ -13,12 +13,12 @@ const QUERIES = {
         'vip' INTEGER,
         PRIMARY KEY('user_id'))`,
 
-    CREATE_CODES_TABLE: /*sql*/`
-        CREATE TABLE IF NOT EXISTS 'codes' (
-        'code_id' PRIMARY KEY,
-        'code_timeout' INTEGER,
-        'user_id' INTEGER,
-        'code_day' INTEGER)`,
+    // CREATE_CODES_TABLE: /*sql*/`
+    //     CREATE TABLE IF NOT EXISTS 'codes' (
+    //     'code_id' PRIMARY KEY,
+    //     'code_timeout' INTEGER,
+    //     'user_id' INTEGER,
+    //     'code_day' INTEGER)`,
 
     CREATE_POSTS_TABLE: /*sql*/`
         CREATE TABLE IF NOT EXISTS 'posts' (

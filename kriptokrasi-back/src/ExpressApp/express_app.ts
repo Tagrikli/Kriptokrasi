@@ -67,6 +67,7 @@ class ExpressApp {
 
         this.app.post('/api/v1/create_order', (req, res) => {
             const order: TOrder = req.body;
+            logger.express('New order!');
             this.db.createOrder(order).then(() => {
                 this.brain.updateOrders();
                 res.sendStatus(200);

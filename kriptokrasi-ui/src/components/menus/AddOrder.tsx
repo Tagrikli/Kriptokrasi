@@ -8,6 +8,8 @@ import { BASE_URL } from "../../kriptokrasi-common/consts";
 import { MESSAGES } from "../../utils/messages";
 import { Add, Close } from '@mui/icons-material';
 
+const TP_PREFIX = 'take_profit_';
+const extractTpIndex = (tp_id: string) => parseInt(tp_id.split('_')[2]);
 
 const FIELD_IDS = {
     SPOT_VADELI_RADIO: 'spot-vadeli-radio',
@@ -16,7 +18,7 @@ const FIELD_IDS = {
     BUY_PRICE: 'buy-price',
     LEVERAGE: 'leverage',
     BUY_COND: 'buy-condition',
-    TAKE_PROFIT: (index: number) => `take_profit_${index}`,
+    TAKE_PROFIT: (index: number) => `${TP_PREFIX}${index}`,
     TP_COND: 'tp-condition',
     STOP_LOSS: 'stop-loss',
     SL_COND: 'sl-condition'
@@ -44,21 +46,10 @@ const DEFAULT_ORDER: TOrder = {
     status: EStatus.WAITING
 }
 
-const finalizeData = (data: TOrder) => {
-
-    let data_ = { ...data } as any;
+const prepareOrder = (data: TOrder) => {
 
 
-    let tps = data_.take_profit;
-    delete data_.take_profit;
-
-    let tp_obj = {} as any;
-    for (let i = 0; i < tps.length; i++) {
-        let label = `take-profit-${i + 1}`;
-        tp_obj[label] = tps[i];
-    }
-
-    return { id: Date.now(), ...data_, ...tp_obj } as TOrder;
+    return { id: Date.now(), ...data } as TOrder;
 }
 
 
@@ -110,8 +101,8 @@ export default function AddOrder() {
 
         setLoading(true);
 
-        const data_normalized = finalizeData(data);
-        console.log(data_normalized);
+        const order_prepared = prepareOrder(data);
+        console.log(order_prepared);
 
 
         try {
@@ -121,7 +112,7 @@ export default function AddOrder() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data_normalized)
+                body: JSON.stringify(order_prepared)
             })
 
 
@@ -154,9 +145,9 @@ export default function AddOrder() {
 
         if (id) {
 
-            if (id.includes('take_profit')) {
+            if (id.includes(TP_PREFIX)) {
 
-                const index = parseInt(id.split('_')[2]);
+                const index = extractTpIndex(id);
                 var tp_data_ = [...data.tp_data];
                 tp_data_[index] = parseFloat(value);
                 setData({ ...data, tp_data: tp_data_ });

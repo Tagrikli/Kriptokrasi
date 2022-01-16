@@ -36,8 +36,6 @@ class DatabaseManager {
     async initTables() {
         await this.db.run(QUERIES.CREATE_USERS_TABLE);
         logger.database('Users table created');
-        //await this.db.run(QUERIES.CREATE_CODES_TABLE);
-        //logger.database('Codes table created!');
         await this.db.run(QUERIES.CREATE_POSTS_TABLE);
         logger.database('Posts table created');
         await this.db.run(QUERIES.CREATE_ORDERS_TABLE);
@@ -85,7 +83,6 @@ class DatabaseManager {
                 orders.push(result);
             })
 
-            logger.database(JSON.stringify(orders, null, 4));
 
             return orders;
 
@@ -174,6 +171,8 @@ class DatabaseManager {
             tp_orders,
             order.status,
         ])
+
+        logger.database('New order created.');
     }
 
     async isVIP(user_id: number) {

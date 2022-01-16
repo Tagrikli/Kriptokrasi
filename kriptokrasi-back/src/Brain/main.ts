@@ -31,11 +31,12 @@ class Brain {
 
         this.inactive_orders = await this.db.getOrders(EStatus.WAITING) as TOrder[];
         this.inactive_orders_symbol = this.inactive_orders.map(order => order.symbol);
+
+        logger.brain('Orders updated.');
     }
 
 
     onBinanceBookTicker(data: any) {
-
 
         const symbol = data.symbol;
         const bid_price = data.bidPrice;
