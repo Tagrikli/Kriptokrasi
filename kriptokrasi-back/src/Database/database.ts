@@ -71,6 +71,8 @@ class DatabaseManager {
 
             let orders: TOrder[] = []
 
+
+
             let _orders = (type === EStatus.WAITING) ?
                 (await this.db.all(QUERIES.SELECT_WAITING_ORDERS)) :
                 (await this.db.all(QUERIES.SELECT_ACTIVE_ORDERS))

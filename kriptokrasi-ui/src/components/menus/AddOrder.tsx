@@ -61,7 +61,11 @@ export default function AddOrder() {
 
 
     const getSymbols = async () => {
-        fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then(values => setSymbols(values));
+        setLoading(true);
+        fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then(values => {
+            setSymbols(values);
+            setLoading(false);
+        });
     }
 
 
@@ -250,6 +254,7 @@ export default function AddOrder() {
                     label="Sembol"
                     onChange={changeHandler}
                     name={FIELD_IDS.SYMBOL_SELECT}
+                    defaultValue={''}
                 >
                     {symbols.map((symbol: string, index: number) => <MenuItem key={index} value={symbol}>{symbol}</MenuItem>)}
                 </Select>
@@ -289,21 +294,23 @@ export default function AddOrder() {
                 <Button color='secondary' onClick={removeTpHandler} endIcon={<Close />}>Remove Take Profit </Button>
             </Box>
 
-            <FormControl >
-                <InputLabel id="tp-condition-label">TP Şartı</InputLabel>
-                <Select
-                    labelId="tp-condition-label"
-                    id={FIELD_IDS.TP_COND}
-                    label="TP Şartı"
-                    onChange={changeHandler}
-                    name={FIELD_IDS.TP_COND}
-                    defaultValue={ECompare.EQ}
-                >
-                    <MenuItem value={ECompare.EQ}>{'='}</MenuItem>
-                    <MenuItem value={ECompare.GT}>{'>'}</MenuItem>
-                    <MenuItem value={ECompare.LT}>{'<'}</MenuItem>
-                </Select>
-            </FormControl>
+            {data.tp_data.length ?
+                <FormControl >
+                    <InputLabel id="tp-condition-label">TP Şartı</InputLabel>
+                    <Select
+                        labelId="tp-condition-label"
+                        id={FIELD_IDS.TP_COND}
+                        label="TP Şartı"
+                        onChange={changeHandler}
+                        name={FIELD_IDS.TP_COND}
+                        defaultValue={ECompare.EQ}
+                    >
+                        <MenuItem value={ECompare.EQ}>{'='}</MenuItem>
+                        <MenuItem value={ECompare.GT}>{'>'}</MenuItem>
+                        <MenuItem value={ECompare.LT}>{'<'}</MenuItem>
+                    </Select>
+                </FormControl> : <div></div>}
+
 
 
             <TextField type="number" id={FIELD_IDS.STOP_LOSS} onChange={changeHandler} label="Stop Loss" variant="outlined" defaultValue={DEFAULT_PRICE} InputProps={{ inputProps: { step: DEFAULT_PRICE } }} />

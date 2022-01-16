@@ -16010,3 +16010,1176 @@
 [2022-01-16 19:51:44] [EXPRESS] - [New order!]
 [2022-01-16 19:51:44] [DATABASE] - [New order created.]
 [2022-01-16 19:51:44] [BRAIN] - [Orders updated.]
+[2022-01-16 20:04:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:04:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:04:47] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:04:47] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:06:25] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:06:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:06:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:06:40] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:06:40] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:07:33] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:07:33] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:07:36] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:07:36] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:20] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:20] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:21] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:21] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:36] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:36] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:37] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:37] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:46] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:46] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:47] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:09:47] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:11:02] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:11:02] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:11:03] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:11:03] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:20] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:20] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:20] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:20] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:24] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:24] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:25] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:25] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:26] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:26] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:14:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:15:03] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:15:03] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:15:05] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:15:05] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:15:54] [EXPRESS] - [New order!]
+[2022-01-16 20:15:54] [DATABASE] - [New order created.]
+[2022-01-16 20:15:54] [BRAIN] - [Orders updated.]
+[2022-01-16 20:16:02] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:16:02] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:16:26] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:16:26] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:16:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:16:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:18:22] [INFO] - [Querylist created]
+[2022-01-16 20:18:22] [INFO] - [Waitlist created]
+[2022-01-16 20:18:22] [INFO] - [Program starting...]
+[2022-01-16 20:18:22] [INFO] - [USER: tugi]
+[2022-01-16 20:18:22] [INFO] - [Config file provided]
+[2022-01-16 20:18:22] [DATABASE] - [Database opened]
+[2022-01-16 20:18:22] [DATABASE] - [Users table created]
+[2022-01-16 20:18:22] [DATABASE] - [Posts table created]
+[2022-01-16 20:18:22] [DATABASE] - [Orders table created]
+[2022-01-16 20:18:22] [DATABASE] - [Database tables created]
+[2022-01-16 20:18:22] [DEBUG] - [[]]
+[2022-01-16 20:18:22] [DEBUG] - [[]]
+[2022-01-16 20:18:22] [BRAIN] - [Orders updated.]
+[2022-01-16 20:18:22] [TELE_APP] - [Telegram Client started]
+[2022-01-16 20:18:23] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 20:18:23] [INFO] - [Config file updated]
+[2022-01-16 20:18:23] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 20:18:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:18:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:18:29] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:18:29] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:18:29] [DEBUG] - [[]]
+[2022-01-16 20:18:53] [INFO] - [Querylist created]
+[2022-01-16 20:18:53] [INFO] - [Waitlist created]
+[2022-01-16 20:18:53] [INFO] - [Program starting...]
+[2022-01-16 20:18:53] [INFO] - [USER: tugi]
+[2022-01-16 20:18:53] [INFO] - [Config file provided]
+[2022-01-16 20:18:53] [DATABASE] - [Database opened]
+[2022-01-16 20:18:53] [DATABASE] - [Users table created]
+[2022-01-16 20:18:53] [DATABASE] - [Posts table created]
+[2022-01-16 20:18:53] [DATABASE] - [Orders table created]
+[2022-01-16 20:18:53] [DATABASE] - [Database tables created]
+[2022-01-16 20:18:53] [DEBUG] - [[]]
+[2022-01-16 20:18:53] [DEBUG] - [[]]
+[2022-01-16 20:18:53] [BRAIN] - [Orders updated.]
+[2022-01-16 20:18:54] [TELE_APP] - [Telegram Client started]
+[2022-01-16 20:18:54] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 20:18:54] [INFO] - [Config file updated]
+[2022-01-16 20:18:54] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 20:18:59] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:18:59] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:19:02] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:19:02] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:19:02] [DEBUG] - [[]]
+[2022-01-16 20:19:13] [INFO] - [Querylist created]
+[2022-01-16 20:19:13] [INFO] - [Waitlist created]
+[2022-01-16 20:19:13] [INFO] - [Program starting...]
+[2022-01-16 20:19:13] [INFO] - [USER: tugi]
+[2022-01-16 20:19:13] [INFO] - [Config file provided]
+[2022-01-16 20:19:13] [DATABASE] - [Database opened]
+[2022-01-16 20:19:13] [DATABASE] - [Users table created]
+[2022-01-16 20:19:13] [DATABASE] - [Posts table created]
+[2022-01-16 20:19:13] [DATABASE] - [Orders table created]
+[2022-01-16 20:19:13] [DATABASE] - [Database tables created]
+[2022-01-16 20:19:13] [DEBUG] - [[]]
+[2022-01-16 20:19:13] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:19:13] [BRAIN] - [Orders updated.]
+[2022-01-16 20:19:13] [TELE_APP] - [Telegram Client started]
+[2022-01-16 20:19:14] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 20:19:14] [INFO] - [Config file updated]
+[2022-01-16 20:19:14] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 20:22:07] [INFO] - [Querylist created]
+[2022-01-16 20:22:07] [INFO] - [Waitlist created]
+[2022-01-16 20:22:08] [INFO] - [Program starting...]
+[2022-01-16 20:22:08] [INFO] - [USER: tugi]
+[2022-01-16 20:22:08] [INFO] - [Config file provided]
+[2022-01-16 20:22:08] [DATABASE] - [Database opened]
+[2022-01-16 20:22:08] [DATABASE] - [Users table created]
+[2022-01-16 20:22:08] [DATABASE] - [Posts table created]
+[2022-01-16 20:22:08] [DATABASE] - [Orders table created]
+[2022-01-16 20:22:08] [DATABASE] - [Database tables created]
+[2022-01-16 20:22:08] [DEBUG] - [[]]
+[2022-01-16 20:22:08] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:22:08] [BRAIN] - [Orders updated.]
+[2022-01-16 20:22:08] [TELE_APP] - [Telegram Client started]
+[2022-01-16 20:22:08] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 20:22:08] [INFO] - [Config file updated]
+[2022-01-16 20:22:08] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 20:22:15] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:22:15] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:22:18] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:22:18] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:22:18] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:24:20] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:24:55] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:04] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:07] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:10] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:14] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:33] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:34] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:53] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:25:57] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:26:02] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:26:07] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:26:35] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:26:35] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:26:35] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:26:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:26:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:26:38] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:30:31] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:30:40] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:31:10] [DEBUG] - [[
+    {
+        "id": 1642346949525,
+        "symbol": "BTCUSDT",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "0.000001",
+        "status": 0
+    },
+    {
+        "id": 1642351904091,
+        "symbol": "SNTETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 1,
+        "buy_price": 0.000001,
+        "stop_loss": 0.000001,
+        "buy_condition": 0,
+        "tp_condition": 0,
+        "sl_condition": 0,
+        "tp_data": "",
+        "status": 0
+    },
+    {
+        "id": 1642353353693,
+        "symbol": "ENGETH",
+        "position": 0,
+        "type": 0,
+        "leverage": 3,
+        "buy_price": 0.000006,
+        "stop_loss": 0.000001,
+        "buy_condition": 1,
+        "tp_condition": 1,
+        "sl_condition": 0,
+        "tp_data": "0.000005,0.000004",
+        "status": 0
+    }
+]]
+[2022-01-16 20:32:00] [INFO] - [Querylist created]
+[2022-01-16 20:32:00] [INFO] - [Waitlist created]
+[2022-01-16 20:32:00] [INFO] - [Program starting...]
+[2022-01-16 20:32:00] [INFO] - [USER: tugi]
+[2022-01-16 20:32:00] [INFO] - [Config file provided]
+[2022-01-16 20:32:00] [DATABASE] - [Database opened]
+[2022-01-16 20:32:00] [DATABASE] - [Users table created]
+[2022-01-16 20:32:00] [DATABASE] - [Posts table created]
+[2022-01-16 20:32:00] [DATABASE] - [Orders table created]
+[2022-01-16 20:32:00] [DATABASE] - [Database tables created]
+[2022-01-16 20:32:00] [BRAIN] - [Orders updated.]
+[2022-01-16 20:32:01] [TELE_APP] - [Telegram Client started]
+[2022-01-16 20:32:01] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 20:32:01] [INFO] - [Config file updated]
+[2022-01-16 20:32:01] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 20:32:04] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:32:04] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:32:06] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:32:06] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:32:50] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:32:50] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:33:36] [EXPRESS] - [New order!]
+[2022-01-16 20:33:36] [DATABASE] - [New order created.]
+[2022-01-16 20:33:36] [BRAIN] - [Orders updated.]
+[2022-01-16 20:33:39] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:33:39] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:56:04] [INFO] - [Querylist created]
+[2022-01-16 20:56:04] [INFO] - [Waitlist created]
+[2022-01-16 20:56:05] [INFO] - [Program starting...]
+[2022-01-16 20:56:05] [INFO] - [USER: tugi]
+[2022-01-16 20:56:05] [INFO] - [Config file provided]
+[2022-01-16 20:56:05] [DATABASE] - [Database opened]
+[2022-01-16 20:56:05] [DATABASE] - [Users table created]
+[2022-01-16 20:56:05] [DATABASE] - [Posts table created]
+[2022-01-16 20:56:05] [DATABASE] - [Orders table created]
+[2022-01-16 20:56:05] [DATABASE] - [Database tables created]
+[2022-01-16 20:56:05] [DEBUG] - [BTCUSDT,SNTETH,ENGETH,ETHUSDT]
+[2022-01-16 20:56:05] [DEBUG] - [true,true,true,true]
+[2022-01-16 20:56:05] [BRAIN] - [Orders updated.]
+[2022-01-16 20:56:05] [TELE_APP] - [Telegram Client started]
+[2022-01-16 20:56:05] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 20:56:05] [INFO] - [Config file updated]
+[2022-01-16 20:56:05] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 20:56:25] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:56:25] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:56:30] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:56:30] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:57:22] [DEBUG] - [BTCUSDT,ETHUSDT]
+[2022-01-16 20:57:22] [DEBUG] - [true,true]
+[2022-01-16 20:57:22] [BRAIN] - [Orders updated.]
+[2022-01-16 20:59:24] [INFO] - [Querylist created]
+[2022-01-16 20:59:24] [INFO] - [Waitlist created]
+[2022-01-16 20:59:24] [INFO] - [Program starting...]
+[2022-01-16 20:59:24] [INFO] - [USER: tugi]
+[2022-01-16 20:59:24] [INFO] - [Config file provided]
+[2022-01-16 20:59:24] [DATABASE] - [Database opened]
+[2022-01-16 20:59:24] [DATABASE] - [Users table created]
+[2022-01-16 20:59:24] [DATABASE] - [Posts table created]
+[2022-01-16 20:59:24] [DATABASE] - [Orders table created]
+[2022-01-16 20:59:24] [DATABASE] - [Database tables created]
+[2022-01-16 20:59:24] [DEBUG] - [BTCUSDT,ETHUSDT]
+[2022-01-16 20:59:24] [DEBUG] - [true,true]
+[2022-01-16 20:59:24] [BRAIN] - [Orders updated.]
+[2022-01-16 20:59:24] [TELE_APP] - [Telegram Client started]
+[2022-01-16 20:59:25] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 20:59:25] [INFO] - [Config file updated]
+[2022-01-16 20:59:25] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 20:59:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:59:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:59:31] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 20:59:31] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:07] [INFO] - [Querylist created]
+[2022-01-16 21:00:07] [INFO] - [Waitlist created]
+[2022-01-16 21:00:07] [INFO] - [Program starting...]
+[2022-01-16 21:00:07] [INFO] - [USER: tugi]
+[2022-01-16 21:00:07] [INFO] - [Config file provided]
+[2022-01-16 21:00:07] [DATABASE] - [Database opened]
+[2022-01-16 21:00:07] [DATABASE] - [Users table created]
+[2022-01-16 21:00:07] [DATABASE] - [Posts table created]
+[2022-01-16 21:00:07] [DATABASE] - [Orders table created]
+[2022-01-16 21:00:07] [DATABASE] - [Database tables created]
+[2022-01-16 21:00:07] [DEBUG] - [BTCUSDT,ETHUSDT]
+[2022-01-16 21:00:07] [DEBUG] - [true,true]
+[2022-01-16 21:00:07] [BRAIN] - [Orders updated.]
+[2022-01-16 21:00:08] [TELE_APP] - [Telegram Client started]
+[2022-01-16 21:00:08] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 21:00:08] [INFO] - [Config file updated]
+[2022-01-16 21:00:08] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 21:00:13] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:13] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:15] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:15] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:47] [INFO] - [Querylist created]
+[2022-01-16 21:00:47] [INFO] - [Waitlist created]
+[2022-01-16 21:00:47] [INFO] - [Program starting...]
+[2022-01-16 21:00:47] [INFO] - [USER: tugi]
+[2022-01-16 21:00:47] [INFO] - [Config file provided]
+[2022-01-16 21:00:47] [DATABASE] - [Database opened]
+[2022-01-16 21:00:47] [DATABASE] - [Users table created]
+[2022-01-16 21:00:47] [DATABASE] - [Posts table created]
+[2022-01-16 21:00:47] [DATABASE] - [Orders table created]
+[2022-01-16 21:00:47] [DATABASE] - [Database tables created]
+[2022-01-16 21:00:47] [DEBUG] - [BTCUSDT,ETHUSDT]
+[2022-01-16 21:00:47] [DEBUG] - [true,true]
+[2022-01-16 21:00:47] [BRAIN] - [Orders updated.]
+[2022-01-16 21:00:47] [TELE_APP] - [Telegram Client started]
+[2022-01-16 21:00:48] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 21:00:48] [INFO] - [Config file updated]
+[2022-01-16 21:00:48] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 21:00:51] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:51] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:55] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:00:55] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:01:38] [INFO] - [Querylist created]
+[2022-01-16 21:01:38] [INFO] - [Waitlist created]
+[2022-01-16 21:01:39] [INFO] - [Program starting...]
+[2022-01-16 21:01:39] [INFO] - [USER: tugi]
+[2022-01-16 21:01:39] [INFO] - [Config file provided]
+[2022-01-16 21:01:39] [DATABASE] - [Database opened]
+[2022-01-16 21:01:39] [DATABASE] - [Users table created]
+[2022-01-16 21:01:39] [DATABASE] - [Posts table created]
+[2022-01-16 21:01:39] [DATABASE] - [Orders table created]
+[2022-01-16 21:01:39] [DATABASE] - [Database tables created]
+[2022-01-16 21:01:39] [DEBUG] - [BTCUSDT,ETHUSDT]
+[2022-01-16 21:01:39] [DEBUG] - [true,true]
+[2022-01-16 21:01:39] [BRAIN] - [Orders updated.]
+[2022-01-16 21:01:39] [TELE_APP] - [Telegram Client started]
+[2022-01-16 21:01:40] [TELE_BOT] - [Telegram Bot started]
+[2022-01-16 21:01:40] [INFO] - [Config file updated]
+[2022-01-16 21:01:40] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-16 21:01:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:01:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:01:46] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:01:46] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:01:48] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:01:48] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:02:12] [DEBUG] - [ETHUSDT,BTCUSDT]
+[2022-01-16 21:02:12] [DEBUG] - [true,true]
+[2022-01-16 21:02:12] [BRAIN] - [Orders updated.]
+[2022-01-16 21:02:17] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:02:17] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:02:44] [DEBUG] - [BTCUSDT]
+[2022-01-16 21:02:44] [DEBUG] - [true]
+[2022-01-16 21:02:44] [BRAIN] - [Orders updated.]
+[2022-01-16 21:02:52] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:02:52] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:03:35] [EXPRESS] - [New order!]
+[2022-01-16 21:03:35] [DATABASE] - [New order created.]
+[2022-01-16 21:03:35] [DEBUG] - [BTCUSDT,ETHUSDT]
+[2022-01-16 21:03:35] [DEBUG] - [true,true]
+[2022-01-16 21:03:35] [BRAIN] - [Orders updated.]
+[2022-01-16 21:03:44] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:03:44] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:04:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-16 21:04:57] [EXPRESS] - [New WebSocket connection]
