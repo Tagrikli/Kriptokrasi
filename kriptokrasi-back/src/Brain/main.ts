@@ -11,10 +11,9 @@ class Brain {
 
     inactive_orders: TOrder[] = [];
     inactive_orders_symbol: string[] = []
-
     wsServer: WebSocketServer
-
     db: DatabaseManager
+
 
     constructor(db: DatabaseManager) {
         this.db = db;
@@ -37,8 +36,6 @@ class Brain {
 
     onBinanceBookTicker(data: any) {
 
-
-        logger.brain(JSON.stringify(data));
 
         const symbol = data.symbol;
         const bid_price = data.bidPrice;

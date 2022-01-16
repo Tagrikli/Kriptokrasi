@@ -44,7 +44,7 @@ import ExpressApp from './ExpressApp/express_app';
 
     //Initialize binance.
     const binanceManager = new BinanceManager(brain);
-    binanceManager.bindOnBookTicker(brain.onBinanceBookTicker);
+    binanceManager.bindOnBookTicker((data: any) => brain.onBinanceBookTicker(data));
     binanceManager.initSubscriptions();
 
     //Initialize and start express server.

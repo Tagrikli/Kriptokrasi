@@ -85,6 +85,8 @@ class DatabaseManager {
                 orders.push(result);
             })
 
+            logger.database(JSON.stringify(orders, null, 4));
+
             return orders;
 
 
