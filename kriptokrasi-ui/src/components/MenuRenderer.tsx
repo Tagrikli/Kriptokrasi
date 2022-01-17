@@ -2,6 +2,7 @@ import ActiveOrders from "./menus/ActiveOrders";
 import AddOrder from "./menus/AddOrder";
 import WaitingOrders from "./menus/WaitingOrders";
 import { WEBSOCKET_URL } from "../utils/endpoint_manager";
+import SendMessage from "./menus/SendMessage";
 
 
 
@@ -20,6 +21,9 @@ export default function MenuRenderer(props: { index: number }) {
 
         case 2:
             return <ActiveOrders ws={ws}></ActiveOrders>
+
+        case 4:
+            return <SendMessage></SendMessage>
 
         default:
             return <div></div>

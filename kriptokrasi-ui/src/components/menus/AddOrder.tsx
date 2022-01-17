@@ -278,6 +278,8 @@ export default function AddOrder() {
                     <MenuItem value={ECompare.EQ}>{'='}</MenuItem>
                     <MenuItem value={ECompare.GT}>{'>'}</MenuItem>
                     <MenuItem value={ECompare.LT}>{'<'}</MenuItem>
+                    <MenuItem value={ECompare.GTE}>{'>='}</MenuItem>
+                    <MenuItem value={ECompare.LTE}>{'<='}</MenuItem>
                 </Select>
             </FormControl>
 
@@ -308,6 +310,8 @@ export default function AddOrder() {
                         <MenuItem value={ECompare.EQ}>{'='}</MenuItem>
                         <MenuItem value={ECompare.GT}>{'>'}</MenuItem>
                         <MenuItem value={ECompare.LT}>{'<'}</MenuItem>
+                        <MenuItem value={ECompare.GTE}>{'>='}</MenuItem>
+                        <MenuItem value={ECompare.LTE}>{'<='}</MenuItem>
                     </Select>
                 </FormControl> : <div></div>}
 
@@ -331,6 +335,8 @@ export default function AddOrder() {
                     <MenuItem value={ECompare.EQ}>{'='}</MenuItem>
                     <MenuItem value={ECompare.GT}>{'>'}</MenuItem>
                     <MenuItem value={ECompare.LT}>{'<'}</MenuItem>
+                    <MenuItem value={ECompare.GTE}>{'>='}</MenuItem>
+                    <MenuItem value={ECompare.LTE}>{'<='}</MenuItem>
                 </Select>
             </FormControl>
 

@@ -32,6 +32,19 @@ class TelegramBot {
     }
 
 
+    async sendMessageToAllVIP(filter: boolean, message: string) {
+
+
+        
+        const users = await this.db.getAllVipUsers(filter);
+
+        users.forEach(user => {
+            this.bot.telegram.sendMessage(user.user_id, message);
+        })
+
+
+    }
+
     registerCallbacks() {
 
         this.bot.start(async (ctx) => {
@@ -43,26 +56,40 @@ class TelegramBot {
 
             ctx.reply('Welcome.');
 
+
+
         })
 
         this.bot.use(async (ctx, next) => {
-            let user_id = ctx.from.id;
+            const user_id = ctx.from.id;
+            const chat_type: string = ctx.chat.type;
+
 
             if (waitlist.find(user_id)) {
                 ctx.reply('⏰⏰ Lütfen 10 saniye bekleyin...');
                 return;
             }
+
+
+            if (chat_type !== 'private') {
+                ctx.reply('Botu kullanabilmek için bota özel mesaj atınız.', { reply_markup: KEYBOARDS.INITIAL });
+                return;
+            }
+
             ctx.vip = (await this.db.isVIP(user_id)).vip;
 
             if (!ctx.vip) {
                 ctx.reply('Botu kullanabilmek için üye olunuz.', { reply_markup: KEYBOARDS.INITIAL });
                 return;
             }
+
+
             await next();
         })
 
 
         this.bot.hears(BUTTON_LIST.INITIAL, async (ctx) => {
+
             const message = ctx.message.text;
             const chat_id = ctx.chat.id;
             switch (message) {

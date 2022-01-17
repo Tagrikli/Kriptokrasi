@@ -8,6 +8,8 @@ import http from 'http';
 import Brain from "../Brain/main";
 import BinanceManager from "../BinanceAPI/main";
 import ENDPOINTS from "../kriptokrasi-common/endpoints";
+import { TTMessage } from "../kriptokrasi-common/message_types";
+import TelegramBot from "../TelegramBot/telegram_bot";
 
 class ExpressApp {
     mode: string;
@@ -15,6 +17,7 @@ class ExpressApp {
     db: DatabaseManager;
     brain: Brain;
     binance: BinanceManager
+    telegram: TelegramBot
 
     app: Express;
     server: http.Server;
@@ -22,11 +25,12 @@ class ExpressApp {
 
     webhookCallback: (message: any) => void;
 
-    constructor(port: number, db: DatabaseManager, brain: Brain, binance: BinanceManager) {
+    constructor(port: number, db: DatabaseManager, brain: Brain, binance: BinanceManager, telegram: TelegramBot) {
         this.port = port;
         this.db = db;
         this.brain = brain;
         this.binance = binance;
+        this.telegram = telegram;
         this.mode = process.env.MODE;
     }
 
@@ -111,20 +115,23 @@ class ExpressApp {
         })
 
 
-        this.app.post(ENDPOINTS.DELETE_ORDERS, (req, res) => {
+        this.app.post(ENDPOINTS.DELETE_ORDERS, async (req, res) => {
 
             const orderIds = req.body;
 
-            console.log(orderIds);
 
-            this.db.deleteOrders(orderIds).then(() => {
+            try {
+
+
+                await this.db.deleteOrders(orderIds)
+
                 this.brain.updateOrders();
                 res.sendStatus(200);
-            }).catch(reason => {
+            } catch (reason) {
                 res.sendStatus(500);
                 logger.error(reason);
 
-            })
+            }
 
         });
 
@@ -143,6 +150,25 @@ class ExpressApp {
             })
 
         });
+
+        this.app.post(ENDPOINTS.SEND_TELEGRAM_MESSAGE, async (req, res) => {
+
+            const data: TTMessage = req.body;
+
+
+            try {
+
+                this.telegram.sendMessageToAllVIP(data.filter, data.message);
+                res.sendStatus(200);
+
+            } catch (reason) {
+
+                logger.error(reason);
+                res.sendStatus(500);
+            }
+
+
+        })
 
         this.app.post(ENDPOINTS.WEBHOOK, (req, res) => {
 

@@ -3,6 +3,10 @@ export const MESSAGES = {
 
     ERROR: {
 
+        MESSAGE: {
+            SEND:'Mesaj gönderilemedi :('
+        },
+
         ORDER: {
             ADD: 'Emir(ler) eklenemedi :(',
             DELETE: 'Emir(ler) silinemedi :(',
@@ -18,6 +22,9 @@ export const MESSAGES = {
 
     SUCCESS: {
 
+        MESSAGE: {
+            SEND: 'Mesaj gönderildi!'
+        },
 
         ORDER: {
             ADD: 'Emir(ler) eklendi!',

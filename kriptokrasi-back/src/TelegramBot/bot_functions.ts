@@ -1,6 +1,7 @@
 import axios from "axios";
 import BinanceManager from "../BinanceAPI/main";
 import { TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
+import logger from "../Logger/logger";
 
 
 export async function getIndicator(data: string[]) {
@@ -145,6 +146,8 @@ export async function getXTrade(data: string[]) {
     if (response.data['success'] == false) {
         return "Yanlis exchange - parite"
     }
+
+
     let maxB = 0.0
     let maxS = 0.0
     for (let i = 0; i < response.data["data"].length; i++) {
@@ -282,7 +285,7 @@ export async function getOpenInterest(data: string[]) {
 }
 
 
-export async function answerWaitingOrders(waitingOrders:TOrder[],binance_manager:BinanceManager) {
+export async function answerWaitingOrders(waitingOrders: TOrder[], binance_manager: BinanceManager) {
     //let waitingOrders = await dbManager.getOrders(EStatus.WAITING);
     if (waitingOrders == []) return `Bekleyen emir bulunmamaktadır.`;
     let reply = ``
@@ -324,7 +327,7 @@ export async function answerWaitingOrders(waitingOrders:TOrder[],binance_manager
     return reply;
 }
 
-export async function answerActiveOrders(activeOrders:TOrder[],binance_manager:BinanceManager) {
+export async function answerActiveOrders(activeOrders: TOrder[], binance_manager: BinanceManager) {
     //let activeOrders = await dbManager.getOrders(EStatus.ACTIVE);
     if (activeOrders == []) return `Aktif emir bulunmamaktadır.`;
     let reply = `-------`
@@ -406,7 +409,7 @@ export async function profitCalculator(price, buyPrices) {
     else return [(buyPrices[0] - price) * (100 / buyPrices[0]), buyPrices[1], buyPrices[2], buyPrices[3], buyPrices[4], buyPrices[5]];
 }
 
-export async function answerPastOrders(pastOrders:TOrder_Past[]) {
+export async function answerPastOrders(pastOrders: TOrder_Past[]) {
     //let pastOrders = await dbManager.getOrders(EStatus.PAST);
     if (pastOrders == []) return `Geçmiş emir bulunmamaktadır.`;
     let reply = `-------`
@@ -443,7 +446,7 @@ export async function sendActivationMessage(symbol: string, type: string) {
     return message;
 }
 
-export async function sendPastOrderMessage(symbol: string, buy_price: number, type: string, binance_manager:BinanceManager) {
+export async function sendPastOrderMessage(symbol: string, buy_price: number, type: string, binance_manager: BinanceManager) {
     let tempType = 'spot';
     if (type != 'spot') tempType = 'long islem';
     const momentaryPrice = await binance_manager.getPriceForSymbol(symbol);

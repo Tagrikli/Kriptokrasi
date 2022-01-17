@@ -2,53 +2,8 @@ import logger from "../Logger/logger";
 import { WebSocketServer } from "ws";
 import DatabaseManager from "../Database/database";
 import { EStatus, TOrder, ECompare } from "../kriptokrasi-common/order_types";
-import _ from 'lodash';
 
-class UpdateManager {
-    symbols: string[]
-    update_table: boolean[]
-
-    timeout: number
-
-    constructor(timeout: number) {
-        this.symbols = []
-        this.update_table = []
-        this.timeout = timeout;
-    }
-
-    shouldUpdate(symbol: string) {
-
-        const index = this.symbols.findIndex(sym => sym === symbol)
-
-        if (this.update_table[index]) {
-            this.justUpdated(index);
-            return true;
-
-        } else {
-            return false;
-        }
-
-    }
-
-    justUpdated(index: number) {
-        this.update_table[index] = false;
-        setTimeout(() => {
-            this.update_table[index] = true
-        }, this.timeout);
-    }
-
-    updateSymbols(symbols: string[]) {
-        this.symbols = symbols.slice();
-        this.update_table = new Array(this.symbols.length);
-        this.resetUpdates();
-    }
-
-    resetUpdates() {
-        this.update_table = this.update_table.fill(true);
-    }
-
-}
-
+import UpdateManager from "./update_manager";
 
 
 class Brain {
@@ -80,7 +35,7 @@ class Brain {
         this.inactive_orders = await this.db.getOrders(EStatus.WAITING) as TOrder[];
         this.inactive_orders_symbol = this.inactive_orders.map(order => order.symbol);
 
-        this.updateManager.updateSymbols(_.uniq([...this.active_orders_symbol, ...this.inactive_orders_symbol]));
+        this.updateManager.updateSymbols([...this.active_orders_symbol, ...this.inactive_orders_symbol]);
 
         logger.brain('Orders updated.');
     }
@@ -122,7 +77,6 @@ class Brain {
 
         }
 
-
     }
 
 
@@ -140,10 +94,19 @@ class Brain {
 
     }
 
-    conditionWorker(livePrice, orderPrice, condition) {
-        if (condition == ECompare.GT) return (livePrice > orderPrice);
-        else if (condition == ECompare.EQ) return (livePrice == orderPrice);
-        else if (condition == ECompare.LT) return (livePrice < orderPrice);
+    conditionWorker(live_price: number, order_price: number, condition: ECompare) {
+        switch (condition) {
+            case ECompare.GT:
+                return live_price > order_price;
+            case ECompare.LT:
+                return live_price < order_price;
+            case ECompare.GTE:
+                return live_price >= order_price;
+            case ECompare.LTE:
+                return live_price <= order_price;
+            case ECompare.EQ:
+                return live_price == order_price;
+        }
     }
 
 

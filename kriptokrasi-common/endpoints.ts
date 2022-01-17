@@ -19,6 +19,8 @@ const ENDPOINTS = {
 
     DELETE_ORDERS: createPath('delete_orders'),
 
+    SEND_TELEGRAM_MESSAGE: createPath('send_telegram_message'),
+
     WEBHOOK: createPath('webhook'),
 
 }

@@ -53,7 +53,8 @@ import NETWORK from './kriptokrasi-common/network.json';
         NETWORK.PORT,
         dbManager,
         brain,
-        binanceManager)
+        binanceManager,
+        telegramBot)
     expressApp.bindWebhookCallback(telegramBot.webhookCallback);
     expressApp.start();
 
