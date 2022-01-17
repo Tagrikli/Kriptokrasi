@@ -7,6 +7,7 @@ import QUERIES from './queries';
 import { ROOT_PATH } from '..';
 import logger from '../Logger/logger';
 import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/order_types';
+import { TUserDB } from '../utils/types';
 
 
 class DatabaseManager {
@@ -57,8 +58,7 @@ class DatabaseManager {
             user.first_name,
             user.last_name,
             user.username,
-                undefined,
-                undefined,
+                0,
                 false]);
         logger.database('New user created');
     }
@@ -178,9 +178,8 @@ class DatabaseManager {
     }
 
     async isVIP(user_id: number) {
-        let _user = await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id]);
-        let deadline = _user.code_timeout;
-        let timeout = (deadline && deadline > Date.now());
+        let _user: TUserDB = await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id]);
+        let timeout = _user.vip_timeout > Date.now();
         let approved = _user.vip;
         return { timeout: timeout, vip: approved };
     }
@@ -208,29 +207,29 @@ class DatabaseManager {
 
 
     async getAllVipUsers(filter: boolean) {
-        let users: any[] = await this.db.all(QUERIES.SELECT_USER_BY_VIP);
+        let users: TUserDB[] = await this.db.all(QUERIES.SELECT_USER_BY_VIP);
 
         if (filter) {
             users = users.filter(user => {
-                let deadline = user.code_timeout;
-                return deadline && deadline > Date.now();
+                let deadline = user.vip_timeout;
+                return deadline > Date.now();
             });
         }
 
         return users;
     }
 
-    isLimitExceeded(user_id: Number, limit: Number): Promise<Boolean> { // send_db_messages_file seyini sildim
-        return new Promise((resolve, reject) => {
-            this.db.get("SELECT COUNT(*) FROM posts WHERE user_id=? and (created_ts BETWEEN datetime('now', '-1 days') AND datetime('now', 'localtime'));",
-                [user_id], (err, row) => {
-                    if (err) resolve(false)
-                    else {
-                        if (row[0] >= limit) resolve(true); else resolve(false);
-                    }
-                })
-        })
-    }
+    // isLimitExceeded(user_id: Number, limit: Number): Promise<Boolean> { // send_db_messages_file seyini sildim
+    //     return new Promise((resolve, reject) => {
+    //         this.db.get("SELECT COUNT(*) FROM posts WHERE user_id=? and (created_ts BETWEEN datetime('now', '-1 days') AND datetime('now', 'localtime'));",
+    //             [user_id], (err, row) => {
+    //                 if (err) resolve(false)
+    //                 else {
+    //                     if (row[0] >= limit) resolve(true); else resolve(false);
+    //                 }
+    //             })
+    //     })
+    // }
 
 }
 

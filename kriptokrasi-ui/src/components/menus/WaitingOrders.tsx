@@ -23,9 +23,6 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
         const symbol: string = data.symbol;
         const bid_price: number = data.bid_price;
 
-        console.log(data);
-
-
         const row_index = rows.findIndex(row => row.symbol === symbol);
         if (row_index !== -1) {
 
@@ -34,13 +31,8 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
             rows_[row_index].live_price = bid_price;
             rows_[row_index].difference = bid_price - rows_[row_index].buy_price;
 
-
             setRows(rows_);
-
-
         }
-        //console.log(data);
-
     }
 
     const selectionModelChangeHandler = (selection_model: GridSelectionModel) => {

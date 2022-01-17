@@ -68,15 +68,21 @@ class ExpressApp {
             }
         })
 
-        this.app.post(ENDPOINTS.CREATE_ORDER, (req, res) => {
+        this.app.post(ENDPOINTS.CREATE_ORDER, async (req, res) => {
             const order: TOrder = req.body;
             logger.express('New order!');
-            this.db.createOrder(order).then(() => {
+
+            try {
+                await this.db.createOrder(order);
+
+                
+                
                 this.brain.updateOrders();
                 res.sendStatus(200);
-            }).catch(reason => {
+            } catch (reason) {
                 logger.error(reason);
-            });
+                res.sendStatus(500);
+            };
 
         })
 

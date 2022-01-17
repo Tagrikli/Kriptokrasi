@@ -8,8 +8,7 @@ const QUERIES = {
         first_name TEXT,
         last_name TEXT,
         username TEXT,
-        code_id INTEGER,
-        code_timeout INTEGER,
+        vip_timeout INTEGER,
         vip INTEGER,
         PRIMARY KEY(user_id))`,
 
@@ -89,7 +88,7 @@ const QUERIES = {
 
     INSERT_USER: /*sql*/`
         INSERT OR IGNORE INTO users
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
 
     INSERT_WAITING_ORDER: /*sql*/`
         INSERT INTO orders

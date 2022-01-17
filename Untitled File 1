@@ -1,12 +1,2 @@
-active -> status
-status - 0 1
+tp ve stop loss sadece aktif emirler icin gecerli.
 
-anlik fiyat, condition, alis fiyati.
-
-aktifden iptal -> pass
-aktifken tpyi gecince mesaj -> Mesajlar hazir
-
-
-conditionlara esitlik
-
-gruplara eklenemesin.

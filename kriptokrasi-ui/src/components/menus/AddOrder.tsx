@@ -48,8 +48,24 @@ const DEFAULT_ORDER: TOrder = {
 
 const prepareOrder = (data: TOrder) => {
 
-
     return { id: Date.now(), ...data } as TOrder;
+}
+
+const isSorted = (list: number[], inc: boolean) => {
+
+    let sorted = true;
+    console.log(list);
+
+    for (var j = 0; j < list.length - 1; j++) {
+        if (((list[j] > list[j + 1]) && inc) || ((list[j] < list[j + 1]) && !inc)) {
+            sorted = false;
+            break;
+        }
+    }
+
+    return sorted
+
+
 }
 
 
@@ -58,6 +74,22 @@ export default function AddOrder() {
     const [data, setData] = useState(DEFAULT_ORDER);
     const [loading, setLoading] = useState(false);
     const [symbols, setSymbols] = useState<string[]>([]);
+
+
+    const inputCheck = (): { valid: boolean, reason?: string } => {
+
+
+        if (data.type === EType.SPOT) {
+            if (data.buy_price < data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.GT };
+            if (!isSorted(data.tp_data, true)) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.TPS.INC };
+        };
+        if (data.type === EType.VADELI) {
+            if (data.buy_price > data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.LT };
+            if (!isSorted(data.tp_data, false)) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.TPS.DEC };
+        };
+
+        return { valid: true }
+    }
 
 
     const getSymbols = async () => {
@@ -103,7 +135,17 @@ export default function AddOrder() {
 
     const createOrder = async () => {
 
+
+        const check_result = inputCheck();
+
+        if (!check_result.valid) {
+            toast.error(check_result.reason);
+            return;
+        }
+
+
         setLoading(true);
+
 
         const order_prepared = prepareOrder(data);
         console.log(order_prepared);

@@ -35,7 +35,7 @@ class TelegramBot {
     async sendMessageToAllVIP(filter: boolean, message: string) {
 
 
-        
+
         const users = await this.db.getAllVipUsers(filter);
 
         users.forEach(user => {
@@ -63,6 +63,11 @@ class TelegramBot {
         this.bot.use(async (ctx, next) => {
             const user_id = ctx.from.id;
             const chat_type: string = ctx.chat.type;
+
+            if (!(await this.db.userExists(ctx.message.from.id))) {
+                ctx.reply("Lütfen kullanıma başlamak icin /start yazınız.", { reply_markup: KEYBOARDS.INITIAL });
+                return;
+            }
 
 
             if (waitlist.find(user_id)) {

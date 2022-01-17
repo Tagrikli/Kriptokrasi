@@ -47,3 +47,12 @@ export enum PROC_CONTEXT {
 }
 
 
+export type TUserDB = {
+    user_id: number,
+    is_bot: boolean,
+    first_name: string,
+    last_name?: string,
+    username: string,
+    vip_timeout: number,
+    vip: boolean
+}

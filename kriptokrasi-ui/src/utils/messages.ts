@@ -8,13 +8,30 @@ export const MESSAGES = {
         },
 
         ORDER: {
-            ADD: 'Emir(ler) eklenemedi :(',
-            DELETE: 'Emir(ler) silinemedi :(',
-            ACTIVATE: 'Emir(ler) aktive edilemedi :(',
+            ADD: 'Emir eklenemedi :(',
+            DELETE: 'Emir silinemedi :(',
+            ACTIVATE: 'Emir aktive edilemedi :(',
         },
 
         SERVER: {
             INTERNAL: 'Serverda bir hata mevcut :('
+        },
+
+
+        INPUT_CHECK: {
+            
+            STOP_BUY: {
+                GT: 'Spot türünde "Alış Fiyatı" "Stop-Loss" değerinden büyük olmalıdır.',
+                LT: 'Vadeli türünde "Alış Fiyatı" "Stop-Loss" değerinden küçük olmalıdır.'
+            },
+
+
+            TPS: {
+                INC: 'Spot türünde "Take Profit" değerleri küçükten büyüğe olmalıdır.',
+                DEC: 'Vadeli türünde "Take Profit" değerleri büyükten küçüğe olmalıdır.',
+            }
+
+
         }
 
 
@@ -27,9 +44,9 @@ export const MESSAGES = {
         },
 
         ORDER: {
-            ADD: 'Emir(ler) eklendi!',
-            DELETE: 'Emir(ler) silindi!',
-            ACTIVATE: 'Emir(ler) aktive edildi!',
+            ADD: 'Emir eklendi!',
+            DELETE: 'Emir silindi!',
+            ACTIVATE: 'Emir aktive edildi!',
         },
     }
 
