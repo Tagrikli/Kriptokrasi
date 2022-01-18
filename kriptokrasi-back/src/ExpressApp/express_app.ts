@@ -75,8 +75,8 @@ class ExpressApp {
             try {
                 await this.db.createOrder(order);
 
-                
-                
+
+
                 this.brain.updateOrders();
                 res.sendStatus(200);
             } catch (reason) {
@@ -164,7 +164,7 @@ class ExpressApp {
 
             try {
 
-                this.telegram.sendMessageToAllVIP(data.filter, data.message);
+                this.telegram.sendMessageToAll(data.vip, data.filter, data.message);
                 res.sendStatus(200);
 
             } catch (reason) {

@@ -206,18 +206,31 @@ class DatabaseManager {
     // }
 
 
-    async getAllVipUsers(filter: boolean) {
-        let users: TUserDB[] = await this.db.all(QUERIES.SELECT_USER_BY_VIP);
+    async getAllUsers(vip: boolean, filter?: boolean) {
 
-        if (filter) {
-            users = users.filter(user => {
-                let deadline = user.vip_timeout;
-                return deadline > Date.now();
-            });
+        let users: TUserDB[];
+
+        if (!vip) {
+
+            users = await this.db.all(QUERIES.SELECT_ALL_USERS);
+
+        } else {
+
+            users = await this.db.all(QUERIES.SELECT_USER_BY_VIP);
+
+            if (filter) {
+                users = users.filter(user => {
+                    let deadline = user.vip_timeout;
+                    return deadline > Date.now();
+                });
+            }
         }
 
         return users;
+
+
     }
+
 
     // isLimitExceeded(user_id: Number, limit: Number): Promise<Boolean> { // send_db_messages_file seyini sildim
     //     return new Promise((resolve, reject) => {

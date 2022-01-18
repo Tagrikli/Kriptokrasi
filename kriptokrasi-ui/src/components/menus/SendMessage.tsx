@@ -9,15 +9,19 @@ import { MESSAGES } from "../../utils/messages";
 
 export default function SendMessage() {
 
-    const [data, setData] = useState<TTMessage>({ filter: true, message: '' });
+    const [data, setData] = useState<TTMessage>({ vip: true, filter: true, message: '' });
+    const [filterEnabled, setFilterEnabled] = useState(true);
     const [sendEnabled, setSendEnabled] = useState(false);
     const [loading, setLoading] = useState(false);
 
 
+    const onVipChange = (event: any, checked: boolean) => {
+        setFilterEnabled(checked);
+        setData({ ...data, vip: checked });
+    }
+
     const onFilterChange = (event: any, checked: boolean) => {
-
         setData({ ...data, filter: checked });
-
     }
 
     const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -69,8 +73,14 @@ export default function SendMessage() {
         <Stack spacing={2}>
 
             <Stack direction="row" spacing={1} alignItems="center">
+                <Typography>Herkes</Typography>
+                <Switch defaultChecked onChange={onVipChange} />
+                <Typography>VIP</Typography>
+            </Stack>
+
+            <Stack direction="row" spacing={1} alignItems="center">
                 <Typography>Tum VIP</Typography>
-                <Switch defaultChecked onChange={onFilterChange} />
+                <Switch defaultChecked onChange={onFilterChange} disabled={!filterEnabled} />
                 <Typography>Aktif VIP</Typography>
             </Stack>
 

@@ -23,7 +23,7 @@ class TelegramBot {
     async webhookCallback(message: string) {
         try {
 
-            const users = await this.db.getAllVipUsers(true);
+            const users = await this.db.getAllUsers(true, true);
             users.forEach(async user => this.bot.telegram.sendMessage(user.user_id, message));
 
         } catch (reason) {
@@ -32,11 +32,10 @@ class TelegramBot {
     }
 
 
-    async sendMessageToAllVIP(filter: boolean, message: string) {
+    async sendMessageToAll(vip: boolean, filter: boolean, message: string) {
 
 
-
-        const users = await this.db.getAllVipUsers(filter);
+        const users = await this.db.getAllUsers(vip, filter);
 
         users.forEach(user => {
             this.bot.telegram.sendMessage(user.user_id, message);

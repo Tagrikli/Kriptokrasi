@@ -62,6 +62,10 @@ const QUERIES = {
         FROM users
         WHERE user_id = ?`,
 
+    SELECT_ALL_USERS: /*sql*/`
+        SELECT *
+        FROM users`,
+
     SELECT_USER_BY_VIP: /*sql*/`
         SELECT *
         FROM users
