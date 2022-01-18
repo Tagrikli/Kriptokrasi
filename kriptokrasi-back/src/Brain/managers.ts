@@ -1,6 +1,49 @@
 import _ from 'lodash';
+import { WebSocketServer } from 'ws';
+import { TOrder } from '../kriptokrasi-common/order_types';
 
-export default class UpdateManager {
+
+export class ReactUpdater {
+    wss: WebSocketServer
+
+
+    constructor(wss: WebSocketServer) {
+        this.wss = wss;
+    }
+
+    updateClients(data: any) {
+        this.wss.clients.size && this.wss.clients.forEach(client => client.send(JSON.stringify(data)));
+    }
+
+
+}
+
+
+export class ActivationProcess {
+    in_process_ids: number[]
+
+    constructor() {
+        this.in_process_ids = []
+    }
+
+    inProcess(order_id: number) {
+        return this.in_process_ids.includes(order_id);
+    }
+
+    addProcess(order_id: number) {
+        this.in_process_ids.push(order_id);
+    }
+
+    removeProcess(order_id: number) {
+        this.in_process_ids = this.in_process_ids.filter(id => order_id === id);
+    }
+
+
+
+
+}
+
+export class UpdateManager {
     symbols: string[]
     update_table: boolean[]
 

@@ -24,19 +24,19 @@ export default function ActiveOrders(props: { ws: WebSocket }) {
 
         const data = JSON.parse(message.data);
 
-        const [symbol, bid_price] = [data.symbol, data.bid_price];
-
-        const row_index = rows.findIndex(row => row.symbol === symbol);
-        if (row_index !== -1) {
-
-            let rows_ = rows.slice();
+        const symbol: string = data.symbol;
+        const bid_price: number = data.bid_price;
 
 
-            rows_[row_index].live_price = bid_price;
-            setRows(rows_);
+        const rows_ = rows.map(row => {
+            if (row.symbol === symbol) {
+                row.live_price = bid_price;
+                row.difference = bid_price - row.buy_price;
+            }
+            return row;
+        })
 
-        }
-        //console.log(data);
+        setRows(rows_);
 
     }
 

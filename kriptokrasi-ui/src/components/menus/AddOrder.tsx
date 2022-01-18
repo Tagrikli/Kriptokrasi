@@ -26,7 +26,7 @@ const FIELD_IDS = {
 
 const DEFAULT_PRICE = 0.000001;
 
-const DEFAULT_ORDER: Omit<TOrder,'tp_data'> & {tp_data:number[]} = {
+const DEFAULT_ORDER: Omit<TOrder, 'tp_data'> & { tp_data: number[] } = {
 
     id: 0,
     position: EPosition.LONG,
@@ -38,14 +38,14 @@ const DEFAULT_ORDER: Omit<TOrder,'tp_data'> & {tp_data:number[]} = {
 
     leverage: 1,
 
-    tp_data: [],
+    tp_data: [...Array(5).fill(DEFAULT_PRICE)],
     tp_condition: ECompare.EQ,
 
     stop_loss: DEFAULT_PRICE,
     sl_condition: ECompare.EQ,
 
     status: EStatus.WAITING
-} 
+}
 
 const prepareOrder = (data: TOrder) => {
 
@@ -72,21 +72,50 @@ const isSorted = (list: number[], inc: boolean) => {
 export default function AddOrder() {
 
     const [data, setData] = useState(DEFAULT_ORDER);
+    const [spot, setSpot] = useState(true);
     const [loading, setLoading] = useState(false);
     const [symbols, setSymbols] = useState<string[]>([]);
+
+    useEffect(() => {
+        getSymbols();
+    }, []);
+
+
+    useEffect(() => {
+        console.log(data);
+
+    }, [data]);
+
 
 
     const inputCheck = (): { valid: boolean, reason?: string } => {
 
         if (data.symbol === '') return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.SYMBOL.EMPTY };
 
+
+        //Burasi beni baya zorladi ne yalan soyliyim.
         if (data.type === EType.SPOT) {
-            if (data.buy_price < data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.GT };
-            if (!isSorted(data.tp_data, true)) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.TPS.INC };
-        };
-        if (data.type === EType.VADELI) {
-            if (data.buy_price > data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.LT };
-            if (!isSorted(data.tp_data, false)) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.TPS.DEC };
+
+            if (data.buy_price < data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.SPOT_LT };
+            if (!isSorted(data.tp_data, true)) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.TPS.SPOT_INC };
+            if (data.buy_price > data.tp_data[0]) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.BUY_PRICE.SPOT_LT };
+
+
+        } else if (data.type === EType.VADELI) {
+
+            if (data.position === EPosition.LONG) {
+
+                if (data.buy_price < data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.VADELI_LONG_LT };
+                if (!isSorted(data.tp_data, true)) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.TPS.VADELI_LONG_INC };
+                if (data.buy_price > data.tp_data[0]) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.BUY_PRICE.VADELI_LONG_LT };
+
+            } else if (data.position === EPosition.SHORT) {
+
+                if (data.buy_price > data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.VADELI_SHORT_GT };
+                if (!isSorted(data.tp_data, false)) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.TPS.VADELI_SHORT_DEC };
+                if (data.buy_price < data.tp_data[0]) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.BUY_PRICE.VADELI_SHORT_GT };
+
+            }
         };
 
         return { valid: true }
@@ -102,18 +131,9 @@ export default function AddOrder() {
     }
 
 
-    useEffect(() => {
-        getSymbols();
-    }, []);
 
-
-    useEffect(() => {
-        console.log(data);
-
-    }, [data]);
 
     const removeTpHandler = () => {
-
 
         let tp_data_ = data.tp_data.slice();
         tp_data_.splice(tp_data_.length - 1, 1);
@@ -234,6 +254,7 @@ export default function AddOrder() {
                     break;
                 case FIELD_IDS.SPOT_VADELI_RADIO:
                     setData({ ...data, type: parseInt(value) });
+                    setSpot(parseInt(value) === EType.SPOT);
                     break;
                 case FIELD_IDS.LONG_SHORT_RADIO:
                     setData({ ...data, position: parseInt(value) });
@@ -273,7 +294,7 @@ export default function AddOrder() {
                     </RadioGroup>
                 </FormControl>
 
-                <FormControl component="fieldset">
+                <FormControl component="fieldset" disabled={spot}>
                     <FormLabel component="legend">Pozisyon</FormLabel>
                     <RadioGroup
                         defaultValue={0}
@@ -305,7 +326,7 @@ export default function AddOrder() {
 
 
             <TextField type="number" onChange={changeHandler} id={FIELD_IDS.BUY_PRICE} label="Alış Fiyatı" variant="outlined" defaultValue={DEFAULT_PRICE} InputProps={{ inputProps: { step: DEFAULT_PRICE } }} />
-            <TextField type="number" onChange={changeHandler} id={FIELD_IDS.LEVERAGE} label="Kaldıraç" variant="outlined" defaultValue={1} />
+            <TextField type="number" onChange={changeHandler} id={FIELD_IDS.LEVERAGE} label="Kaldıraç" variant="outlined" defaultValue={1} disabled={spot} />
             <FormControl >
 
                 <InputLabel id="alim-sarti-label">Alım Şartı</InputLabel>

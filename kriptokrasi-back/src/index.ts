@@ -28,10 +28,6 @@ import NETWORK from './kriptokrasi-common/network.json';
     const dbManager = new DatabaseManager();
     await dbManager.init();
 
-    //Initialize Brain.
-    const brain = new Brain(dbManager);
-    await brain.updateOrders();
-
     //Initialize Telegram app and acquire relevant session string.
     const telegramApp = new TelegramApp(
         config.credentials.app.api_id,
@@ -42,6 +38,13 @@ import NETWORK from './kriptokrasi-common/network.json';
     //Initialize and start telegram bot.
     const telegramBot = new TelegramBot(config.credentials.bot.token, dbManager);
     await telegramBot.start();
+
+
+    //Initialize Brain.
+    const brain = new Brain(dbManager,telegramBot);
+    await brain.updateOrders();
+
+
 
     //Initialize binance.
     const binanceManager = new BinanceManager(brain);

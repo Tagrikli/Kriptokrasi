@@ -8,31 +8,38 @@ export const MESSAGES = {
         },
 
         ORDER: {
-            ADD: 'Emir eklenemedi :(',
-            DELETE: 'Emir silinemedi :(',
-            ACTIVATE: 'Emir aktive edilemedi :(',
+            ADD: 'Emir eklenemedi.',
+            DELETE: 'Emir silinemedi.',
+            ACTIVATE: 'Emir aktive edilemedi.',
         },
 
         SERVER: {
-            INTERNAL: 'Serverda bir hata mevcut :('
+            INTERNAL: 'Serverda bir hata mevcut.'
         },
 
 
         INPUT_CHECK: {
             
             STOP_BUY: {
-                GT: 'Spot türünde "Alış Fiyatı" "Stop-Loss" değerinden büyük olmalıdır.',
-                LT: 'Vadeli türünde "Alış Fiyatı" "Stop-Loss" değerinden küçük olmalıdır.'
+                SPOT_LT: 'Spot türünde "Alış Fiyatı" "Stop-Loss" değerinden küçük olmalıdır.',
+                VADELI_SHORT_GT: 'Vadeli (Short) türünde "Alış Fiyatı" "Stop-Loss" değerinden küçük olmalıdır.',
+                VADELI_LONG_LT: 'Vadeli (Long) türünde "Alış Fiyatı" "Stop-Loss" değerinden büyük olmalıdır.'
             },
 
+            BUY_PRICE: {
+                SPOT_LT: 'Spot türünde "Alış Fiyatı" en küçük Take-Profit değerinden küçük olmalıdır.',
+                VADELI_SHORT_GT: 'Vadeli (Short) türünde "Alış Fiyatı" en büyük Take-Profit değerinden büyük olmalıdır.',
+                VADELI_LONG_LT: 'Vadeli (Long) türünde "Alış Fiyatı" en küçük Take-Profit değerinden küçük olmalıdır.'
+            },
 
             TPS: {
-                INC: 'Spot türünde "Take Profit" değerleri küçükten büyüğe olmalıdır.',
-                DEC: 'Vadeli türünde "Take Profit" değerleri büyükten küçüğe olmalıdır.',
+                SPOT_INC: 'Spot türünde "Take Profit" değerleri küçükten büyüğe olmalıdır.',
+                VADELI_LONG_INC: 'Vadeli (Long) türünde  "Take Profit" değerleri küçükten büyüğe olmalıdır.',
+                VADELI_SHORT_DEC: 'Vadeli (Short) türünde "Take Profit" değerleri büyükten küçüğe olmalıdır.',
             },
 
             SYMBOL: {
-                EMPTY: 'Lutfen sembol seciniz.'
+                EMPTY: 'Lütfen sembol seçiniz.'
             }
 
 

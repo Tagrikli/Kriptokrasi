@@ -138,9 +138,11 @@ class DatabaseManager {
 
     }
 
-    async activateOrders(order_ids: number[]) {
+    async activateOrders(order_ids: number[] | number) {
 
-        order_ids.forEach(async order_id => {
+        let order_ids_ = Array.isArray(order_ids) ? order_ids : [order_ids];
+
+        order_ids_.forEach(async order_id => {
             await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, order_id);
         })
 

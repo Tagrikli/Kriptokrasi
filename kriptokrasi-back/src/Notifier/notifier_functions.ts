@@ -25,6 +25,18 @@ ${orderBeautifier(orders)}`;
     return notif;
 }
 
+function waitingOrderActivation(order: TOrder, bid_price: number) {
+
+    let notif = `
+${order.symbol} islemine giris yapilmistir.
+Alis fiyati: ${order.buy_price}
+Anlik fiyat: ${bid_price}`;
+
+    return notif;
 
 
-export default { waitingOrderDeletion, activeOrderDeletion };
+}
+
+
+
+export default { waitingOrderDeletion, activeOrderDeletion, waitingOrderActivation };

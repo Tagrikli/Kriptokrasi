@@ -2,8 +2,12 @@ import logger from "../Logger/logger";
 import { WebSocketServer } from "ws";
 import DatabaseManager from "../Database/database";
 import { EStatus, TOrder, ECompare } from "../kriptokrasi-common/order_types";
+import Notifications from "../Notifier/notifier_functions";
+import { UpdateManager, ActivationProcess, ReactUpdater } from "./managers";
+import TelegramBot from "../TelegramBot/telegram_bot";
 
-import UpdateManager from "./update_manager";
+
+const activationProcess = new ActivationProcess();
 
 
 class Brain {
@@ -14,17 +18,20 @@ class Brain {
     inactive_orders_symbol: string[] = []
     wsServer: WebSocketServer
     db: DatabaseManager
+    telegram: TelegramBot
 
+    reactUpdater: ReactUpdater;
     updateManager: UpdateManager;
 
-
-    constructor(db: DatabaseManager) {
+    constructor(db: DatabaseManager, telegram: TelegramBot) {
         this.db = db;
+        this.telegram = telegram;
         this.updateManager = new UpdateManager(1000);
     }
 
     bindWebsocket(ws: WebSocketServer) {
         this.wsServer = ws;
+        this.reactUpdater = new ReactUpdater(ws);
     }
 
 
@@ -41,52 +48,82 @@ class Brain {
     }
 
 
-    onBinanceBookTicker(data: any) {
+    async onBinanceBookTicker(data: any) {
+
+
 
         const symbol = data.symbol;
         const bid_price = data.bidPrice;
 
-        const in_actives = this.active_orders_symbol.includes(symbol);
-        const in_inactives = this.inactive_orders_symbol.includes(symbol);
+        const in_inactives = this.inactive_orders_symbol.includes(symbol)
+        const in_actives = this.active_orders_symbol.includes(symbol)
+
+        if (in_actives || in_inactives) {
 
 
-        //Send updates to client. 
-        if (this.wsServer && this.wsServer.clients.size && (in_actives || in_inactives) && this.updateManager.shouldUpdate(symbol)) {
+            //Send updates to react client if it should be updated.
+            this.updateManager.shouldUpdate(symbol) && this.reactUpdater.updateClients({ symbol: symbol, bid_price: bid_price });
 
-            let message = { symbol: symbol, bid_price: bid_price };
-            this.wsServer.clients.forEach(client => client.send(JSON.stringify(message)));
 
-        }
+            //If the data in the inactive symbols.
+            if (in_inactives) {
 
-        //Check to activate && Activate
-        if (in_inactives) {
+                //list of orders should be activated.
+                let orders: TOrder[] = this.gottaActivate(symbol, bid_price);
 
-            let order: TOrder;
-            if (order = this.gottaActivate(symbol, bid_price)) {
-                logger.brain('Order Activated');
-                this.db.activateOrders([order.id]);
+                //For every order that should be activated.
+                orders.forEach(async order => {
+
+                    //If the orders activation is not in process (Since binance data coming too fast and writing to database takes some time.)
+                    if (!activationProcess.inProcess(order.id)) {
+
+                        //Add order to activation process in order to prevent duplicate process..
+                        activationProcess.addProcess(order.id);
+
+                        //Activate order and update orders data of the brain.
+                        await this.db.activateOrders(order.id);
+                        await this.updateOrders();
+
+                        //Remove the process since its not in inactive orders.
+                        activationProcess.removeProcess(order.id);
+
+                        //Finally notify all vip users.
+                        this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
+                    }
+                })
+            }
+
+
+            //If the data in the active symbols.
+            if (in_actives) {
+
+
+
+
+
+
+
 
             }
 
-        }
 
-
-        //Check to buy? && Buy?
-        if (in_actives) {
 
 
         }
+
 
     }
 
 
 
     gottaActivate(symbol: string, bid_price: number) {
-        return this.inactive_orders.find(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.buy_price, order.buy_condition)));
+        //Returns list of orders should be activated.
+        return this.inactive_orders.filter(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.buy_price, order.buy_condition)));
     }
 
     gottaStopLoss(symbol: string, bid_price: number) {
-        return this.active_orders.find(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.stop_loss, order.sl_condition)));
+        //Returns list of orders should be deactivated
+        return this.active_orders.filter(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.stop_loss, order.sl_condition)));
     }
 
     gottaBuy() {

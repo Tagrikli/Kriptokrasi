@@ -23,16 +23,18 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
         const symbol: string = data.symbol;
         const bid_price: number = data.bid_price;
 
-        const row_index = rows.findIndex(row => row.symbol === symbol);
-        if (row_index !== -1) {
 
-            let rows_ = rows.slice();
+        const rows_ = rows.map(row => {
+            if (row.symbol === symbol) {
+                row.live_price = bid_price;
+                row.difference = bid_price - row.buy_price;
+            }
+            return row;
+        })
 
-            rows_[row_index].live_price = bid_price;
-            rows_[row_index].difference = bid_price - rows_[row_index].buy_price;
+        setRows(rows_);
 
-            setRows(rows_);
-        }
+
     }
 
     const selectionModelChangeHandler = (selection_model: GridSelectionModel) => {
@@ -52,7 +54,7 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ selections:selectionModel, type: EStatus.WAITING })
+                    body: JSON.stringify({ selections: selectionModel, type: EStatus.WAITING })
                 })
 
                 if (response.status === 200) {
