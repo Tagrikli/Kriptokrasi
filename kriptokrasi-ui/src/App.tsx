@@ -7,6 +7,7 @@ import { useState } from 'react';
 import MenuRenderer from './components/MenuRenderer';
 
 import './utils/endpoint_manager'
+import Login from './components/Login';
 
 function App() {
 
@@ -17,13 +18,24 @@ function App() {
     setMenu(index);
   }
 
+  const onLogin = async (data: any) => {
+
+    console.log(data);
+
+    return new Promise<void>((res, rej) => {
+      setTimeout(() => res(), 1000);
+    })
+
+  }
 
   return (
 
     <Box sx={{ width: '%100' }} className="App">
 
-      <Drawer onSelect={menuSelection}></Drawer>
-      <MenuRenderer index={menu}></MenuRenderer>
+      <Login onLogin={onLogin}></Login>
+
+      {/* <Drawer onSelect={menuSelection}></Drawer>
+      <MenuRenderer index={menu}></MenuRenderer> */}
 
       <ToastContainer
         position="bottom-left"

@@ -52,8 +52,8 @@ class Brain {
 
 
 
-        const symbol = data.symbol;
-        const bid_price = data.bidPrice;
+        const symbol: string = data.symbol;
+        const bid_price: number = data.bidPrice;
 
         const in_inactives = this.inactive_orders_symbol.includes(symbol)
         const in_actives = this.active_orders_symbol.includes(symbol)
@@ -69,7 +69,7 @@ class Brain {
             if (in_inactives) {
 
                 //list of orders should be activated.
-                let orders: TOrder[] = this.gottaActivate(symbol, bid_price);
+                let orders: TOrder[] = this.gottaActivate(this.relevantInactives(symbol), bid_price);
 
                 //For every order that should be activated.
                 orders.forEach(async order => {
@@ -98,8 +98,29 @@ class Brain {
             if (in_actives) {
 
 
+                let orders_sl: TOrder[] = this.gottaStopLoss(this.relevantActives(symbol), bid_price);
+
+                orders_sl.forEach(async order => {
+
+                    //If the orders activation is not in process (Since binance data coming too fast and writing to database takes some time.)
+                    if (!activationProcess.inProcess(order.id)) {
+
+                        //Add order to activation process in order to prevent duplicate process..
+                        activationProcess.addProcess(order.id);
+
+                        //Activate order and update orders data of the brain.
+                        // await this.db.activateOrders(order.id);
+                        // await this.updateOrders();
+
+                        //Remove the process since its not in inactive orders.
+                        activationProcess.removeProcess(order.id);
+
+                        //Finally notify all vip users.
+                        this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
+                    }
 
 
+                })
 
 
 
@@ -115,15 +136,23 @@ class Brain {
     }
 
 
-
-    gottaActivate(symbol: string, bid_price: number) {
-        //Returns list of orders should be activated.
-        return this.inactive_orders.filter(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.buy_price, order.buy_condition)));
+    relevantActives(symbol: string) {
+        return this.active_orders.filter(order => order.symbol === symbol);
     }
 
-    gottaStopLoss(symbol: string, bid_price: number) {
+    relevantInactives(symbol: string) {
+        return this.inactive_orders.filter(order => order.symbol === symbol);
+    }
+
+
+    gottaActivate(orders: TOrder[], bid_price: number) {
+        //Returns list of orders should be activated.
+        return orders.filter(order => this.conditionWorker(bid_price, order.buy_price, order.buy_condition));
+    }
+
+    gottaStopLoss(orders: TOrder[], bid_price: number) {
         //Returns list of orders should be deactivated
-        return this.active_orders.filter(order => (order.symbol === symbol && this.conditionWorker(bid_price, order.stop_loss, order.sl_condition)));
+        return orders.filter(order => this.conditionWorker(bid_price, order.stop_loss, order.sl_condition));
     }
 
     gottaBuy() {
