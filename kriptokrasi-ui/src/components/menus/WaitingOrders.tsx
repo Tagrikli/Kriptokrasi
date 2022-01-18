@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { MESSAGES } from '../../utils/messages';
 import { GRID_COLUMNS } from '../../utils/consts';
 import { beautifyData } from '../../utils/order_functions';
-import { TOrder } from '../../kriptokrasi-common/order_types';
+import { EStatus, TOrder } from '../../kriptokrasi-common/order_types';
 import { EXPRESS_ENDPOINTS } from '../../utils/endpoint_manager';
 
 
@@ -45,7 +45,6 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
 
         if (sel_count) {
             setLoading(true);
-            const selections = selectionModel;
 
             try {
                 let response = await fetch(EXPRESS_ENDPOINTS.DELETE_ORDERS, {
@@ -53,7 +52,7 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(selections)
+                    body: JSON.stringify({ selections:selectionModel, type: EStatus.WAITING })
                 })
 
                 if (response.status === 200) {

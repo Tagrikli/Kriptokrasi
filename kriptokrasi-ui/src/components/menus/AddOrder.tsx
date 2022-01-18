@@ -26,11 +26,12 @@ const FIELD_IDS = {
 
 const DEFAULT_PRICE = 0.000001;
 
-const DEFAULT_ORDER: TOrder = {
+const DEFAULT_ORDER: Omit<TOrder,'tp_data'> & {tp_data:number[]} = {
 
+    id: 0,
     position: EPosition.LONG,
     type: EType.SPOT,
-    symbol: 'ABCDE',
+    symbol: '',
 
     buy_price: DEFAULT_PRICE,
     buy_condition: ECompare.EQ,
@@ -44,11 +45,11 @@ const DEFAULT_ORDER: TOrder = {
     sl_condition: ECompare.EQ,
 
     status: EStatus.WAITING
-}
+} 
 
 const prepareOrder = (data: TOrder) => {
 
-    return { id: Date.now(), ...data } as TOrder;
+    return { ...data, id: Date.now() } as TOrder;
 }
 
 const isSorted = (list: number[], inc: boolean) => {
@@ -65,7 +66,6 @@ const isSorted = (list: number[], inc: boolean) => {
 
     return sorted
 
-
 }
 
 
@@ -78,6 +78,7 @@ export default function AddOrder() {
 
     const inputCheck = (): { valid: boolean, reason?: string } => {
 
+        if (data.symbol === '') return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.SYMBOL.EMPTY };
 
         if (data.type === EType.SPOT) {
             if (data.buy_price < data.stop_loss) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.STOP_BUY.GT };

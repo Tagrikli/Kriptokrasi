@@ -29,6 +29,10 @@ export const MESSAGES = {
             TPS: {
                 INC: 'Spot türünde "Take Profit" değerleri küçükten büyüğe olmalıdır.',
                 DEC: 'Vadeli türünde "Take Profit" değerleri büyükten küçüğe olmalıdır.',
+            },
+
+            SYMBOL: {
+                EMPTY: 'Lutfen sembol seciniz.'
             }
 
 

@@ -10,6 +10,7 @@ import BinanceManager from "../BinanceAPI/main";
 import ENDPOINTS from "../kriptokrasi-common/endpoints";
 import { TTMessage } from "../kriptokrasi-common/message_types";
 import TelegramBot from "../TelegramBot/telegram_bot";
+import Notification from "../Notifier/notifier_functions";
 
 class ExpressApp {
     mode: string;
@@ -87,20 +88,23 @@ class ExpressApp {
         })
 
 
-        this.app.get(ENDPOINTS.GET_WAITING_ORDERS, (req, res) => {
+        this.app.get(ENDPOINTS.GET_WAITING_ORDERS, async (req, res) => {
 
-            this.db.getOrders(EStatus.WAITING).then(orders => {
+            try {
+
+                const orders = await this.db.getAllOrders(EStatus.WAITING)
                 res.send(orders);
-            }).catch(reason => {
+
+            } catch (reason) {
                 res.sendStatus(500);
                 logger.error(reason);
-            })
+            }
 
         })
 
         this.app.get(ENDPOINTS.GET_ACTIVE_ORDERS, (req, res) => {
 
-            this.db.getOrders(EStatus.ACTIVE).then(orders => {
+            this.db.getAllOrders(EStatus.ACTIVE).then(orders => {
                 res.send(orders);
             }).catch(reason => {
                 res.sendStatus(500);
@@ -111,7 +115,7 @@ class ExpressApp {
 
         this.app.get(ENDPOINTS.GET_PAST_ORDERS, (req, res) => {
 
-            this.db.getOrders(EStatus.PAST).then(orders => {
+            this.db.getAllOrders(EStatus.PAST).then(orders => {
                 res.send(orders);
             }).catch(reason => {
                 res.sendStatus(500);
@@ -123,15 +127,22 @@ class ExpressApp {
 
         this.app.post(ENDPOINTS.DELETE_ORDERS, async (req, res) => {
 
-            const orderIds = req.body;
-
+            const order_ids: number[] = req.body.selections;
+            const type: EStatus = req.body.type;
 
             try {
+                const orders_ = await this.db.getOrdersById(order_ids, type)
+                await this.db.deleteOrders(order_ids, type);
 
 
-                await this.db.deleteOrders(orderIds)
+                if (type === EStatus.WAITING)
+                    this.telegram.sendMessageToAll(true, true, Notification.waitingOrderDeletion(orders_ as TOrder[]));
+                if (type === EStatus.ACTIVE)
+                    this.telegram.sendMessageToAll(true, true, Notification.activeOrderDeletion(orders_ as TOrder[]));
 
+                
                 this.brain.updateOrders();
+
                 res.sendStatus(200);
             } catch (reason) {
                 res.sendStatus(500);

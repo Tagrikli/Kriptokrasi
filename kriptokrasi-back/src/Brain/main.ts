@@ -29,10 +29,10 @@ class Brain {
 
 
     async updateOrders() {
-        this.active_orders = await this.db.getOrders(EStatus.ACTIVE) as TOrder[];
+        this.active_orders = await this.db.getAllOrders(EStatus.ACTIVE) as TOrder[];
         this.active_orders_symbol = this.active_orders.map(order => order.symbol);
 
-        this.inactive_orders = await this.db.getOrders(EStatus.WAITING) as TOrder[];
+        this.inactive_orders = await this.db.getAllOrders(EStatus.WAITING) as TOrder[];
         this.inactive_orders_symbol = this.inactive_orders.map(order => order.symbol);
 
         this.updateManager.updateSymbols([...this.active_orders_symbol, ...this.inactive_orders_symbol]);

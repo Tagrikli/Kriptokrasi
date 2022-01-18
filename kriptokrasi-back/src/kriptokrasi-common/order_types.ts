@@ -26,7 +26,7 @@ export enum EStatus {
 
 export type TOrder = {
 
-    id?: number,
+    id: number,
     type: EType,
     position: EPosition,
 
@@ -37,7 +37,7 @@ export type TOrder = {
     difference?: number
 
     stop_loss: number
-    tp_data: number[]
+    tp_data: number[] | string
 
     leverage: number
     tp_condition: ECompare

@@ -1,7 +1,7 @@
 import { DataGrid, GridSelectionModel } from '@mui/x-data-grid';
 import { Backdrop, Button, CircularProgress, Container, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { TOrder } from '../../kriptokrasi-common/order_types';
+import { EStatus, TOrder } from '../../kriptokrasi-common/order_types';
 import { toast } from 'react-toastify';
 import { MESSAGES } from '../../utils/messages';
 import { GRID_COLUMNS } from '../../utils/consts';
@@ -59,7 +59,7 @@ export default function ActiveOrders(props: { ws: WebSocket }) {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(selections)
+                    body: JSON.stringify({ selections, type: EStatus.ACTIVE })
                 })
 
                 if (response.status === 200) {

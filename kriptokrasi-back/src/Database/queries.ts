@@ -106,9 +106,13 @@ const QUERIES = {
         INSERT INTO lastTPs
         VALUES (?, 0)`,
 
-    DELETE_ORDERS_BY_ID: /*sql*/`
+    DELETE_ORDER_BY_ID: /*sql*/`
         DELETE FROM orders
         WHERE id = ?`,
+
+    DELETE_PAST_BY_ID: /*sql*/`
+        DELETE FROM past
+        WHERE id =?`,
 
     ACTIVATE_ORDER_BY_ID: /*sql*/`
         UPDATE orders
