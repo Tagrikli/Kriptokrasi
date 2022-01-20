@@ -118,13 +118,7 @@ class Brain {
                         //Finally notify all vip users.
                         this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
                     }
-
-
                 })
-
-
-
-
             }
 
 

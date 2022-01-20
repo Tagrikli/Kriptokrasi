@@ -7,12 +7,15 @@ import { Queries } from "../Query";
 import { PROC_CONTEXT, TContext } from "../utils/types";
 import { waitlist } from "../Waitlist";
 import logger from "../Logger/logger";
-
+import {answerWaitingOrders} from "../Notifier/notifier_functions";
+import BinanceManager from "../BinanceAPI/main";
+import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/order_types';
 
 
 class TelegramBot {
     bot: Telegraf<TContext>
     db: DatabaseManager;
+    bm: BinanceManager;
 
     constructor(token: string, db: DatabaseManager) {
         this.bot = new Telegraf<TContext>(token);
@@ -98,7 +101,8 @@ class TelegramBot {
             const chat_id = ctx.chat.id;
             switch (message) {
                 case BUTTON_LIST.INITIAL[0]:
-                    let reply1 = "Bekleyen emir bulunmamaktadır.";
+                    let waitingOrders = await this.db.getAllOrders(EStatus.WAITING);
+                    let reply1 = await answerWaitingOrders(waitingOrders, this.bm);
                     ctx.reply(reply1, { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case BUTTON_LIST.INITIAL[1]:

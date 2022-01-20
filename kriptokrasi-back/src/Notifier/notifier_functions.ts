@@ -2,7 +2,8 @@ import BinanceManager from "../BinanceAPI/main";
 import { EStatus, TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
 import logger from "../Logger/logger";
 import { profitCalculator } from "../Brain/helpers";
-import { orderBeautifier } from "./beautifier_functions";
+import { orderBeautifier} from "./beautifier_functions";
+import Compositor from "./beautifier_functions";
 
 
 
@@ -51,13 +52,22 @@ Anlık fiyat: ${bid_price}`;
 }
 
 export async function answerWaitingOrders(waitingOrders: TOrder[], binance_manager: BinanceManager) {
-    //let waitingOrders = await dbManager.getOrders(EStatus.WAITING);
-    if (waitingOrders == []) return ``;
+    if (waitingOrders == []) return `Bekleyen emir yok`;
     let reply = ``
     for (let i = 0; i < waitingOrders.length; i++) {
-        let momentaryPrice = await binance_manager.getPriceForSymbol(waitingOrders[i][1]);
+        let order_ = waitingOrders[i]
+        let momentaryPrice = await binance_manager.getPriceForSymbol(order_[1]);
         if (waitingOrders[i][3] == 0) {
-            reply += `
+            reply += new Compositor(order_)
+            .type()
+            .symbol()
+            .buy_price()
+            .momentary_price(momentaryPrice)
+            .tp_data()
+            .stop_loss()
+            .optional('Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.')
+            .composed;
+            /*reply += `
                 SPOT
                 Coin Adı:  ${waitingOrders[i][1]}
                 Giriş Fiyatı :  ${waitingOrders[i][5]}
@@ -69,7 +79,7 @@ export async function answerWaitingOrders(waitingOrders: TOrder[], binance_manag
                 TP4 : 0.1071
                 TP5 : 0.1261
                 Stop Fiyatı : ${waitingOrders[i][6]}
-                Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
+                Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;*/
         }
         else {
             reply += `
@@ -87,6 +97,7 @@ export async function answerWaitingOrders(waitingOrders: TOrder[], binance_manag
                 Stop Fiyatı : ${waitingOrders[i][6]}
                 Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
+        
 
     }
     return reply;
@@ -96,8 +107,20 @@ export async function answerActiveOrders(activeOrders: TOrder[], binance_manager
     if (activeOrders == []) return ``;
     let reply = `-------`
     for (let i = 0; i < activeOrders.length; i++) {
-        let momentaryPrice = await binance_manager.getPriceForSymbol(activeOrders[i][1]);
-        let tps = profitCalculator(momentaryPrice, [activeOrders[i][5], activeOrders[i][10], activeOrders[i][11], activeOrders[i][12], activeOrders[i][13], activeOrders[i][14]])
+        let order_ = activeOrders[i]
+        let momentaryPrice = await binance_manager.getPriceForSymbol(order_[1]);
+        let tps = profitCalculator(momentaryPrice, [order_[5], order_[10], order_[11], order_[12], order_[13], order_[14]], order_[4])
+        const message = new Compositor(order_)
+        .type()
+        .symbol()
+        .buy_price()
+        .momentary_profit(tps[0])
+        .momentary_price(momentaryPrice)
+        .tp_data()
+        .stop_loss()
+        .optional('Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.')
+        .composed;
+        
         if (activeOrders[i][3] == 0) {
             reply += `
             STOP

@@ -1,3 +1,4 @@
+import { UpdateConnectionState } from "telegram/network";
 
 const QUERIES = {
 
@@ -89,6 +90,11 @@ const QUERIES = {
     SELECT_PAST_ORDERS: /*sql*/`
         SELECT *
         FROM past`,
+    
+    SELECT_TP_BY_ID: /*sql*/`
+        SELECT * 
+        FROM lastTPs
+        WHERE id =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ?`,
 
     INSERT_USER: /*sql*/`
         INSERT OR IGNORE INTO users
@@ -122,7 +128,15 @@ const QUERIES = {
     UPDATE_TP: /*sql*/`
         UPDATE lastTPS
         SET lastTP = lastTP + 1
-        WHERE id = ?`
+        WHERE id = ?`,
+
+    UPDATE_BUY_PRICE: /*sql*/`
+        UPDATE orders
+        SET buy_price = ?
+        WHERE id =?`
+    
+
+
 
 }
 

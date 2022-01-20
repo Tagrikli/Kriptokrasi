@@ -50,7 +50,7 @@ class Compositor {
     }
 
 }
-
+export default Compositor;
 
 
 

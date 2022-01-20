@@ -8,6 +8,7 @@ import { ROOT_PATH } from '..';
 import logger from '../Logger/logger';
 import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/order_types';
 import { TUserDB } from '../utils/types';
+import { Queries } from '../Query';
 
 
 function orderTpListify(order: TOrder) {
@@ -56,6 +57,8 @@ class DatabaseManager {
         await this.db.run(QUERIES.CREATE_ORDERS_TABLE);
         logger.database('Orders table created');
         await this.db.run(QUERIES.CREATE_PAST_TABLE);
+        logger.database('Past orders table created');
+        await this.db.run(QUERIES.CREATE_TP_TABLE);
         logger.database('Database tables created');
     }
 
@@ -95,9 +98,7 @@ class DatabaseManager {
         return orders_;
     }
 
-    async getAllOrders(type: EStatus): Promise<TOrder[] | TOrder_Past[]> {
-
-
+    async getAllOrders(type: EStatus): Promise<TOrder | TOrder_Past | any> {
         if (type === EStatus.ACTIVE || type === EStatus.WAITING) {
 
             let orders: TOrder[]
@@ -144,6 +145,7 @@ class DatabaseManager {
 
         order_ids_.forEach(async order_id => {
             await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, order_id);
+            await this.db.run(QUERIES.INSERT_TP);
         })
 
     }
@@ -186,8 +188,6 @@ class DatabaseManager {
     }
 
     async createOrder(order: TOrder) {
-
-
 
         await this.db.run(QUERIES.INSERT_WAITING_ORDER, [
             order.id,
@@ -241,6 +241,28 @@ class DatabaseManager {
 
     }
 
+    async updateTP(order_id:number){
+        return this.db.run(QUERIES.UPDATE_TP, [order_id]);
+    }
+
+    async updateBuyPrice(order_id: number){
+        const order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID,[order_id]);
+        let lastTP =  await this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
+        let buy_price = order.buy_price
+        if ((lastTP==1) || (lastTP==2)) buy_price = order.stop_loss;
+        else
+        {
+            let tps = order.tp_data.split(",");
+            buy_price = tps[lastTP-3];
+        }
+        await this.db.run(QUERIES.UPDATE_BUY_PRICE, [buy_price, order_id]);
+        return;
+    }
+
+
+
+
+    
 
 
 
