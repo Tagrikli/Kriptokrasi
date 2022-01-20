@@ -155,6 +155,7 @@ class DatabaseManager {
         if (order[15] == 1) { // the order is active
             let momentaryPrice = 11; // get the anlik fiyat
             let profit = (momentaryPrice - order.buy_price) * (100 / order.buy_price);
+            if (order.position == 1) profit = -profit;
             await this.db.run(QUERIES.INSERT_PAST_ORDER, [
                 order.id,
                 order.symbol,

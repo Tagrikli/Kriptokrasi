@@ -109,7 +109,8 @@ export async function answerActiveOrders(activeOrders: TOrder[], binance_manager
     for (let i = 0; i < activeOrders.length; i++) {
         let order_ = activeOrders[i]
         let momentaryPrice = await binance_manager.getPriceForSymbol(order_[1]);
-        let tps = profitCalculator(momentaryPrice, [order_[5], order_[10], order_[11], order_[12], order_[13], order_[14]], order_[4])
+        let tps = profitCalculator(momentaryPrice, [order_[5], order_[10], order_[11], order_[12], order_[13], order_[14]], order_[4]);
+        if(order_[2]==1) (await tps).forEach(tp=> tp = -tp);
         const message = new Compositor(order_)
         .type()
         .symbol()
