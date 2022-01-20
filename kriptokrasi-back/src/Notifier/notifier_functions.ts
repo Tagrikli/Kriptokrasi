@@ -1,5 +1,5 @@
 import BinanceManager from "../BinanceAPI/main";
-import { EStatus, TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
+import { EPosition, EStatus, EType, TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
 import logger from "../Logger/logger";
 import { profitCalculator } from "../Brain/helpers";
 import { orderBeautifier} from "./beautifier_functions";
@@ -57,7 +57,7 @@ export async function answerWaitingOrders(waitingOrders: TOrder[], binance_manag
     for (let i = 0; i < waitingOrders.length; i++) {
         let order_ = waitingOrders[i]
         let momentaryPrice = await binance_manager.getPriceForSymbol(order_[1]);
-        if (waitingOrders[i][3] == 0) {
+        if (waitingOrders[i][3] == EType.SPOT) {
             reply += new Compositor(order_)
             .type()
             .symbol()
@@ -82,12 +82,14 @@ export async function answerWaitingOrders(waitingOrders: TOrder[], binance_manag
                 Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;*/
         }
         else {
+            let priceLeft = momentaryPrice - waitingOrders[i][5];
+            if (waitingOrders[i].position == EPosition.SHORT) priceLeft *= -1;
             reply += `
                 VADELİ
                 Coin Adı:  ${waitingOrders[i][1]}
                 Giriş Fiyatı :  ${waitingOrders[i][5]}
                 Anlık Fiyat : 0.0885
-                Emire Kalan Fiyat Farkı: ${momentaryPrice - waitingOrders[i][5]}
+                Emire Kalan Fiyat Farkı: ${priceLeft}
                 Kaldıraç: ${waitingOrders[i][4]}
                 TP1 : ✅ 
                 TP2 : 0.099
@@ -97,8 +99,6 @@ export async function answerWaitingOrders(waitingOrders: TOrder[], binance_manag
                 Stop Fiyatı : ${waitingOrders[i][6]}
                 Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.`;
         }
-        
-
     }
     return reply;
 }

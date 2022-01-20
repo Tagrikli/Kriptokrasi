@@ -1,10 +1,11 @@
 import logger from "../Logger/logger";
 import { WebSocketServer } from "ws";
 import DatabaseManager from "../Database/database";
-import { EStatus, TOrder, ECompare } from "../kriptokrasi-common/order_types";
+import { EStatus, TOrder, ECompare, EType, EPosition } from "../kriptokrasi-common/order_types";
 import Notifications from "../Notifier/notifier_functions";
 import { UpdateManager, ActivationProcess, ReactUpdater } from "./managers";
 import TelegramBot from "../TelegramBot/telegram_bot";
+import { type } from "os";
 
 
 const activationProcess = new ActivationProcess();
@@ -147,6 +148,29 @@ class Brain {
     gottaStopLoss(orders: TOrder[], bid_price: number) {
         //Returns list of orders should be deactivated
         return orders.filter(order => this.conditionWorker(bid_price, order.stop_loss, order.sl_condition));
+    }
+
+    gottaTP(orders: TOrder[], bid_price:number)//i hope bid price is the momentary live price
+    {
+        let ordersToReturn =[];
+        for (let i=0; i<orders.length; i++){
+            let tps = String(orders[i].tp_data).split(",");
+            if((orders[i].type == EType.SPOT) || (orders[i].position = EPosition.LONG)){
+                if(this.conditionWorker(bid_price, Number(tps[5]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 5]);
+                else if(this.conditionWorker(bid_price, Number(tps[4]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 4]);
+                else if(this.conditionWorker(bid_price, Number(tps[3]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 3]);
+                else if(this.conditionWorker(bid_price, Number(tps[2]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 2]);
+                else if(this.conditionWorker(bid_price, Number(tps[1]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 1]);
+            }
+            else{
+                if(this.conditionWorker(bid_price, Number(tps[1]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 1]);
+                else if(this.conditionWorker(bid_price, Number(tps[2]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 2]);
+                else if(this.conditionWorker(bid_price, Number(tps[3]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 3]);
+                else if(this.conditionWorker(bid_price, Number(tps[4]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 4]);
+                else if(this.conditionWorker(bid_price, Number(tps[5]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 5]);
+
+            } 
+        }
     }
 
     gottaBuy() {
