@@ -1,4 +1,4 @@
-export async function profitCalculator(price, buyPrices, leverage) {
+export function profitCalculator(price, buyPrices, leverage) {
     if (price >= buyPrices[5]) {
         let tp5 = leverage * ((buyPrices[5] - price) * (20 / buyPrices[5]) + (buyPrices[4] - price) * (20 / buyPrices[4]) + (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]));
         let tp4 = leverage * ((buyPrices[4] - price) * (20 / buyPrices[4]) + (buyPrices[3] - price) * (20 / buyPrices[3]) + (buyPrices[2] - price) * (20 / buyPrices[2]) + (buyPrices[1] - price) * (20 / buyPrices[1]));

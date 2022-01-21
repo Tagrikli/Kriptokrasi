@@ -7,15 +7,16 @@ import { Queries } from "../Query";
 import { PROC_CONTEXT, TContext } from "../utils/types";
 import { waitlist } from "../Waitlist";
 import logger from "../Logger/logger";
-import {answerWaitingOrders} from "../Notifier/notifier_functions";
 import BinanceManager from "../BinanceAPI/main";
 import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/order_types';
+import Notifier from "../Notifier/notifier";
+import { replace, StringNullableChain } from "lodash";
 
 
 class TelegramBot {
     bot: Telegraf<TContext>
     db: DatabaseManager;
-    bm: BinanceManager;
+    notifier: Notifier;
 
     constructor(token: string, db: DatabaseManager) {
         this.bot = new Telegraf<TContext>(token);
@@ -99,15 +100,30 @@ class TelegramBot {
 
             const message = ctx.message.text;
             const chat_id = ctx.chat.id;
+            let reply_arr: string[];
+
             switch (message) {
                 case BUTTON_LIST.INITIAL[0]:
-                    let waitingOrders = await this.db.getAllOrders(EStatus.WAITING);
-                    let reply1 = await answerWaitingOrders(waitingOrders, this.bm);
-                    ctx.reply(reply1, { reply_markup: KEYBOARDS.INITIAL });
+
+                    reply_arr = await this.notifier.prepareWaitingOrders();
+                    reply_arr.push('Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.')
+
+                    for (let reply of reply_arr) {
+                        await ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
+                    };
+
+
+
                     break;
                 case BUTTON_LIST.INITIAL[1]:
-                    let reply2 = "Aktif emir bulunmamaktadır.";
-                    ctx.reply(reply2, { reply_markup: KEYBOARDS.INITIAL });
+
+                    reply_arr = await this.notifier.prepareActiveOrders();
+                    reply_arr.push('Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.')
+
+                    for (let reply of reply_arr) {
+                        await ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
+                    };
+
                     break;
                 case BUTTON_LIST.INITIAL[2]:
                     let reply3 = "Geçmiş emir bulunmamaktadır.";
@@ -120,7 +136,7 @@ class TelegramBot {
                     ctx.reply("Eğitim konusunu seçiniz.", { reply_markup: KEYBOARDS.LESSON });
                     break;
                 case BUTTON_LIST.INITIAL[5]:
-                    ctx.reply("Hangi bilgiyi isterdiniz?", { reply_markup: KEYBOARDS.DATA });
+                    ctx.reply("Ne vereyim abime?", { reply_markup: KEYBOARDS.DATA });
                     break;
                 default:
                     ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL });
@@ -151,81 +167,81 @@ class TelegramBot {
             const chat_id = ctx.chat.id;
 
             switch (message) {
-                case BUTTON_LIST.DATA[0]://Indikatorler
-                    Queries.newQuery(chat_id, PROC_CONTEXT.INDICATOR);
-                    ctx.reply("İndikatör seçiniz.", { reply_markup: KEYBOARDS.INDICATOR });
-                    break;
-                case BUTTON_LIST.DATA[1]://Long-Short
+                //case BUTTON_LIST.DATA[0]://Indikatorler
+                //    Queries.newQuery(chat_id, PROC_CONTEXT.INDICATOR);
+                //    ctx.reply("İndikatör seçiniz.", { reply_markup: KEYBOARDS.INDICATOR });
+                //    break;
+                case BUTTON_LIST.DATA[0]://Long-Short
                     Queries.newQuery(chat_id, PROC_CONTEXT.LONGSHORT);
                     ctx.reply("Borsa türünü seçiniz.", { reply_markup: KEYBOARDS.STOCK });
                     break;
-                case BUTTON_LIST.DATA[2]://Gunluk Long-Short
+                case BUTTON_LIST.DATA[1]://Gunluk Long-Short
                     Queries.newQuery(chat_id, PROC_CONTEXT.CURRENTLS);
                     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
                     break;
-                case BUTTON_LIST.DATA[3]://Likidite (Toplam)
+                case BUTTON_LIST.DATA[2]://Likidite (Toplam)
                     Queries.newQuery(chat_id, PROC_CONTEXT.TOTALLIQUIDATION);
                     ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
                     break;
-                case BUTTON_LIST.DATA[4]://Likidite (BitCoin Ozel)
-                    Queries.newQuery(chat_id, PROC_CONTEXT.BINANCELIQUIDATION);
-                    let LBOreply = await getBtcLiq();
-                    ctx.reply(LBOreply, { reply_markup: KEYBOARDS.INITIAL })
-                    break;
-                case BUTTON_LIST.DATA[5]://Likidite (Bitmex Ozel)
-                    Queries.newQuery(chat_id, PROC_CONTEXT.BITMEXLIQUIDATION);
-                    ctx.reply("mp yazip coin paritesi seciniz:", { reply_markup: KEYBOARDS.INITIAL });
-                    break;
-                case BUTTON_LIST.DATA[6]://Trend Sorgu
+                // case BUTTON_LIST.DATA[4]://Likidite (BitCoin Ozel)
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.BINANCELIQUIDATION);
+                //     let LBOreply = await getBtcLiq();
+                //     ctx.reply(LBOreply, { reply_markup: KEYBOARDS.INITIAL })
+                //     break;
+                // case BUTTON_LIST.DATA[5]://Likidite (Bitmex Ozel)
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.BITMEXLIQUIDATION);
+                //     ctx.reply("mp yazip coin paritesi seciniz:", { reply_markup: KEYBOARDS.INITIAL });
+                //     break;
+                case BUTTON_LIST.DATA[3]://Trend Sorgu
                     Queries.newQuery(chat_id, PROC_CONTEXT.TRENDINDICATOR);
                     let TSreply = await getTrendInd();
                     ctx.reply(TSreply, { reply_markup: KEYBOARDS.INITIAL })
                     waitlist.push(chat_id);
                     break;
-                case BUTTON_LIST.DATA[7]://Hizli Hareket
-                    Queries.newQuery(chat_id, PROC_CONTEXT.RAPIDMOVEMENT);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
-                    break;
-                case BUTTON_LIST.DATA[8]://Hacim Akisi
+                // case BUTTON_LIST.DATA[7]://Hizli Hareket
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.RAPIDMOVEMENT);
+                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                //     break;
+                case BUTTON_LIST.DATA[4]://Hacim Akisi
                     Queries.newQuery(chat_id, PROC_CONTEXT.VOLUMEFLOW);
-                    ctx.reply("Zaman araligi seciniz:", { reply_markup: KEYBOARDS.TIMEFRAME });
+                    ctx.reply("fromto yazıp istediğiniz coinleri yazınız.", { reply_markup: KEYBOARDS.INITIAL });
                     break;
-                case BUTTON_LIST.DATA[9]://Balina Ticareti
-                    Queries.newQuery(chat_id, PROC_CONTEXT.XTRADE);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
-                    break;
-                case BUTTON_LIST.DATA[10]://Canli Ticaret
-                    Queries.newQuery(chat_id, PROC_CONTEXT.LIVETRADE);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
-                    break;
-                case BUTTON_LIST.DATA[11]://24 Saatlik Hacim islemi
+                // case BUTTON_LIST.DATA[9]://Balina Ticareti
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.XTRADE);
+                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                //     break;
+                // case BUTTON_LIST.DATA[10]://Canli Ticaret
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.LIVETRADE);
+                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                //     break;
+                case BUTTON_LIST.DATA[5]://24 Saatlik Hacim islemi
                     Queries.newQuery(chat_id, PROC_CONTEXT.HOURLY24VF);
                     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
                     break;
-                case BUTTON_LIST.DATA[12]://OHLCV
-                    Queries.newQuery(chat_id, PROC_CONTEXT.OHLCV);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
-                    break;
-                case BUTTON_LIST.DATA[13]://Gunluk Volume
-                    Queries.newQuery(chat_id, PROC_CONTEXT.DAILYVOL);
-                    ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
-                    break;
-                case BUTTON_LIST.DATA[14]://Saatlik Volume
-                    Queries.newQuery(chat_id, PROC_CONTEXT.HOURLYVOL);
-                    ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
-                    break;
-                case BUTTON_LIST.DATA[15]://Birlestirilmis Volume
-                    Queries.newQuery(chat_id, PROC_CONTEXT.MERGEDVOL);
-                    ctx.reply("Exchange tipini seciniz:", { reply_markup: KEYBOARDS.EXCHANGE });
-                    break;
-                case BUTTON_LIST.DATA[16]://TickerList
+                // case BUTTON_LIST.DATA[12]://OHLCV
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.OHLCV);
+                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                //     break;
+                // case BUTTON_LIST.DATA[13]://Gunluk Volume
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.DAILYVOL);
+                //     ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
+                //     break;
+                // case BUTTON_LIST.DATA[14]://Saatlik Volume
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.HOURLYVOL);
+                //     ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
+                //     break;
+                // case BUTTON_LIST.DATA[15]://Birlestirilmis Volume
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.MERGEDVOL);
+                //     ctx.reply("Exchange tipini seciniz:", { reply_markup: KEYBOARDS.EXCHANGE });
+                //     break;
+                case BUTTON_LIST.DATA[6]://TickerList
                     Queries.newQuery(chat_id, PROC_CONTEXT.TICKERLIST);
                     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
                     break;
-                case BUTTON_LIST.DATA[17]://Acik Kar
-                    Queries.newQuery(chat_id, PROC_CONTEXT.TICKERLIST);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
-                    break;
+                // case BUTTON_LIST.DATA[17]://Acik Kar
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.TICKERLIST);
+                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                //     break;
                 default:
                     ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL });
                     break;
@@ -366,9 +382,6 @@ class TelegramBot {
             }
             Queries.addData(chat_id, timeframe);
             switch (query.context) {
-                case PROC_CONTEXT.VOLUMEFLOW:
-                    ctx.reply("fromto yazip parite seciniz:", { reply_markup: KEYBOARDS.INITIAL });
-                    break;
                 case PROC_CONTEXT.OHLCV:
                     ctx.reply("pa yazip parite seçiniz:", { reply_markup: KEYBOARDS.INITIAL });
                     break;

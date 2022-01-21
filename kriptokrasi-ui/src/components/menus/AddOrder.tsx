@@ -101,6 +101,7 @@ export default function AddOrder() {
             if (data.buy_price > data.tp_data[0]) return { valid: false, reason: MESSAGES.ERROR.INPUT_CHECK.BUY_PRICE.SPOT_LT };
 
 
+
         } else if (data.type === EType.VADELI) {
 
             if (data.position === EPosition.LONG) {
@@ -120,6 +121,9 @@ export default function AddOrder() {
 
         return { valid: true }
     }
+
+
+
 
 
     const getSymbols = async () => {

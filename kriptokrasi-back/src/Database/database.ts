@@ -7,17 +7,17 @@ import QUERIES from './queries';
 import { ROOT_PATH } from '..';
 import logger from '../Logger/logger';
 import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/order_types';
-import { TUserDB } from '../utils/types';
+import { TLastTPDB, TUserDB } from '../utils/types';
 import { Queries } from '../Query';
 
 
-function orderTpListify(order: TOrder) {
+function orderTpListify(order: TOrder): Omit<TOrder, 'tp_Data'> & { tp_data: number[] } {
     let tp_data = (order.tp_data as string).split(',').map(tp => parseFloat(tp));
     delete order.tp_data;
     return { ...order, tp_data: tp_data };
 }
 
-function orderTpStringfy(order: TOrder) {
+function orderTpStringfy(order: TOrder): Omit<TOrder, 'tp_Data'> & { tp_data: string } {
     let tp_data = (order.tp_data as number[]).join(',');
     delete order.tp_data;
     return { ...order, tp_data: tp_data };
@@ -98,7 +98,19 @@ class DatabaseManager {
         return orders_;
     }
 
-    async getAllOrders(type: EStatus): Promise<TOrder | TOrder_Past | any> {
+
+
+    async getAllTPS(): Promise<TLastTPDB[]> {
+        return await this.db.all(QUERIES.SELECT_ALL_TPS);
+    }
+
+
+    async getOrderById(order_id: number): Promise<TOrder> {
+        let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID);
+        return orderTpListify(order);
+    }
+
+    async getAllOrders(type: EStatus): Promise<TOrder[] | TOrder_Past[]> {
         if (type === EStatus.ACTIVE || type === EStatus.WAITING) {
 
             let orders: TOrder[]
@@ -116,8 +128,8 @@ class DatabaseManager {
         } else if (type === EStatus.PAST) {
 
             let orders: TOrder_Past[] = await this.db.all(QUERIES.SELECT_PAST_ORDERS)
-            return orders;
 
+            return orders;
         }
 
         return [];
@@ -145,17 +157,21 @@ class DatabaseManager {
 
         order_ids_.forEach(async order_id => {
             await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, order_id);
-            await this.db.run(QUERIES.INSERT_TP);
+            await this.db.run(QUERIES.INSERT_TP, order_id);
         })
 
     }
 
-    async cancelOrder(order_id: number) {
-        let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID, [order_id]);
-        if (order[15] == 1) { // the order is active
-            let momentaryPrice = 11; // get the anlik fiyat
-            let profit = (momentaryPrice - order.buy_price) * (100 / order.buy_price);
+    async cancelOrder(order_id: number,profit:number, momentary_price:number) {
+        let order = await this.getOrderById(order_id);
+
+        if (order.status == EStatus.ACTIVE) { // the order is active
+
+
+            
+
             if (order.position == 1) profit = -profit;
+
             await this.db.run(QUERIES.INSERT_PAST_ORDER, [
                 order.id,
                 order.symbol,
@@ -165,7 +181,7 @@ class DatabaseManager {
                 order.leverage,
                 order.buy_price,
                 profit,
-                momentaryPrice,
+                momentary_price,
                 order.status,
             ])
         }
@@ -209,7 +225,7 @@ class DatabaseManager {
     }
 
     async isVIP(user_id: number) {
-        let _user: TUserDB = await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id]);
+        let _user: TUserDB = await this.db.get(QUERIES.SELECT_USER_BY_ID, user_id);
         let timeout = _user.vip_timeout > Date.now();
         let approved = _user.vip;
         return { timeout: timeout, vip: approved };
@@ -218,7 +234,7 @@ class DatabaseManager {
 
 
 
-    async getAllUsers(vip: boolean, filter?: boolean) {
+    async getAllUsers(vip: boolean, filter?: boolean): Promise<TUserDB[]> {
 
         let users: TUserDB[];
 
@@ -242,29 +258,28 @@ class DatabaseManager {
 
     }
 
-    async updateTP(order_id:number){
-        return this.db.run(QUERIES.UPDATE_TP, [order_id]);
+
+    async updateTP(order_id: number, tp_index: number) {
+        await this.db.run(QUERIES.UPDATE_TP, order_id, tp_index);
     }
 
-    async updateBuyPrice(order_id: number){
-        const order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID,[order_id]);
-        let lastTP =  await this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
+
+    //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
+    async updateBuyPrice(order_id: number) {
+
+        const order = await this.getOrderById(order_id);
+        let lastTP = await this.db.get(QUERIES.SELECT_TP_BY_ID, order_id);
         let buy_price = order.buy_price
-        if ((lastTP==1) || (lastTP==2)) buy_price = order.stop_loss;
-        else
-        {
-            let tps = order.tp_data.split(",");
-            buy_price = tps[lastTP-3];
+
+        if ((lastTP == 1) || (lastTP == 2)) {
+            buy_price = order.stop_loss
         }
-        await this.db.run(QUERIES.UPDATE_BUY_PRICE, [buy_price, order_id]);
-        return;
+        else {
+            buy_price = order.tp_data[lastTP - 3] as number;
+        }
+
+        await this.db.run(QUERIES.UPDATE_BUY_PRICE, buy_price, order_id);
     }
-
-
-
-
-    
-
 
 
 }

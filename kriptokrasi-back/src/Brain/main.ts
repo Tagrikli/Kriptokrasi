@@ -6,6 +6,8 @@ import Notifications from "../Notifier/notifier_functions";
 import { UpdateManager, ActivationProcess, ReactUpdater } from "./managers";
 import TelegramBot from "../TelegramBot/telegram_bot";
 import { type } from "os";
+import { TLastTPDB } from "../utils/types";
+import BinanceManager from "../BinanceAPI/main";
 
 
 const activationProcess = new ActivationProcess();
@@ -17,16 +19,22 @@ class Brain {
 
     inactive_orders: TOrder[] = [];
     inactive_orders_symbol: string[] = []
+
+    lastTPs: TLastTPDB[] = [];
+
     wsServer: WebSocketServer
     db: DatabaseManager
     telegram: TelegramBot
+    binance: BinanceManager
 
     reactUpdater: ReactUpdater;
     updateManager: UpdateManager;
 
-    constructor(db: DatabaseManager, telegram: TelegramBot) {
+    constructor(db: DatabaseManager, telegram: TelegramBot, binance: BinanceManager) {
         this.db = db;
         this.telegram = telegram;
+        this.binance = binance;
+
         this.updateManager = new UpdateManager(1000);
     }
 
@@ -42,6 +50,8 @@ class Brain {
 
         this.inactive_orders = await this.db.getAllOrders(EStatus.WAITING) as TOrder[];
         this.inactive_orders_symbol = this.inactive_orders.map(order => order.symbol);
+
+        this.lastTPs = await this.db.getAllTPS() as TLastTPDB[];
 
         this.updateManager.updateSymbols([...this.active_orders_symbol, ...this.inactive_orders_symbol]);
 
@@ -103,23 +113,44 @@ class Brain {
 
                 orders_sl.forEach(async order => {
 
-                    //If the orders activation is not in process (Since binance data coming too fast and writing to database takes some time.)
                     if (!activationProcess.inProcess(order.id)) {
 
-                        //Add order to activation process in order to prevent duplicate process..
                         activationProcess.addProcess(order.id);
 
-                        //Activate order and update orders data of the brain.
-                        // await this.db.activateOrders(order.id);
-                        // await this.updateOrders();
+                        const momentary_price = 11;
+                        const profit = (momentary_price - order.buy_price) * (100 / order.buy_price);
+                        await this.db.cancelOrder(order.id, profit, momentary_price);
 
-                        //Remove the process since its not in inactive orders.
                         activationProcess.removeProcess(order.id);
-
-                        //Finally notify all vip users.
                         this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
                     }
                 })
+
+
+
+                let orders_tp: { order: TOrder, lastTP: number }[] = this.gottaTP(this.relevantActives(symbol), bid_price);
+                orders_tp.forEach(async pair => {
+
+                    const order = pair.order;
+                    const lastTP = pair.lastTP;
+
+                    if (!activationProcess.inProcess(order.id)) {
+
+                        activationProcess.addProcess(order.id);
+
+                        const momentary_price = 11;
+                        const profit = (momentary_price - order.buy_price) * (100 / order.buy_price);
+                        await this.db.cancelOrder(order.id, profit, momentary_price);
+
+                        activationProcess.removeProcess(order.id);
+                        this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
+                    }
+
+
+                })
+
+
+
             }
 
 
@@ -150,33 +181,47 @@ class Brain {
         return orders.filter(order => this.conditionWorker(bid_price, order.stop_loss, order.sl_condition));
     }
 
-    gottaTP(orders: TOrder[], bid_price:number)//i hope bid price is the momentary live price
-    {
-        let ordersToReturn =[];
-        for (let i=0; i<orders.length; i++){
-            let tps = String(orders[i].tp_data).split(",");
-            if((orders[i].type == EType.SPOT) || (orders[i].position = EPosition.LONG)){
-                if(this.conditionWorker(bid_price, Number(tps[5]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 5]);
-                else if(this.conditionWorker(bid_price, Number(tps[4]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 4]);
-                else if(this.conditionWorker(bid_price, Number(tps[3]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 3]);
-                else if(this.conditionWorker(bid_price, Number(tps[2]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 2]);
-                else if(this.conditionWorker(bid_price, Number(tps[1]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 1]);
+
+    //i hope bid price is the momentary live price; Tugi: yes it is
+    gottaTP(orders: TOrder[], bid_price: number): { order: TOrder, lastTP: number }[] {
+
+        let result: { order: TOrder, lastTP: number }[] = [];
+
+        orders.forEach(order => {
+
+            //Reverse the tp array
+            let tps_reversed = (order.tp_data as number[]).slice().reverse();
+            let last_tp_index: number = -1;
+
+            //Find the index of first tp that satisfies the tp_condition (in reverse order)
+            for (const [tp, index] of tps_reversed.entries()) {
+                if (this.conditionWorker(bid_price, tp, order.tp_condition)) {
+                    last_tp_index = index;
+                    break;
+                }
             }
-            else{
-                if(this.conditionWorker(bid_price, Number(tps[1]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 1]);
-                else if(this.conditionWorker(bid_price, Number(tps[2]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 2]);
-                else if(this.conditionWorker(bid_price, Number(tps[3]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 3]);
-                else if(this.conditionWorker(bid_price, Number(tps[4]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 4]);
-                else if(this.conditionWorker(bid_price, Number(tps[5]), orders[i].tp_condition)) ordersToReturn.push([orders[i], 5]);
 
-            } 
-        }
+            //If any of the tps satisfied the condition.
+            if (last_tp_index > -1) {
+
+                //Find the current tp index
+                const current_tp_index = this.lastTPs.find(lastTP => lastTP.id === order.id).lastTP;
+
+                //Add order and the correct tp index value to the result.
+                if (current_tp_index !== last_tp_index) {
+                    result.push({ order: order, lastTP: last_tp_index });
+                }
+            }
+
+
+
+        })
+
+        return result;
+
     }
 
-    gottaBuy() {
 
-
-    }
 
     conditionWorker(live_price: number, order_price: number, condition: ECompare) {
         switch (condition) {

@@ -18526,3 +18526,567 @@ Alis Fiyati: 0.000011]
 [2022-01-18 18:18:40] [EXPRESS] - [New WebSocket connection]
 [2022-01-18 18:20:52] [EXPRESS] - [New WebSocket connection]
 [2022-01-18 18:20:52] [EXPRESS] - [New WebSocket connection]
+[2022-01-21 17:23:26] [INFO] - [Querylist created]
+[2022-01-21 17:23:26] [INFO] - [Waitlist created]
+[2022-01-21 17:23:27] [INFO] - [Program starting...]
+[2022-01-21 17:23:27] [INFO] - [USER: tugi]
+[2022-01-21 17:23:27] [INFO] - [Config file provided]
+[2022-01-21 17:23:27] [DATABASE] - [Database opened]
+[2022-01-21 17:23:27] [DATABASE] - [Users table created]
+[2022-01-21 17:23:27] [DATABASE] - [Posts table created]
+[2022-01-21 17:23:27] [DATABASE] - [Orders table created]
+[2022-01-21 17:23:27] [DATABASE] - [Past orders table created]
+[2022-01-21 17:23:27] [DATABASE] - [Database tables created]
+[2022-01-21 17:23:27] [TELE_APP] - [Telegram Client started]
+[2022-01-21 17:23:27] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 17:23:27] [BRAIN] - [Orders updated.]
+[2022-01-21 17:23:27] [INFO] - [Config file updated]
+[2022-01-21 17:23:27] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 17:24:42] [INFO] - [Querylist created]
+[2022-01-21 17:24:42] [INFO] - [Waitlist created]
+[2022-01-21 17:24:43] [INFO] - [Program starting...]
+[2022-01-21 17:24:43] [INFO] - [USER: tugi]
+[2022-01-21 17:24:43] [INFO] - [Config file provided]
+[2022-01-21 17:24:43] [DATABASE] - [Database opened]
+[2022-01-21 17:24:43] [DATABASE] - [Users table created]
+[2022-01-21 17:24:43] [DATABASE] - [Posts table created]
+[2022-01-21 17:24:43] [DATABASE] - [Orders table created]
+[2022-01-21 17:24:43] [DATABASE] - [Past orders table created]
+[2022-01-21 17:24:43] [DATABASE] - [Database tables created]
+[2022-01-21 17:24:43] [TELE_APP] - [Telegram Client started]
+[2022-01-21 17:24:43] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 17:24:43] [BRAIN] - [Orders updated.]
+[2022-01-21 17:24:43] [INFO] - [Config file updated]
+[2022-01-21 17:24:43] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 17:29:22] [INFO] - [Querylist created]
+[2022-01-21 17:29:22] [INFO] - [Waitlist created]
+[2022-01-21 17:29:22] [INFO] - [Program starting...]
+[2022-01-21 17:29:22] [INFO] - [USER: tugi]
+[2022-01-21 17:29:22] [INFO] - [Config file provided]
+[2022-01-21 17:29:22] [DATABASE] - [Database opened]
+[2022-01-21 17:29:22] [DATABASE] - [Users table created]
+[2022-01-21 17:29:22] [DATABASE] - [Posts table created]
+[2022-01-21 17:29:22] [DATABASE] - [Orders table created]
+[2022-01-21 17:29:22] [DATABASE] - [Past orders table created]
+[2022-01-21 17:29:22] [DATABASE] - [Database tables created]
+[2022-01-21 17:29:22] [TELE_APP] - [Telegram Client started]
+[2022-01-21 17:29:23] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 17:29:23] [BRAIN] - [Orders updated.]
+[2022-01-21 17:29:23] [INFO] - [Config file updated]
+[2022-01-21 17:29:23] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 17:31:59] [INFO] - [Querylist created]
+[2022-01-21 17:31:59] [INFO] - [Waitlist created]
+[2022-01-21 17:31:59] [INFO] - [Program starting...]
+[2022-01-21 17:31:59] [INFO] - [USER: tugi]
+[2022-01-21 17:31:59] [INFO] - [Config file provided]
+[2022-01-21 17:31:59] [DATABASE] - [Database opened]
+[2022-01-21 17:31:59] [DATABASE] - [Users table created]
+[2022-01-21 17:31:59] [DATABASE] - [Posts table created]
+[2022-01-21 17:31:59] [DATABASE] - [Orders table created]
+[2022-01-21 17:31:59] [DATABASE] - [Past orders table created]
+[2022-01-21 17:31:59] [DATABASE] - [Database tables created]
+[2022-01-21 17:32:00] [TELE_APP] - [Telegram Client started]
+[2022-01-21 17:32:00] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 17:32:00] [BRAIN] - [Orders updated.]
+[2022-01-21 17:32:00] [INFO] - [Config file updated]
+[2022-01-21 17:32:00] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 17:33:44] [INFO] - [Querylist created]
+[2022-01-21 17:33:44] [INFO] - [Waitlist created]
+[2022-01-21 17:33:44] [INFO] - [Program starting...]
+[2022-01-21 17:33:44] [INFO] - [USER: tugi]
+[2022-01-21 17:33:44] [INFO] - [Config file provided]
+[2022-01-21 17:33:44] [DATABASE] - [Database opened]
+[2022-01-21 17:33:44] [DATABASE] - [Users table created]
+[2022-01-21 17:33:44] [DATABASE] - [Posts table created]
+[2022-01-21 17:33:44] [DATABASE] - [Orders table created]
+[2022-01-21 17:33:44] [DATABASE] - [Past orders table created]
+[2022-01-21 17:33:44] [DATABASE] - [Database tables created]
+[2022-01-21 17:33:44] [TELE_APP] - [Telegram Client started]
+[2022-01-21 17:33:45] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 17:33:45] [BRAIN] - [Orders updated.]
+[2022-01-21 17:33:45] [INFO] - [Config file updated]
+[2022-01-21 17:33:45] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 17:33:53] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:33:53] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:33:54] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:33:58] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:33:58] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:33:59] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:33:59] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:34:00] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:34:00] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:34:01] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:36:55] [INFO] - [Querylist created]
+[2022-01-21 17:36:55] [INFO] - [Waitlist created]
+[2022-01-21 17:36:55] [INFO] - [Program starting...]
+[2022-01-21 17:36:55] [INFO] - [USER: tugi]
+[2022-01-21 17:36:55] [INFO] - [Config file provided]
+[2022-01-21 17:36:55] [DATABASE] - [Database opened]
+[2022-01-21 17:36:55] [DATABASE] - [Users table created]
+[2022-01-21 17:36:55] [DATABASE] - [Posts table created]
+[2022-01-21 17:36:55] [DATABASE] - [Orders table created]
+[2022-01-21 17:36:55] [DATABASE] - [Past orders table created]
+[2022-01-21 17:36:55] [DATABASE] - [Database tables created]
+[2022-01-21 17:36:56] [TELE_APP] - [Telegram Client started]
+[2022-01-21 17:36:56] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 17:36:56] [BRAIN] - [Orders updated.]
+[2022-01-21 17:36:56] [INFO] - [Config file updated]
+[2022-01-21 17:36:56] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 17:36:57] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:36:57] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:36:58] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:36:58] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:36:59] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:37:00] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:37:00] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:37:01] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:37:01] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:37:02] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:08] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:08] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:09] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:10] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:11] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:12] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:13] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:13] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:14] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 17:41:15] [ERROR] - [Not all sent parameters were read; read '0' parameter(s) but was sent '1'.]
+[2022-01-21 18:09:28] [INFO] - [Querylist created]
+[2022-01-21 18:09:28] [INFO] - [Waitlist created]
+[2022-01-21 18:09:28] [INFO] - [Program starting...]
+[2022-01-21 18:09:28] [INFO] - [USER: tugi]
+[2022-01-21 18:09:28] [INFO] - [Config file provided]
+[2022-01-21 18:09:28] [DATABASE] - [Database opened]
+[2022-01-21 18:09:28] [DATABASE] - [Users table created]
+[2022-01-21 18:09:28] [DATABASE] - [Posts table created]
+[2022-01-21 18:09:28] [DATABASE] - [Orders table created]
+[2022-01-21 18:09:28] [DATABASE] - [Past orders table created]
+[2022-01-21 18:09:28] [DATABASE] - [Database tables created]
+[2022-01-21 18:09:28] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:09:29] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:09:29] [BRAIN] - [Orders updated.]
+[2022-01-21 18:09:29] [INFO] - [Config file updated]
+[2022-01-21 18:09:29] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:11:08] [INFO] - [Querylist created]
+[2022-01-21 18:11:08] [INFO] - [Waitlist created]
+[2022-01-21 18:11:08] [INFO] - [Program starting...]
+[2022-01-21 18:11:08] [INFO] - [USER: tugi]
+[2022-01-21 18:11:08] [INFO] - [Config file provided]
+[2022-01-21 18:11:08] [DATABASE] - [Database opened]
+[2022-01-21 18:11:08] [DATABASE] - [Users table created]
+[2022-01-21 18:11:08] [DATABASE] - [Posts table created]
+[2022-01-21 18:11:08] [DATABASE] - [Orders table created]
+[2022-01-21 18:11:08] [DATABASE] - [Past orders table created]
+[2022-01-21 18:11:08] [DATABASE] - [Database tables created]
+[2022-01-21 18:11:09] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:11:09] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:11:09] [BRAIN] - [Orders updated.]
+[2022-01-21 18:11:09] [INFO] - [Config file updated]
+[2022-01-21 18:11:09] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:11:12] [DEBUG] - [Order]
+[2022-01-21 18:12:19] [INFO] - [Querylist created]
+[2022-01-21 18:12:19] [INFO] - [Waitlist created]
+[2022-01-21 18:12:19] [INFO] - [Program starting...]
+[2022-01-21 18:12:19] [INFO] - [USER: tugi]
+[2022-01-21 18:12:19] [INFO] - [Config file provided]
+[2022-01-21 18:12:19] [DATABASE] - [Database opened]
+[2022-01-21 18:12:19] [DATABASE] - [Users table created]
+[2022-01-21 18:12:19] [DATABASE] - [Posts table created]
+[2022-01-21 18:12:19] [DATABASE] - [Orders table created]
+[2022-01-21 18:12:19] [DATABASE] - [Past orders table created]
+[2022-01-21 18:12:19] [DATABASE] - [Database tables created]
+[2022-01-21 18:12:20] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:12:20] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:12:20] [BRAIN] - [Orders updated.]
+[2022-01-21 18:12:20] [INFO] - [Config file updated]
+[2022-01-21 18:12:20] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:12:25] [DEBUG] - [Order]
+[2022-01-21 18:13:42] [INFO] - [Querylist created]
+[2022-01-21 18:13:42] [INFO] - [Waitlist created]
+[2022-01-21 18:13:42] [INFO] - [Program starting...]
+[2022-01-21 18:13:42] [INFO] - [USER: tugi]
+[2022-01-21 18:13:42] [INFO] - [Config file provided]
+[2022-01-21 18:13:42] [DATABASE] - [Database opened]
+[2022-01-21 18:13:42] [DATABASE] - [Users table created]
+[2022-01-21 18:13:42] [DATABASE] - [Posts table created]
+[2022-01-21 18:13:42] [DATABASE] - [Orders table created]
+[2022-01-21 18:13:42] [DATABASE] - [Past orders table created]
+[2022-01-21 18:13:42] [DATABASE] - [Database tables created]
+[2022-01-21 18:13:43] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:13:43] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:13:43] [BRAIN] - [Orders updated.]
+[2022-01-21 18:13:43] [INFO] - [Config file updated]
+[2022-01-21 18:13:43] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:48] [DEBUG] - [Order]
+[2022-01-21 18:13:49] [DEBUG] - []
+[2022-01-21 18:16:13] [INFO] - [Querylist created]
+[2022-01-21 18:16:13] [INFO] - [Waitlist created]
+[2022-01-21 18:16:14] [INFO] - [Program starting...]
+[2022-01-21 18:16:14] [INFO] - [USER: tugi]
+[2022-01-21 18:16:14] [INFO] - [Config file provided]
+[2022-01-21 18:16:14] [DATABASE] - [Database opened]
+[2022-01-21 18:16:14] [DATABASE] - [Users table created]
+[2022-01-21 18:16:14] [DATABASE] - [Posts table created]
+[2022-01-21 18:16:14] [DATABASE] - [Orders table created]
+[2022-01-21 18:16:14] [DATABASE] - [Past orders table created]
+[2022-01-21 18:16:14] [DATABASE] - [Database tables created]
+[2022-01-21 18:16:14] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:16:14] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:16:14] [BRAIN] - [Orders updated.]
+[2022-01-21 18:16:14] [INFO] - [Config file updated]
+[2022-01-21 18:16:14] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: ETHUSDT
+Giriş Fiyatı : 0.000001
+Anlık Fiyat: %2782.30000000
+TP1: NaN
+Stop Fiyatı: 0.000001,VADELI
+Coin Adı: BTCUSDT
+Giriş Fiyatı : 0.000001
+Anlık Fiyat: %38362.64000000
+TP1: NaN
+Stop Fiyatı: 0.000001,VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : 0.000003
+Anlık Fiyat: %0.07252300
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000003
+TP2: 0.000005
+TP3: 0.000006
+TP4: 0.000006
+TP5: 0.000008
+Stop Fiyatı: 0.000001,VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : 0.000003
+Anlık Fiyat: %0.07252300
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000011
+TP2: 0.000011
+TP3: 0.00001
+TP4: 0.000009
+TP5: 0.000008
+Stop Fiyatı: 0.000007,VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : 0.000001
+Anlık Fiyat: %0.07252300
+TP1: 0.000001
+TP2: 0.000001
+TP3: 0.000001
+TP4: 0.000001
+TP5: 0.000001
+Stop Fiyatı: 0.000001,VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : -0.000003
+Anlık Fiyat: %0.07252300
+TP1: 0.000001
+TP2: 0.000001
+TP3: 0.000001
+TP4: 0.000001
+TP5: 0.000001
+Stop Fiyatı: -0.000008,VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000008
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000011,VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000012
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000014,VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000012
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000014,VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000007
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000014]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: ETHUSDT
+Giriş Fiyatı : 0.000001
+Anlık Fiyat: %2782.30000000
+TP1: NaN
+Stop Fiyatı: 0.000001]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: BTCUSDT
+Giriş Fiyatı : 0.000001
+Anlık Fiyat: %38362.64000000
+TP1: NaN
+Stop Fiyatı: 0.000001]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : 0.000003
+Anlık Fiyat: %0.07252300
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000003
+TP2: 0.000005
+TP3: 0.000006
+TP4: 0.000006
+TP5: 0.000008
+Stop Fiyatı: 0.000001]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : 0.000003
+Anlık Fiyat: %0.07252300
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000011
+TP2: 0.000011
+TP3: 0.00001
+TP4: 0.000009
+TP5: 0.000008
+Stop Fiyatı: 0.000007]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : 0.000001
+Anlık Fiyat: %0.07252300
+TP1: 0.000001
+TP2: 0.000001
+TP3: 0.000001
+TP4: 0.000001
+TP5: 0.000001
+Stop Fiyatı: 0.000001]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: ETHBTC
+Giriş Fiyatı : -0.000003
+Anlık Fiyat: %0.07252300
+TP1: 0.000001
+TP2: 0.000001
+TP3: 0.000001
+TP4: 0.000001
+TP5: 0.000001
+Stop Fiyatı: -0.000008]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000008
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000011]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000012
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000014]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000012
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000014]
+[2022-01-21 18:16:22] [DEBUG] - [VADELI
+Coin Adı: BCCBTC
+Giriş Fiyatı : 0.000007
+Anlık Fiyat: %0.07908100
+Emire Kalan Fiyat Farkı: NaN
+Kaldıraç : 1
+TP1: 0.000007
+TP2: 0.000006
+TP3: 0.000005
+TP4: 0.000004
+TP5: 0.000003
+Stop Fiyatı: 0.000014]
+[2022-01-21 18:30:20] [INFO] - [Querylist created]
+[2022-01-21 18:30:20] [INFO] - [Waitlist created]
+[2022-01-21 18:30:20] [INFO] - [Program starting...]
+[2022-01-21 18:30:21] [INFO] - [USER: tugi]
+[2022-01-21 18:30:21] [INFO] - [Config file provided]
+[2022-01-21 18:30:21] [DATABASE] - [Database opened]
+[2022-01-21 18:30:21] [DATABASE] - [Users table created]
+[2022-01-21 18:30:21] [DATABASE] - [Posts table created]
+[2022-01-21 18:30:21] [DATABASE] - [Orders table created]
+[2022-01-21 18:30:21] [DATABASE] - [Past orders table created]
+[2022-01-21 18:30:21] [DATABASE] - [Database tables created]
+[2022-01-21 18:30:21] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:30:21] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:30:21] [BRAIN] - [Orders updated.]
+[2022-01-21 18:30:21] [INFO] - [Config file updated]
+[2022-01-21 18:30:21] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:31:06] [INFO] - [Querylist created]
+[2022-01-21 18:31:06] [INFO] - [Waitlist created]
+[2022-01-21 18:31:06] [INFO] - [Program starting...]
+[2022-01-21 18:31:06] [INFO] - [USER: tugi]
+[2022-01-21 18:31:06] [INFO] - [Config file provided]
+[2022-01-21 18:31:06] [DATABASE] - [Database opened]
+[2022-01-21 18:31:06] [DATABASE] - [Users table created]
+[2022-01-21 18:31:06] [DATABASE] - [Posts table created]
+[2022-01-21 18:31:06] [DATABASE] - [Orders table created]
+[2022-01-21 18:31:06] [DATABASE] - [Past orders table created]
+[2022-01-21 18:31:06] [DATABASE] - [Database tables created]
+[2022-01-21 18:31:06] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:31:07] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:31:07] [BRAIN] - [Orders updated.]
+[2022-01-21 18:31:07] [INFO] - [Config file updated]
+[2022-01-21 18:31:07] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:33:44] [INFO] - [Querylist created]
+[2022-01-21 18:33:44] [INFO] - [Waitlist created]
+[2022-01-21 18:33:44] [INFO] - [Program starting...]
+[2022-01-21 18:33:44] [INFO] - [USER: tugi]
+[2022-01-21 18:33:44] [INFO] - [Config file provided]
+[2022-01-21 18:33:44] [DATABASE] - [Database opened]
+[2022-01-21 18:33:44] [DATABASE] - [Users table created]
+[2022-01-21 18:33:44] [DATABASE] - [Posts table created]
+[2022-01-21 18:33:44] [DATABASE] - [Orders table created]
+[2022-01-21 18:33:44] [DATABASE] - [Past orders table created]
+[2022-01-21 18:33:44] [DATABASE] - [Database tables created]
+[2022-01-21 18:33:45] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:33:45] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:33:45] [BRAIN] - [Orders updated.]
+[2022-01-21 18:33:45] [INFO] - [Config file updated]
+[2022-01-21 18:33:45] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:34:41] [INFO] - [Querylist created]
+[2022-01-21 18:34:41] [INFO] - [Waitlist created]
+[2022-01-21 18:34:42] [INFO] - [Program starting...]
+[2022-01-21 18:34:42] [INFO] - [USER: tugi]
+[2022-01-21 18:34:42] [INFO] - [Config file provided]
+[2022-01-21 18:34:42] [DATABASE] - [Database opened]
+[2022-01-21 18:34:42] [DATABASE] - [Users table created]
+[2022-01-21 18:34:42] [DATABASE] - [Posts table created]
+[2022-01-21 18:34:42] [DATABASE] - [Orders table created]
+[2022-01-21 18:34:42] [DATABASE] - [Past orders table created]
+[2022-01-21 18:34:42] [DATABASE] - [Database tables created]
+[2022-01-21 18:34:42] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:34:42] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:34:42] [BRAIN] - [Orders updated.]
+[2022-01-21 18:34:42] [INFO] - [Config file updated]
+[2022-01-21 18:34:42] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:35:14] [INFO] - [Querylist created]
+[2022-01-21 18:35:14] [INFO] - [Waitlist created]
+[2022-01-21 18:35:14] [INFO] - [Program starting...]
+[2022-01-21 18:35:14] [INFO] - [USER: tugi]
+[2022-01-21 18:35:14] [INFO] - [Config file provided]
+[2022-01-21 18:35:14] [DATABASE] - [Database opened]
+[2022-01-21 18:35:14] [DATABASE] - [Users table created]
+[2022-01-21 18:35:14] [DATABASE] - [Posts table created]
+[2022-01-21 18:35:14] [DATABASE] - [Orders table created]
+[2022-01-21 18:35:14] [DATABASE] - [Past orders table created]
+[2022-01-21 18:35:14] [DATABASE] - [Database tables created]
+[2022-01-21 18:35:15] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:35:15] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:35:15] [BRAIN] - [Orders updated.]
+[2022-01-21 18:35:15] [INFO] - [Config file updated]
+[2022-01-21 18:35:15] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:38:15] [INFO] - [Querylist created]
+[2022-01-21 18:38:15] [INFO] - [Waitlist created]
+[2022-01-21 18:38:15] [INFO] - [Program starting...]
+[2022-01-21 18:38:15] [INFO] - [USER: tugi]
+[2022-01-21 18:38:15] [INFO] - [Config file provided]
+[2022-01-21 18:38:15] [DATABASE] - [Database opened]
+[2022-01-21 18:38:15] [DATABASE] - [Users table created]
+[2022-01-21 18:38:15] [DATABASE] - [Posts table created]
+[2022-01-21 18:38:15] [DATABASE] - [Orders table created]
+[2022-01-21 18:38:15] [DATABASE] - [Past orders table created]
+[2022-01-21 18:38:15] [DATABASE] - [Database tables created]
+[2022-01-21 18:38:16] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:38:16] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:38:16] [BRAIN] - [Orders updated.]
+[2022-01-21 18:38:16] [INFO] - [Config file updated]
+[2022-01-21 18:38:16] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:38:44] [INFO] - [Querylist created]
+[2022-01-21 18:38:44] [INFO] - [Waitlist created]
+[2022-01-21 18:38:45] [INFO] - [Program starting...]
+[2022-01-21 18:38:45] [INFO] - [USER: tugi]
+[2022-01-21 18:38:45] [INFO] - [Config file provided]
+[2022-01-21 18:38:45] [DATABASE] - [Database opened]
+[2022-01-21 18:38:45] [DATABASE] - [Users table created]
+[2022-01-21 18:38:45] [DATABASE] - [Posts table created]
+[2022-01-21 18:38:45] [DATABASE] - [Orders table created]
+[2022-01-21 18:38:45] [DATABASE] - [Past orders table created]
+[2022-01-21 18:38:45] [DATABASE] - [Database tables created]
+[2022-01-21 18:38:45] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:38:46] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:38:46] [BRAIN] - [Orders updated.]
+[2022-01-21 18:38:46] [INFO] - [Config file updated]
+[2022-01-21 18:38:46] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-21 18:39:51] [INFO] - [Querylist created]
+[2022-01-21 18:39:51] [INFO] - [Waitlist created]
+[2022-01-21 18:39:52] [INFO] - [Program starting...]
+[2022-01-21 18:39:52] [INFO] - [USER: tugi]
+[2022-01-21 18:39:52] [INFO] - [Config file provided]
+[2022-01-21 18:39:52] [DATABASE] - [Database opened]
+[2022-01-21 18:39:52] [DATABASE] - [Users table created]
+[2022-01-21 18:39:52] [DATABASE] - [Posts table created]
+[2022-01-21 18:39:52] [DATABASE] - [Orders table created]
+[2022-01-21 18:39:52] [DATABASE] - [Past orders table created]
+[2022-01-21 18:39:52] [DATABASE] - [Database tables created]
+[2022-01-21 18:39:52] [TELE_APP] - [Telegram Client started]
+[2022-01-21 18:39:52] [TELE_BOT] - [Telegram Bot started]
+[2022-01-21 18:39:52] [BRAIN] - [Orders updated.]
+[2022-01-21 18:39:52] [INFO] - [Config file updated]
+[2022-01-21 18:39:52] [EXPRESS] - [Express server started at http://localhost:5000]

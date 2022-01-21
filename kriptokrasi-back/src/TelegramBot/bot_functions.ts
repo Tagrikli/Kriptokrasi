@@ -112,29 +112,36 @@ export async function getRapidMov(data: string[]) { //data: pair exchange
 }
 
 export async function getVolFlow(data: string[]) { //data: timeframe fromcoin tocoin
-    let response = await axios.get(`https://api.cryptometer.io/volume-flow/?timeframe=${data[0]}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-    let buy_flow = response.data["data"]["buy_flow"]
-    let sell_flow = response.data["data"]['sell_flow']
-    let vol = 0.0
-    const fromCoin = data[1].toUpperCase()
-    const toCoin = data[2].toUpperCase()
-    let msg = ""
-    let found = false;
-    for (let i = 0; i < buy_flow.length; i++) {
-        if ((buy_flow[i]["from"] == fromCoin) && (buy_flow[i]["to"] == toCoin)) {
-            vol = buy_flow[i]["volume"]
-            msg = `Volume: ${vol}, Akış: Alım`
+    let msg = ``;
+    const timeframes = ['15m', '1h', '4h', 'd'];
+    const timeframesTR = ['15 Dakika', '1 Saat', '4 Saat', '1 Gün'];
+    const fromCoin = data[0].toUpperCase();
+    const toCoin = data[1].toUpperCase();
+    for (let j=0; j< 4; j++){
+        let response = await axios.get(`https://api.cryptometer.io/volume-flow/?timeframe=${timeframes[j]}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+        let buy_flow = response.data["data"]["buy_flow"]
+        let sell_flow = response.data["data"]['sell_flow']
+        let vol = 0.0
+        let found = false; //false means sell
+        for (let i = 0; i < buy_flow.length; i++) {
+            if ((buy_flow[i]["from"] == fromCoin) && (buy_flow[i]["to"] == toCoin)) {
+                vol = buy_flow[i]["volume"]
+                msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Alım
+`
+            }
         }
-    }
-    if (!found) {
-        for (let i = 0; i < sell_flow.length; i++) {
-            if ((sell_flow[i]["from"] == fromCoin) && (sell_flow[i]["to"] == toCoin)) {
-                vol = sell_flow[i]["volume"]
-                msg = `Volume: ${vol}, Akış: Satım`
-                return msg;
+        if (!found) {
+            for (let i = 0; i < sell_flow.length; i++) {
+                if ((sell_flow[i]["from"] == fromCoin) && (sell_flow[i]["to"] == toCoin)) {
+                    vol = sell_flow[i]["volume"]
+                    msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Satım
+`
+                }
             }
         }
     }
+    if (msg === ``) msg = `Aradığınız coinlerde hacim akışı bulunamadı.`
+    
     return msg
 }
 
@@ -283,10 +290,6 @@ export async function getOpenInterest(data: string[]) {
     //let msg = `Son 3 skor: ${response.data[0]}`;
     return response.data["data"]
 }
-
-
-
-
 
 
 

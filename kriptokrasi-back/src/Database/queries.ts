@@ -2,6 +2,8 @@ import { UpdateConnectionState } from "telegram/network";
 
 const QUERIES = {
 
+    //users
+
     CREATE_USERS_TABLE: /*sql*/`
         CREATE TABLE IF NOT EXISTS users (
         user_id INTEGER NOT NULL,
@@ -13,14 +15,25 @@ const QUERIES = {
         vip INTEGER,
         PRIMARY KEY(user_id))`,
 
+    SELECT_USER_BY_ID: /*sql*/`
+        SELECT *
+        FROM users
+        WHERE user_id = ?`,
 
-    CREATE_POSTS_TABLE: /*sql*/`
-        CREATE TABLE IF NOT EXISTS posts (
-        id INTEGER,
-        message TEXT,
-        creation_time timestamp,
-        user_id INTEGER,
-        PRIMARY KEY(id))`,
+    SELECT_ALL_USERS: /*sql*/`
+        SELECT *
+        FROM users`,
+
+    SELECT_USER_BY_VIP: /*sql*/`
+        SELECT *
+        FROM users
+        WHERE vip = 1`,
+
+    INSERT_USER: /*sql*/`
+        INSERT OR IGNORE INTO users
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+
+    //orders
 
     CREATE_ORDERS_TABLE: /*sql*/`
         CREATE TABLE IF NOT EXISTS orders (
@@ -38,40 +51,6 @@ const QUERIES = {
         status INTEGER,
         PRIMARY KEY(id AUTOINCREMENT))`,
 
-    CREATE_PAST_TABLE: /*sql*/`
-        CREATE TABLE IF NOT EXISTS past (
-        id INTEGER NOT NULL,
-        symbol TEXT,
-        timestamp TEXT,
-        position INTEGER,
-        type INTEGER,
-        leverage INTEGER,
-        buy_price INTEGER,
-        sell_price INTEGER,
-        profit INTEGER,
-        cancel INTEGER,
-        PRIMARY KEY(id))`,
-
-    CREATE_TP_TABLE: /*sql*/`
-        CREATE TABLE IF NOT EXISTS lastTPS (
-        id INTEGER NOT NULL,
-        lastTP INTEGER NOT NULL,
-        PRIMARY KEY(id))`,
-
-    SELECT_USER_BY_ID: /*sql*/`
-        SELECT *
-        FROM users
-        WHERE user_id = ?`,
-
-    SELECT_ALL_USERS: /*sql*/`
-        SELECT *
-        FROM users`,
-
-    SELECT_USER_BY_VIP: /*sql*/`
-        SELECT *
-        FROM users
-        WHERE vip = 1`,
-
     SELECT_ORDER_BY_ID: /*sql*/`
         SELECT *
         FROM orders
@@ -87,56 +66,91 @@ const QUERIES = {
         FROM orders
         WHERE status = 0`,
 
-    SELECT_PAST_ORDERS: /*sql*/`
-        SELECT *
-        FROM past`,
-    
-    SELECT_TP_BY_ID: /*sql*/`
-        SELECT * 
-        FROM lastTPs
-        WHERE id =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ?`,
-
-    INSERT_USER: /*sql*/`
-        INSERT OR IGNORE INTO users
-        VALUES (?, ?, ?, ?, ?, ?, ?)`,
-
     INSERT_WAITING_ORDER: /*sql*/`
         INSERT INTO orders
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-
-    INSERT_PAST_ORDER: /*sql*/`
-        INSERT INTO past
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-
-    INSERT_TP: /*sql*/`
-        INSERT INTO lastTPs
-        VALUES (?, 0)`,
-
-    DELETE_ORDER_BY_ID: /*sql*/`
-        DELETE FROM orders
-        WHERE id = ?`,
-
-    DELETE_PAST_BY_ID: /*sql*/`
-        DELETE FROM past
-        WHERE id =?`,
 
     ACTIVATE_ORDER_BY_ID: /*sql*/`
         UPDATE orders
         SET status = 1
         WHERE id = ?`,
 
-    UPDATE_TP: /*sql*/`
-        UPDATE lastTPS
-        SET lastTP = lastTP + 1
+    DELETE_ORDER_BY_ID: /*sql*/`
+        DELETE FROM orders
         WHERE id = ?`,
 
     UPDATE_BUY_PRICE: /*sql*/`
         UPDATE orders
         SET buy_price = ?
-        WHERE id =?`
-    
+        WHERE id =?`,
 
+    //past
 
+    CREATE_PAST_TABLE: /*sql*/`
+        CREATE TABLE IF NOT EXISTS past (
+        id INTEGER NOT NULL,
+        symbol TEXT,
+        timestamp TEXT,
+        position INTEGER,
+        type INTEGER,
+        leverage INTEGER,
+        buy_price INTEGER,
+        sell_price INTEGER,
+        profit INTEGER,
+        cancel INTEGER,
+        PRIMARY KEY(id))`,
+
+    SELECT_PAST_ORDERS: /*sql*/`
+        SELECT *
+        FROM past`,
+
+    INSERT_PAST_ORDER: /*sql*/`
+        INSERT INTO past
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+
+    DELETE_PAST_BY_ID: /*sql*/`
+        DELETE FROM past
+        WHERE id =?`,
+
+    //lastTPs
+
+    CREATE_TP_TABLE: /*sql*/`
+        CREATE TABLE IF NOT EXISTS lastTPS (
+        id INTEGER NOT NULL,
+        lastTP INTEGER NOT NULL,
+        PRIMARY KEY(id))`,
+
+    SELECT_ALL_TPS: /*sql*/`
+        SELECT *
+        FROM lastTPS`,
+
+    SELECT_TP_BY_ID: /*sql*/`
+        SELECT * 
+        FROM lastTPS
+        WHERE id = ?`,
+
+    INSERT_TP: /*sql*/`
+        INSERT INTO lastTPS
+        VALUES (?, -1)`,
+
+    UPDATE_TP: /*sql*/`
+        UPDATE lastTPS
+        SET lastTP = ?
+        WHERE id = ?`,
+
+    DELETE_TP: /*sql*/`
+        DELETE FROM lastTPS
+        WHERE id = ?`,
+
+    //posts
+
+    CREATE_POSTS_TABLE: /*sql*/`
+        CREATE TABLE IF NOT EXISTS posts (
+        id INTEGER,
+        message TEXT,
+        creation_time timestamp,
+        user_id INTEGER,
+        PRIMARY KEY(id))`,
 
 }
 

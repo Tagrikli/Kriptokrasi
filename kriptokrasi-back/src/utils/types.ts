@@ -56,3 +56,8 @@ export type TUserDB = {
     vip_timeout: number,
     vip: boolean
 }
+
+export type TLastTPDB = {
+    id: number,
+    lastTP: number
+}
