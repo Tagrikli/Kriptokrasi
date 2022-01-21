@@ -2,12 +2,6 @@ import { BasicSymbolParam, MainClient, SymbolPrice, WebsocketClient } from 'bina
 import logger from '../Logger/logger';
 import Brain from '../Brain/main';
 
-function* tickerGenerator (){
-
-    
-
-
-}
 
 
 class BinanceManager {
