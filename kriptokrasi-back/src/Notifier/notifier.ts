@@ -21,14 +21,11 @@ class Compositor {
         leverage: (...d: any[]) => `Kaldıraç : ${d[0]}`,
         profit: (...d: any[]) => `Kar: ${d[0]}`,
         momentary_profit: (...d: any[]) => `Anlık Kâr:  %${d[0]}`,
-        momentary_price: (...d: any[]) => `Anlık Fiyat: %${d[0]}`,
+        momentary_price: (...d: any[]) => `Anlık Fiyat: ${d[0]}`,
         tp_data: (...d: any[]) => {
-            let ind = d[1];
 
-            if (ind) {
-                return d[0].map((v: number, i: number) => `TP${i + 1}: ${i < ind ? '✅' : v}`).join('\n');
-            }
-            return d[0].map((v: number, i: number) => `TP${i + 1}: ${v}`).join('\n')
+            return d[0].map((v: string, i: number) => `TP${i + 1}: ${v.charAt(0)  === '%' ? '✅' : v}`).join('\n');
+
         },
         stop_loss: (...d: any[]) => `Stop Fiyatı: ${d[0]}`,
         timestamp: (...d: any[]) => `Tarih: ${d[0]}`,
@@ -101,7 +98,7 @@ export default class Notifier {
 
             } else {
                 return new Compositor(order)
-                    .type()
+                    .position()
                     .buy_price()
                     .momentary_price(momentary_price)
                     .momentary_profit()
@@ -118,6 +115,7 @@ export default class Notifier {
     async prepareWaitingOrders() {
 
         let orders = await this.database.getAllOrders(EStatus.WAITING) as TOrder[];
+        console.log(orders);
 
         if (!orders.length) return [`Bekleyen emir yok`];
 
@@ -129,7 +127,7 @@ export default class Notifier {
             } catch (error) {
                 logger.error(error);
             }
-
+            let price_left = momentary_price - order.buy_price;
             if (order.type === EType.SPOT) {
 
                 return new Compositor(order)
@@ -137,16 +135,17 @@ export default class Notifier {
                     .symbol()
                     .buy_price()
                     .momentary_price(momentary_price)
+                    .price_left(price_left)
                     .tp_data()
                     .stop_loss()
                     .composed
 
             } else {
-                let price_left = momentary_price - order.live_price;
+                
                 if (order.position == EPosition.SHORT) price_left *= -1;
 
                 return new Compositor(order)
-                    .type()
+                    .position()
                     .symbol()
                     .buy_price()
                     .momentary_price(momentary_price)
@@ -155,15 +154,8 @@ export default class Notifier {
                     .tp_data()
                     .stop_loss()
                     .composed
-
-
             }
-
-
-
         }));
-
-
     }
 
     async preparePastOrders(pastOrders: TOrder_Past[]) {
@@ -189,7 +181,7 @@ export default class Notifier {
             } else {
 
                 return new Compositor(order)
-                    .type()
+                    .position()
                     .timestamp()
                     .symbol()
                     .buy_price()
