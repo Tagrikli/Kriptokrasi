@@ -2,6 +2,13 @@ import { BasicSymbolParam, MainClient, SymbolPrice, WebsocketClient } from 'bina
 import logger from '../Logger/logger';
 import Brain from '../Brain/main';
 
+function* tickerGenerator (){
+
+    
+
+
+}
+
 
 class BinanceManager {
     client: MainClient
@@ -37,7 +44,7 @@ class BinanceManager {
 
     async getPriceForSymbol(symbol: string): Promise<number> {
         const result = await this.client.getSymbolPriceTicker({ symbol: symbol });
-        return (result as SymbolPrice).price as number; 
+        return (result as SymbolPrice).price as number;
     }
 
     updateSymbols(symbols: string[]) {
@@ -55,16 +62,15 @@ class BinanceManager {
                 this.onBookTicker(data);
                 break;
 
+
             default:
                 break;
         }
-
-
     }
-
-
 }
 
 
 
 export default BinanceManager;
+
+

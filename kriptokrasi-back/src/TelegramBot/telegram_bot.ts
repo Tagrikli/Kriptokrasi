@@ -18,9 +18,10 @@ class TelegramBot {
     db: DatabaseManager;
     notifier: Notifier;
 
-    constructor(token: string, db: DatabaseManager) {
+    constructor(token: string, db: DatabaseManager, notifier:Notifier) {
         this.bot = new Telegraf<TContext>(token);
         this.db = db;
+        this.notifier = notifier;
         this.registerCallbacks();
     }
 
@@ -410,7 +411,7 @@ class TelegramBot {
             }
         });
 
-        this.bot.hears(/(?<=symb ).*/, async (ctx) => {
+        this.bot.hears(/(?<=[Ss][Yy][Mm][Bb] ).*/, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.replace('symb ', '');
             const chat_id = ctx.message.chat.id;
@@ -458,7 +459,7 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(/(?<=pa ).*/, async (ctx) => {
+        this.bot.hears(/(?<=[Pp][Aa] ).*/, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.replace('pa ', '');
             const chat_id = ctx.message.chat.id;
@@ -501,7 +502,7 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(/(?<=mp ).*/, async (ctx) => {
+        this.bot.hears(/(?<=[Mm][Pp] ).*/, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.replace('mp ', '');
             const chat_id = ctx.message.chat.id;
@@ -541,7 +542,7 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(/(?<=fromto ).*/, async (ctx) => {
+        this.bot.hears(/(?<=[Ff][Rr][Oo][Mm][Tt][Oo] ).*/, async (ctx) => {
             const message = ctx.message.text;
             const coins = message.split(' ');//split yapicammmmmm
             const chat_id = ctx.message.chat.id;

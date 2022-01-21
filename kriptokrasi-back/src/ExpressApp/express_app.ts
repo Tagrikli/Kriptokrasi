@@ -10,7 +10,7 @@ import BinanceManager from "../BinanceAPI/main";
 import ENDPOINTS from "../kriptokrasi-common/endpoints";
 import { TTMessage } from "../kriptokrasi-common/message_types";
 import TelegramBot from "../TelegramBot/telegram_bot";
-import Notification from "../Notifier/notifier_functions";
+import Notifier from "../Notifier/notifier";
 
 class ExpressApp {
     mode: string;
@@ -19,6 +19,7 @@ class ExpressApp {
     brain: Brain;
     binance: BinanceManager
     telegram: TelegramBot
+    notifier: Notifier
 
     app: Express;
     server: http.Server;
@@ -26,12 +27,13 @@ class ExpressApp {
 
     webhookCallback: (message: any) => void;
 
-    constructor(port: number, db: DatabaseManager, brain: Brain, binance: BinanceManager, telegram: TelegramBot) {
+    constructor(port: number, db: DatabaseManager, brain: Brain, binance: BinanceManager, telegram: TelegramBot, notifier: Notifier) {
         this.port = port;
         this.db = db;
         this.brain = brain;
         this.binance = binance;
         this.telegram = telegram;
+        this.notifier = notifier;
         this.mode = process.env.MODE;
     }
 
@@ -136,11 +138,11 @@ class ExpressApp {
 
 
                 if (type === EStatus.WAITING)
-                    this.telegram.sendMessageToAll(true, true, Notification.waitingOrderDeletion(orders_ as TOrder[]));
-                if (type === EStatus.ACTIVE)
-                    this.telegram.sendMessageToAll(true, true, Notification.activeOrderDeletion(orders_ as TOrder[]));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_ as TOrder[]));
+                //if (type === EStatus.ACTIVE)
+                //this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[]));
 
-                
+
                 this.brain.updateOrders();
 
                 res.sendStatus(200);

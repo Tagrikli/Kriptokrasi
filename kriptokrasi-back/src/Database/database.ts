@@ -11,13 +11,13 @@ import { TLastTPDB, TUserDB } from '../utils/types';
 import { Queries } from '../Query';
 
 
-function orderTpListify(order: TOrder): Omit<TOrder, 'tp_Data'> & { tp_data: number[] } {
+function orderTpListify(order: TOrder): Omit<TOrder, 'tp_data'> & { tp_data: number[] } {
     let tp_data = (order.tp_data as string).split(',').map(tp => parseFloat(tp));
     delete order.tp_data;
     return { ...order, tp_data: tp_data };
 }
 
-function orderTpStringfy(order: TOrder): Omit<TOrder, 'tp_Data'> & { tp_data: string } {
+function orderTpStringfy(order: TOrder): Omit<TOrder, 'tp_data'> & { tp_data: string } {
     let tp_data = (order.tp_data as number[]).join(',');
     delete order.tp_data;
     return { ...order, tp_data: tp_data };
@@ -106,7 +106,7 @@ class DatabaseManager {
 
 
     async getOrderById(order_id: number): Promise<TOrder> {
-        let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID);
+        let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID, order_id);
         return orderTpListify(order);
     }
 
@@ -162,13 +162,13 @@ class DatabaseManager {
 
     }
 
-    async cancelOrder(order_id: number,profit:number, momentary_price:number) {
+    async cancelOrder(order_id: number, profit: number, momentary_price: number) {
         let order = await this.getOrderById(order_id);
 
         if (order.status == EStatus.ACTIVE) { // the order is active
 
 
-            
+
 
             if (order.position == 1) profit = -profit;
 
@@ -201,6 +201,7 @@ class DatabaseManager {
         }
         // delete the order from the orders table
         await this.db.run(QUERIES.DELETE_ORDER_BY_ID, order_id);
+        await this.db.run(QUERIES.DELETE_TP, order_id);
 
     }
 
@@ -271,14 +272,15 @@ class DatabaseManager {
         let lastTP = await this.db.get(QUERIES.SELECT_TP_BY_ID, order_id);
         let buy_price = order.buy_price
 
-        if ((lastTP == 1) || (lastTP == 2)) {
+        if ((lastTP == 0) || (lastTP == 1)) {
             buy_price = order.stop_loss
         }
         else {
-            buy_price = order.tp_data[lastTP - 3] as number;
+            buy_price = order.tp_data[lastTP - 2] as number;
         }
 
         await this.db.run(QUERIES.UPDATE_BUY_PRICE, buy_price, order_id);
+
     }
 
 

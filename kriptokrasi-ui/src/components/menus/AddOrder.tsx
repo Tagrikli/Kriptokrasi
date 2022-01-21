@@ -128,8 +128,8 @@ export default function AddOrder() {
 
     const getSymbols = async () => {
         setLoading(true);
-        fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then(values => {
-            setSymbols(values);
+        fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then((values:string[]) => {
+            setSymbols(values.sort());
             setLoading(false);
         });
     }

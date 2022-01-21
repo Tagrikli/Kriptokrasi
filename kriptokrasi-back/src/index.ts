@@ -25,6 +25,9 @@ import { NotFoundError } from 'telegram/errors';
     //Load config parser for configuration
     const config = new ConfigParser();
 
+    const notifier = new Notifier();
+
+
 
     //Initialize database connection, prepare for process.
     const dbManager = new DatabaseManager();
@@ -38,7 +41,7 @@ import { NotFoundError } from 'telegram/errors';
     const session_string = await telegramApp.start();
 
     //Initialize and start telegram bot.
-    const telegramBot = new TelegramBot(config.credentials.bot.token, dbManager);
+    const telegramBot = new TelegramBot(config.credentials.bot.token, dbManager, notifier);
     await telegramBot.start();
 
 
@@ -50,7 +53,7 @@ import { NotFoundError } from 'telegram/errors';
 
 
     //Initialize Brain.
-    const brain = new Brain(dbManager, telegramBot, binanceManager);
+    const brain = new Brain(dbManager, telegramBot, binanceManager, notifier);
     await brain.updateOrders();
 
 
@@ -60,14 +63,14 @@ import { NotFoundError } from 'telegram/errors';
         dbManager,
         brain,
         binanceManager,
-        telegramBot)
+        telegramBot,
+        notifier)
     expressApp.bindWebhookCallback(telegramBot.webhookCallback);
     expressApp.start();
 
 
     //Initialize Notifier
 
-    const notifier = new Notifier();
 
 
     //After initialization
@@ -78,7 +81,6 @@ import { NotFoundError } from 'telegram/errors';
     notifier.binance = binanceManager;
     notifier.database = dbManager;
 
-    telegramBot.notifier = notifier;
 
     binanceManager.bindOnBookTicker((data: any) => brain.onBinanceBookTicker(data));
     binanceManager.initSubscriptions();

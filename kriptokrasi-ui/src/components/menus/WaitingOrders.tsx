@@ -33,8 +33,6 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
         })
 
         setRows(rows_);
-
-
     }
 
     const selectionModelChangeHandler = (selection_model: GridSelectionModel) => {

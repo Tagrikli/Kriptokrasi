@@ -2,12 +2,12 @@ import logger from "../Logger/logger";
 import { WebSocketServer } from "ws";
 import DatabaseManager from "../Database/database";
 import { EStatus, TOrder, ECompare, EType, EPosition } from "../kriptokrasi-common/order_types";
-import Notifications from "../Notifier/notifier_functions";
 import { UpdateManager, ActivationProcess, ReactUpdater } from "./managers";
 import TelegramBot from "../TelegramBot/telegram_bot";
-import { type } from "os";
 import { TLastTPDB } from "../utils/types";
 import BinanceManager from "../BinanceAPI/main";
+import { profitCalculator } from "./helpers";
+import Notifier from "../Notifier/notifier";
 
 
 const activationProcess = new ActivationProcess();
@@ -29,11 +29,13 @@ class Brain {
 
     reactUpdater: ReactUpdater;
     updateManager: UpdateManager;
+    notifier: Notifier;
 
-    constructor(db: DatabaseManager, telegram: TelegramBot, binance: BinanceManager) {
+    constructor(db: DatabaseManager, telegram: TelegramBot, binance: BinanceManager, notifier: Notifier) {
         this.db = db;
         this.telegram = telegram;
         this.binance = binance;
+        this.notifier = notifier;
 
         this.updateManager = new UpdateManager(1000);
     }
@@ -99,7 +101,7 @@ class Brain {
                         activationProcess.removeProcess(order.id);
 
                         //Finally notify all vip users.
-                        this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
+                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivated(order));
                     }
                 })
             }
@@ -117,12 +119,20 @@ class Brain {
 
                         activationProcess.addProcess(order.id);
 
-                        const momentary_price = 11;
-                        const profit = (momentary_price - order.buy_price) * (100 / order.buy_price);
+                        let momentary_price = 0;
+                        try {
+                            momentary_price = await this.binance.getPriceForSymbol(order.symbol);
+                        } catch (error) {
+                            logger.error(error);
+                        }
+
+                        const profit = (momentary_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
                         await this.db.cancelOrder(order.id, profit, momentary_price);
 
+                        let msg = await this.notifier.activeOrderStopped(order, profit);
+                        await this.telegram.sendMessageToAll(true, true, msg);
+
                         activationProcess.removeProcess(order.id);
-                        this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
                     }
                 })
 
@@ -138,27 +148,26 @@ class Brain {
 
                         activationProcess.addProcess(order.id);
 
-                        const momentary_price = 11;
-                        const profit = (momentary_price - order.buy_price) * (100 / order.buy_price);
-                        await this.db.cancelOrder(order.id, profit, momentary_price);
+                        let momentary_price = 0;
+                        try {
+                            momentary_price = await this.binance.getPriceForSymbol(order.symbol);
+                        } catch (error) {
+                            logger.error(error);
+                        }
+                        let tp_data = order.tp_data as number[]
+                        let profits = profitCalculator(momentary_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.leverage);
+
+                        await this.db.updateTP(order.id, lastTP);
+                        await this.db.updateBuyPrice(order.id);
+
+                        let msg = await this.notifier.tpActivated(order, lastTP, profits[lastTP + 1]);
+                        await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
-                        this.telegram.sendMessageToAll(true, true, Notifications.waitingOrderActivation(order, bid_price));
                     }
-
-
                 })
-
-
-
             }
-
-
-
-
         }
-
-
     }
 
 

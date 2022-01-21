@@ -32,10 +32,10 @@ function App() {
 
     <Box sx={{ width: '%100' }} className="App">
 
-      <Login onLogin={onLogin}></Login>
+      {/* <Login onLogin={onLogin}></Login> */}
 
-      {/* <Drawer onSelect={menuSelection}></Drawer>
-      <MenuRenderer index={menu}></MenuRenderer> */}
+      <Drawer onSelect={menuSelection}></Drawer>
+      <MenuRenderer index={menu}></MenuRenderer>
 
       <ToastContainer
         position="bottom-left"
