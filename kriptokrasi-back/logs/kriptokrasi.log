@@ -38394,3 +38394,102 @@ Stop Fiyatı: 0.000014]
     "symbol": "BTC",
     "bidPrice": 345345
 }]
+[2022-01-22 06:40:34] [INFO] - [Querylist created]
+[2022-01-22 06:40:34] [INFO] - [Waitlist created]
+[2022-01-22 06:40:34] [INFO] - [Program starting...]
+[2022-01-22 06:40:34] [INFO] - [USER: tugi]
+[2022-01-22 06:40:34] [INFO] - [Config file provided]
+[2022-01-22 06:40:34] [DATABASE] - [Database opened]
+[2022-01-22 06:40:34] [DATABASE] - [Users table created]
+[2022-01-22 06:40:34] [DATABASE] - [Posts table created]
+[2022-01-22 06:40:34] [DATABASE] - [Orders table created]
+[2022-01-22 06:40:34] [DATABASE] - [Past orders table created]
+[2022-01-22 06:40:34] [DATABASE] - [Database tables created]
+[2022-01-22 06:40:34] [TELE_APP] - [Telegram Client started]
+[2022-01-22 06:40:35] [TELE_BOT] - [Telegram Bot started]
+[2022-01-22 06:40:35] [BRAIN] - [Orders updated.]
+[2022-01-22 06:40:35] [INFO] - [Config file updated]
+[2022-01-22 06:40:35] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-22 06:40:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:40:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:40:40] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:40:40] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:41:34] [EXPRESS] - [New order!]
+[2022-01-22 06:41:34] [DATABASE] - [New order created.]
+[2022-01-22 06:41:34] [BRAIN] - [Orders updated.]
+[2022-01-22 06:41:41] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:41:41] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:41:54] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:41:54] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:41:54] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:03] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 7
+}]
+[2022-01-22 06:42:06] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:06] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:25] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:25] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:42:34] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 7
+}]
+[2022-01-22 06:43:29] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 8
+}]
+[2022-01-22 06:43:36] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 12
+}]
+[2022-01-22 06:43:36] [BRAIN] - [Orders updated.]
+[2022-01-22 06:43:55] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:43:55] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:43:58] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:43:58] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:44:00] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:44:00] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:44:04] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 12
+}]
+[2022-01-22 06:44:14] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 8
+}]
+[2022-01-22 06:44:19] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 12
+}]
+[2022-01-22 06:44:24] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 17
+}]
+[2022-01-22 06:44:46] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 23
+}]
+[2022-01-22 06:44:50] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:44:50] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:44:51] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:44:51] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:45:08] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 50
+}]
+[2022-01-22 06:45:21] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 4
+}]
+[2022-01-22 06:45:38] [BRAIN] - [{
+    "symbol": "ARKBTC",
+    "bidPrice": 2
+}]
+[2022-01-22 06:45:54] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:45:54] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:45:56] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:45:56] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 06:45:58] [BRAIN] - [Orders updated.]

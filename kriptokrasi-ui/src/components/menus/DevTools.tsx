@@ -6,7 +6,7 @@ import { EXPRESS_ENDPOINTS } from "../../utils/endpoint_manager";
 
 export default function DevTools() {
 
-    const [values, setValues] = useState<number[]>([0, 0, 0, 0, 0]);
+    const [values, setValues] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     const [symbol, setSymbol] = useState('');
 
 
