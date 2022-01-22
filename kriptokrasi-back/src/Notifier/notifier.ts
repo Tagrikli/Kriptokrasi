@@ -140,7 +140,6 @@ export default class Notifier {
     async prepareWaitingOrders() {
 
         let orders = await this.database.getAllOrders(EStatus.WAITING) as TOrder[];
-        console.log(orders);
 
         if (orders.length === 0) return [`Bekleyen emir yok`];
 

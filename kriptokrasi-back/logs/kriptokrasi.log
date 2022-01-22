@@ -38493,3 +38493,70 @@ Stop Fiyatı: 0.000014]
 [2022-01-22 06:45:56] [EXPRESS] - [New WebSocket connection]
 [2022-01-22 06:45:56] [EXPRESS] - [New WebSocket connection]
 [2022-01-22 06:45:58] [BRAIN] - [Orders updated.]
+[2022-01-22 18:26:15] [INFO] - [Querylist created]
+[2022-01-22 18:26:15] [INFO] - [Waitlist created]
+[2022-01-22 18:26:16] [INFO] - [Program starting...]
+[2022-01-22 18:26:16] [INFO] - [USER: tugi]
+[2022-01-22 18:26:16] [INFO] - [Config file provided]
+[2022-01-22 18:26:16] [DATABASE] - [Database opened]
+[2022-01-22 18:26:16] [DATABASE] - [Users table created]
+[2022-01-22 18:26:16] [DATABASE] - [Posts table created]
+[2022-01-22 18:26:16] [DATABASE] - [Orders table created]
+[2022-01-22 18:26:16] [DATABASE] - [Past orders table created]
+[2022-01-22 18:26:16] [DATABASE] - [Database tables created]
+[2022-01-22 18:26:16] [TELE_APP] - [Telegram Client started]
+[2022-01-22 18:26:16] [TELE_BOT] - [Telegram Bot started]
+[2022-01-22 18:26:16] [BRAIN] - [Orders updated.]
+[2022-01-22 18:26:16] [INFO] - [Config file updated]
+[2022-01-22 18:26:16] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-22 18:26:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:28] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:32] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:32] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:32] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:38] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:42] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:42] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:26:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:27:18] [BRAIN] - [{
+    "symbol": "ACHUSDT",
+    "bidPrice": 10
+}]
+[2022-01-22 18:28:07] [BRAIN] - [{
+    "symbol": "AAVEBNB",
+    "bidPrice": 105
+}]
+[2022-01-22 18:28:42] [BRAIN] - [{
+    "symbol": "AAVEBNB",
+    "bidPrice": 107
+}]
+[2022-01-22 18:28:58] [BRAIN] - [{
+    "symbol": "AAVEBNB",
+    "bidPrice": 111
+}]
+[2022-01-22 18:29:16] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:16] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:18] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:18] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:27] [BRAIN] - [{
+    "symbol": "AAVEBNB",
+    "bidPrice": 107
+}]
+[2022-01-22 18:29:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:45] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:47] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:47] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:29:56] [BRAIN] - [{
+    "symbol": "AAVEBNB",
+    "bidPrice": 111
+}]
+[2022-01-22 18:30:15] [BRAIN] - [{
+    "symbol": "AAVEBNB",
+    "bidPrice": 85
+}]
+[2022-01-22 18:30:32] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:30:32] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:30:33] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:30:33] [EXPRESS] - [New WebSocket connection]

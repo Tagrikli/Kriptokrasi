@@ -28,7 +28,6 @@ export async function getIndicator(data: string[]) {
 export async function getLongShort(data: string[]) {
     const pair = data[1].toUpperCase();
     const e = data[0].toLowerCase();
-    console.log(pair, e)
 
     let msg = ``
     let response1 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=${e}&timeframe=15m&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
@@ -189,7 +188,6 @@ export async function getTradeVol24h(data: string[]) {
     const e = data[0].toLowerCase();
 
     let response = await axios.get(`https://api.cryptometer.io/24h-trade-volume-v2/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-    console.log(response.data)
     let msg = `Alis: ${response.data["data"][0]["buy"]}  Satis: ${response.data["data"][0]["sell"]}`;
     return msg;
 }

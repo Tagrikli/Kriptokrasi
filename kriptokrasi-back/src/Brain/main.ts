@@ -162,7 +162,6 @@ class Brain {
                         }
                         let tp_data = order.tp_data as number[]
                         let profits = profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.leverage);
-                        console.log("stoploss last tp", lastTP);
                         await this.db.updateTP(order.id, lastTP);
                         await this.db.updateBuyPrice(order.id);
 
@@ -206,12 +205,10 @@ class Brain {
 
             //Reverse the tp array
             let tps_reversed = (order.tp_data as number[]).slice().reverse();
-            console.log(tps_reversed, "wtffffff");
             let last_tp_index: number = -1;
 
             //Find the index of first tp that satisfies the tp_condition (in reverse order)
             for (const [index, tp] of tps_reversed.entries()) {
-                console.log(tp, index, "something is wrong here")
                 if (this.conditionWorker(bid_price, tp, order.tp_condition)) {
                     last_tp_index = tps_reversed.length-index-1;
                     break;

@@ -23,7 +23,6 @@ export default function Drawer(props: { onSelect: (index: number) => void }) {
     const icons = [<AddIcon />, <AccessTimeIcon />, <AlarmOnIcon />, <HistoryIcon />, <EmailIcon />, <BuildIcon />]
 
     const toggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
-        console.log(event);
         setActive(!active);
     };
 

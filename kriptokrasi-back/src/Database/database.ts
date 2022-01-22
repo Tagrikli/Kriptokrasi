@@ -269,17 +269,14 @@ class DatabaseManager {
     async updateBuyPrice(order_id: number) {
 
         const order = await this.getOrderById(order_id);
-        console.log("oh hello");
         let tpTable = await this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
         let lastTP = tpTable.lastTP;
         let buy_price = order.buy_price
 
         if ((lastTP == 0) || (lastTP == 1)) {
-            console.log(buy_price, "oh hello", order.stop_loss);
             buy_price = order.stop_loss
         }
         else {
-            console.log("burning violin", lastTP);
             buy_price = order.tp_data[lastTP - 2] as number;
         }
 
