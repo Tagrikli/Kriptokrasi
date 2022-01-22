@@ -21,6 +21,8 @@ const ENDPOINTS = {
 
     SEND_TELEGRAM_MESSAGE: createPath('send_telegram_message'),
 
+    DEV_LIVE_PRICE: createPath('dev_live_price'),
+
     WEBHOOK: createPath('webhook'),
 
 }

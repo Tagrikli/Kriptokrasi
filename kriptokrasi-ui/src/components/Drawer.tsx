@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,21 +8,28 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import HistoryIcon from '@mui/icons-material/History';
 import EmailIcon from '@mui/icons-material/Email';
+import BuildIcon from '@mui/icons-material/Build';
 import { Box, SwipeableDrawer } from '@mui/material';
 import MenuBar from './MenuBar';
+import React, { useState } from 'react';
 
 
 
 
 export default function Drawer(props: { onSelect: (index: number) => void }) {
-    const [active, setActive] = React.useState(false);
+    const [active, setActive] = useState(false);
+    const [dev, setDev] = useState(true);
 
-    const icons = [<AddIcon />, <AccessTimeIcon />, <AlarmOnIcon />, <HistoryIcon />, <EmailIcon />]
+    const icons = [<AddIcon />, <AccessTimeIcon />, <AlarmOnIcon />, <HistoryIcon />, <EmailIcon />, <BuildIcon />]
 
     const toggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
         console.log(event);
         setActive(!active);
     };
+
+    const onDev = (event: any, selection: boolean) => {
+        setDev(selection);
+    }
 
     const menuItemClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         const menu_index = parseInt(event.currentTarget.id.split('-')[2]);
@@ -46,6 +52,15 @@ export default function Drawer(props: { onSelect: (index: number) => void }) {
                         <ListItemText primary={text} />
                     </ListItem>
                 ))}
+
+                {dev ? <ListItem button onClick={menuItemClickHandler} id={`menu-item-${5}`} key={'Dev Tools'}>
+                    <ListItemIcon>
+                        {icons[5]}
+                    </ListItemIcon>
+                    <ListItemText primary={'Dev Tools'} />
+                </ListItem> : ''}
+
+
             </List>
             <Divider />
         </Box>
@@ -54,7 +69,7 @@ export default function Drawer(props: { onSelect: (index: number) => void }) {
     return (
         <Box>
             <React.Fragment>
-                <MenuBar open={() => setActive(true)}></MenuBar>
+                <MenuBar open={() => setActive(true)} onDev={onDev}></MenuBar>
                 <SwipeableDrawer
                     open={active}
                     onClose={toggleDrawer}

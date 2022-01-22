@@ -3,6 +3,7 @@ import AddOrder from "./menus/AddOrder";
 import WaitingOrders from "./menus/WaitingOrders";
 import { WEBSOCKET_URL } from "../utils/endpoint_manager";
 import SendMessage from "./menus/SendMessage";
+import DevTools from "./menus/DevTools";
 
 
 
@@ -24,6 +25,9 @@ export default function MenuRenderer(props: { index: number }) {
 
         case 4:
             return <SendMessage></SendMessage>
+
+        case 5:
+            return <DevTools></DevTools>
 
         default:
             return <div></div>

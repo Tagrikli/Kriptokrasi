@@ -53,6 +53,7 @@ class Brain {
         this.inactive_orders = await this.db.getAllOrders(EStatus.WAITING) as TOrder[];
         this.inactive_orders_symbol = this.inactive_orders.map(order => order.symbol);
 
+
         this.lastTPs = await this.db.getAllTPS() as TLastTPDB[];
 
         this.updateManager.updateSymbols([...this.active_orders_symbol, ...this.inactive_orders_symbol]);
@@ -64,12 +65,17 @@ class Brain {
     async onBinanceBookTicker(data: any) {
 
 
+        if (process.env.LIVE_PRICE !== 'y') {
+            logger.brain(JSON.stringify(data, null, 4));
+        }
+
 
         const symbol: string = data.symbol;
         const bid_price: number = data.bidPrice;
 
         const in_inactives = this.inactive_orders_symbol.includes(symbol)
         const in_actives = this.active_orders_symbol.includes(symbol)
+
 
         if (in_actives || in_inactives) {
 

@@ -12,11 +12,11 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-export default function MenuBar(props: { open: () => void}) {
+export default function MenuBar(props: { open: () => void, onDev: (event: any, selection: boolean) => void }) {
     return (
         <Box sx={{ flexGrow: 1 }}>
 
-            <AppBar position="static">
+            <AppBar position="static" sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
                 <Toolbar>
                     <IconButton
                         size="large"
@@ -32,9 +32,10 @@ export default function MenuBar(props: { open: () => void}) {
                     <Typography variant="h6" component="div" >
                         Kriptokrasi Admin Paneli
                     </Typography>
-                   
+
 
                 </Toolbar>
+                <Switch sx={{ m: 2 }} onChange={props.onDev}></Switch>
             </AppBar>
         </Box >
     );

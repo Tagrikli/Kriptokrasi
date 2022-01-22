@@ -25,6 +25,7 @@ class ExpressApp {
     server: http.Server;
     wss: WebSocketServer;
 
+    devLivePrice: (d: any) => void
     webhookCallback: (message: any) => void;
 
     constructor(port: number, db: DatabaseManager, brain: Brain, binance: BinanceManager, telegram: TelegramBot, notifier: Notifier) {
@@ -35,6 +36,11 @@ class ExpressApp {
         this.telegram = telegram;
         this.notifier = notifier;
         this.mode = process.env.MODE;
+    }
+
+
+    bindDevLivePrice(callback: any) {
+        this.devLivePrice = callback;
     }
 
     initExpress() {
@@ -208,6 +214,16 @@ class ExpressApp {
 
             res.sendStatus(500);
 
+        })
+
+
+        //FOR TEST PURPOSES
+        this.app.post(ENDPOINTS.DEV_LIVE_PRICE, (req, res) => {
+
+            const data: { symbol: string, bidPrice: number } = req.body;
+            this.devLivePrice && this.devLivePrice(data);
+
+            res.sendStatus(200);
         })
 
 

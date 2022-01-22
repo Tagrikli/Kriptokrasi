@@ -128,7 +128,7 @@ export default function AddOrder() {
 
     const getSymbols = async () => {
         setLoading(true);
-        fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then((values:string[]) => {
+        fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then((values: string[]) => {
             setSymbols(values.sort());
             setLoading(false);
         });
@@ -278,8 +278,7 @@ export default function AddOrder() {
         flexDirection: 'column',
         p: { xs: 4, md: 10 },
 
-    }}
-    >
+    }}>
         <Stack spacing={3}>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>

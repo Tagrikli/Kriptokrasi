@@ -13,7 +13,6 @@ import Brain from './Brain/main';
 import ExpressApp from './ExpressApp/express_app';
 import NETWORK from './kriptokrasi-common/network.json';
 import Notifier from './Notifier/notifier';
-import { NotFoundError } from 'telegram/errors';
 
 
 (async () => {
@@ -51,7 +50,6 @@ import { NotFoundError } from 'telegram/errors';
 
 
 
-
     //Initialize Brain.
     const brain = new Brain(dbManager, telegramBot, binanceManager, notifier);
     await brain.updateOrders();
@@ -77,13 +75,18 @@ import { NotFoundError } from 'telegram/errors';
 
 
 
-
     notifier.binance = binanceManager;
     notifier.database = dbManager;
 
 
-    binanceManager.bindOnBookTicker((data: any) => brain.onBinanceBookTicker(data));
-    binanceManager.initSubscriptions();
+    if (process.env.LIVE_PRICE === 'y') {
+
+        binanceManager.bindOnBookTicker((data: any) => brain.onBinanceBookTicker(data));
+        binanceManager.initSubscriptions();
+
+    } else {
+        expressApp.bindDevLivePrice((data: any) => brain.onBinanceBookTicker(data));
+    }
 
     config.saveSession(session_string);
 
