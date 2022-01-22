@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { WebSocketServer } from 'ws';
-import { TOrder } from '../kriptokrasi-common/order_types';
 
 
 export class ReactUpdater {
@@ -35,13 +34,12 @@ export class ActivationProcess {
     }
 
     removeProcess(order_id: number) {
-        this.in_process_ids = this.in_process_ids.filter(id => order_id === id);
+        this.in_process_ids = this.in_process_ids.filter(id => order_id !== id);
     }
 
 
-
-
 }
+
 
 export class UpdateManager {
     symbols: string[]

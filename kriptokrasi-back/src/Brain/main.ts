@@ -53,7 +53,6 @@ class Brain {
         this.inactive_orders = await this.db.getAllOrders(EStatus.WAITING) as TOrder[];
         this.inactive_orders_symbol = this.inactive_orders.map(order => order.symbol);
 
-
         this.lastTPs = await this.db.getAllTPS() as TLastTPDB[];
 
         this.updateManager.updateSymbols([...this.active_orders_symbol, ...this.inactive_orders_symbol]);
@@ -103,11 +102,11 @@ class Brain {
                         await this.db.activateOrders(order.id);
                         await this.updateOrders();
 
-                        //Remove the process since its not in inactive orders.
-                        activationProcess.removeProcess(order.id);
-
                         //Finally notify all vip users.
                         this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivated(order));
+
+                        //Remove the process since its not in inactive orders.
+                        activationProcess.removeProcess(order.id);
                     }
                 })
             }
@@ -125,15 +124,10 @@ class Brain {
 
                         activationProcess.addProcess(order.id);
 
-                        /*let momentary_price = 0;
-                        try {
-                            momentary_price = await this.binance.getPriceForSymbol(order.symbol);
-                        } catch (error) {
-                            logger.error(error);
-                        }*/
 
                         const profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
                         await this.db.cancelOrder(order.id, profit, bid_price);
+                        await this.updateOrders()
 
                         let msg = await this.notifier.activeOrderStopped(order, profit);
                         await this.telegram.sendMessageToAll(true, true, msg);
@@ -145,12 +139,19 @@ class Brain {
 
 
                 let orders_tp: { order: TOrder, lastTP: number }[] = this.gottaTP(this.relevantActives(symbol), bid_price);
+
+                logger.debug(`orders_tp ${JSON.stringify(orders_tp, null, 4)}`);
+
                 orders_tp.forEach(async pair => {
 
                     const order = pair.order;
                     const lastTP = pair.lastTP;
 
+                    logger.debug(order.id)
+
                     if (!activationProcess.inProcess(order.id)) {
+
+                        logger.debug(order.id)
 
                         activationProcess.addProcess(order.id);
 
@@ -162,15 +163,21 @@ class Brain {
                         }
                         let tp_data = order.tp_data as number[]
                         let profits = profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.leverage);
-                        await this.db.updateTP(order.id, lastTP);
-                        await this.db.updateBuyPrice(order.id);
 
-                        let msg = await this.notifier.tpActivated(order, lastTP, profits[lastTP + 1]);
+                        await this.db.updateTP(order.id, lastTP + 1);
+                        await this.db.updateBuyPrice(order.id);
+                        await this.updateOrders()
+
+                        logger.debug('So far so good.');
+
+                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
                     }
                 })
+
+
             }
         }
     }
@@ -210,10 +217,12 @@ class Brain {
             //Find the index of first tp that satisfies the tp_condition (in reverse order)
             for (const [index, tp] of tps_reversed.entries()) {
                 if (this.conditionWorker(bid_price, tp, order.tp_condition)) {
-                    last_tp_index = tps_reversed.length-index-1;
+                    last_tp_index = tps_reversed.length - index - 1;
                     break;
                 }
             }
+
+            logger.debug(`last_tp_index ${last_tp_index}`);
 
             //If any of the tps satisfied the condition.
             if (last_tp_index > -1) {
@@ -221,8 +230,11 @@ class Brain {
                 //Find the current tp index
                 const current_tp_index = this.lastTPs.find(lastTP => lastTP.id === order.id).lastTP;
 
+                logger.debug(`current_tp_index ${current_tp_index}`);
+
+
                 //Add order and the correct tp index value to the result.
-                if (current_tp_index !== last_tp_index) {
+                if (last_tp_index >= current_tp_index) {
                     result.push({ order: order, lastTP: last_tp_index });
                 }
             }

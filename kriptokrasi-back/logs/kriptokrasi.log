@@ -38560,3 +38560,1242 @@ Stop Fiyatı: 0.000014]
 [2022-01-22 18:30:32] [EXPRESS] - [New WebSocket connection]
 [2022-01-22 18:30:33] [EXPRESS] - [New WebSocket connection]
 [2022-01-22 18:30:33] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:00] [INFO] - [Querylist created]
+[2022-01-22 18:36:00] [INFO] - [Waitlist created]
+[2022-01-22 18:36:01] [INFO] - [Program starting...]
+[2022-01-22 18:36:01] [INFO] - [USER: tugi]
+[2022-01-22 18:36:01] [INFO] - [Config file provided]
+[2022-01-22 18:36:01] [DATABASE] - [Database opened]
+[2022-01-22 18:36:01] [DATABASE] - [Users table created]
+[2022-01-22 18:36:01] [DATABASE] - [Posts table created]
+[2022-01-22 18:36:01] [DATABASE] - [Orders table created]
+[2022-01-22 18:36:01] [DATABASE] - [Past orders table created]
+[2022-01-22 18:36:01] [DATABASE] - [Database tables created]
+[2022-01-22 18:36:01] [TELE_APP] - [Telegram Client started]
+[2022-01-22 18:36:01] [TELE_BOT] - [Telegram Bot started]
+[2022-01-22 18:36:01] [BRAIN] - [Orders updated.]
+[2022-01-22 18:36:01] [INFO] - [Config file updated]
+[2022-01-22 18:36:01] [EXPRESS] - [Express server started at http://localhost:5000]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:36:57] [EXPRESS] - [New WebSocket connection]
+[2022-01-22 18:44:55] [INFO] - [Querylist created]
+[2022-01-22 18:44:55] [INFO] - [Waitlist created]
+[2022-01-22 18:44:55] [INFO] - [Program starting...]
+[2022-01-22 18:44:55] [INFO] - [USER: tugi]
+[2022-01-22 18:44:55] [INFO] - [Config file provided]
+[2022-01-22 18:44:56] [DEBUG] - [[object Object]]
+[2022-01-22 18:44:56] [DEBUG] - [AAVEBNB]
+[2022-01-22 18:44:56] [DEBUG] - []
+[2022-01-22 18:44:56] [DEBUG] - []
+[2022-01-22 18:44:56] [INFO] - [Config file updated]
+[2022-01-22 18:48:02] [INFO] - [Waitlist created]
+[2022-01-22 18:48:03] [INFO] - [Program starting...]
+[2022-01-22 18:48:03] [INFO] - [USER: tugi]
+[2022-01-22 18:48:03] [INFO] - [Config file provided]
+[2022-01-22 18:48:03] [DEBUG] - [[object Object]]
+[2022-01-22 18:48:03] [DEBUG] - [Config file updated]
+[2022-01-22 18:48:22] [INFO] - [Waitlist created]
+[2022-01-22 18:48:22] [INFO] - [Program starting...]
+[2022-01-22 18:48:22] [INFO] - [USER: tugi]
+[2022-01-22 18:48:22] [INFO] - [Config file provided]
+[2022-01-22 18:48:23] [DEBUG] - [[
+    {
+        "id": 1642852894043,
+        "lastTP": 0
+    }
+]]
+[2022-01-22 18:48:23] [DEBUG] - [Config file updated]
+[2022-01-22 18:51:30] [DEBUG] - [[
+    {
+        "id": 1642852894043,
+        "lastTP": 0
+    }
+]]
+[2022-01-22 18:54:06] [DEBUG] - [[
+    {
+        "id": 1642866690397,
+        "lastTP": -1
+    }
+]]
+[2022-01-22 18:55:28] [DEBUG] - [[
+    {
+        "id": 1642866690397,
+        "lastTP": -1
+    }
+]]
+[2022-01-22 18:56:18] [DEBUG] - [[
+    {
+        "id": 1642866690397,
+        "lastTP": -1
+    },
+    {
+        "id": 1642866928581,
+        "lastTP": -1
+    }
+]]
+[2022-01-22 19:03:46] [DEBUG] - [[]]
+[2022-01-22 19:04:26] [DEBUG] - [[
+    {
+        "id": 1642867426153,
+        "lastTP": -1
+    }
+]]
+[2022-01-22 19:07:22] [INFO] - [Waitlist created]
+[2022-01-22 19:07:22] [INFO] - [Program starting...]
+[2022-01-22 19:07:22] [INFO] - [USER: tugi]
+[2022-01-22 19:07:22] [INFO] - [Config file provided]
+[2022-01-22 19:07:23] [DEBUG] - [Config file updated]
+[2022-01-22 19:07:41] [DEBUG] - [orders_tp []]
+[2022-01-22 19:07:55] [DEBUG] - [orders_tp []]
+[2022-01-22 19:08:03] [DEBUG] - [orders_tp []]
+[2022-01-22 19:08:38] [DEBUG] - [orders_tp []]
+[2022-01-22 19:08:52] [DEBUG] - [orders_tp []]
+[2022-01-22 19:09:02] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 10,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:10:06] [DEBUG] - [orders_tp []]
+[2022-01-22 19:10:14] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 10,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:10:30] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 10,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:10:58] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 10,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:11:14] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 10,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:11:34] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 10,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:17:20] [INFO] - [Waitlist created]
+[2022-01-22 19:17:20] [INFO] - [Program starting...]
+[2022-01-22 19:17:20] [INFO] - [USER: tugi]
+[2022-01-22 19:17:20] [INFO] - [Config file provided]
+[2022-01-22 19:17:21] [DEBUG] - [Config file updated]
+[2022-01-22 19:18:37] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:18:37] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:18:37] [DEBUG] - [orders_tp []]
+[2022-01-22 19:18:44] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:18:44] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:18:44] [DEBUG] - [orders_tp []]
+[2022-01-22 19:19:26] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:19:26] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:19:26] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 1
+    }
+]]
+[2022-01-22 19:19:41] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:19:41] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:19:41] [DEBUG] - [orders_tp []]
+[2022-01-22 19:19:51] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:19:51] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:19:51] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 2
+    }
+]]
+[2022-01-22 19:20:12] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:20:12] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:20:12] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 2
+    }
+]]
+[2022-01-22 19:20:35] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:20:35] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:20:35] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:21:02] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:21:02] [DEBUG] - [orders_tp []]
+[2022-01-22 19:21:49] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:21:49] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:21:49] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:23:36] [INFO] - [Waitlist created]
+[2022-01-22 19:23:36] [INFO] - [Program starting...]
+[2022-01-22 19:23:36] [INFO] - [USER: tugi]
+[2022-01-22 19:23:36] [INFO] - [Config file provided]
+[2022-01-22 19:23:37] [DEBUG] - [Config file updated]
+[2022-01-22 19:24:02] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:24:02] [DEBUG] - [orders_tp []]
+[2022-01-22 19:24:15] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:24:15] [DEBUG] - [orders_tp []]
+[2022-01-22 19:24:19] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:24:19] [DEBUG] - [orders_tp []]
+[2022-01-22 19:24:34] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:24:34] [DEBUG] - [orders_tp []]
+[2022-01-22 19:24:40] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:24:40] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:24:40] [DEBUG] - [orders_tp []]
+[2022-01-22 19:25:11] [INFO] - [Waitlist created]
+[2022-01-22 19:25:11] [INFO] - [Program starting...]
+[2022-01-22 19:25:11] [INFO] - [USER: tugi]
+[2022-01-22 19:25:11] [INFO] - [Config file provided]
+[2022-01-22 19:25:12] [DEBUG] - [Config file updated]
+[2022-01-22 19:25:31] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:25:31] [DEBUG] - [orders_tp []]
+[2022-01-22 19:25:50] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:25:50] [DEBUG] - [orders_tp []]
+[2022-01-22 19:25:56] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:25:56] [DEBUG] - [current_tp_index -1]
+[2022-01-22 19:25:56] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:26:12] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:26:12] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:26:12] [DEBUG] - [orders_tp []]
+[2022-01-22 19:26:19] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:26:19] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:26:19] [DEBUG] - [orders_tp []]
+[2022-01-22 19:26:26] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:26:26] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:26:26] [DEBUG] - [orders_tp []]
+[2022-01-22 19:26:35] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:26:35] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:26:35] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 1
+    }
+]]
+[2022-01-22 19:27:12] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:27:12] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:27:12] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 1
+    }
+]]
+[2022-01-22 19:28:10] [INFO] - [Waitlist created]
+[2022-01-22 19:28:10] [INFO] - [Program starting...]
+[2022-01-22 19:28:10] [INFO] - [USER: tugi]
+[2022-01-22 19:28:10] [INFO] - [Config file provided]
+[2022-01-22 19:28:11] [DEBUG] - [Config file updated]
+[2022-01-22 19:28:29] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:28:29] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:28:29] [DEBUG] - [orders_tp []]
+[2022-01-22 19:28:38] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:28:38] [DEBUG] - [current_tp_index 0]
+[2022-01-22 19:28:38] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 1
+    }
+]]
+[2022-01-22 19:28:55] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:28:55] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:28:55] [DEBUG] - [orders_tp []]
+[2022-01-22 19:29:03] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:29:03] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:29:03] [DEBUG] - [orders_tp []]
+[2022-01-22 19:29:15] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:29:15] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:29:15] [DEBUG] - [orders_tp []]
+[2022-01-22 19:29:42] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:29:42] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:29:42] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 20,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:29:59] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:29:59] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:29:59] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 20,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:30:46] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:30:46] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:30:46] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 20,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:30:58] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:30:58] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:30:58] [DEBUG] - [orders_tp []]
+[2022-01-22 19:31:15] [INFO] - [Waitlist created]
+[2022-01-22 19:31:15] [INFO] - [Program starting...]
+[2022-01-22 19:31:15] [INFO] - [USER: tugi]
+[2022-01-22 19:31:15] [INFO] - [Config file provided]
+[2022-01-22 19:31:16] [DEBUG] - [Config file updated]
+[2022-01-22 19:31:40] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:31:40] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:31:40] [DEBUG] - [orders_tp []]
+[2022-01-22 19:31:45] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:31:45] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:31:45] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 20,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 2
+    }
+]]
+[2022-01-22 19:31:55] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:31:55] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:31:55] [DEBUG] - [orders_tp []]
+[2022-01-22 19:32:00] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:32:00] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:32:00] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:32:11] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:32:11] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:32:11] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:32:28] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:32:28] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:32:28] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:32:31] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:32:31] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:32:31] [DEBUG] - [orders_tp []]
+[2022-01-22 19:32:37] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:32:37] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:32:37] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:34:35] [INFO] - [Waitlist created]
+[2022-01-22 19:34:35] [INFO] - [Program starting...]
+[2022-01-22 19:34:35] [INFO] - [USER: tugi]
+[2022-01-22 19:34:35] [INFO] - [Config file provided]
+[2022-01-22 19:34:36] [DEBUG] - [Config file updated]
+[2022-01-22 19:34:58] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:34:58] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:34:58] [DEBUG] - [orders_tp []]
+[2022-01-22 19:35:04] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:35:04] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:35:04] [DEBUG] - [orders_tp []]
+[2022-01-22 19:35:09] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:35:09] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:35:09] [DEBUG] - [orders_tp []]
+[2022-01-22 19:36:05] [INFO] - [Waitlist created]
+[2022-01-22 19:36:05] [INFO] - [Program starting...]
+[2022-01-22 19:36:05] [INFO] - [USER: tugi]
+[2022-01-22 19:36:05] [INFO] - [Config file provided]
+[2022-01-22 19:36:06] [DEBUG] - [Config file updated]
+[2022-01-22 19:36:26] [INFO] - [Waitlist created]
+[2022-01-22 19:36:27] [INFO] - [Program starting...]
+[2022-01-22 19:36:27] [INFO] - [USER: tugi]
+[2022-01-22 19:36:27] [INFO] - [Config file provided]
+[2022-01-22 19:36:27] [DEBUG] - [Config file updated]
+[2022-01-22 19:37:00] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:37:00] [DEBUG] - [current_tp_index -1]
+[2022-01-22 19:37:00] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:37:00] [DEBUG] - [So far so good.]
+[2022-01-22 19:37:14] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:37:14] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:37:14] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 1
+    }
+]]
+[2022-01-22 19:38:15] [INFO] - [Waitlist created]
+[2022-01-22 19:38:15] [INFO] - [Program starting...]
+[2022-01-22 19:38:15] [INFO] - [USER: tugi]
+[2022-01-22 19:38:15] [INFO] - [Config file provided]
+[2022-01-22 19:38:16] [DEBUG] - [Config file updated]
+[2022-01-22 19:38:35] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:38:35] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:38:35] [DEBUG] - [orders_tp []]
+[2022-01-22 19:38:40] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:38:40] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:38:40] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 1
+    }
+]]
+[2022-01-22 19:38:40] [DEBUG] - [1642867426153]
+[2022-01-22 19:38:40] [DEBUG] - [1642867426153]
+[2022-01-22 19:38:41] [DEBUG] - [So far so good.]
+[2022-01-22 19:38:58] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:38:58] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:38:58] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 20,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 2
+    }
+]]
+[2022-01-22 19:38:58] [DEBUG] - [1642867426153]
+[2022-01-22 19:42:40] [INFO] - [Waitlist created]
+[2022-01-22 19:42:40] [INFO] - [Program starting...]
+[2022-01-22 19:42:40] [INFO] - [USER: tugi]
+[2022-01-22 19:42:40] [INFO] - [Config file provided]
+[2022-01-22 19:42:40] [DEBUG] - [Config file updated]
+[2022-01-22 19:44:55] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:44:55] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:44:55] [DEBUG] - [orders_tp []]
+[2022-01-22 19:45:01] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:45:01] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:45:01] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 20,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 2
+    }
+]]
+[2022-01-22 19:45:01] [DEBUG] - [1642867426153]
+[2022-01-22 19:45:01] [DEBUG] - [1642867426153]
+[2022-01-22 19:45:01] [DEBUG] - [So far so good.]
+[2022-01-22 19:45:11] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:45:11] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:45:11] [DEBUG] - [orders_tp []]
+[2022-01-22 19:45:22] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:45:22] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:45:22] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:45:22] [DEBUG] - [1642867426153]
+[2022-01-22 19:45:22] [DEBUG] - [1642867426153]
+[2022-01-22 19:45:23] [DEBUG] - [So far so good.]
+[2022-01-22 19:45:32] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:45:32] [DEBUG] - [current_tp_index 4]
+[2022-01-22 19:45:32] [DEBUG] - [orders_tp []]
+[2022-01-22 19:45:36] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:45:36] [DEBUG] - [current_tp_index 4]
+[2022-01-22 19:45:36] [DEBUG] - [orders_tp []]
+[2022-01-22 19:45:42] [DEBUG] - [last_tp_index 4]
+[2022-01-22 19:45:42] [DEBUG] - [current_tp_index 4]
+[2022-01-22 19:45:42] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 40,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 4
+    }
+]]
+[2022-01-22 19:45:42] [DEBUG] - [1642867426153]
+[2022-01-22 19:45:42] [DEBUG] - [1642867426153]
+[2022-01-22 19:45:43] [DEBUG] - [So far so good.]
+[2022-01-22 19:47:05] [INFO] - [Waitlist created]
+[2022-01-22 19:47:05] [INFO] - [Program starting...]
+[2022-01-22 19:47:05] [INFO] - [USER: tugi]
+[2022-01-22 19:47:05] [INFO] - [Config file provided]
+[2022-01-22 19:47:06] [DEBUG] - [Config file updated]
+[2022-01-22 19:47:26] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:47:26] [DEBUG] - [orders_tp []]
+[2022-01-22 19:47:33] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:47:33] [DEBUG] - [orders_tp []]
+[2022-01-22 19:47:42] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:47:42] [DEBUG] - [orders_tp []]
+[2022-01-22 19:47:53] [DEBUG] - [last_tp_index -1]
+[2022-01-22 19:47:53] [DEBUG] - [orders_tp []]
+[2022-01-22 19:48:00] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:48:00] [DEBUG] - [current_tp_index -1]
+[2022-01-22 19:48:00] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 10,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 0
+    }
+]]
+[2022-01-22 19:48:00] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:00] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:00] [DEBUG] - [So far so good.]
+[2022-01-22 19:48:16] [DEBUG] - [last_tp_index 0]
+[2022-01-22 19:48:16] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:48:16] [DEBUG] - [orders_tp []]
+[2022-01-22 19:48:25] [DEBUG] - [last_tp_index 1]
+[2022-01-22 19:48:25] [DEBUG] - [current_tp_index 1]
+[2022-01-22 19:48:25] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 0,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 1
+    }
+]]
+[2022-01-22 19:48:25] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:25] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:25] [DEBUG] - [So far so good.]
+[2022-01-22 19:48:39] [DEBUG] - [last_tp_index 2]
+[2022-01-22 19:48:39] [DEBUG] - [current_tp_index 2]
+[2022-01-22 19:48:39] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 20,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 2
+    }
+]]
+[2022-01-22 19:48:39] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:39] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:39] [DEBUG] - [So far so good.]
+[2022-01-22 19:48:40] [DEBUG] - [last_tp_index 3]
+[2022-01-22 19:48:40] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:48:40] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 3
+    }
+]]
+[2022-01-22 19:48:40] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:40] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:40] [DEBUG] - [last_tp_index 4]
+[2022-01-22 19:48:40] [DEBUG] - [current_tp_index 3]
+[2022-01-22 19:48:40] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 30,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 4
+    }
+]]
+[2022-01-22 19:48:40] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:41] [DEBUG] - [So far so good.]
+[2022-01-22 19:48:56] [DEBUG] - [last_tp_index 4]
+[2022-01-22 19:48:56] [DEBUG] - [current_tp_index 4]
+[2022-01-22 19:48:56] [DEBUG] - [orders_tp [
+    {
+        "order": {
+            "id": 1642867426153,
+            "symbol": "AAVEETH",
+            "position": 0,
+            "type": 0,
+            "leverage": 1,
+            "buy_price": 40,
+            "stop_loss": 0,
+            "buy_condition": 1,
+            "tp_condition": 1,
+            "sl_condition": 2,
+            "status": 1,
+            "tp_data": [
+                20,
+                30,
+                40,
+                50,
+                60
+            ]
+        },
+        "lastTP": 4
+    }
+]]
+[2022-01-22 19:48:56] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:56] [DEBUG] - [1642867426153]
+[2022-01-22 19:48:57] [DEBUG] - [So far so good.]
+[2022-01-22 19:49:08] [DEBUG] - [last_tp_index 4]
+[2022-01-22 19:49:08] [DEBUG] - [current_tp_index 5]
+[2022-01-22 19:49:08] [DEBUG] - [orders_tp []]

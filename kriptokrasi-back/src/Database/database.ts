@@ -168,8 +168,6 @@ class DatabaseManager {
         if (order.status == EStatus.ACTIVE) { // the order is active
 
 
-
-
             if (order.position == 1) profit = -profit;
 
             await this.db.run(QUERIES.INSERT_PAST_ORDER, [

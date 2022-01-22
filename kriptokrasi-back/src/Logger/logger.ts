@@ -68,7 +68,7 @@ const logger = <CustomLevels>winston.createLogger({
         new winston.transports.Console({ format: console_format })
     ],
 
-    level: 'brain'
+    level: 'debug'
 })
 
 

@@ -68,4 +68,3 @@ export class QueryList {
 }
 
 export const Queries = new QueryList();
-logger.info('Querylist created');

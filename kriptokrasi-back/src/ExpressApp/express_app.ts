@@ -84,8 +84,6 @@ class ExpressApp {
             try {
                 await this.db.createOrder(order);
 
-
-
                 this.brain.updateOrders();
                 res.sendStatus(200);
             } catch (reason) {

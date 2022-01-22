@@ -42,7 +42,7 @@ class ConfigParser {
     saveConfig() {
         try {
             fs.writeFileSync(this.config_path, JSON.stringify(this._config), { encoding: 'utf8' });
-            logger.info('Config file updated');
+            logger.debug('Config file updated');
         } catch {
             logger.warn('Config file update failed');
         }
