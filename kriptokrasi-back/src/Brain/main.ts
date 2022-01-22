@@ -125,15 +125,15 @@ class Brain {
 
                         activationProcess.addProcess(order.id);
 
-                        let momentary_price = 0;
+                        /*let momentary_price = 0;
                         try {
                             momentary_price = await this.binance.getPriceForSymbol(order.symbol);
                         } catch (error) {
                             logger.error(error);
-                        }
+                        }*/
 
-                        const profit = (momentary_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
-                        await this.db.cancelOrder(order.id, profit, momentary_price);
+                        const profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
+                        await this.db.cancelOrder(order.id, profit, bid_price);
 
                         let msg = await this.notifier.activeOrderStopped(order, profit);
                         await this.telegram.sendMessageToAll(true, true, msg);
@@ -161,8 +161,8 @@ class Brain {
                             logger.error(error);
                         }
                         let tp_data = order.tp_data as number[]
-                        let profits = profitCalculator(momentary_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.leverage);
-
+                        let profits = profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.leverage);
+                        console.log("stoploss last tp", lastTP);
                         await this.db.updateTP(order.id, lastTP);
                         await this.db.updateBuyPrice(order.id);
 
@@ -206,12 +206,14 @@ class Brain {
 
             //Reverse the tp array
             let tps_reversed = (order.tp_data as number[]).slice().reverse();
+            console.log(tps_reversed, "wtffffff");
             let last_tp_index: number = -1;
 
             //Find the index of first tp that satisfies the tp_condition (in reverse order)
-            for (const [tp, index] of tps_reversed.entries()) {
+            for (const [index, tp] of tps_reversed.entries()) {
+                console.log(tp, index, "something is wrong here")
                 if (this.conditionWorker(bid_price, tp, order.tp_condition)) {
-                    last_tp_index = index;
+                    last_tp_index = tps_reversed.length-index-1;
                     break;
                 }
             }

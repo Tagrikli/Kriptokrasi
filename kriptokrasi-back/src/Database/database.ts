@@ -106,7 +106,7 @@ class DatabaseManager {
 
 
     async getOrderById(order_id: number): Promise<TOrder> {
-        let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID, order_id);
+        let order = await this.db.get(QUERIES.SELECT_ORDER_BY_ID, [order_id]);
         return orderTpListify(order);
     }
 
@@ -140,11 +140,11 @@ class DatabaseManager {
 
         if (type === EStatus.ACTIVE || type === EStatus.WAITING) {
             order_ids.forEach(async order_id => {
-                await this.db.run(QUERIES.DELETE_ORDER_BY_ID, order_id);
+                await this.db.run(QUERIES.DELETE_ORDER_BY_ID, [order_id]);
             })
         } else {
             order_ids.forEach(async order_id => {
-                await this.db.run(QUERIES.DELETE_PAST_BY_ID, order_id);;
+                await this.db.run(QUERIES.DELETE_PAST_BY_ID, [order_id]);;
             })
         }
 
@@ -156,8 +156,8 @@ class DatabaseManager {
         let order_ids_ = Array.isArray(order_ids) ? order_ids : [order_ids];
 
         order_ids_.forEach(async order_id => {
-            await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, order_id);
-            await this.db.run(QUERIES.INSERT_TP, order_id);
+            await this.db.run(QUERIES.ACTIVATE_ORDER_BY_ID, [order_id]);
+            await this.db.run(QUERIES.INSERT_TP, [order_id]);
         })
 
     }
@@ -200,8 +200,8 @@ class DatabaseManager {
             ])
         }
         // delete the order from the orders table
-        await this.db.run(QUERIES.DELETE_ORDER_BY_ID, order_id);
-        await this.db.run(QUERIES.DELETE_TP, order_id);
+        await this.db.run(QUERIES.DELETE_ORDER_BY_ID, [order_id]);
+        await this.db.run(QUERIES.DELETE_TP, [order_id]);
 
     }
 
@@ -261,7 +261,7 @@ class DatabaseManager {
 
 
     async updateTP(order_id: number, tp_index: number) {
-        await this.db.run(QUERIES.UPDATE_TP, order_id, tp_index);
+        await this.db.run(QUERIES.UPDATE_TP, [tp_index, order_id]);
     }
 
 
@@ -269,17 +269,21 @@ class DatabaseManager {
     async updateBuyPrice(order_id: number) {
 
         const order = await this.getOrderById(order_id);
-        let lastTP = await this.db.get(QUERIES.SELECT_TP_BY_ID, order_id);
+        console.log("oh hello");
+        let tpTable = await this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
+        let lastTP = tpTable.lastTP;
         let buy_price = order.buy_price
 
         if ((lastTP == 0) || (lastTP == 1)) {
+            console.log(buy_price, "oh hello", order.stop_loss);
             buy_price = order.stop_loss
         }
         else {
+            console.log("burning violin", lastTP);
             buy_price = order.tp_data[lastTP - 2] as number;
         }
 
-        await this.db.run(QUERIES.UPDATE_BUY_PRICE, buy_price, order_id);
+        await this.db.run(QUERIES.UPDATE_BUY_PRICE, [buy_price, order_id]);
 
     }
 
