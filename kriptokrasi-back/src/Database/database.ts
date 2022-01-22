@@ -180,8 +180,8 @@ class DatabaseManager {
                 order.type,
                 order.leverage,
                 order.buy_price,
-                profit,
                 momentary_price,
+                profit,
                 order.status,
             ])
         }
