@@ -24,7 +24,7 @@ class ConfigParser {
     _user: string
 
     constructor() {
-        this.config_path = path.join(__dirname, '..', 'credentials.json');
+        this.config_path = path.join(__dirname, '..','..', 'credentials.json');
         this._user = process.env.NODE_USER
         this.loadConfig();
     }
@@ -34,7 +34,7 @@ class ConfigParser {
             this._config = JSON.parse(fs.readFileSync(this.config_path, { encoding: 'utf8' }));
             logger.info('Config file provided')
         } catch {
-            logger.warn('Provide the config file "krconfig.json"');
+            logger.warn('Provide the config file "credentials.json"');
             process.exit(1);
         }
     }

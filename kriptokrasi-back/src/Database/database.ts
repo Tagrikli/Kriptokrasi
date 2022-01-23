@@ -30,7 +30,7 @@ class DatabaseManager {
     db_dir: string
 
     constructor() {
-        this.db_dir = path.join(ROOT_PATH, PATH.DB_DIR, 'database.sqlite');
+        this.db_dir = path.join(__dirname, 'data', 'database.sqlite');
     }
 
 
