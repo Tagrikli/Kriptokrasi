@@ -1,7 +1,7 @@
-import { GridAlignment } from "@mui/x-data-grid";
-import { customFormatter } from "./utils";
+import { GridAlignment, GridValueFormatterParams } from "@mui/x-data-grid";
 
-export const DEV = true;
+
+export const customFormatter = (params: GridValueFormatterParams) => parseFloat(params.value as string).toFixed(6);
 
 export const GRID_COLUMNS = [
     {

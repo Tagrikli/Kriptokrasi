@@ -43,8 +43,6 @@ import Notifier from './Notifier/notifier';
     const telegramBot = new TelegramBot(config.credentials.bot.token, dbManager, notifier);
     await telegramBot.start();
 
-
-
     //Initialize binance.
     const binanceManager = new BinanceManager();
 
