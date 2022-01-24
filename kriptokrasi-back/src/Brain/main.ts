@@ -135,7 +135,7 @@ class Brain {
                         let profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
                         await this.db.cancelOrder(order.id, profit, bid_price);
                         await this.updateOrders()
-                        if ((order.position === EPosition.LONG) && (order.type === EType.SPOT)) profit = -profit;
+                        if ((order.position === EPosition.LONG) || (order.type === EType.SPOT)) profit = -profit;
                         
                         let msg = await this.notifier.activeOrderStopped(order, profit);
                         await this.telegram.sendMessageToAll(true, true, msg);
@@ -167,15 +167,15 @@ class Brain {
                             logger.error(error);
                         }
                         let tp_data = order.tp_data as number[]
-                        let profits = profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
-                        if ((order.position === EPosition.LONG) && (order.type === EType.SPOT)) profits = profits.map(tp => -tp);
+                        let profits = await profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
+                        if ((order.position === EPosition.LONG) || (order.type === EType.SPOT)) profits = profits.map(tp => -tp);
 
                         await this.db.updateTP(order.id, lastTP + 1);
                         await this.db.updateStopLoss(order.id);
                         await this.updateOrders()
 
 
-                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
+                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 2]);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);

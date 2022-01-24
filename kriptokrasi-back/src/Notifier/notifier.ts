@@ -1,4 +1,3 @@
-import { privateDecrypt } from "crypto";
 import BinanceManager from "../BinanceAPI/main";
 import { profitCalculator } from "../Brain/helpers";
 import DatabaseManager from "../Database/database";
@@ -98,10 +97,10 @@ export default class Notifier {
         return await Promise.all(orders.map(async order => {
 
             let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
-            let tps = profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.tp_condition, order.leverage);
+            let tps = await profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.tp_condition, order.leverage);
 
 
-            if ((order.position === EPosition.LONG) && (order.type === EType.SPOT)) tps = tps.map(tp => -tp);
+            if ((order.position === EPosition.LONG) || (order.type === EType.SPOT)) tps = tps.map(tp => -tp);
             let momentary_profit = tps[0];
             let tp_data = tps.slice(1);
 
@@ -249,10 +248,22 @@ Silinen emirler:
 
 
     async activeOrderStopped(order: TOrder, profit: number) {
-        return new Compositor(order)
+        if (profit < 0)
+        {return new Compositor(order)
+            .symbol()
+            .type()
             .optional('İşlem stop olmuştur.')
             .optional('Zarar: %', profit)
             .composed
+        }
+        else{
+            return new Compositor(order)
+            .symbol()
+            .type()
+            .optional('İşlem stop olmuştur.')
+            .optional('Kâr: %', profit)
+            .composed
+        }
     }
 
 
