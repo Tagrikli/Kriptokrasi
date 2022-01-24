@@ -50,7 +50,7 @@ class ExpressApp {
 
         if (this.mode === 'production') {
 
-            this.app.use(express.static('build'));
+            this.app.use(express.static('react_build'));
             this.app.get('/', (req, res) => {
                 res.sendFile('index.html');
             })
