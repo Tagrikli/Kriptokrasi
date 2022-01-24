@@ -85,7 +85,7 @@ class Brain {
                         let profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
                         await this.db.cancelOrder(order.id, profit, bid_price);
                         await this.updateOrders();
-                        if ((order.position === order_types_1.EPosition.LONG) && (order.type === order_types_1.EType.SPOT))
+                        if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
                             profit = -profit;
                         let msg = await this.notifier.activeOrderStopped(order, profit);
                         await this.telegram.sendMessageToAll(true, true, msg);
@@ -106,13 +106,13 @@ class Brain {
                             logger_1.default.error(error);
                         }
                         let tp_data = order.tp_data;
-                        let profits = (0, helpers_1.profitCalculator)(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
-                        if ((order.position === order_types_1.EPosition.LONG) && (order.type === order_types_1.EType.SPOT))
+                        let profits = await (0, helpers_1.profitCalculator)(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
+                        if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
                             profits = profits.map(tp => -tp);
                         await this.db.updateTP(order.id, lastTP + 1);
                         await this.db.updateStopLoss(order.id);
                         await this.updateOrders();
-                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
+                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 2]);
                         await this.telegram.sendMessageToAll(true, true, msg);
                         activationProcess.removeProcess(order.id);
                     }

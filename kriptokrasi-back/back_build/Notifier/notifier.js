@@ -75,8 +75,8 @@ class Notifier {
             return [`Aktif emir yok`];
         return await Promise.all(orders.map(async (order) => {
             let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
-            let tps = (0, helpers_1.profitCalculator)(momentary_price, [order.buy_price, ...order.tp_data], order.tp_condition, order.leverage);
-            if ((order.position === order_types_1.EPosition.LONG) && (order.type === order_types_1.EType.SPOT))
+            let tps = await (0, helpers_1.profitCalculator)(momentary_price, [order.buy_price, ...order.tp_data], order.tp_condition, order.leverage);
+            if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
                 tps = tps.map(tp => -tp);
             let momentary_profit = tps[0];
             let tp_data = tps.slice(1);
@@ -194,10 +194,22 @@ Silinen emirler:
         return [prefix, ...orders_].join('\n');
     }
     async activeOrderStopped(order, profit) {
-        return new Compositor(order)
-            .optional('İşlem stop olmuştur.')
-            .optional('Zarar: %', profit)
-            .composed;
+        if (profit < 0) {
+            return new Compositor(order)
+                .symbol()
+                .type()
+                .optional('İşlem stop olmuştur.')
+                .optional('Zarar: %', profit)
+                .composed;
+        }
+        else {
+            return new Compositor(order)
+                .symbol()
+                .type()
+                .optional('İşlem stop olmuştur.')
+                .optional('Kâr: %', profit)
+                .composed;
+        }
     }
     tpActivated(order, tp_no, profit) {
         return new Compositor(order)

@@ -120,7 +120,7 @@ class DatabaseManager {
     async cancelOrder(order_id, profit, momentary_price) {
         let order = await this.getOrderById(order_id);
         if (order.status == order_types_1.EStatus.ACTIVE) { // the order is active
-            if ((order.position === order_types_1.EPosition.LONG) && (order.type === order_types_1.EType.SPOT))
+            if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
                 profit = -profit;
             await this.db.run(queries_1.default.INSERT_PAST_ORDER, [
                 order.id,

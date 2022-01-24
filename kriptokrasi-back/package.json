@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
-    "prod":"node ./back_build/index.js",
+    "prod": "node ./back_build/index.js",
     "build": "tsc --outDir ./back_build"
   },
   "author": "",
@@ -22,6 +22,7 @@
     "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
     "telegraf": "^4.4.2",
     "telegram": "^2.1.0",
+    "ts-node": "^10.4.0",
     "winston": "^3.3.3",
     "ws": "^8.4.0"
   },
