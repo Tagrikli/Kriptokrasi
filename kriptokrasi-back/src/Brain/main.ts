@@ -140,18 +140,15 @@ class Brain {
 
                 let orders_tp: { order: TOrder, lastTP: number }[] = this.gottaTP(this.relevantActives(symbol), bid_price);
 
-                logger.debug(`orders_tp ${JSON.stringify(orders_tp, null, 4)}`);
 
                 orders_tp.forEach(async pair => {
 
                     const order = pair.order;
                     const lastTP = pair.lastTP;
 
-                    logger.debug(order.id)
 
                     if (!activationProcess.inProcess(order.id)) {
 
-                        logger.debug(order.id)
 
                         activationProcess.addProcess(order.id);
 
@@ -168,7 +165,6 @@ class Brain {
                         await this.db.updateBuyPrice(order.id);
                         await this.updateOrders()
 
-                        logger.debug('So far so good.');
 
                         let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
                         await this.telegram.sendMessageToAll(true, true, msg);
@@ -222,7 +218,6 @@ class Brain {
                 }
             }
 
-            logger.debug(`last_tp_index ${last_tp_index}`);
 
             //If any of the tps satisfied the condition.
             if (last_tp_index > -1) {
@@ -230,7 +225,6 @@ class Brain {
                 //Find the current tp index
                 const current_tp_index = this.lastTPs.find(lastTP => lastTP.id === order.id).lastTP;
 
-                logger.debug(`current_tp_index ${current_tp_index}`);
 
 
                 //Add order and the correct tp index value to the result.

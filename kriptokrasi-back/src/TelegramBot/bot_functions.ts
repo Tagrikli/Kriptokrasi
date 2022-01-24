@@ -6,15 +6,15 @@ import logger from "../Logger/logger";
 
 export async function getIndicator(data: string[]) {
     const ind = data[0].toLowerCase();
+    const market_pair = data[5].toUpperCase();
     const e = data[1].toLowerCase();
     const tf = data[4];
     const source = data[2]
     const period = data[3]
     let msg = ``
     try{
-        const market_pair = data[5].toUpperCase();
-        let response = await axios.get(`https://api.cryptometer.io/indicator-${ind}/?market_pair=${market_pair}&source=${source}&e=${e}&period=${period}&timeframe=${tf}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        msg = `${response.data["data"][0]}`;
+    let response = await axios.get(`https://api.cryptometer.io/indicator-${ind}/?market_pair=${market_pair}&source=${source}&e=${e}&period=${period}&timeframe=${tf}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    msg = `${response.data["data"][0]}`;
 
     } catch{
         console.log("indicator mistake");
@@ -26,14 +26,9 @@ export async function getIndicator(data: string[]) {
 
 
 export async function getLongShort(data: string[]) {
-    let pair = data[1]
+    const pair = data[1].toUpperCase();
     const e = data[0].toLowerCase();
 
-    try{
-        pair = pair.toUpperCase();
-    }catch{
-        console.log("long-short pairing mistake")
-    }
     let msg = ``
     let response1 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=${e}&timeframe=15m&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
     let response2 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=${e}&timeframe=1h&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
@@ -59,10 +54,10 @@ export async function getLongShort(data: string[]) {
 }
 
 export async function getCurrentLS(data: string[]) {
+    const symbol = data[1].toLowerCase();
     const e = data[0].toLowerCase();
     let msg =``;
     try{
-        const symbol = data[1].toLowerCase();
         let response = await axios.get(`https://api.cryptometer.io/current-day-long-short-v2/?symbol=${symbol}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         msg = `Longs: ${response.data["data"][0]["longs"]}, Shorts: ${response.data["data"][0]["shorts"]}`;
     }catch{
@@ -73,9 +68,9 @@ export async function getCurrentLS(data: string[]) {
 }
 
 export async function getTotalLiq(data: string[]) {
+    const symbol = data[0].toLowerCase();
     let msg =``;
     try{
-        const symbol = data[0].toLowerCase();
         let response = await axios.get(`https://api.cryptometer.io/liquidation-data-v2/?symbol=${symbol}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         msg =response.data["data"][0]
     } catch{
@@ -100,9 +95,9 @@ export async function getBtcLiq() {
 }
 
 export async function getBitmexLiq(data: string[]) {
+    const market_pair = data[0].toUpperCase();
     let msg =``;
     try{
-        const market_pair = data[0].toUpperCase();
         let response = await axios.get(`https://api.cryptometer.io/bitmex-liquidation/?market_pair=${market_pair}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         let msg = `Miktar: ${response.data["data"][0]['quantity']}   Taraf: ${response.data["data"][0]['side']}`;
     } catch{
@@ -145,9 +140,9 @@ export async function getVolFlow(data: string[]) { //data: timeframe fromcoin to
     let msg = ``;
     const timeframes = ['15m', '1h', '4h', 'd'];
     const timeframesTR = ['15 Dakika', '1 Saat', '4 Saat', '1 Gün'];
+    const fromCoin = data[0].toUpperCase();
+    const toCoin = data[1].toUpperCase();
     try{
-        const fromCoin = data[0].toUpperCase();
-        const toCoin = data[1].toUpperCase();
     for (let j=0; j< 4; j++){
         let response = await axios.get(`https://api.cryptometer.io/volume-flow/?timeframe=${timeframes[j]}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         let buy_flow = response.data["data"]["buy_flow"]
@@ -181,12 +176,12 @@ export async function getVolFlow(data: string[]) { //data: timeframe fromcoin to
 }
 
 export async function getXTrade(data: string[]) {
+    const symbol = data[1].toLowerCase();
     const e = data[0].toLowerCase();
     let msg =``;
     try{
-        const symbol = data[1].toLowerCase();
-        let response = await axios.get(`https://api.cryptometer.io/xtrades/?symbol=${symbol}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        if (response.data['success'] == false) {
+    let response = await axios.get(`https://api.cryptometer.io/xtrades/?symbol=${symbol}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    if (response.data['success'] == false) {
         return "Yanlis exchange - parite"
     }
 
@@ -212,12 +207,12 @@ export async function getXTrade(data: string[]) {
 }
 
 export async function getLiveTrade(data: string[]) {
+    const pair = data[1].toLowerCase();
     const e = data[0].toLowerCase();
     let msg =``;
     try{
-        const pair = data[1].toLowerCase();
-        let response = await axios.get(`https://api.cryptometer.io/live-trades/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        msg = response.data["data"]
+    let response = await axios.get(`https://api.cryptometer.io/live-trades/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    msg = response.data["data"]
     }catch{
         console.log("live trade mistake");
         msg = `yanlis coin`;
@@ -228,12 +223,12 @@ export async function getLiveTrade(data: string[]) {
 }
 
 export async function getTradeVol24h(data: string[]) {
+    const pair = data[1].toUpperCase();
     const e = data[0].toLowerCase();
     let msg =``;
     try{
-        const pair = data[1].toUpperCase();
-        let response = await axios.get(`https://api.cryptometer.io/24h-trade-volume-v2/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        msg = `Alis: ${response.data["data"][0]["buy"]}  Satis: ${response.data["data"][0]["sell"]}`;
+    let response = await axios.get(`https://api.cryptometer.io/24h-trade-volume-v2/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    msg = `Alis: ${response.data["data"][0]["buy"]}  Satis: ${response.data["data"][0]["sell"]}`;
     } catch{
         console.log("tradevol 24h mistake");
         msg = `yanlis coin`;
@@ -242,43 +237,43 @@ export async function getTradeVol24h(data: string[]) {
 }
 
 export async function getOhlcv(data: string[]) {
+    const pair = data[2].toLowerCase();
     const tf = data[1]
     const e = data[0].toLowerCase();
     let msg =``;
     try{
-        const pair = data[2].toLowerCase();
-        let response = await axios.get(`https://api.cryptometer.io/ohlcv/?timeframe=${tf}&pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    let response = await axios.get(`https://api.cryptometer.io/ohlcv/?timeframe=${tf}&pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
 
-        let maxO = 0.0
-        let maxC = 0.0
-        let maxH = 0.0
-        let maxL = 0.0
-        let maxV = 0.0
-        let maxB = 0.0
-        let maxS = 0.0
-        let maxBT = 0.0
-        let maxST = 0.0
-        for (let i = 0; i < response.data["data"].length; i++) {
-            if (response.data["data"][i]["open"] > maxO)
-                maxO = response.data["data"][i]["open"]
-            if (response.data["data"][i]["close"] > maxC)
-                maxC = response.data["data"][i]["close"]
-            if (response.data["data"][i]["high"] > maxH)
-                maxH = response.data["data"][i]["high"]
-            if (response.data["data"][i]["low"] > maxL)
-                maxL = response.data["data"][i]["low"]
-            if (response.data["data"][i]["volume"] > maxV)
-                maxV = response.data["data"][i]["volume"]
-            if (response.data["data"][i]["buy"] > maxB)
-                maxB = response.data["data"][i]["buy"]
-            if (response.data["data"][i]["sell"] > maxS)
-                maxS = response.data["data"][i]["sell"]
-            if (response.data["data"][i]["buy_total"] > maxBT)
-                maxBT = response.data["data"][i]["buy_total"]
-            if (response.data["data"][i]["sell_total"] > maxST)
-                maxST = response.data["data"][i]["sell_total"];
-        }
-        msg = `Max Open değer: ${maxO} \n Max Kapanis değer: ${maxC} \n Max Yuksek değer: ${maxH} \n Max dusus değer: ${maxL} \n Max Hacim değeri:${maxV} \n Max Alim değeri: ${maxB}\n Max Satis değeri: ${maxS} \n Max Alis toplam değer: ${maxBT} \n Max Satis toplam değeri: ${maxST}`;
+    let maxO = 0.0
+    let maxC = 0.0
+    let maxH = 0.0
+    let maxL = 0.0
+    let maxV = 0.0
+    let maxB = 0.0
+    let maxS = 0.0
+    let maxBT = 0.0
+    let maxST = 0.0
+    for (let i = 0; i < response.data["data"].length; i++) {
+        if (response.data["data"][i]["open"] > maxO)
+            maxO = response.data["data"][i]["open"]
+        if (response.data["data"][i]["close"] > maxC)
+            maxC = response.data["data"][i]["close"]
+        if (response.data["data"][i]["high"] > maxH)
+            maxH = response.data["data"][i]["high"]
+        if (response.data["data"][i]["low"] > maxL)
+            maxL = response.data["data"][i]["low"]
+        if (response.data["data"][i]["volume"] > maxV)
+            maxV = response.data["data"][i]["volume"]
+        if (response.data["data"][i]["buy"] > maxB)
+            maxB = response.data["data"][i]["buy"]
+        if (response.data["data"][i]["sell"] > maxS)
+            maxS = response.data["data"][i]["sell"]
+        if (response.data["data"][i]["buy_total"] > maxBT)
+            maxBT = response.data["data"][i]["buy_total"]
+        if (response.data["data"][i]["sell_total"] > maxST)
+            maxST = response.data["data"][i]["sell_total"];
+    }
+    msg = `Max Open değer: ${maxO} \n Max Kapanis değer: ${maxC} \n Max Yuksek değer: ${maxH} \n Max dusus değer: ${maxL} \n Max Hacim değeri:${maxV} \n Max Alim değeri: ${maxB}\n Max Satis değeri: ${maxS} \n Max Alis toplam değer: ${maxBT} \n Max Satis toplam değeri: ${maxST}`;
     }catch{
         console.log("ohlcv mistake");
         msg = `yanlis coin`;
@@ -287,9 +282,9 @@ export async function getOhlcv(data: string[]) {
 }
 
 export async function getDailyVolume(data: string[]) {
+    const symbol = data[0].toUpperCase();
     let msg =``;
     try{
-        const symbol = data[0].toUpperCase();
         let response = await axios.get(`https://api.cryptometer.io/current-day-merged-volume-v2/?symbol=${symbol}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         msg =  response.data["data"]
     }catch{
@@ -300,9 +295,9 @@ export async function getDailyVolume(data: string[]) {
 }
 
 export async function getHourlyVolume(data: string[]) {
+    const symbol = data[0].toLowerCase();
     let msg =``;
     try{
-        const symbol = data[0].toLowerCase();
         let response = await axios.get(`https://api.cryptometer.io/hourly-buy-sell-merged-volume/?symbol=${symbol}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         msg = `${response.data["data"]}`;
     }catch{
@@ -313,11 +308,11 @@ export async function getHourlyVolume(data: string[]) {
 }
 
 export async function getMergedVolume(data: string[]) {
+    const symbol = data[2].toLowerCase();
     const exhange_type = data[0]; //spot or futures
     const timeframe = data[1];
     let msg =``;
     try{
-        const symbol = data[2].toLowerCase();
         let response = await axios.get(`https://api.cryptometer.io/merged-trade-volume/?symbol=${symbol}&exchange_type=${exhange_type}&timeframe=${timeframe}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         msg = `Alim: ${response.data["data"][0]["buy"]} ve Satim: ${response.data["data"][0]["sell"]}`;
     }catch{
@@ -331,32 +326,32 @@ export async function getMergedVolume(data: string[]) {
 
 
 export async function getTickerList(data: string[]) {
+    const pair = data[1].toUpperCase();
     const e = data[0].toLowerCase();
     let msg =``;
     try{
-        const pair = data[1].toUpperCase();
-        let response = await axios.get(`https://api.cryptometer.io/tickerlist-pro/?&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        for (let i = 0; i < response.data["data"].length; i++) {
-            if (response.data["data"][i]["market_pair"] == pair) {
-                msg = response.data["data"][i];
-                break;
-            }
-            }
-    }catch{
-        console.log("tickerlist mistake");
-        msg = `yanlis coin`;
+    let response = await axios.get(`https://api.cryptometer.io/tickerlist-pro/?&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    for (let i = 0; i < response.data["data"].length; i++) {
+        if (response.data["data"][i]["market_pair"] == pair) {
+            msg = response.data["data"][i];
+            break;
+        }
     }
+}catch{
+    console.log("tickerlist mistake");
+    msg = `yanlis coin`;
+}
     return msg;
 }
 
 export async function getOpenInterest(data: string[]) {
+    const market_pair = data[1].toLowerCase();
     const e = data[0].toLowerCase();
     let msg = ""
     try{
-        const market_pair = data[1].toLowerCase();
-        let response = await axios.get(`https://api.cryptometer.io/merged--trade-volume/?market_pair=${market_pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        if (response.status != 200)
-            msg = "Toplam veri yetersiz.";
+    let response = await axios.get(`https://api.cryptometer.io/merged--trade-volume/?market_pair=${market_pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    if (response.status != 200)
+        msg = "Toplam veri yetersiz.";
     }catch{
         console.log("live trade mistake");
         msg = `yanlis coin`;
