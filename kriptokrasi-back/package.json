@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
-    "prod": "node ./back_build/index.js",
-    "build": "tsc --outDir ./bakibaki",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "NODE_USER='aycos' MODE='production' node ./back_build/index.js",
+    "build": "tsc --outDir ./back_build"
   },
   "author": "",
   "license": "ISC",
