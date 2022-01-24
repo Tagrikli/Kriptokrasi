@@ -264,21 +264,21 @@ class DatabaseManager {
 
 
     //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
-    async updateBuyPrice(order_id: number) {
+    async updateStopLoss(order_id: number) {
 
         const order = await this.getOrderById(order_id);
         let tpTable = await this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
         let lastTP = tpTable.lastTP;
-        let buy_price = order.buy_price
+        let stop_loss = order.stop_loss
 
         if ((lastTP == 0) || (lastTP == 1)) {
-            buy_price = order.stop_loss
+            stop_loss= order.buy_price
         }
         else {
-            buy_price = order.tp_data[lastTP - 2] as number;
+            stop_loss = order.tp_data[lastTP - 2] as number;
         }
 
-        await this.db.run(QUERIES.UPDATE_BUY_PRICE, [buy_price, order_id]);
+        await this.db.run(QUERIES.UPDATE_STOP_LOSS, [stop_loss, order_id]);
 
     }
 
