@@ -162,7 +162,7 @@ class Brain {
                         let profits = profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.leverage);
 
                         await this.db.updateTP(order.id, lastTP + 1);
-                        await this.db.updateBuyPrice(order.id);
+                        await this.db.updateStopLoss(order.id);
                         await this.updateOrders()
 
 
