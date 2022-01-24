@@ -30,7 +30,10 @@ class TelegramApp {
             onError: (err) => console.log(err),
         });
 
-        logger.tele_app('Telegram Client started')
+        logger.tele_app('Telegram Client started');
+
+
+
         return this.client.session.save() as unknown as string;
 
 
@@ -60,11 +63,19 @@ class TelegramApp {
 
     }
 
-    addMessageHandler(dialog: Dialog, callback: (event: NewMessageEvent) => void) {
-        this.client.addEventHandler(callback, new NewMessage({ chats: [dialog.entity.id] }))
-        logger.tele_app('Telegram Client binded a function');
+    async addMessageHandler(dialog_title: string, callback: (event: NewMessageEvent) => void) {
+
+        let dialog = await this.getDialogByTitle(dialog_title);
+
+
+        if (dialog) {
+            this.client.addEventHandler(callback, new NewMessage({ chats: [dialog.entity.id] }))
+            logger.tele_app('Telegram Client binded a function');
+        }      
     }
 
+
+    
 
 }
 

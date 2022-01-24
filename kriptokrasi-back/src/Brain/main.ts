@@ -8,6 +8,7 @@ import { TLastTPDB } from "../utils/types";
 import BinanceManager from "../BinanceAPI/main";
 import { profitCalculator } from "./helpers";
 import Notifier from "../Notifier/notifier";
+import { NewMessageEvent } from "telegram/events";
 
 
 const activationProcess = new ActivationProcess();
@@ -60,6 +61,12 @@ class Brain {
         logger.brain('Orders updated.');
     }
 
+
+    async onTelegramAppMessage(event: NewMessageEvent) {
+
+        const message = event.message.message;
+        this.telegram.sendMessageToAll(true, true, message);    
+    }
 
     async onBinanceBookTicker(data: any) {
 

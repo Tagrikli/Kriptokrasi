@@ -72,6 +72,8 @@ import Notifier from './Notifier/notifier';
     //After initialization
 
 
+    telegramApp.addMessageHandler('CryptoMeter.io Bot', (data) => brain.onTelegramAppMessage(data));
+
 
     notifier.binance = binanceManager;
     notifier.database = dbManager;
