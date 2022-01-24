@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
-    "prod_win":"$env:NODE_USER='aycos' $env:MODE='production' node ./back_build/index.js",
-    "prod_lin": "NODE_USER='aycos' MODE='production' node ./back_build/index.js",
+    "prod":"node ./back_build/index.js",
     "build": "tsc --outDir ./back_build"
   },
   "author": "",
