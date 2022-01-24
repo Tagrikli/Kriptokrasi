@@ -24,7 +24,6 @@ class Compositor {
             let profits = d[1];
             if (profits) {
                 let ind = profits.length;
-                console.log(ind);
                 return d[0].map((v, i) => `TP${i + 1}: ${i < ind ? `✅ %${profits[i]}` : v}`).join('\n');
             }
             else {
