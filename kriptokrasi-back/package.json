@@ -18,7 +18,7 @@
     "input": "^1.0.1",
     "lodash": "^4.17.21",
     "sqlite": "^4.0.23",
-    "sqlite3": "^4.2.0",
+    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
     "telegraf": "^4.4.2",
     "telegram": "^2.1.0",
     "winston": "^3.3.3",

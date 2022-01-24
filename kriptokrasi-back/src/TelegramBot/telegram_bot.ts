@@ -411,7 +411,7 @@ class TelegramBot {
             }
         });
 
-        this.bot.hears(/(?<=[Ss][Yy][Mm][Bb] ).*/, async (ctx) => {
+        this.bot.hears(/(?<=symb ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.replace('symb ', '');
             const chat_id = ctx.message.chat.id;
@@ -459,7 +459,7 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(/(?<=[Pp][Aa] ).*/, async (ctx) => {
+        this.bot.hears(/(?<=pa ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.replace('pa ', '');
             const chat_id = ctx.message.chat.id;
@@ -502,7 +502,7 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(/(?<=[Mm][Pp] ).*/, async (ctx) => {
+        this.bot.hears(/(?<=mp ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.replace('mp ', '');
             const chat_id = ctx.message.chat.id;
@@ -542,7 +542,7 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(/(?<=[Ff][Rr][Oo][Mm][Tt][Oo] ).*/, async (ctx) => {
+        this.bot.hears(/(?<=para ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coins = message.split(' ');//split yapicammmmmm
             const chat_id = ctx.message.chat.id;

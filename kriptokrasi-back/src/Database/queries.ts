@@ -79,9 +79,9 @@ const QUERIES = {
         DELETE FROM orders
         WHERE id = ?`,
 
-    UPDATE_BUY_PRICE: /*sql*/`
+    UPDATE_STOP_LOSS: /*sql*/`
         UPDATE orders
-        SET buy_price = ?
+        SET stop_loss = ?
         WHERE id =?`,
 
     //past

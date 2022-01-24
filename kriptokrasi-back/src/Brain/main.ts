@@ -132,10 +132,11 @@ class Brain {
                         activationProcess.addProcess(order.id);
 
 
-                        const profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
+                        let profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
                         await this.db.cancelOrder(order.id, profit, bid_price);
                         await this.updateOrders()
-
+                        if ((order.position === EPosition.LONG) && (order.type === EType.SPOT)) profit = -profit;
+                        
                         let msg = await this.notifier.activeOrderStopped(order, profit);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
@@ -166,10 +167,11 @@ class Brain {
                             logger.error(error);
                         }
                         let tp_data = order.tp_data as number[]
-                        let profits = profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.leverage);
+                        let profits = profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
+                        if ((order.position === EPosition.LONG) && (order.type === EType.SPOT)) profits = profits.map(tp => -tp);
 
                         await this.db.updateTP(order.id, lastTP + 1);
-                        await this.db.updateBuyPrice(order.id);
+                        await this.db.updateStopLoss(order.id);
                         await this.updateOrders()
 
 
@@ -197,12 +199,12 @@ class Brain {
 
     gottaActivate(orders: TOrder[], bid_price: number) {
         //Returns list of orders should be activated.
-        return orders.filter(order => this.conditionWorker(bid_price, order.buy_price, order.buy_condition));
+        return orders.filter(order => Brain.conditionWorker(bid_price, order.buy_price, order.buy_condition));
     }
 
     gottaStopLoss(orders: TOrder[], bid_price: number) {
         //Returns list of orders should be deactivated
-        return orders.filter(order => this.conditionWorker(bid_price, order.stop_loss, order.sl_condition));
+        return orders.filter(order => Brain.conditionWorker(bid_price, order.stop_loss, order.sl_condition));
     }
 
 
@@ -219,7 +221,7 @@ class Brain {
 
             //Find the index of first tp that satisfies the tp_condition (in reverse order)
             for (const [index, tp] of tps_reversed.entries()) {
-                if (this.conditionWorker(bid_price, tp, order.tp_condition)) {
+                if (Brain.conditionWorker(bid_price, tp, order.tp_condition)) {
                     last_tp_index = tps_reversed.length - index - 1;
                     break;
                 }
@@ -250,7 +252,7 @@ class Brain {
 
 
 
-    conditionWorker(live_price: number, order_price: number, condition: ECompare) {
+    static conditionWorker(live_price: number, order_price: number, condition: ECompare) {
         switch (condition) {
             case ECompare.GT:
                 return live_price > order_price;

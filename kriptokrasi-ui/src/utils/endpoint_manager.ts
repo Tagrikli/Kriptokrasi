@@ -5,7 +5,7 @@ const DEV = process.env.NODE_ENV === 'development';
 
 const location = () => document.location.host;
 
-const WEBSOCKET_URL = DEV ? new URL(`ws://localhost:${CONFIG.PORT}`) : new URL(`ws://${location()}:${CONFIG.PORT}`);
+const WEBSOCKET_URL = DEV ? new URL(`ws://localhost:${CONFIG.PORT}`) : new URL(`ws://${location()}`);
 const EXPRESS_BASE = DEV ? `http://localhost:${CONFIG.PORT}` : `http://${location()}`;
 
 

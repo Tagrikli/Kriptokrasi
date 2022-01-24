@@ -27,6 +27,7 @@ class Compositor {
 
             if (profits) {
                 let ind = profits.length;
+                console.log(ind);
                 return d[0].map((v: string, i: number) => `TP${i + 1}: ${i < ind ? `✅ %${profits[i]}` : v}`).join('\n');
             } else {
                 return d[0].map((v: string, i: number) => `TP${i + 1}: ${v}`).join('\n');
@@ -98,13 +99,12 @@ export default class Notifier {
         return await Promise.all(orders.map(async order => {
 
             let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
-            let tps = profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage);
+            let tps = profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])],order.tp_condition, order.leverage);
+
+
+            if ((order.position === EPosition.LONG) && (order.type === EType.SPOT)) tps = tps.map(tp => -tp);
             let momentary_profit = tps[0];
             let tp_data = tps.slice(1);
-
-
-            if (order.position === EPosition.SHORT) tps = tps.map(tp => -tp);
-
 
             if (order.type === EType.SPOT) {
 
@@ -258,6 +258,7 @@ Silinen emirler:
 
 
     tpActivated(order: TOrder, tp_no: number, profit: number) {
+
         return new Compositor(order)
             .symbol()
             .type()
