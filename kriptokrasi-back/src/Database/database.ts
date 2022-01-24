@@ -277,12 +277,8 @@ class DatabaseManager {
         else {
             stop_loss = order.tp_data[lastTP - 2] as number;
         }
-
         await this.db.run(QUERIES.UPDATE_STOP_LOSS, [stop_loss, order_id]);
-
     }
-
-
 }
 
 
