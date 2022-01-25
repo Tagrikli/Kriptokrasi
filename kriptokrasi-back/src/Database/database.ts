@@ -83,6 +83,7 @@ class DatabaseManager {
 
     async getOrdersById(order_ids: number[], type: EStatus): Promise<TOrder[] | TOrder_Past[]> {
         //Cok efficient degil sanki digerleri cok efficientmis gibi.
+        //6 satir koddan daha efficient ne olabilir teallam
         //Only for waiting and active
 
         let orders = await this.getAllOrders(type);
@@ -253,8 +254,14 @@ class DatabaseManager {
         }
 
         return users;
+    }
 
-
+    async makeVip (user_id: number, duration: number){
+        //duration can be 1 week, 15 days or 1 month
+        const timeout = Date.now() + duration;
+        await this.db.run(QUERIES.UPDATE_VIP, [1, user_id]);
+        await this.db.run(QUERIES.UPDATE_VIP_TIMEOUT, [timeout, user_id]);
+    
     }
 
 

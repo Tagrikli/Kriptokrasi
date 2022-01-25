@@ -33,6 +33,16 @@ const QUERIES = {
         INSERT OR IGNORE INTO users
         VALUES (?, ?, ?, ?, ?, ?, ?)`,
 
+    UPDATE_VIP:/*sql*/`
+        UPDATE users
+        SET vip = ?
+        WHERE id =? `,
+
+    UPDATE_VIP_TIMEOUT:/*sql*/`
+        UPDATE users
+        SET vip_timeout = ?
+        WHERE id =? `,
+    
     //orders
 
     CREATE_ORDERS_TABLE: /*sql*/`

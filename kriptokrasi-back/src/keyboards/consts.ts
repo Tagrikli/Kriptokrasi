@@ -8,7 +8,8 @@ export const BUTTON_LIST = {
     EXCHANGE: ['Spot', 'Vadeli'],
     STOCK: ['Binance', 'Binance_Futures', 'Bitmex'],
     INITIAL : ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Eğitim', 'Anlık Data'],
-    LESSON: ["Trade Eğitimi","Vadeli İşlem ve Borsa Eğitimi"]
+    LESSON: ["Trade Eğitimi","Vadeli İşlem ve Borsa Eğitimi"],
+    ZERO: ["OKUDUM, ANLADIM"]
 
 }
 

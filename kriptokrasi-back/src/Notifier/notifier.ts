@@ -180,7 +180,7 @@ export default class Notifier {
         }));
     }
 
-    async preparePastOrders(pastOrders: TOrder_Past[]) {
+    async preparePastOrders() {
 
 
         let orders = await this.database.getAllOrders(EStatus.PAST) as TOrder_Past[];
@@ -217,6 +217,11 @@ export default class Notifier {
 
     }
 
+    async waitingOrderAdded(order:TOrder){
+        return new Compositor(order)
+            .optional(order.symbol, 'işlemi eklenmiştir.')
+            .composed
+    }
 
     async waitingOrderActivated(order: TOrder) {
 
@@ -245,6 +250,20 @@ Silinen emirler:
     }
 
 
+    activeOrderDeletion(orders: TOrder[], profit:number) { //profit should be the profit of the lastTP
+
+        let prefix = `
+Aktif emirler iptal edildi.
+Silinen emirler:
+`
+        const orders_ = orders.map(order => new Compositor(order)
+            .symbol()
+            .buy_price()
+            .optional("Kâr:  %", profit)
+            .composed)
+
+        return [prefix, ...orders_].join('\n');
+    }
 
 
     async activeOrderStopped(order: TOrder, profit: number) {
