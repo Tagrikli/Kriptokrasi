@@ -29,9 +29,7 @@ export default function Login(props: { onLogin: (login_data: any) => Promise<voi
         const pl = data.password.length;
 
         if (ul && pl) {
-            setLoading(true);
             await props.onLogin(data);
-            setLoading(false);
         }
 
 

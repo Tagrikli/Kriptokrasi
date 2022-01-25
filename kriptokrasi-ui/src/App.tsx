@@ -10,11 +10,13 @@ import './utils/endpoint_manager'
 import Login from './components/Login';
 import { EXPRESS_ENDPOINTS } from './utils/endpoint_manager';
 import { MESSAGES } from './utils/messages';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 function App() {
 
   const [menu, setMenu] = useState(-1);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const menuSelection = (index: number) => {
     setMenu(index);
@@ -23,10 +25,11 @@ function App() {
 
   const onLogin = async (data: any) => {
 
+    setLoading(true);
 
     let result = await fetch(EXPRESS_ENDPOINTS.LOGIN, {
       method: "POST",
-      headers: { 'Content-Type': "application/json"},
+      headers: { 'Content-Type': "application/json" },
       body: JSON.stringify(data)
     })
 
@@ -36,7 +39,7 @@ function App() {
       toast.error(MESSAGES.ERROR.LOGIN);
     }
 
-
+    setLoading(false);
 
   }
 
@@ -44,19 +47,25 @@ function App() {
   if (!loggedIn) {
 
     return <div><Login onLogin={onLogin}></Login>
-    
-    <ToastContainer
-          position="bottom-left"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          draggablePercent={50}
-          pauseOnFocusLoss={false}
-          draggable
-        />
-    
-    
+
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        draggablePercent={50}
+        pauseOnFocusLoss={false}
+        draggable
+      />
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress size={60} color="inherit" />
+      </Backdrop>
+
     </div>
 
   }

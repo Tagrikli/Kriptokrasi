@@ -1,4 +1,4 @@
-import { Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
+import { Autocomplete, Backdrop, Button, CircularProgress, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { EPosition, ECompare, EType, TOrder, EStatus } from "../../kriptokrasi-common/order_types";
 import { toast } from 'react-toastify';
@@ -176,8 +176,6 @@ export default function AddOrder() {
         console.log(order_prepared);
 
 
-
-
         try {
 
             let result = await fetch(EXPRESS_ENDPOINTS.CREATE_ORDER, {
@@ -190,24 +188,24 @@ export default function AddOrder() {
 
 
             if (result.status === 200) {
-                setLoading(false);
                 toast.success(MESSAGES.SUCCESS.ORDER.ADD);
             } else {
-                setLoading(false);
                 toast.error(MESSAGES.ERROR.ORDER.ADD);
             }
 
 
         } catch (error: any) {
-            setLoading(false);
             toast.error(error.message);
         }
+
+        setLoading(false);
+
 
     }
 
 
 
-    const changeHandler = (event: any) => {
+    const changeHandler = (event: any, ...other: any[]) => {
 
         const id: string = event.target.id;
         const name = event.target.name;
@@ -215,10 +213,12 @@ export default function AddOrder() {
         const value = event.target.value;
 
 
-
         if (id) {
 
-            if (id.includes(TP_PREFIX)) {
+            if (id.includes(FIELD_IDS.SYMBOL_SELECT)) {
+                setData({ ...data, symbol: other[0] });
+
+            } else if (id.includes(TP_PREFIX)) {
 
                 const index = extractTpIndex(id);
                 var tp_data_ = [...data.tp_data];
@@ -243,9 +243,6 @@ export default function AddOrder() {
 
         } else if (name) {
             switch (name) {
-                case FIELD_IDS.SYMBOL_SELECT:
-                    setData({ ...data, symbol: value });
-                    break;
                 case FIELD_IDS.BUY_COND:
                     setData({ ...data, buy_condition: parseInt(value) });
                     break;
@@ -313,19 +310,14 @@ export default function AddOrder() {
 
             </Box>
 
-            <FormControl >
-                <InputLabel id="symbol-label">Sembol</InputLabel>
-                <Select
-                    labelId="symbol-label"
-                    id={FIELD_IDS.SYMBOL_SELECT}
-                    label="Sembol"
-                    onChange={changeHandler}
-                    name={FIELD_IDS.SYMBOL_SELECT}
-                    defaultValue={''}
-                >
-                    {symbols.map((symbol: string, index: number) => <MenuItem key={index} value={symbol}>{symbol}</MenuItem>)}
-                </Select>
-            </FormControl>
+
+
+            <Autocomplete
+                disablePortal
+                id={FIELD_IDS.SYMBOL_SELECT}
+                options={symbols}
+                onChange={changeHandler}
+                renderInput={(params) => <TextField {...params} label="Sembol" />} />
 
 
             <TextField type="number" onChange={changeHandler} id={FIELD_IDS.BUY_PRICE} label="Alış Fiyatı" variant="outlined" defaultValue={DEFAULT_PRICE} InputProps={{ inputProps: { step: DEFAULT_PRICE } }} />
