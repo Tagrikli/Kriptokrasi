@@ -15,6 +15,7 @@ import NETWORK from './kriptokrasi-common/network.json';
 import Notifier from './Notifier/notifier';
 
 
+
 (async () => {
 
     logger.info('Program starting...')
