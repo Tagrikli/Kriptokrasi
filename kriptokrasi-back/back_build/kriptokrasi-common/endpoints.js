@@ -15,6 +15,7 @@ const ENDPOINTS = {
     DELETE_ORDERS: createPath('delete_orders'),
     SEND_TELEGRAM_MESSAGE: createPath('send_telegram_message'),
     DEV_LIVE_PRICE: createPath('dev_live_price'),
+    LOGIN: createPath('login_request'),
     WEBHOOK: createPath('webhook'),
 };
 exports.default = ENDPOINTS;

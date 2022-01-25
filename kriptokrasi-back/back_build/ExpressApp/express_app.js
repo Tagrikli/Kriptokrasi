@@ -10,6 +10,24 @@ const order_types_1 = require("../kriptokrasi-common/order_types");
 const ws_1 = require("ws");
 const http_1 = __importDefault(require("http"));
 const endpoints_1 = __importDefault(require("../kriptokrasi-common/endpoints"));
+const LOGIN_DATA = {
+    ayca: {
+        username: "Ayca",
+        password: "Haziran2021*"
+    },
+    king: {
+        username: "King",
+        password: "King123"
+    },
+    nilay: {
+        username: "Nilay",
+        password: "Nilay123"
+    },
+    tugrul: {
+        username: "Tugrul",
+        password: "123"
+    }
+};
 class ExpressApp {
     mode;
     port;
@@ -51,6 +69,12 @@ class ExpressApp {
         }
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.text());
+        this.app.post(endpoints_1.default.LOGIN, async (req, res) => {
+            let username = req.body.username;
+            let password = req.body.password;
+            let len = Object.values(LOGIN_DATA).filter(user => user.password === password && user.username === username).length;
+            len > 0 ? res.sendStatus(200) : res.sendStatus(201);
+        });
         this.app.get(endpoints_1.default.GET_SYMBOLS, async (req, res) => {
             try {
                 const symbol_list = await this.binance.getAllSymbols();
