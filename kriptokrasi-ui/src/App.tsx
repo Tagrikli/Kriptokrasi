@@ -15,7 +15,7 @@ import { Backdrop, CircularProgress } from '@mui/material';
 function App() {
 
   const [menu, setMenu] = useState(-1);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const menuSelection = (index: number) => {
