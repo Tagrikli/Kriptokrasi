@@ -8,6 +8,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import HistoryIcon from '@mui/icons-material/History';
 import EmailIcon from '@mui/icons-material/Email';
+import GroupIcon from '@mui/icons-material/Group';
 import BuildIcon from '@mui/icons-material/Build';
 import { Box, SwipeableDrawer } from '@mui/material';
 import MenuBar from './MenuBar';
@@ -18,9 +19,9 @@ import React, { useState } from 'react';
 
 export default function Drawer(props: { onSelect: (index: number) => void }) {
     const [active, setActive] = useState(false);
-    const [dev, setDev] = useState(true);
+    const [dev, setDev] = useState(false);
 
-    const icons = [<AddIcon />, <AccessTimeIcon />, <AlarmOnIcon />, <HistoryIcon />, <EmailIcon />, <BuildIcon />]
+    const icons = [<AddIcon />, <AccessTimeIcon />, <AlarmOnIcon />, <HistoryIcon />, <EmailIcon />, <GroupIcon />, <BuildIcon />]
 
     const toggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
         setActive(!active);
@@ -43,7 +44,7 @@ export default function Drawer(props: { onSelect: (index: number) => void }) {
             onKeyDown={toggleDrawer}
         >
             <List>
-                {['Bekleyen Emir Ekle', 'Bekleyen Emirler', 'Aktif Emirler', 'İşlem Geçmişi', 'Mesaj Gönder'].map((text, index) => (
+                {['Bekleyen Emir Ekle', 'Bekleyen Emirler', 'Aktif Emirler', 'İşlem Geçmişi', 'Mesaj Gönder', 'VIP Ayarla'].map((text, index) => (
                     <ListItem button onClick={menuItemClickHandler} id={`menu-item-${index}`} key={text}>
                         <ListItemIcon>
                             {icons[index]}

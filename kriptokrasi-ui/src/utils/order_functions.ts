@@ -1,4 +1,12 @@
-import { ECompare, EPosition, EType, TOrder } from "../kriptokrasi-common/order_types";
+import { ECompare, EPosition, EType, TOrder, TUserDB } from "../kriptokrasi-common/order_types";
+import TimeAgo from 'javascript-time-ago';
+import turkish from 'javascript-time-ago/locale/tr.json';
+
+TimeAgo.addDefaultLocale(turkish);
+const timeAgo = new TimeAgo('tr')
+export const timeFormatter = (timeout: number) => timeAgo.format(Date.now() + timeout);
+
+
 
 export const beautifyData = (data_arr: TOrder[]) => {
 
@@ -26,6 +34,7 @@ export const beautifyData = (data_arr: TOrder[]) => {
         switch (type) {
             case EType.SPOT:
                 data.type = 'SPOT';
+                delete data.position
                 break;
             case EType.VADELI:
                 data.type = 'VADELI';
@@ -66,5 +75,36 @@ export const beautifyData = (data_arr: TOrder[]) => {
     })
 
     return beautified;
+
+}
+
+export function beautifyUsers(users: TUserDB[]) {
+
+
+    let users_ = users.slice() as any[];
+
+    users_.map(user => {
+
+        user.id = user.user_id;
+
+        if (user.vip) {
+            user.vip = 'EVET';
+        } else {
+            user.vip = 'HAYIR';
+            delete user.vip_timeout
+        }
+
+        if (user.vip_timeout !== undefined) {
+            user.vip_timeout = timeAgo.format(Date.now() + user.vip_timeout);
+        }
+
+        return user;
+
+    })
+
+    return users_;
+
+
+
 
 }

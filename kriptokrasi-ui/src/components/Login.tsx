@@ -1,15 +1,13 @@
-import { Backdrop, Button, Card, CardContent, CardHeader, CardMedia, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, FormGroup, InputAdornment, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Button, Card, CardContent, CardHeader, CardMedia, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, FormGroup, InputAdornment, Paper, Stack, TextField, Typography } from "@mui/material";
 import { AccountCircle, Lock } from "@mui/icons-material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useState } from "react";
 
 export default function Login(props: { onLogin: (login_data: any) => Promise<void> }) {
 
 
 
     const [data, setData] = useState({ username: '', password: '', remember: false });
-    const [loading, setLoading] = useState(false);
 
 
     const usernameChange = (event: any) => {
@@ -82,12 +80,7 @@ export default function Login(props: { onLogin: (login_data: any) => Promise<voi
 
         </Paper>
 
-        <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={loading}
-        >
-            <CircularProgress size={60} color="inherit" />
-        </Backdrop>
+  
 
     </Container >
 

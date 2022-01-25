@@ -35,12 +35,7 @@ const QUERIES = {
 
     UPDATE_VIP:/*sql*/`
         UPDATE users
-        SET vip = ?
-        WHERE id =? `,
-
-    UPDATE_VIP_TIMEOUT:/*sql*/`
-        UPDATE users
-        SET vip_timeout = ?
+        SET vip = ?, vip_timeout = ?
         WHERE id =? `,
 
     //orders

@@ -89,6 +89,16 @@ class ExpressApp {
         this.app.use(express.text());
 
 
+        this.app.get(ENDPOINTS.GET_ALL_USERS, async (req, res) => {
+
+
+            let users = await this.db.getAllUsers(false);
+            res.send(users);
+
+
+        })
+
+
         this.app.post(ENDPOINTS.LOGIN, async (req, res) => {
             let username = req.body.username;
             let password = req.body.password;

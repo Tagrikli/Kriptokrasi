@@ -120,11 +120,10 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
     >
 
         <DataGrid
+            density="comfortable"
             autoHeight={true}
             rows={rows}
             columns={GRID_COLUMNS}
-            pageSize={10}
-            rowsPerPageOptions={[5]}
             checkboxSelection
             disableSelectionOnClick
             onSelectionModelChange={selectionModelChangeHandler}

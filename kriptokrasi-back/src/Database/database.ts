@@ -7,7 +7,8 @@ import QUERIES from './queries';
 import { ROOT_PATH } from '..';
 import logger from '../Logger/logger';
 import { TOrder, EStatus, TOrder_Past, EPosition, EType } from '../kriptokrasi-common/order_types';
-import { TLastTPDB, TUserDB } from '../utils/types';
+import { TLastTPDB } from '../utils/types';
+import { TUserDB } from '../kriptokrasi-common/order_types';
 import { Queries } from '../Query';
 
 
@@ -266,9 +267,8 @@ class DatabaseManager {
     async makeVip (user_id: number, duration: number){
         //duration can be 1 week, 15 days or 1 month
         const timeout = Date.now() + duration;
-        await this.db.run(QUERIES.UPDATE_VIP, [1, user_id]);
-        await this.db.run(QUERIES.UPDATE_VIP_TIMEOUT, [timeout, user_id]);
-    
+        await this.db.run(QUERIES.UPDATE_VIP, [1, timeout, user_id]);
+
     }
 
 
