@@ -23,6 +23,8 @@ const ENDPOINTS = {
 
     DEV_LIVE_PRICE: createPath('dev_live_price'),
 
+    LOGIN: createPath('login_request'),
+
     WEBHOOK: createPath('webhook'),
 
 }

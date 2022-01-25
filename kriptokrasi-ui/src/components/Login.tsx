@@ -70,9 +70,9 @@ export default function Login(props: { onLogin: (login_data: any) => Promise<voi
                     </Box>
 
 
-                    <FormGroup>
+                    {/* <FormGroup>
                         <FormControlLabel control={<Checkbox onChange={rememberChange} />} label="Beni Hatirla" />
-                    </FormGroup>
+                    </FormGroup> */}
 
                     <Button variant="contained" onClick={onSubmit}>Login</Button>
 

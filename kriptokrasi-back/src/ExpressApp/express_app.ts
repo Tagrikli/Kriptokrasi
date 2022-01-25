@@ -12,6 +12,29 @@ import { TTMessage } from "../kriptokrasi-common/message_types";
 import TelegramBot from "../TelegramBot/telegram_bot";
 import Notifier from "../Notifier/notifier";
 
+
+const LOGIN_DATA = {
+    ayca: {
+        username: "Ayca",
+        password: "Haziran2021*"
+    },
+    king: {
+        username: "King",
+        password: "King123"
+
+    },
+    nilay: {
+        username: "Nilay",
+        password: "Nilay123"
+    },
+    tugrul: {
+        username: "Tugrul",
+        password: "123"
+    }
+
+}
+
+
 class ExpressApp {
     mode: string;
     port: number;
@@ -65,6 +88,14 @@ class ExpressApp {
         this.app.use(express.json());
         this.app.use(express.text());
 
+
+        this.app.post(ENDPOINTS.LOGIN, async (req, res) => {
+            let username = req.body.username;
+            let password = req.body.password;
+
+            let len = Object.values(LOGIN_DATA).filter(user => user.password === password && user.username === username).length;
+            len > 0 ? res.sendStatus(200) : res.sendStatus(201);
+        })
 
         this.app.get(ENDPOINTS.GET_SYMBOLS, async (req, res) => {
 

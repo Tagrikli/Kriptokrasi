@@ -1,6 +1,6 @@
 import './App.css';
 import Drawer from './components/Drawer';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css'
 import { Box } from '@mui/system';
 import { useState } from 'react';
@@ -8,10 +8,13 @@ import MenuRenderer from './components/MenuRenderer';
 
 import './utils/endpoint_manager'
 import Login from './components/Login';
+import { EXPRESS_ENDPOINTS } from './utils/endpoint_manager';
+import { MESSAGES } from './utils/messages';
 
 function App() {
 
   const [menu, setMenu] = useState(-1);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const menuSelection = (index: number) => {
     setMenu(index);
@@ -20,37 +23,68 @@ function App() {
 
   const onLogin = async (data: any) => {
 
-    console.log(data);
 
-    return new Promise<void>((res, rej) => {
-      setTimeout(() => res(), 1000);
+    let result = await fetch(EXPRESS_ENDPOINTS.LOGIN, {
+      method: "POST",
+      headers: { 'Content-Type': "application/json"},
+      body: JSON.stringify(data)
     })
+
+    if (result.status === 200) {
+      setLoggedIn(true);
+    } else {
+      toast.error(MESSAGES.ERROR.LOGIN);
+    }
+
+
 
   }
 
-  return (
 
-    <Box sx={{ width: '%100' }} className="App">
+  if (!loggedIn) {
 
-      {/* <Login onLogin={onLogin}></Login> */}
+    return <div><Login onLogin={onLogin}></Login>
+    
+    <ToastContainer
+          position="bottom-left"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          draggablePercent={50}
+          pauseOnFocusLoss={false}
+          draggable
+        />
+    
+    
+    </div>
 
-      <Drawer onSelect={menuSelection}></Drawer>
-      <MenuRenderer index={menu}></MenuRenderer>
+  }
+  else {
 
-      <ToastContainer
-        position="bottom-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        draggablePercent={50}
-        pauseOnFocusLoss={false}
-        draggable
-      />
+    return (
+
+      <Box sx={{ width: '%100' }} className="App">
 
 
-    </Box>
-  );
+        <Drawer onSelect={menuSelection}></Drawer>
+        <MenuRenderer index={menu}></MenuRenderer>
+
+        <ToastContainer
+          position="bottom-left"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          draggablePercent={50}
+          pauseOnFocusLoss={false}
+          draggable
+        />
+
+
+      </Box>
+    );
+  }
 }
 
 export default App;

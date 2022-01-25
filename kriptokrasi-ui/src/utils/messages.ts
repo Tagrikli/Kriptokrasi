@@ -17,6 +17,7 @@ export const MESSAGES = {
             INTERNAL: 'Serverda bir hata mevcut.'
         },
 
+        LOGIN: "Giris bilgileriniz hatali.",
 
         INPUT_CHECK: {
             
