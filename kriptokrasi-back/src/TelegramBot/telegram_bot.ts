@@ -63,7 +63,7 @@ class TelegramBot {
             ctx.reply('Welcome.');
         })
 
-        this.bot.hears(OKUDUM_ANLADIM, (ctx)=>{
+        this.bot.hears(BUTTON_LIST.ZERO, (ctx)=>{
             if (!(this.db.userExists(ctx.message.from.id))) this.db.createUser(ctx.message.from);
             ctx.reply("Seçiminizi yapınız...", { reply_markup: KEYBOARDS.INITIAL });
         })
