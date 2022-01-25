@@ -69,11 +69,42 @@ class ExpressApp {
         }
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.text());
+        this.app.get(endpoints_1.default.GET_ALL_USERS, async (req, res) => {
+            let users = await this.db.getAllUsers(false);
+            res.send(users);
+        });
+        this.app.post(endpoints_1.default.UPDATE_VIP, async (req, res) => {
+            const user_ids = req.body.user_ids;
+            const vip = req.body.vip;
+            const extension = req.body.extension;
+            try {
+                if (!vip) {
+                    await Promise.all(user_ids.map(async (id) => {
+                        this.db.updateVIP(id, vip, 0);
+                    }));
+                }
+                else {
+                    await Promise.all(user_ids.map(async (id) => {
+                        this.db.updateVIP(id, vip, Date.now() + extension);
+                    }));
+                }
+                res.sendStatus(200);
+            }
+            catch (error) {
+                logger_1.default.error(error);
+                res.sendStatus(500);
+            }
+        });
         this.app.post(endpoints_1.default.LOGIN, async (req, res) => {
             let username = req.body.username;
             let password = req.body.password;
-            let len = Object.values(LOGIN_DATA).filter(user => user.password === password && user.username === username).length;
-            len > 0 ? res.sendStatus(200) : res.sendStatus(201);
+            let data = await this.db.getPassword(username);
+            if (data && data.password === password) {
+                res.sendStatus(200);
+            }
+            else {
+                res.sendStatus(201);
+            }
         });
         this.app.get(endpoints_1.default.GET_SYMBOLS, async (req, res) => {
             try {

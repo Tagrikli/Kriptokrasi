@@ -146,7 +146,7 @@ class Notifier {
             }
         }));
     }
-    async preparePastOrders(pastOrders) {
+    async preparePastOrders() {
         let orders = await this.database.getAllOrders(order_types_1.EStatus.PAST);
         if (!orders.length)
             return [`Gecmis emir yok`];
@@ -174,6 +174,11 @@ class Notifier {
             }
         }));
     }
+    async waitingOrderAdded(order) {
+        return new Compositor(order)
+            .optional(order.symbol, 'işlemi eklenmiştir.')
+            .composed;
+    }
     async waitingOrderActivated(order) {
         const momentary_price = await this.getMomentaryPrice(order.symbol);
         return new Compositor(order)
@@ -190,6 +195,18 @@ Silinen emirler:
         const orders_ = orders.map(order => new Compositor(order)
             .symbol()
             .buy_price()
+            .composed);
+        return [prefix, ...orders_].join('\n');
+    }
+    activeOrderDeletion(orders, profit) {
+        let prefix = `
+Aktif emirler iptal edildi.
+Silinen emirler:
+`;
+        const orders_ = orders.map(order => new Compositor(order)
+            .symbol()
+            .buy_price()
+            .optional("Kâr:  %", profit)
             .composed);
         return [prefix, ...orders_].join('\n');
     }

@@ -46,7 +46,12 @@ class DatabaseManager {
         await this.db.run(queries_1.default.CREATE_PAST_TABLE);
         logger_1.default.database('Past orders table created');
         await this.db.run(queries_1.default.CREATE_TP_TABLE);
-        logger_1.default.database('Database tables created');
+        logger_1.default.database('TP table created');
+        await this.db.run(queries_1.default.CREATE_LOGIN_TABLE);
+        logger_1.default.database('Login_data table created');
+    }
+    async getPassword(username) {
+        return await this.db.get(queries_1.default.SELECT_PASSWORD_BY_USERNAME, [username]);
     }
     async userExists(user_id) {
         return (await this.db.get(queries_1.default.SELECT_USER_BY_ID, [user_id])) ? true : false;
@@ -63,6 +68,7 @@ class DatabaseManager {
     }
     async getOrdersById(order_ids, type) {
         //Cok efficient degil sanki digerleri cok efficientmis gibi.
+        //6 satir koddan daha efficient ne olabilir teallam
         //Only for waiting and active
         let orders = await this.getAllOrders(type);
         let orders_ = [];
@@ -191,6 +197,9 @@ class DatabaseManager {
             }
         }
         return users;
+    }
+    async updateVIP(user_id, vip, timeout) {
+        await this.db.run(queries_1.default.UPDATE_VIP, [vip, timeout, user_id]);
     }
     async updateTP(order_id, tp_index) {
         await this.db.run(queries_1.default.UPDATE_TP, [tp_index, order_id]);
