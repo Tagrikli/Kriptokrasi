@@ -42,7 +42,7 @@ const QUERIES = {
         UPDATE users
         SET vip_timeout = ?
         WHERE id =? `,
-    
+
     //orders
 
     CREATE_ORDERS_TABLE: /*sql*/`
@@ -162,6 +162,21 @@ const QUERIES = {
         user_id INTEGER,
         PRIMARY KEY(id))`,
 
+
+    //PASSWORDS
+
+    CREATE_LOGIN_TABLE: /*sql*/`
+    CREATE TABLE IF NOT EXISTS login_data (
+        username TEXT NOT NULL,
+        password TEXT NOT NULL)`,
+
+    
+    SELECT_PASSWORD_BY_USERNAME: /*sql*/`
+        SELECT password
+        FROM login_data
+        WHERE username = ?`,
+    
+    
 }
 
 

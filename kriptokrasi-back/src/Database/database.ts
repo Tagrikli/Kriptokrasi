@@ -59,7 +59,14 @@ class DatabaseManager {
         await this.db.run(QUERIES.CREATE_PAST_TABLE);
         logger.database('Past orders table created');
         await this.db.run(QUERIES.CREATE_TP_TABLE);
-        logger.database('Database tables created');
+        logger.database('TP table created');
+        await this.db.run(QUERIES.CREATE_LOGIN_TABLE)
+        logger.database('Login_data table created');
+    }
+
+
+    async getPassword(username: string) {
+        return await this.db.get(QUERIES.SELECT_PASSWORD_BY_USERNAME, [username])
     }
 
 

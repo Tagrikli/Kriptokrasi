@@ -93,8 +93,15 @@ class ExpressApp {
             let username = req.body.username;
             let password = req.body.password;
 
-            let len = Object.values(LOGIN_DATA).filter(user => user.password === password && user.username === username).length;
-            len > 0 ? res.sendStatus(200) : res.sendStatus(201);
+            let data = await this.db.getPassword(username);
+
+            if (data && data.password === password) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(201);
+            }
+
+
         })
 
         this.app.get(ENDPOINTS.GET_SYMBOLS, async (req, res) => {
