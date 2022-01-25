@@ -4,7 +4,8 @@ import turkish from 'javascript-time-ago/locale/tr.json';
 
 TimeAgo.addDefaultLocale(turkish);
 const timeAgo = new TimeAgo('tr')
-export const timeFormatter = (timeout: number) => timeAgo.format(Date.now() + timeout);
+
+export const timeFormatter = (timeout: number) => timeAgo.format(timeout);
 
 
 
@@ -95,7 +96,7 @@ export function beautifyUsers(users: TUserDB[]) {
         }
 
         if (user.vip_timeout !== undefined) {
-            user.vip_timeout = timeAgo.format(Date.now() + user.vip_timeout);
+            user.vip_timeout = timeFormatter(user.vip_timeout)
         }
 
         return user;

@@ -11,6 +11,7 @@ import ENDPOINTS from "../kriptokrasi-common/endpoints";
 import { TTMessage } from "../kriptokrasi-common/message_types";
 import TelegramBot from "../TelegramBot/telegram_bot";
 import Notifier from "../Notifier/notifier";
+import { EnumPositionMarginChangeType } from "binance";
 
 
 const LOGIN_DATA = {
@@ -95,6 +96,38 @@ class ExpressApp {
             let users = await this.db.getAllUsers(false);
             res.send(users);
 
+
+        })
+
+        this.app.post(ENDPOINTS.UPDATE_VIP, async (req, res) => {
+
+            const user_ids: number[] = req.body.user_ids;
+            const vip: boolean = req.body.vip;
+            const extension: number = req.body.extension;
+
+            try {
+
+                if (!vip) {
+
+                    await Promise.all(user_ids.map(async id => {
+                        this.db.updateVIP(id, vip, 0);
+                    }))
+
+                } else {
+
+                    await Promise.all(user_ids.map(async id => {
+                        this.db.updateVIP(id, vip, Date.now() + extension);
+                    }))
+
+                }
+
+
+                res.sendStatus(200);
+
+            } catch (error) {
+                logger.error(error);
+                res.sendStatus(500);
+            }
 
         })
 

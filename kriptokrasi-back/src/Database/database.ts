@@ -31,7 +31,7 @@ class DatabaseManager {
     db_dir: string
 
     constructor() {
-        this.db_dir = path.join(__dirname, '..','..','data', 'database.sqlite');
+        this.db_dir = path.join(__dirname, '..', '..', 'data', 'database.sqlite');
     }
 
 
@@ -264,11 +264,8 @@ class DatabaseManager {
         return users;
     }
 
-    async makeVip (user_id: number, duration: number){
-        //duration can be 1 week, 15 days or 1 month
-        const timeout = Date.now() + duration;
-        await this.db.run(QUERIES.UPDATE_VIP, [1, timeout, user_id]);
-
+    async updateVIP(user_id: number, vip: boolean, timeout: number) {
+        await this.db.run(QUERIES.UPDATE_VIP, [vip, timeout, user_id]);
     }
 
 
@@ -286,7 +283,7 @@ class DatabaseManager {
         let stop_loss = order.stop_loss
 
         if ((lastTP == 0) || (lastTP == 1)) {
-            stop_loss= order.buy_price
+            stop_loss = order.buy_price
         }
         else {
             stop_loss = order.tp_data[lastTP - 2] as number;

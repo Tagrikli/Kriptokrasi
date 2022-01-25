@@ -3,8 +3,10 @@ export const MESSAGES = {
 
     ERROR: {
 
+        VIP:'Değişiklikler gerçekleştirilemedi.',
+
         MESSAGE: {
-            SEND:'Mesaj gönderilemedi :('
+            SEND:'Mesaj gönderilemedi.'
         },
 
         ORDER: {
@@ -54,6 +56,8 @@ export const MESSAGES = {
         MESSAGE: {
             SEND: 'Mesaj gönderildi!'
         },
+
+        VIP: 'Değişiklikler gerçekleştirildi!',
 
         ORDER: {
             ADD: 'Emir eklendi!',
