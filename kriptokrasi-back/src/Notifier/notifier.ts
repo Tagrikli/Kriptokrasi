@@ -86,6 +86,7 @@ export default class Notifier {
     }
 
 
+
     async prepareActiveOrders() {
 
 
@@ -217,9 +218,10 @@ export default class Notifier {
 
     }
 
-    async waitingOrderAdded(order:TOrder){
+     waitingOrderAdded(order:TOrder){
         return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
+            .optional('Bekleyen emirlerden kontrol ediniz.')
             .composed
     }
 

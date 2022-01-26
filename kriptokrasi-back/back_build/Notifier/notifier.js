@@ -174,9 +174,10 @@ class Notifier {
             }
         }));
     }
-    async waitingOrderAdded(order) {
+    waitingOrderAdded(order) {
         return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
+            .optional('Bekleyen emirlerden kontrol ediniz.')
             .composed;
     }
     async waitingOrderActivated(order) {

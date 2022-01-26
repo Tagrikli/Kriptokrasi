@@ -180,7 +180,7 @@ class ExpressApp {
 
             try {
                 await this.db.createOrder(order);
-
+                this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderAdded(order));
                 this.brain.updateOrders();
                 res.sendStatus(200);
             } catch (reason) {
@@ -240,8 +240,8 @@ class ExpressApp {
 
                 if (type === EStatus.WAITING)
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_ as TOrder[]));
-                //if (type === EStatus.ACTIVE)
-                //this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[]));
+                if (type === EStatus.ACTIVE)
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[],1234));
 
 
                 this.brain.updateOrders();

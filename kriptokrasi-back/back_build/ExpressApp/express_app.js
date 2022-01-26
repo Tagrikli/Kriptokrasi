@@ -133,6 +133,7 @@ class ExpressApp {
             logger_1.default.express('New order!');
             try {
                 await this.db.createOrder(order);
+                this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderAdded(order));
                 this.brain.updateOrders();
                 res.sendStatus(200);
             }
