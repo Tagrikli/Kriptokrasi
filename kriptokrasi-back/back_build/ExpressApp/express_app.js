@@ -73,6 +73,18 @@ class ExpressApp {
             let users = await this.db.getAllUsers(false);
             res.send(users);
         });
+        this.app.post(endpoints_1.default.DELETE_USERS, async (req, res) => {
+            const user_ids = req.body.user_ids;
+            try {
+                await Promise.all(user_ids.map(async (id) => {
+                    await this.db.deleteUser(id);
+                }));
+                res.sendStatus(200);
+            }
+            catch (error) {
+                res.sendStatus(500);
+            }
+        });
         this.app.post(endpoints_1.default.UPDATE_VIP, async (req, res) => {
             const user_ids = req.body.user_ids;
             const vip = req.body.vip;

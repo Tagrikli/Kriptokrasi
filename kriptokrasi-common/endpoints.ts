@@ -18,16 +18,17 @@ const ENDPOINTS = {
     GET_PAST_ORDERS: createPath('get_past_orders'),
 
     GET_ALL_USERS: createPath('get_all_users'),
+    DELETE_USERS: createPath('delete_users'),
     UPDATE_VIP: createPath('update_vip'),
 
     DELETE_ORDERS: createPath('delete_orders'),
 
     SEND_TELEGRAM_MESSAGE: createPath('send_telegram_message'),
 
-    
+
     LOGIN: createPath('login_request'),
     WEBHOOK: createPath('webhook'),
-    
+
     DEV_LIVE_PRICE: createPath('dev_live_price'),
 }
 

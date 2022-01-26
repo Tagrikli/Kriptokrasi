@@ -64,6 +64,28 @@ export default function MakeVIP() {
 
     }
 
+
+    const onUserDelete = async (event: any) => {
+
+        setLoading(true);
+
+        let result = await fetch(EXPRESS_ENDPOINTS.DELETE_USERS, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_ids: selectionModel })
+        })
+
+        if (result.status === 200) {
+            toast.success(MESSAGES.SUCCESS.USER_DELETE)
+        } else {
+            toast.error(MESSAGES.ERROR.USER_DELETE)
+        }
+
+        setLoading(false);
+    }
+
     const onVIPClick = async (event: any) => {
 
         console.log(duration);
@@ -145,8 +167,8 @@ export default function MakeVIP() {
                 }}>
 
 
-                    <Button sx={{margin:1}} color='success' id='make-vip' onClick={onVIPClick}>VIP YAP</Button>
-                    <Button sx={{margin:1}} color='error' id='cancel-vip' onClick={onVIPClick}>VIP KALDIR</Button>
+                    <Button sx={{ margin: 1 }} color='success' id='make-vip' onClick={onVIPClick}>VIP YAP</Button>
+                    <Button sx={{ margin: 1 }} color='error' id='cancel-vip' onClick={onVIPClick}>VIP KALDIR</Button>
 
                     <FormControl >
                         <InputLabel id="duration-label">Süre</InputLabel>
@@ -194,6 +216,20 @@ export default function MakeVIP() {
                     <TextField sx={{ maxWidth: 300 }} label='Kullanici Adi' onChange={onFilterUsername}></TextField>
 
                 </Box>
+
+
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 3
+                }}>
+
+                    <Button sx={{ margin: 1 }} color='error' id='delete-user' onClick={onUserDelete}>Kullanicilari Sil</Button>
+
+                </Box>
+
             </Box>
 
 
@@ -221,15 +257,6 @@ export default function MakeVIP() {
                 disableSelectionOnClick
                 onSelectionModelChange={selectionModelChangeHandler}
             />
-
-
-
-
-
-
-
-
-
 
 
 

@@ -30,6 +30,9 @@ const QUERIES = {
         UPDATE users
         SET vip = ?, vip_timeout = ?
         WHERE user_id =? `,
+    DELETE_USER: /*sql*/ `
+        DELETE FROM users
+        WHERE user_id = ?`,
     //orders
     CREATE_ORDERS_TABLE: /*sql*/ `
         CREATE TABLE IF NOT EXISTS orders (

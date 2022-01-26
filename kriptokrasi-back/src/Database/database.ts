@@ -88,6 +88,13 @@ class DatabaseManager {
         logger.database('New user created');
     }
 
+    async deleteUser(user_id: number) {
+
+        await this.db.run(QUERIES.DELETE_USER, [user_id]);
+        logger.database('User deleted');
+
+    }
+
 
     async getOrdersById(order_ids: number[], type: EStatus): Promise<TOrder[] | TOrder_Past[]> {
         //Cok efficient degil sanki digerleri cok efficientmis gibi.

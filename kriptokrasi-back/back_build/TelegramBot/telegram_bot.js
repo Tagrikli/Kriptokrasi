@@ -47,20 +47,22 @@ class TelegramBot {
         this.bot.hears('Welcome', (ctx) => {
             ctx.reply('Welcome.');
         });
-        this.bot.hears(consts_1.BUTTON_LIST.ZERO, (ctx) => {
-            if (!(this.db.userExists(ctx.message.from.id)))
+        this.bot.hears(consts_1.BUTTON_LIST.ZERO, async (ctx) => {
+            if (!(await this.db.userExists(ctx.message.from.id)))
                 this.db.createUser(ctx.message.from);
             ctx.reply("Seçiminizi yapınız...", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
         });
         this.bot.use(async (ctx, next) => {
             const user_id = ctx.from.id;
             const chat_type = ctx.chat.type;
-            if (!(await this.db.userExists(ctx.message.from.id))) {
-                ctx.reply("Lütfen kullanıma başlamak icin okudum, anladıma basınız.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
-                return;
-            }
             if (Waitlist_1.waitlist.find(user_id)) {
                 ctx.reply('⏰⏰ Lütfen 10 saniye bekleyin...');
+                return;
+            }
+            if (!(await this.db.userExists(ctx.message.from.id))) {
+                ctx.reply("Lütfen kullanıma başlamak icin okudum, anladıma basınız.", { reply_markup: keyboards_1.KEYBOARDS.ZERO });
+                ctx.reply(consts_1.OKUDUM_ANLADIM, { reply_markup: keyboards_1.KEYBOARDS.ZERO });
+                Waitlist_1.waitlist.push(user_id);
                 return;
             }
             if (chat_type !== 'private') {

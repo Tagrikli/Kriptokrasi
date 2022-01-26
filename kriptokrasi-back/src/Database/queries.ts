@@ -38,6 +38,10 @@ const QUERIES = {
         SET vip = ?, vip_timeout = ?
         WHERE user_id =? `,
 
+    DELETE_USER: /*sql*/`
+        DELETE FROM users
+        WHERE user_id = ?`,
+
     //orders
 
     CREATE_ORDERS_TABLE: /*sql*/`
@@ -165,13 +169,13 @@ const QUERIES = {
         username TEXT NOT NULL,
         password TEXT NOT NULL)`,
 
-    
+
     SELECT_PASSWORD_BY_USERNAME: /*sql*/`
         SELECT password
         FROM login_data
         WHERE username = ?`,
-    
-    
+
+
 }
 
 

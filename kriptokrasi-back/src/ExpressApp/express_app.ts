@@ -99,6 +99,22 @@ class ExpressApp {
 
         })
 
+        this.app.post(ENDPOINTS.DELETE_USERS, async (req, res) => {
+
+            const user_ids: number[] = req.body.user_ids;
+            try {
+                await Promise.all(user_ids.map(async id => {
+
+                    await this.db.deleteUser(id);
+
+                }))
+                res.sendStatus(200);
+
+            } catch (error) {
+                res.sendStatus(500);
+            }
+        })
+
         this.app.post(ENDPOINTS.UPDATE_VIP, async (req, res) => {
 
             const user_ids: number[] = req.body.user_ids;

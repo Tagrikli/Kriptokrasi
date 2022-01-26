@@ -18,7 +18,7 @@ class TelegramBot {
     db: DatabaseManager;
     notifier: Notifier;
 
-    constructor(token: string, db: DatabaseManager, notifier:Notifier) {
+    constructor(token: string, db: DatabaseManager, notifier: Notifier) {
         this.bot = new Telegraf<TContext>(token);
         this.db = db;
         this.notifier = notifier;
@@ -53,33 +53,35 @@ class TelegramBot {
 
         this.bot.start(async (ctx) => {
             if (!(await this.db.userExists(ctx.message.from.id))) {
-                ctx.reply(OKUDUM_ANLADIM, {reply_markup: KEYBOARDS.ZERO});
+                ctx.reply(OKUDUM_ANLADIM, { reply_markup: KEYBOARDS.ZERO });
             }
             else ctx.reply("Seçiminizi yapınız...", { reply_markup: KEYBOARDS.INITIAL });
         });
 
-        this.bot.hears('Welcome', (ctx) => {
 
+        this.bot.hears('Welcome', (ctx) => {
             ctx.reply('Welcome.');
         })
 
-        this.bot.hears(BUTTON_LIST.ZERO, (ctx)=>{
-            if (!(this.db.userExists(ctx.message.from.id))) this.db.createUser(ctx.message.from);
+        this.bot.hears(BUTTON_LIST.ZERO, async (ctx) => {
+            if (!(await this.db.userExists(ctx.message.from.id))) this.db.createUser(ctx.message.from);
             ctx.reply("Seçiminizi yapınız...", { reply_markup: KEYBOARDS.INITIAL });
         })
+
 
         this.bot.use(async (ctx, next) => {
             const user_id = ctx.from.id;
             const chat_type: string = ctx.chat.type;
 
-            if (!(await this.db.userExists(ctx.message.from.id))) {
-                ctx.reply("Lütfen kullanıma başlamak icin okudum, anladıma basınız.", { reply_markup: KEYBOARDS.INITIAL });
+            if (waitlist.find(user_id)) {
+                ctx.reply('⏰⏰ Lütfen 10 saniye bekleyin...');
                 return;
             }
 
-
-            if (waitlist.find(user_id)) {
-                ctx.reply('⏰⏰ Lütfen 10 saniye bekleyin...');
+            if (!(await this.db.userExists(ctx.message.from.id))) {
+                ctx.reply("Lütfen kullanıma başlamak icin okudum, anladıma basınız.", { reply_markup: KEYBOARDS.ZERO });
+                ctx.reply(OKUDUM_ANLADIM, { reply_markup: KEYBOARDS.ZERO });
+                waitlist.push(user_id);
                 return;
             }
 

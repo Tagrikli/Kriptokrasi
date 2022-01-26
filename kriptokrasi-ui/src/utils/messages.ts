@@ -3,10 +3,12 @@ export const MESSAGES = {
 
     ERROR: {
 
-        VIP:'Değişiklikler gerçekleştirilemedi.',
+        VIP: 'Değişiklikler gerçekleştirilemedi.',
+
+        USER_DELETE:'Kullanicilar silinemedi.',
 
         MESSAGE: {
-            SEND:'Mesaj gönderilemedi.'
+            SEND: 'Mesaj gönderilemedi.'
         },
 
         ORDER: {
@@ -22,7 +24,7 @@ export const MESSAGES = {
         LOGIN: "Giris bilgileriniz hatali.",
 
         INPUT_CHECK: {
-            
+
             STOP_BUY: {
                 SPOT_LT: 'Spot türünde "Alış Fiyatı" "Stop-Loss" değerinden küçük olmalıdır.',
                 VADELI_SHORT_GT: 'Vadeli (Short) türünde "Alış Fiyatı" "Stop-Loss" değerinden küçük olmalıdır.',
@@ -58,6 +60,8 @@ export const MESSAGES = {
         },
 
         VIP: 'Değişiklikler gerçekleştirildi!',
+
+        USER_DELETE: 'Kullanicilar silindi.',
 
         ORDER: {
             ADD: 'Emir eklendi!',
