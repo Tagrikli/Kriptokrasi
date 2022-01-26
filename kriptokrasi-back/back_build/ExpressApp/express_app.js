@@ -177,8 +177,8 @@ class ExpressApp {
                 await this.db.deleteOrders(order_ids, type);
                 if (type === order_types_1.EStatus.WAITING)
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_));
-                //if (type === EStatus.ACTIVE)
-                //this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[]));
+                if (type === order_types_1.EStatus.ACTIVE)
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_, 1234));
                 this.brain.updateOrders();
                 res.sendStatus(200);
             }
