@@ -75,7 +75,7 @@ export default function SendMessage() {
             <Stack direction="row" spacing={1} alignItems="center">
                 <Typography>Herkes</Typography>
                 <Switch defaultChecked onChange={onVipChange} />
-                <Typography>VIP</Typography>
+                <Typography>Sadece VIP</Typography>
             </Stack>
 
             <Stack direction="row" spacing={1} alignItems="center">

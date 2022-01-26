@@ -1,5 +1,6 @@
-import { Backdrop, Button, Container, FormControl, InputLabel, MenuItem, Select, Stack } from "@mui/material";
-import { Box } from "@mui/system";
+import { Label } from "@mui/icons-material";
+import { Backdrop, Button, Container, Divider, FormControl, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Box, minWidth } from "@mui/system";
 import { DataGrid, GridSelectionModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -13,6 +14,9 @@ export default function MakeVIP() {
 
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState<TUserDB[]>([]);
+    const [users_, setUsers_] = useState<TUserDB[]>([]);
+    const [onlyVIP, setOnlyVIP] = useState(false);
+    const [search, setSearch] = useState('');
     const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
     const [duration, setDuration] = useState(0);
 
@@ -20,17 +24,45 @@ export default function MakeVIP() {
         console.log(selectionModel);
     }, [selectionModel])
 
+
+    useEffect(() => {
+        setUsers_(filterByUsername(filterByVIP(users)));
+    }, [onlyVIP, search])
+
+
     useEffect(() => {
 
         fetch(EXPRESS_ENDPOINTS.GET_ALL_USERS)
             .then(data => data.json())
             .then((data_arr: TUserDB[]) => {
-                setUsers(beautifyUsers(data_arr));
-                console.log(data_arr);
+
+                const beautified = beautifyUsers(data_arr);
+
+                setUsers(beautified);
+                setUsers_(beautified);
             });
 
-
     }, [loading])
+
+
+    const filterByVIP = (data: TUserDB[]) => {
+        return onlyVIP ? data.filter(user => user.vip as any === "EVET") : data;
+    }
+
+    const filterByUsername = (data: TUserDB[]) => {
+        return search.length > 0 ? data.filter(user => user.username.toLowerCase().includes(search.toLowerCase())) : data;
+    }
+
+
+    const onFilterChange = (_: any, checked: boolean) => {
+        setOnlyVIP(checked);
+    }
+
+    const onFilterUsername = (event: any) => {
+
+        setSearch(event.target.value);
+
+    }
 
     const onVIPClick = async (event: any) => {
 
@@ -96,14 +128,96 @@ export default function MakeVIP() {
         <Stack spacing={5}>
 
 
+            <Box sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                justifyContent: 'space-evenly',
+                alignItems: 'stretch',
+                flexWrap: "wrap"
+            }}>
+
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 3
+                }}>
+
+
+                    <Button sx={{margin:1}} color='success' id='make-vip' onClick={onVIPClick}>VIP YAP</Button>
+                    <Button sx={{margin:1}} color='error' id='cancel-vip' onClick={onVIPClick}>VIP KALDIR</Button>
+
+                    <FormControl >
+                        <InputLabel id="duration-label">Süre</InputLabel>
+                        <Select
+                            labelId="duration-label"
+                            id="duration-select"
+                            value={duration}
+                            label="Süre"
+                            onChange={durationChangeHandler}
+
+                        >
+                            <MenuItem value={0}>Hiç</MenuItem>
+                            <MenuItem value={7}>1 Hafta</MenuItem>
+                            <MenuItem value={15}>15 Gün</MenuItem>
+                            <MenuItem value={30}>1 Ay</MenuItem>
+                            <MenuItem value={365 * 100}>Hep</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+
+
+
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 3
+                }}>
+
+                    <Typography>Herkes</Typography>
+                    <Switch onChange={onFilterChange} />
+                    <Typography>Sadece VIP</Typography>
+
+                </Box>
+
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 3
+                }}>
+
+                    <TextField sx={{ maxWidth: 300 }} label='Kullanici Adi' onChange={onFilterUsername}></TextField>
+
+                </Box>
+            </Box>
+
+
+
+
+
+
+
             <DataGrid
+
                 autoHeight={true}
-                rows={users}
+                rows={users_}
                 columns={USER_COLUMNS}
                 pageSize={10}
                 rowsPerPageOptions={[5]}
                 checkboxSelection
                 loading={loading}
+                initialState={{
+                    filter: {
+                        filterModel: {
+                            items: [{ columnField: 'VIP', operatorValue: 'equals', value: 'EVET' }],
+                        },
+                    },
+                }}
                 disableSelectionOnClick
                 onSelectionModelChange={selectionModelChangeHandler}
             />
@@ -112,28 +226,7 @@ export default function MakeVIP() {
 
 
 
-            <Stack spacing={3} direction={'row'} p={5}>
-                <Button color='success' id='make-vip' onClick={onVIPClick}>VIP YAP</Button>
-                <Button color='error' id='cancel-vip' onClick={onVIPClick}>VIP KALDIR</Button>
 
-                <FormControl >
-                    <InputLabel id="duration-label">Süre</InputLabel>
-                    <Select
-                        labelId="duration-label"
-                        id="duration-select"
-                        value={duration}
-                        label="Süre"
-                        onChange={durationChangeHandler}
-                    >
-                        <MenuItem value={0}>Hiç</MenuItem>
-                        <MenuItem value={7}>1 Hafta</MenuItem>
-                        <MenuItem value={15}>15 Gün</MenuItem>
-                        <MenuItem value={30}>1 Ay</MenuItem>
-                        <MenuItem value={365 * 100}>Hep</MenuItem>
-                    </Select>
-                </FormControl>
-
-            </Stack>
 
 
 
