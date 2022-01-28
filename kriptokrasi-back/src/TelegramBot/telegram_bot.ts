@@ -93,7 +93,7 @@ class TelegramBot {
 
             ctx.vip = (await this.db.isVIP(user_id)).vip;
 
-            if (!ctx.vip) {
+            if ((!ctx.vip) && (!await this.db.isVillagerDay())) {
                 ctx.reply('Botu kullanabilmek için üye olunuz.', { reply_markup: KEYBOARDS.INITIAL });
                 return;
             }

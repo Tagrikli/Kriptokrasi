@@ -10,6 +10,7 @@ import { TOrder, EStatus, TOrder_Past, EPosition, EType } from '../kriptokrasi-c
 import { TLastTPDB } from '../utils/types';
 import { TUserDB } from '../kriptokrasi-common/order_types';
 import { Queries } from '../Query';
+import { time } from 'console';
 
 
 function orderTpListify(order: TOrder): Omit<TOrder, 'tp_data'> & { tp_data: number[] } {
@@ -63,6 +64,9 @@ class DatabaseManager {
         logger.database('TP table created');
         await this.db.run(QUERIES.CREATE_LOGIN_TABLE)
         logger.database('Login_data table created');
+        await this.db.run(QUERIES.CREATE_VILLAGERDAY_TABLE);
+        await this.db.run(QUERIES.INSERT_DAY)
+        logger.database('Villager_day table created');
     }
 
 
@@ -251,18 +255,24 @@ class DatabaseManager {
         return TPtable.lastTP;
     }
 
+    async isVillagerDay(){
+        let villagerDay = await this.db.get(QUERIES.SELECT_VILLAGER_DAY);
+        return villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
+    }
 
     async getAllUsers(vip: boolean, filter?: boolean): Promise<TUserDB[]> {
 
         let users: TUserDB[];
 
-        if (!vip) {
+        let villagerDay = await this.db.get(QUERIES.SELECT_VILLAGER_DAY);
+        let isVillagerDay = villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
+        console.log(villagerDay.is_villager_day, villagerDay.timeout);
 
+        if ((!vip) || (isVillagerDay)) {
             users = await this.db.all(QUERIES.SELECT_ALL_USERS);
 
         } else {
             users = await this.db.all(QUERIES.SELECT_USER_BY_VIP);
-
             if (filter) {
                 users = users.filter(user => {
                     let deadline = user.vip_timeout;
@@ -270,9 +280,9 @@ class DatabaseManager {
                 });
             }
         }
-
         return users;
     }
+
 
     async updateVIP(user_id: number, vip: boolean, timeout: number) {
         await this.db.run(QUERIES.UPDATE_VIP, [vip, timeout, user_id]);
@@ -283,6 +293,16 @@ class DatabaseManager {
         await this.db.run(QUERIES.UPDATE_TP, [tp_index, order_id]);
     }
 
+    async startVillagerDay(){
+        let timeout = Date.now() + 3600*24;
+        await this.db.run(QUERIES.UPDATE_VILLAGER_DAY, [1]);
+        await this.db.run(QUERIES.UPDATE_TIMEOUT, [timeout]);
+        return "tugrulun fikriydi hadi hayirlisi"
+    }
+
+    async finishVillagerDay(){
+        return await this.db.run(QUERIES.UPDATE_VILLAGER_DAY, [0]);
+    }
 
     //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
     async updateStopLoss(order_id: number) {
