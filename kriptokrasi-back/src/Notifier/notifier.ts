@@ -18,8 +18,8 @@ class Compositor {
         buy_price: (...d: any[]) => `Giriş Fiyatı : ${d[0]}`,
         sell_price: (...d: any[]) => `Satış Fiyatı : ${d[0]}`,
         leverage: (...d: any[]) => `Kaldıraç : ${d[0]}`,
-        profit: (...d: any[]) => `Kar: ${d[0]}`,
-        momentary_profit: (...d: any[]) => `Anlık Kâr:  %${d[0]}`,
+        profit: (...d: any[]) => `Kar: %${(d[0]).toFixed(2)}`,
+        momentary_profit: (...d: any[]) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
         momentary_price: (...d: any[]) => `Anlık Fiyat: ${d[0]}`,
         tp_data: (...d: any[]) => {
             let profits = d[1];
@@ -27,7 +27,7 @@ class Compositor {
             if (profits) {
                 let ind = profits.length;
                 console.log(d);
-                return d[0].map((v: string, i: number) => `TP${i + 1}: ${i < ind ? `✅ %${profits[i]}` : v}`).join('\n');
+                return d[0].map((v: string, i: number) => `TP${i + 1}: ${i < ind ? `✅ %${(profits[i]).toFixed(2)}` : v}`).join('\n');
             } else {
                 return d[0].map((v: string, i: number) => `TP${i + 1}: ${v}`).join('\n');
             }
@@ -261,7 +261,7 @@ Aktif emirler iptal edildi.
         const orders_ = orders.map(order => new Compositor(order)
             .symbol()
             .buy_price()
-            .optional("Kâr:  %", profit)
+            .optional("Kâr:  %", profit.toFixed(2))
             .composed)
 
         return [prefix, ...orders_].join('\n');
@@ -269,12 +269,13 @@ Aktif emirler iptal edildi.
 
 
     async activeOrderStopped(order: TOrder, profit: number, lastTP: number) {
+        
         if (profit < 0)
         {return new Compositor(order)
             .symbol()
             .type()
             .optional('İşlem stop olmuştur.')
-            .optional('Zarar: %', profit)
+            .optional('Zarar: %', profit.toFixed(2))
             .composed
         }
         else{
@@ -282,7 +283,7 @@ Aktif emirler iptal edildi.
             .symbol()
             .type()
             .optional(`İşlem TP${lastTP+1} 'de stop olmuştur.`)
-            .optional('Kâr: %', profit)
+            .optional('Kâr: %', profit.toFixed(2))
             .composed
         }
     }
@@ -294,7 +295,7 @@ Aktif emirler iptal edildi.
             .symbol()
             .type()
             .optional(`TP${tp_no}`)
-            .optional(`Kâr: %${profit}`)
+            .optional(`Kâr: %${profit.toFixed(2)}`)
             .composed
     }
 
