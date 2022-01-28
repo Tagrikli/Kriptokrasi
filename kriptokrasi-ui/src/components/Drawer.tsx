@@ -53,9 +53,9 @@ export default function Drawer(props: { onSelect: (index: number) => void }) {
                     </ListItem>
                 ))}
 
-                {dev ? <ListItem button onClick={menuItemClickHandler} id={`menu-item-${5}`} key={'Dev Tools'}>
+                {dev ? <ListItem button onClick={menuItemClickHandler} id={`menu-item-${6}`} key={'Dev Tools'}>
                     <ListItemIcon>
-                        {icons[5]}
+                        {icons[6]}
                     </ListItemIcon>
                     <ListItemText primary={'Dev Tools'} />
                 </ListItem> : ''}
