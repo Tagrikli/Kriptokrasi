@@ -99,7 +99,8 @@ export default class Notifier {
         return await Promise.all(orders.map(async order => {
 
             let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
-            let tps = await profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.tp_condition, order.leverage);
+            let lastTP = await this.database.getTPByID(order.id);
+            let tps = await profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
 
             if ((order.position === EPosition.SHORT)) tps = tps.map(tp => -tp);
             let momentary_profit = tps[0];

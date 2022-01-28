@@ -247,7 +247,8 @@ class DatabaseManager {
     }
 
     async getTPByID(order_id:number){
-        return this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
+        let TPtable = await this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
+        return TPtable.lastTP;
     }
 
 

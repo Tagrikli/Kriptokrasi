@@ -127,15 +127,16 @@ class Brain {
                     if (!activationProcess.inProcess(order.id)) {
 
                         activationProcess.addProcess(order.id);
+                        const lastTP = await this.db.getTPByID(order.id);
 
-                        let profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
-                        if ((order.position === EPosition.SHORT)) profit = -profit
+                        let profits = await profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
+                        if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
 
-                        await this.db.cancelOrder(order.id, profit, bid_price);
+                        await this.db.cancelOrder(order.id, profits[lastTP+1], bid_price);
                         await this.updateOrders()
 
-                        let lastTP = await this.db.getTPByID(order.id);
-                        let msg = await this.notifier.activeOrderStopped(order, profit, lastTP);
+                        
+                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP+1], lastTP);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
@@ -163,8 +164,7 @@ class Brain {
                         } catch (error) {
                             logger.error(error);
                         }
-                        let tp_data = order.tp_data as number[]
-                        let profits = await profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
+                        let profits = await profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
                         if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
                         
                         await this.db.updateTP(order.id, lastTP);
