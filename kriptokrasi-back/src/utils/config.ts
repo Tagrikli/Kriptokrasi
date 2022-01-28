@@ -33,6 +33,7 @@ class ConfigParser {
         try {
             this._config = JSON.parse(fs.readFileSync(this.config_path, { encoding: 'utf8' }));
             logger.info('Config file provided')
+            logger.info(this.credentials  );
         } catch {
             logger.warn('Provide the config file "credentials.json"');
             process.exit(1);
@@ -54,6 +55,7 @@ class ConfigParser {
 
     set credentials(data: TCredential) {
         this._config[this._user] = data;
+        logger.info(this._config)
         this.saveConfig();
     }
 

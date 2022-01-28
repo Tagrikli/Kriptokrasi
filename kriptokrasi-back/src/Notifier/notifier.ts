@@ -100,8 +100,7 @@ export default class Notifier {
             let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
             let tps = await profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.tp_condition, order.leverage);
 
-
-            if ((order.position === EPosition.LONG) || (order.type === EType.SPOT)) tps = tps.map(tp => -tp);
+            if ((order.position === EPosition.SHORT)) tps = tps.map(tp => -tp);
             let momentary_profit = tps[0];
             let tp_data = tps.slice(1);
 
@@ -232,7 +231,6 @@ export default class Notifier {
         return new Compositor(order)
             .optional(order.symbol, 'işlemine giriş yapılmıştır.')
             .buy_price()
-            .momentary_price(momentary_price)
             .composed
     }
 
@@ -240,7 +238,7 @@ export default class Notifier {
 
         let prefix = `
 Bekleyen emirler iptal edildi.
-Silinen emirler:
+İptal edilen emirler:
 `
 
         const orders_ = orders.map(order => new Compositor(order)
@@ -256,7 +254,7 @@ Silinen emirler:
 
         let prefix = `
 Aktif emirler iptal edildi.
-Silinen emirler:
+İptal edilen emirler:
 `
         const orders_ = orders.map(order => new Compositor(order)
             .symbol()
@@ -268,7 +266,7 @@ Silinen emirler:
     }
 
 
-    async activeOrderStopped(order: TOrder, profit: number) {
+    async activeOrderStopped(order: TOrder, profit: number, lastTP: number) {
         if (profit < 0)
         {return new Compositor(order)
             .symbol()
@@ -281,7 +279,7 @@ Silinen emirler:
             return new Compositor(order)
             .symbol()
             .type()
-            .optional('İşlem stop olmuştur.')
+            .optional(`İşlem TP${lastTP+1} 'de stop olmuştur.`)
             .optional('Kâr: %', profit)
             .composed
         }
@@ -294,7 +292,7 @@ Silinen emirler:
             .symbol()
             .type()
             .optional(`TP${tp_no}`)
-            .momentary_profit(profit)
+            .optional(`Kâr: %${profit}`)
             .composed
     }
 

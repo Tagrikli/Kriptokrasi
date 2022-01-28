@@ -25,38 +25,40 @@ export async function getIndicator(data: string[]) {
 
 
 export async function getLongShort(data: string[]) {
-    const e = data[0].toLowerCase();
-    const pair = data[1].toUpperCase();
-    let msg = ``
-    let response1 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=${e}&timeframe=15m&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-    let response2 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=${e}&timeframe=1h&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-    let response3 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=${e}&timeframe=4h&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-    let response4 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=${e}&timeframe=d&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-    let pressure1 = `Long {up}`
-    if ((response1.status == 200) && (parseFloat(response1.data['data'][0]["buy"]) < 50.0))
-        pressure1 = `Sell {down}`
-    else {
-        msg = `Secilen parite ve borsa birbirine uymuyor.`
+    let msg = ``;
+    try {
+        const pair = data[0].toUpperCase();
+        
+        let response1 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=binance_futures&timeframe=15m&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+        let response2 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=binance_futures&timeframe=1h&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+        let response3 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=binance_futures&timeframe=4h&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+        let response4 = await axios.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=binance_futures&timeframe=d&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+    
+        let pressure1 = `Long {up}`
+        if ((response1.status == 200) && (parseFloat(response1.data['data'][0]["buy"]) < 50.0))
+            pressure1 = `Sell {down}`
+        let pressure2 = `Long {up}`
+        if ((response2.status == 200) && (parseFloat(response2.data['data'][0]["buy"]) < 50.0))
+            pressure2 = `Sell {down}`
+        let pressure3 = `Long {up}`
+        if ((response3.status == 200) && (parseFloat(response3.data['data'][0]["buy"]) < 50.0))
+            pressure3 = `Sell {down}`
+        let pressure4 = `Long {up}`
+        if ((response4.status == 200) && (parseFloat(response4.data['data'][0]["buy"]) < 50.0))
+            pressure4 = `Sell {down}`
+        msg = `15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
+    } catch{
+        msg = `Coin yazmayı tekrar deneyin. ör: ls btc-usdt`
     }
-    let pressure2 = `Long {up}`
-    if ((response2.status == 200) && (parseFloat(response2.data['data'][0]["buy"]) < 50.0))
-        pressure2 = `Sell {down}`
-    let pressure3 = `Long {up}`
-    if ((response3.status == 200) && (parseFloat(response3.data['data'][0]["buy"]) < 50.0))
-        pressure3 = `Sell {down}`
-    let pressure4 = `Long {up}`
-    if ((response4.status == 200) && (parseFloat(response4.data['data'][0]["buy"]) < 50.0))
-        pressure4 = `Sell {down}`
-    msg = `15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
+    
     return msg
 }
 
 export async function getCurrentLS(data: string[]) {
-    const e = data[0].toLowerCase();
     let msg =``;
     try{
-        const symbol = data[1].toLowerCase();
-        let response = await axios.get(`https://api.cryptometer.io/current-day-long-short-v2/?symbol=${symbol}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+        const symbol = data[0].toLowerCase();
+        let response = await axios.get(`https://api.cryptometer.io/current-day-long-short-v2/?symbol=${symbol}&e=binance_futures&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         msg = `Longs: ${response.data["data"][0]["longs"]}, Shorts: ${response.data["data"][0]["shorts"]}`;
     }catch{
         console.log("currentLS mistake");
@@ -332,7 +334,19 @@ export async function getTickerList(data: string[]) {
         let response = await axios.get(`https://api.cryptometer.io/tickerlist-pro/?&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         for (let i = 0; i < response.data["data"].length; i++) {
             if (response.data["data"][i]["market_pair"] == pair) {
-                msg = response.data["data"][i];
+                msg = `market_pair: ${response.data["data"][i]["market_pair"]}
+                symbol: ${response.data["data"][i]["symbol"]}
+                fiyat: ${response.data["data"][i]["price"]}
+                usd fiyatı: ${response.data["data"][i]["usd_price"]}
+                high: ${response.data["data"][i]["high"]}
+                low: ${response.data["data"][i]["low"]}
+                volume_24: ${response.data["data"][i]["volume_24"]}
+                change_24h: ${response.data["data"][i]["change_24h"]}
+                change_1h: ${response.data["data"][i]["change_1h"]}
+                change_7d: ${response.data["data"][i]["change_7h"]}
+                change_30d: ${response.data["data"][i]["change_24h"]}
+                change_90d:-37.67
+                change_ytd:-23.7`;
                 break;
             }
         }

@@ -70,11 +70,9 @@ class Brain {
 
     async onBinanceBookTicker(data: any) {
 
-
         if (process.env.LIVE_PRICE !== 'y') {
             logger.brain(JSON.stringify(data, null, 4));
         }
-
 
         const symbol: string = data.symbol;
         const bid_price: number = data.bidPrice;
@@ -84,7 +82,6 @@ class Brain {
 
 
         if (in_actives || in_inactives) {
-
 
             //Send updates to react client if it should be updated.
             this.updateManager.shouldUpdate(symbol) && this.reactUpdater.updateClients({ symbol: symbol, bid_price: bid_price });
@@ -131,19 +128,19 @@ class Brain {
 
                         activationProcess.addProcess(order.id);
 
-
                         let profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
+                        if ((order.position === EPosition.SHORT)) profit = -profit
+
                         await this.db.cancelOrder(order.id, profit, bid_price);
                         await this.updateOrders()
-                        if ((order.position === EPosition.LONG) || (order.type === EType.SPOT)) profit = -profit;
-                        
-                        let msg = await this.notifier.activeOrderStopped(order, profit);
+
+                        let lastTP = await this.db.getTPByID(order.id);
+                        let msg = await this.notifier.activeOrderStopped(order, profit, lastTP);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
                     }
                 })
-
 
 
                 let orders_tp: { order: TOrder, lastTP: number }[] = this.gottaTP(this.relevantActives(symbol), bid_price);
@@ -168,21 +165,18 @@ class Brain {
                         }
                         let tp_data = order.tp_data as number[]
                         let profits = await profitCalculator(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
-                        if ((order.position === EPosition.LONG) || (order.type === EType.SPOT)) profits = profits.map(tp => -tp);
-
-                        await this.db.updateTP(order.id, lastTP + 1);
+                        if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
+                        
+                        await this.db.updateTP(order.id, lastTP);
                         await this.db.updateStopLoss(order.id);
                         await this.updateOrders()
 
-
-                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 2]);
+                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP+1]);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
                     }
                 })
-
-
             }
         }
     }
@@ -234,20 +228,14 @@ class Brain {
                 //Find the current tp index
                 const current_tp_index = this.lastTPs.find(lastTP => lastTP.id === order.id).lastTP;
 
-
-
                 //Add order and the correct tp index value to the result.
-                if (last_tp_index >= current_tp_index) {
+                if (last_tp_index > current_tp_index) {
                     result.push({ order: order, lastTP: last_tp_index });
                 }
             }
-
-
-
         })
 
         return result;
-
     }
 
 
@@ -266,8 +254,6 @@ class Brain {
                 return live_price == order_price;
         }
     }
-
-
 }
 
 export default Brain;
