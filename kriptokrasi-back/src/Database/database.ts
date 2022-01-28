@@ -182,7 +182,7 @@ class DatabaseManager {
 
     }
 
-    async cancelOrder(order_id: number, profit: number, momentary_price: number) {
+    async cancelOrder(order_id: number, profit: number, momentary_price: number, cancel:number) {
         let order = await this.getOrderById(order_id);
 
         if (order.status == EStatus.ACTIVE) { // the order is active
@@ -200,7 +200,7 @@ class DatabaseManager {
                 order.buy_price,
                 momentary_price,
                 profit,
-                order.status,
+                cancel,
             ])
         }
         else {
@@ -214,7 +214,7 @@ class DatabaseManager {
                 order.buy_price,
                 '-',
                 '-',
-                order.status,
+                cancel,
             ])
         }
         // delete the order from the orders table

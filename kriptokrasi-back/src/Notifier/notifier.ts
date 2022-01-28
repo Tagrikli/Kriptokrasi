@@ -283,7 +283,7 @@ Aktif emirler iptal edildi.
             .symbol()
             .type()
             .optional(`İşlem TP${lastTP+1} 'de stop olmuştur.`)
-            .optional('Kâr: %', profit.toFixed(2))
+            .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(2))
             .composed
         }
     }

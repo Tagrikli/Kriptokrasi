@@ -131,8 +131,11 @@ class Brain {
 
                         let profits = await profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
                         if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
+                        console.log("stoploss tps", profits);
 
-                        await this.db.cancelOrder(order.id, profits[lastTP+1], bid_price);
+                        
+
+                        await this.db.cancelOrder(order.id, profits[lastTP+1], bid_price, 0);
                         await this.updateOrders()
 
                         
