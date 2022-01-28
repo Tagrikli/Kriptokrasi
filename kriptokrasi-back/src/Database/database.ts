@@ -65,7 +65,6 @@ class DatabaseManager {
         await this.db.run(QUERIES.CREATE_LOGIN_TABLE)
         logger.database('Login_data table created');
         await this.db.run(QUERIES.CREATE_VILLAGERDAY_TABLE);
-        await this.db.run(QUERIES.INSERT_DAY)
         logger.database('Villager_day table created');
     }
 
@@ -257,6 +256,9 @@ class DatabaseManager {
 
     async isVillagerDay(){
         let villagerDay = await this.db.get(QUERIES.SELECT_VILLAGER_DAY);
+        if (villagerDay == undefined) {
+            await this.db.run(QUERIES.INSERT_DAY);
+            return false}
         return villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
     }
 
