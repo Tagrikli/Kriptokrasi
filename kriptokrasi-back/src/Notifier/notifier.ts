@@ -101,6 +101,7 @@ export default class Notifier {
             let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
             let lastTP = await this.database.getTPByID(order.id);
             let tps = await profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
+            console.log("activelere basildi", tps);
 
             if ((order.position === EPosition.SHORT)) tps = tps.map(tp => -tp);
             let momentary_profit = tps[0];
