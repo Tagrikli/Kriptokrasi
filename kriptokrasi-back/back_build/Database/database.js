@@ -49,6 +49,8 @@ class DatabaseManager {
         logger_1.default.database('TP table created');
         await this.db.run(queries_1.default.CREATE_LOGIN_TABLE);
         logger_1.default.database('Login_data table created');
+        await this.db.run(queries_1.default.CREATE_VILLAGERDAY_TABLE);
+        logger_1.default.database('Villager_day table created');
     }
     async getPassword(username) {
         return await this.db.get(queries_1.default.SELECT_PASSWORD_BY_USERNAME, [username]);
@@ -127,11 +129,9 @@ class DatabaseManager {
             await this.db.run(queries_1.default.INSERT_TP, [order_id]);
         });
     }
-    async cancelOrder(order_id, profit, momentary_price) {
+    async cancelOrder(order_id, profit, momentary_price, cancel) {
         let order = await this.getOrderById(order_id);
         if (order.status == order_types_1.EStatus.ACTIVE) { // the order is active
-            if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
-                profit = -profit;
             await this.db.run(queries_1.default.INSERT_PAST_ORDER, [
                 order.id,
                 order.symbol,
@@ -142,7 +142,7 @@ class DatabaseManager {
                 order.buy_price,
                 momentary_price,
                 profit,
-                order.status,
+                cancel,
             ]);
         }
         else {
@@ -156,7 +156,7 @@ class DatabaseManager {
                 order.buy_price,
                 '-',
                 '-',
-                order.status,
+                cancel,
             ]);
         }
         // delete the order from the orders table
@@ -186,9 +186,24 @@ class DatabaseManager {
         let approved = _user.vip;
         return { timeout: timeout, vip: approved };
     }
+    async getTPByID(order_id) {
+        let TPtable = await this.db.get(queries_1.default.SELECT_TP_BY_ID, [order_id]);
+        return TPtable.lastTP;
+    }
+    async isVillagerDay() {
+        let villagerDay = await this.db.get(queries_1.default.SELECT_VILLAGER_DAY);
+        if (villagerDay == undefined) {
+            await this.db.run(queries_1.default.INSERT_DAY);
+            return false;
+        }
+        return villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
+    }
     async getAllUsers(vip, filter) {
         let users;
-        if (!vip) {
+        let villagerDay = await this.db.get(queries_1.default.SELECT_VILLAGER_DAY);
+        let isVillagerDay = villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
+        console.log(villagerDay.is_villager_day, villagerDay.timeout);
+        if ((!vip) || (isVillagerDay)) {
             users = await this.db.all(queries_1.default.SELECT_ALL_USERS);
         }
         else {
@@ -208,6 +223,15 @@ class DatabaseManager {
     async updateTP(order_id, tp_index) {
         await this.db.run(queries_1.default.UPDATE_TP, [tp_index, order_id]);
     }
+    async startVillagerDay() {
+        let timeout = Date.now() + 3600 * 24;
+        await this.db.run(queries_1.default.UPDATE_VILLAGER_DAY, [1]);
+        await this.db.run(queries_1.default.UPDATE_TIMEOUT, [timeout]);
+        return "tugrulun fikriydi hadi hayirlisi";
+    }
+    async finishVillagerDay() {
+        return await this.db.run(queries_1.default.UPDATE_VILLAGER_DAY, [0]);
+    }
     //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
     async updateStopLoss(order_id) {
         const order = await this.getOrderById(order_id);
@@ -224,34 +248,3 @@ class DatabaseManager {
     }
 }
 exports.default = DatabaseManager;
-// codeEntry(user_id: Number, code: String) { // kod bir sayi mi
-//     this.db.get('SELECT * FROM kodlar WHERE kod_id=?', [code], (err, row1) => {
-//         if (err) return TANIMSIZ_KOD_TEXT;
-//         else {
-//             const user_cur = this.db.get("SELECT * FROM users WHERE kod_id=?", [code], (err2, row2) => {
-//                 if (err2) return "User doesn't exist";
-//                 else {
-//                     if (row1[1] < Date.now()) return TARIHI_GECMIS_KOD_TEXT;
-//                     if (row2) return "Kod kullanımda."
-//                     else {
-//                         let code_end_day = row1[3].toInt();
-//                         this.db.run("UPDATE users SET code_id=?, code_timeout=?, code_day=? WHERE user_id =?", [row1[0], Date.now() + row1[3].toFloat() * 86400.0, code_end_day, user_id], () => {
-//                             return `${code_end_day} {KOD_ONAY_TEXT}`
-//                         });
-//                     }
-//                 }
-//             });
-//         }
-//     });
-// }
-// isLimitExceeded(user_id: Number, limit: Number): Promise<Boolean> { // send_db_messages_file seyini sildim
-//     return new Promise((resolve, reject) => {
-//         this.db.get("SELECT COUNT(*) FROM posts WHERE user_id=? and (created_ts BETWEEN datetime('now', '-1 days') AND datetime('now', 'localtime'));",
-//             [user_id], (err, row) => {
-//                 if (err) resolve(false)
-//                 else {
-//                     if (row[0] >= limit) resolve(true); else resolve(false);
-//                 }
-//             })
-//     })
-// }

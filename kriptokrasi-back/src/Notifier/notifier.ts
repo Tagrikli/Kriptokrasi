@@ -220,7 +220,7 @@ export default class Notifier {
 
     }
 
-     waitingOrderAdded(order:TOrder){
+    waitingOrderAdded(order:TOrder){
         return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
             .optional('Bekleyen emirlerden kontrol ediniz.')

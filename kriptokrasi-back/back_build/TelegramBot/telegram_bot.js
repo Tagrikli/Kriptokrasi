@@ -70,7 +70,7 @@ class TelegramBot {
                 return;
             }
             ctx.vip = (await this.db.isVIP(user_id)).vip;
-            if (!ctx.vip) {
+            if ((!ctx.vip) && (!await this.db.isVillagerDay())) {
                 ctx.reply('Botu kullanabilmek için üye olunuz.', { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                 return;
             }
@@ -144,15 +144,15 @@ class TelegramBot {
                 //    break;
                 case consts_1.BUTTON_LIST.DATA[0]: //Long-Short
                     Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.LONGSHORT);
-                    ctx.reply("Borsa türünü seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.STOCK });
+                    ctx.reply("ls yazıp parite giriniz. ör: ls btc-usdt.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case consts_1.BUTTON_LIST.DATA[1]: //Gunluk Long-Short
                     Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.CURRENTLS);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: keyboards_1.KEYBOARDS.STOCK });
+                    ctx.reply("gls yazıp coin ismi giriniz. ör: gls btc", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case consts_1.BUTTON_LIST.DATA[2]: //Likidite (Toplam)
                     Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.TOTALLIQUIDATION);
-                    ctx.reply("symb yazip sembol seciniz. ör: btc", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("symb yazip sembol seciniz. ör: symb btc", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 // case BUTTON_LIST.DATA[4]://Likidite (BitCoin Ozel)
                 //     Queries.newQuery(chat_id, PROC_CONTEXT.BINANCELIQUIDATION);
@@ -175,7 +175,7 @@ class TelegramBot {
                 //     break;
                 case consts_1.BUTTON_LIST.DATA[4]: //Hacim Akisi
                     Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.VOLUMEFLOW);
-                    ctx.reply("para akisi yazıp istediğiniz coinleri yazınız. ör: para akisi chz usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("para yazıp istediğiniz coinleri yazınız. ör: para chz usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 // case BUTTON_LIST.DATA[9]://Balina Ticareti
                 //     Queries.newQuery(chat_id, PROC_CONTEXT.XTRADE);
@@ -189,10 +189,10 @@ class TelegramBot {
                     Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.HOURLY24VF);
                     ctx.reply("Borsa türünü seçiniz:", { reply_markup: keyboards_1.KEYBOARDS.STOCK });
                     break;
-                // case BUTTON_LIST.DATA[12]://OHLCV
-                //     Queries.newQuery(chat_id, PROC_CONTEXT.OHLCV);
-                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
-                //     break;
+                case consts_1.BUTTON_LIST.DATA[12]: //OHLCV
+                    Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.OHLCV);
+                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: keyboards_1.KEYBOARDS.STOCK });
+                    break;
                 // case BUTTON_LIST.DATA[13]://Gunluk Volume
                 //     Queries.newQuery(chat_id, PROC_CONTEXT.DAILYVOL);
                 //     ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
@@ -253,13 +253,13 @@ class TelegramBot {
                     ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.OHLCV:
-                    ctx.reply("Zaman araligi seçiniz:", { reply_markup: keyboards_1.KEYBOARDS.TIMEFRAME });
+                    ctx.reply("Zaman aralığı seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.TIMEFRAME });
                     break;
                 case types_1.PROC_CONTEXT.HOURLY24VF:
-                    ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("24saat yazıp parite giriniz. ör: 24saat btc-usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.INDICATOR:
-                    ctx.reply("Kaynak seciniz:", { reply_markup: keyboards_1.KEYBOARDS.SOURCE });
+                    ctx.reply("Kaynak seçiniz:", { reply_markup: keyboards_1.KEYBOARDS.SOURCE });
                     break;
                 default:
                     ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
@@ -353,6 +353,20 @@ class TelegramBot {
                     break;
             }
         });
+        this.bot.hears(/(?<=24saat ).*/i, async (ctx) => {
+            const message = ctx.message.text;
+            const coin = message.split(' ')[1];
+            const chat_id = ctx.message.chat.id;
+            let query = Query_1.Queries.getQuery(chat_id);
+            if (query.context == types_1.PROC_CONTEXT.HOURLY24VF) {
+                let reply = await (0, bot_functions_1.getTradeVol24h)([query.data[0], coin]);
+                ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+            }
+            else
+                ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+            Query_1.Queries.removeQuery(chat_id);
+            Waitlist_1.waitlist.push(chat_id);
+        });
         this.bot.hears(/^[0-9]{1,3}/, async (ctx) => {
             const message = ctx.message.text;
             const chat_id = ctx.message.chat.id;
@@ -372,11 +386,6 @@ class TelegramBot {
             let query = Query_1.Queries.getQuery(chat_id);
             let reply = "";
             switch (query.context) {
-                case types_1.PROC_CONTEXT.CURRENTLS:
-                    reply = await (0, bot_functions_1.getCurrentLS)([query.data[0], coin]);
-                    ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
-                    Query_1.Queries.removeQuery(chat_id);
-                    break;
                 case types_1.PROC_CONTEXT.MERGEDVOL:
                     reply = await (0, bot_functions_1.getMergedVolume)([query.data[0], query.data[1], coin]);
                     ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
@@ -426,18 +435,8 @@ class TelegramBot {
                     ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     Query_1.Queries.removeQuery(chat_id);
                     break;
-                case types_1.PROC_CONTEXT.LONGSHORT:
-                    reply = await (0, bot_functions_1.getLongShort)([query.data[0], query.data[1], coin]);
-                    ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
-                    Query_1.Queries.removeQuery(chat_id);
-                    break;
                 case types_1.PROC_CONTEXT.RAPIDMOVEMENT:
                     reply = await (0, bot_functions_1.getRapidMov)([query.data[0], coin]);
-                    ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
-                    Query_1.Queries.removeQuery(chat_id);
-                    break;
-                case types_1.PROC_CONTEXT.HOURLY24VF:
-                    reply = await (0, bot_functions_1.getTradeVol24h)([query.data[0], coin]);
                     ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     Query_1.Queries.removeQuery(chat_id);
                     break;
@@ -483,14 +482,42 @@ class TelegramBot {
             }
             Waitlist_1.waitlist.push(chat_id);
         });
-        this.bot.hears(/(?<=para akisi ).*/i, async (ctx) => {
+        this.bot.hears(/(?<=gls ).*/i, async (ctx) => {
+            const message = ctx.message.text;
+            const coin = message.split(' ')[1];
+            const chat_id = ctx.message.chat.id;
+            let query = Query_1.Queries.getQuery(chat_id);
+            if (query.context == types_1.PROC_CONTEXT.CURRENTLS) {
+                let reply = await (0, bot_functions_1.getCurrentLS)([coin]);
+                ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+            }
+            else
+                ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+            Query_1.Queries.removeQuery(chat_id);
+            Waitlist_1.waitlist.push(chat_id);
+        });
+        this.bot.hears(/(?<=ls ).*/i, async (ctx) => {
+            const message = ctx.message.text;
+            const coin = message.split(' ')[1];
+            const chat_id = ctx.message.chat.id;
+            let query = Query_1.Queries.getQuery(chat_id);
+            if (query.context === types_1.PROC_CONTEXT.LONGSHORT) {
+                let reply = await (0, bot_functions_1.getLongShort)([coin]);
+                ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+            }
+            else
+                ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+            Query_1.Queries.removeQuery(chat_id);
+            Waitlist_1.waitlist.push(chat_id);
+        });
+        this.bot.hears(/(?<=para ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coins = message.split(' '); //split yapicammmmmm
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
             if (query.context == types_1.PROC_CONTEXT.VOLUMEFLOW) {
+                Query_1.Queries.addDataSafe(chat_id, query.context, coins[1]);
                 Query_1.Queries.addDataSafe(chat_id, query.context, coins[2]);
-                Query_1.Queries.addDataSafe(chat_id, query.context, coins[3]);
                 let reply = await (0, bot_functions_1.getVolFlow)(query.data);
                 ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.DATA });
             }

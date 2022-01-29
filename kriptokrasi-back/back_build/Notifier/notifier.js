@@ -17,14 +17,15 @@ class Compositor {
         buy_price: (...d) => `Giriş Fiyatı : ${d[0]}`,
         sell_price: (...d) => `Satış Fiyatı : ${d[0]}`,
         leverage: (...d) => `Kaldıraç : ${d[0]}`,
-        profit: (...d) => `Kar: ${d[0]}`,
-        momentary_profit: (...d) => `Anlık Kâr:  %${d[0]}`,
+        profit: (...d) => `Kar: %${(d[0]).toFixed(2)}`,
+        momentary_profit: (...d) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
         momentary_price: (...d) => `Anlık Fiyat: ${d[0]}`,
         tp_data: (...d) => {
             let profits = d[1];
             if (profits) {
                 let ind = profits.length;
-                return d[0].map((v, i) => `TP${i + 1}: ${i < ind ? `✅ %${profits[i]}` : v}`).join('\n');
+                console.log(d);
+                return d[0].map((v, i) => `TP${i + 1}: ${i < ind ? `✅ %${(profits[i]).toFixed(2)}` : v}`).join('\n');
             }
             else {
                 return d[0].map((v, i) => `TP${i + 1}: ${v}`).join('\n');
@@ -75,8 +76,10 @@ class Notifier {
             return [`Aktif emir yok`];
         return await Promise.all(orders.map(async (order) => {
             let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
-            let tps = await (0, helpers_1.profitCalculator)(momentary_price, [order.buy_price, ...order.tp_data], order.tp_condition, order.leverage);
-            if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
+            let lastTP = await this.database.getTPByID(order.id);
+            let tps = await (0, helpers_1.profitCalculator)(momentary_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+            console.log("activelere basildi", tps);
+            if ((order.position === order_types_1.EPosition.SHORT))
                 tps = tps.map(tp => -tp);
             let momentary_profit = tps[0];
             let tp_data = tps.slice(1);
@@ -185,13 +188,12 @@ class Notifier {
         return new Compositor(order)
             .optional(order.symbol, 'işlemine giriş yapılmıştır.')
             .buy_price()
-            .momentary_price(momentary_price)
             .composed;
     }
     waitingOrderDeletion(orders) {
         let prefix = `
 Bekleyen emirler iptal edildi.
-Silinen emirler:
+İptal edilen emirler:
 `;
         const orders_ = orders.map(order => new Compositor(order)
             .symbol()
@@ -202,30 +204,30 @@ Silinen emirler:
     activeOrderDeletion(orders, profit) {
         let prefix = `
 Aktif emirler iptal edildi.
-Silinen emirler:
+İptal edilen emirler:
 `;
         const orders_ = orders.map(order => new Compositor(order)
             .symbol()
             .buy_price()
-            .optional("Kâr:  %", profit)
+            .optional("Kâr:  %", profit.toFixed(2))
             .composed);
         return [prefix, ...orders_].join('\n');
     }
-    async activeOrderStopped(order, profit) {
+    async activeOrderStopped(order, profit, lastTP) {
         if (profit < 0) {
             return new Compositor(order)
                 .symbol()
                 .type()
                 .optional('İşlem stop olmuştur.')
-                .optional('Zarar: %', profit)
+                .optional('Zarar: %', profit.toFixed(2))
                 .composed;
         }
         else {
             return new Compositor(order)
                 .symbol()
                 .type()
-                .optional('İşlem stop olmuştur.')
-                .optional('Kâr: %', profit)
+                .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
+                .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(2))
                 .composed;
         }
     }
@@ -234,7 +236,7 @@ Silinen emirler:
             .symbol()
             .type()
             .optional(`TP${tp_no}`)
-            .momentary_profit(profit)
+            .optional(`Kâr: %${profit.toFixed(2)}`)
             .composed;
     }
 }

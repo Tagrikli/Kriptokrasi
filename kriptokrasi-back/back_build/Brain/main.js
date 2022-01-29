@@ -82,12 +82,14 @@ class Brain {
                 orders_sl.forEach(async (order) => {
                     if (!activationProcess.inProcess(order.id)) {
                         activationProcess.addProcess(order.id);
-                        let profit = (bid_price - order.buy_price) * (100 / order.buy_price) * order.leverage;
-                        await this.db.cancelOrder(order.id, profit, bid_price);
+                        const lastTP = await this.db.getTPByID(order.id);
+                        let profits = await (0, helpers_1.profitCalculatorAfterStop)(bid_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+                        if ((order.position == order_types_1.EPosition.SHORT))
+                            profits = profits.map(tp => -tp);
+                        console.log("stoploss tps", profits);
+                        await this.db.cancelOrder(order.id, profits[lastTP + 1], bid_price, 0);
                         await this.updateOrders();
-                        if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
-                            profit = -profit;
-                        let msg = await this.notifier.activeOrderStopped(order, profit);
+                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP + 1], lastTP);
                         await this.telegram.sendMessageToAll(true, true, msg);
                         activationProcess.removeProcess(order.id);
                     }
@@ -105,14 +107,13 @@ class Brain {
                         catch (error) {
                             logger_1.default.error(error);
                         }
-                        let tp_data = order.tp_data;
-                        let profits = await (0, helpers_1.profitCalculator)(bid_price, [order.buy_price, tp_data[0], tp_data[1], tp_data[2], tp_data[3], tp_data[4]], order.tp_condition, order.leverage);
-                        if ((order.position === order_types_1.EPosition.LONG) || (order.type === order_types_1.EType.SPOT))
+                        let profits = await (0, helpers_1.profitCalculator)(bid_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+                        if ((order.position === order_types_1.EPosition.SHORT))
                             profits = profits.map(tp => -tp);
-                        await this.db.updateTP(order.id, lastTP + 1);
+                        await this.db.updateTP(order.id, lastTP);
                         await this.db.updateStopLoss(order.id);
                         await this.updateOrders();
-                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 2]);
+                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
                         await this.telegram.sendMessageToAll(true, true, msg);
                         activationProcess.removeProcess(order.id);
                     }
@@ -153,7 +154,7 @@ class Brain {
                 //Find the current tp index
                 const current_tp_index = this.lastTPs.find(lastTP => lastTP.id === order.id).lastTP;
                 //Add order and the correct tp index value to the result.
-                if (last_tp_index >= current_tp_index) {
+                if (last_tp_index > current_tp_index) {
                     result.push({ order: order, lastTP: last_tp_index });
                 }
             }
