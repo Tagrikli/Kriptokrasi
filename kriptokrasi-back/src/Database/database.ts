@@ -186,9 +186,6 @@ class DatabaseManager {
 
         if (order.status == EStatus.ACTIVE) { // the order is active
 
-
-            if ((order.position === EPosition.LONG) || (order.type === EType.SPOT)) profit = -profit;
-
             await this.db.run(QUERIES.INSERT_PAST_ORDER, [
                 order.id,
                 order.symbol,

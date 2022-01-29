@@ -6,7 +6,7 @@ import { UpdateManager, ActivationProcess, ReactUpdater } from "./managers";
 import TelegramBot from "../TelegramBot/telegram_bot";
 import { TLastTPDB } from "../utils/types";
 import BinanceManager from "../BinanceAPI/main";
-import { profitCalculator } from "./helpers";
+import { profitCalculator, profitCalculatorAfterStop } from "./helpers";
 import Notifier from "../Notifier/notifier";
 import { NewMessageEvent } from "telegram/events";
 
@@ -129,11 +129,9 @@ class Brain {
                         activationProcess.addProcess(order.id);
                         const lastTP = await this.db.getTPByID(order.id);
 
-                        let profits = await profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
-                        if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
+                        let profits = await profitCalculatorAfterStop(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
+                        if ((order.position == EPosition.SHORT)) profits = profits.map(tp => -tp);
                         console.log("stoploss tps", profits);
-
-                        
 
                         await this.db.cancelOrder(order.id, profits[lastTP+1], bid_price, 0);
                         await this.updateOrders()

@@ -373,33 +373,3 @@ export async function getOpenInterest(data: string[]) {
 }
 
 
-
-
-export async function sendActivationMessage(symbol: string, type: string) {
-    let tempType = 'spot';
-    if (type != 'spot') tempType = 'long islem';
-    let message = `${symbol} ${tempType} işlemine giriş yapılmıştır.`
-    return message;
-}
-
-export async function sendPastOrderMessage(symbol: string, buy_price: number, type: string, binance_manager: BinanceManager) {
-    let tempType = 'spot';
-    if (type != 'spot') tempType = 'long islem';
-    const momentaryPrice = await binance_manager.getPriceForSymbol(symbol);
-    const momentaryProfit = (buy_price - momentaryPrice) * (100 / buy_price);
-    let message =
-        `Coin : ${symbol} 
-    Tip: ${tempType}
-    Alış Fiyatı : ${buy_price} 
-    Satış Fiyatı : ${momentaryPrice}
-    Zarar: % ${momentaryProfit}
-    İşlem kapanmıştır`;
-    return message;
-}
-export async function sendTPMessage(symbol: string,) {
-    let message = `${symbol} 
-    vadeli TP3 ✅
-    Kar : %14.711`;
-    return message;
-}
-
