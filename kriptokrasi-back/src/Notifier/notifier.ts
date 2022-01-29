@@ -16,11 +16,11 @@ class Compositor {
         position: (...d: any[]) => d[0] == EPosition.LONG ? 'LONG' : 'SHORT',
         symbol: (...d: any[]) => `Coin Adı: ${d[0]}`,
         buy_price: (...d: any[]) => `Giriş Fiyatı : ${d[0]}`,
-        sell_price: (...d: any[]) => `Satış Fiyatı : ${d[0]}`,
+        sell_price: (...d: any[]) => `Satış Fiyatı : ${(d[0]).toFixed(2)}`,
         leverage: (...d: any[]) => `Kaldıraç : ${d[0]}`,
         profit: (...d: any[]) => `Kar: %${(d[0]).toFixed(2)}`,
         momentary_profit: (...d: any[]) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
-        momentary_price: (...d: any[]) => `Anlık Fiyat: ${d[0]}`,
+        momentary_price: (...d: any[]) => `Anlık Fiyat: ${(Number(d[0])).toFixed(3)}`,
         tp_data: (...d: any[]) => {
             let profits = d[1];
 
@@ -36,7 +36,7 @@ class Compositor {
         },
         stop_loss: (...d: any[]) => `Stop Fiyatı: ${d[0]}`,
         timestamp: (...d: any[]) => `Tarih: ${d[0]}`,
-        price_left: (...d: any[]) => `Emire Kalan Fiyat Farkı: ${d[0]}`,
+        price_left: (...d: any[]) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
         optional: (...d: any[]) => `${d.join(' ')}`
     }
 
