@@ -263,11 +263,7 @@ class DatabaseManager {
 
         let users: TUserDB[];
 
-        let villagerDay = await this.db.get(QUERIES.SELECT_VILLAGER_DAY);
-        let isVillagerDay = villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
-        console.log(villagerDay.is_villager_day, villagerDay.timeout);
-
-        if ((!vip) || (isVillagerDay)) {
+        if ((!vip) || (this.isVillagerDay())) {
             users = await this.db.all(QUERIES.SELECT_ALL_USERS);
 
         } else {
