@@ -33,7 +33,12 @@ class TelegramBot {
     async sendMessageToAll(vip, filter, message) {
         const users = await this.db.getAllUsers(vip, filter);
         users.forEach(user => {
-            this.bot.telegram.sendMessage(user.user_id, message);
+            try {
+                this.bot.telegram.sendMessage(user.user_id, message);
+            }
+            catch (error) {
+                logger_1.default.error(error);
+            }
         });
     }
     registerCallbacks() {

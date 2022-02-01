@@ -15,11 +15,11 @@ class Compositor {
         position: (...d) => d[0] == order_types_1.EPosition.LONG ? 'LONG' : 'SHORT',
         symbol: (...d) => `Coin Adı: ${d[0]}`,
         buy_price: (...d) => `Giriş Fiyatı : ${d[0]}`,
-        sell_price: (...d) => `Satış Fiyatı : ${d[0]}`,
+        sell_price: (...d) => `Satış Fiyatı : ${(d[0]).toFixed(2)}`,
         leverage: (...d) => `Kaldıraç : ${d[0]}`,
         profit: (...d) => `Kar: %${(d[0]).toFixed(2)}`,
         momentary_profit: (...d) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
-        momentary_price: (...d) => `Anlık Fiyat: ${d[0]}`,
+        momentary_price: (...d) => `Anlık Fiyat: ${(Number(d[0])).toFixed(3)}`,
         tp_data: (...d) => {
             let profits = d[1];
             if (profits) {
@@ -33,7 +33,7 @@ class Compositor {
         },
         stop_loss: (...d) => `Stop Fiyatı: ${d[0]}`,
         timestamp: (...d) => `Tarih: ${d[0]}`,
-        price_left: (...d) => `Emire Kalan Fiyat Farkı: ${d[0]}`,
+        price_left: (...d) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
         optional: (...d) => `${d.join(' ')}`
     };
     constructor(order) {

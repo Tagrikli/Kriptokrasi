@@ -50,7 +50,14 @@ class DatabaseManager {
         await this.db.run(queries_1.default.CREATE_LOGIN_TABLE);
         logger_1.default.database('Login_data table created');
         await this.db.run(queries_1.default.CREATE_VILLAGERDAY_TABLE);
+        this.createVillagerDay();
         logger_1.default.database('Villager_day table created');
+    }
+    async createVillagerDay() {
+        const villager = await this.db.all(queries_1.default.SELECT_VILLAGER_DAY);
+        if (!villager.length) {
+            await this.db.run(queries_1.default.INSERT_DAY);
+        }
     }
     async getPassword(username) {
         return await this.db.get(queries_1.default.SELECT_PASSWORD_BY_USERNAME, [username]);
@@ -192,18 +199,14 @@ class DatabaseManager {
     }
     async isVillagerDay() {
         let villagerDay = await this.db.get(queries_1.default.SELECT_VILLAGER_DAY);
-        if (villagerDay == undefined) {
-            await this.db.run(queries_1.default.INSERT_DAY);
-            return false;
-        }
         return villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
+    }
+    async getVillagerDay() {
+        return await this.db.get(queries_1.default.SELECT_VILLAGER_DAY);
     }
     async getAllUsers(vip, filter) {
         let users;
-        let villagerDay = await this.db.get(queries_1.default.SELECT_VILLAGER_DAY);
-        let isVillagerDay = villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
-        console.log(villagerDay.is_villager_day, villagerDay.timeout);
-        if ((!vip) || (isVillagerDay)) {
+        if ((!vip) || (await this.isVillagerDay())) {
             users = await this.db.all(queries_1.default.SELECT_ALL_USERS);
         }
         else {
@@ -223,14 +226,9 @@ class DatabaseManager {
     async updateTP(order_id, tp_index) {
         await this.db.run(queries_1.default.UPDATE_TP, [tp_index, order_id]);
     }
-    async startVillagerDay() {
-        let timeout = Date.now() + 3600 * 24;
-        await this.db.run(queries_1.default.UPDATE_VILLAGER_DAY, [1]);
-        await this.db.run(queries_1.default.UPDATE_TIMEOUT, [timeout]);
+    async updateVillagerDay(villager_day, timeout) {
+        await this.db.run(queries_1.default.UPDATE_VILLAGER_DAY, [villager_day, Date.now() + timeout]);
         return "tugrulun fikriydi hadi hayirlisi";
-    }
-    async finishVillagerDay() {
-        return await this.db.run(queries_1.default.UPDATE_VILLAGER_DAY, [0]);
     }
     //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
     async updateStopLoss(order_id) {

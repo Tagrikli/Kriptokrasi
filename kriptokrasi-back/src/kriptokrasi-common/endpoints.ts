@@ -25,6 +25,8 @@ const ENDPOINTS = {
 
     SEND_TELEGRAM_MESSAGE: createPath('send_telegram_message'),
 
+    UPDATE_VILLAGER_DAY: createPath('update_villager_day'),
+    GET_VILLAGER_DAY: createPath('get_villager_day'),
 
     LOGIN: createPath('login_request'),
     WEBHOOK: createPath('webhook'),

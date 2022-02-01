@@ -39,14 +39,16 @@ class TelegramBot {
 
     async sendMessageToAll(vip: boolean, filter: boolean, message: string) {
 
-
         const users = await this.db.getAllUsers(vip, filter);
 
         users.forEach(user => {
-            this.bot.telegram.sendMessage(user.user_id, message);
+
+            try {
+                this.bot.telegram.sendMessage(user.user_id, message);
+            } catch (error) {
+                logger.error(error);
+            }
         })
-
-
     }
 
     registerCallbacks() {
@@ -401,12 +403,12 @@ class TelegramBot {
             }
         })
 
-        this.bot.hears(/(?<=24saat ).*/i, async (ctx)=>{
+        this.bot.hears(/(?<=24saat ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Queries.getQuery(chat_id);
-            if (query.context == PROC_CONTEXT.HOURLY24VF) { 
+            if (query.context == PROC_CONTEXT.HOURLY24VF) {
                 let reply = await getTradeVol24h([query.data[0], coin]);
                 ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             }
@@ -544,12 +546,12 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(/(?<=gls ).*/i, async (ctx)=>{
+        this.bot.hears(/(?<=gls ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Queries.getQuery(chat_id);
-            if (query.context == PROC_CONTEXT.CURRENTLS) { 
+            if (query.context == PROC_CONTEXT.CURRENTLS) {
                 let reply = await getCurrentLS([coin]);
                 ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             }
@@ -559,12 +561,12 @@ class TelegramBot {
             waitlist.push(chat_id);
         })
 
-        this.bot.hears(/(?<=ls ).*/i, async (ctx)=>{
+        this.bot.hears(/(?<=ls ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Queries.getQuery(chat_id);
-            if (query.context === PROC_CONTEXT.LONGSHORT) { 
+            if (query.context === PROC_CONTEXT.LONGSHORT) {
                 let reply = await getLongShort([coin]);
                 ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
             }

@@ -118,6 +118,28 @@ class ExpressApp {
                 res.sendStatus(201);
             }
         });
+        this.app.post(endpoints_1.default.UPDATE_VILLAGER_DAY, async (req, res) => {
+            const villager_day = req.body.is_villager_day;
+            const timeout = req.body.timeout;
+            try {
+                await this.db.updateVillagerDay(villager_day, timeout);
+                res.sendStatus(200);
+            }
+            catch (reason) {
+                res.sendStatus(500);
+                logger_1.default.error(reason);
+            }
+        });
+        this.app.get(endpoints_1.default.GET_VILLAGER_DAY, async (req, res) => {
+            try {
+                const villager = await this.db.getVillagerDay();
+                res.send(villager);
+            }
+            catch (reason) {
+                res.sendStatus(500);
+                logger_1.default.error(reason);
+            }
+        });
         this.app.get(endpoints_1.default.GET_SYMBOLS, async (req, res) => {
             try {
                 const symbol_list = await this.binance.getAllSymbols();

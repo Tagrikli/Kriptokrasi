@@ -139,17 +139,18 @@ const QUERIES = {
         FROM login_data
         WHERE username = ?`,
     //VILLAGER DAY
-    CREATE_VILLAGERDAY_TABLE: /*sql*/ `CREATE TABLE IF NOT EXISTS villager_day(
-            is_villager_day INTEGER NOT NULL,
-            timeout INTEGER NOT NULL
-        )`,
-    SELECT_VILLAGER_DAY: /*sql*/ `SELECT *
+    CREATE_VILLAGERDAY_TABLE: /*sql*/ `
+        CREATE TABLE IF NOT EXISTS villager_day(
+        is_villager_day INTEGER NOT NULL,
+        timeout INTEGER NOT NULL)`,
+    SELECT_VILLAGER_DAY: /*sql*/ `
+        SELECT *
         FROM villager_day`,
-    UPDATE_VILLAGER_DAY: /*sql*/ `UPDATE villager_day
-        SET is_villager_day = ?`,
-    UPDATE_TIMEOUT: /*sql*/ `UPDATE villager_day
-        SET timeout = ?`,
-    INSERT_DAY: /*sql*/ `INSERT INTO villager_day
-        VALUES (0, 0)`
+    UPDATE_VILLAGER_DAY: /*sql*/ `
+        UPDATE villager_day
+        SET is_villager_day = ?, timeout = ?`,
+    INSERT_DAY: /*sql*/ `
+        INSERT INTO villager_day
+        VALUES (false, 0)`
 };
 exports.default = QUERIES;

@@ -225,7 +225,7 @@ async function getTradeVol24h(data) {
     try {
         const pair = data[1].toUpperCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/24h-trade-volume-v2/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        msg = `Alis: ${response.data["data"][0]["buy"]}  Satis: ${response.data["data"][0]["sell"]}`;
+        msg = `Alış: ${response.data["data"][0]["buy"]}  Satış: ${response.data["data"][0]["sell"]}`;
     }
     catch {
         console.log("tradevol 24h mistake");
@@ -314,7 +314,7 @@ async function getMergedVolume(data) {
     try {
         const symbol = data[2].toLowerCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/merged-trade-volume/?symbol=${symbol}&exchange_type=${exhange_type}&timeframe=${timeframe}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        msg = `Alim: ${response.data["data"][0]["buy"]} ve Satim: ${response.data["data"][0]["sell"]}`;
+        msg = `Alım: ${response.data["data"][0]["buy"]} ve Satım: ${response.data["data"][0]["sell"]}`;
     }
     catch {
         console.log("merged volume api mistake");
@@ -331,19 +331,19 @@ async function getTickerList(data) {
         let response = await axios_1.default.get(`https://api.cryptometer.io/tickerlist-pro/?&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         for (let i = 0; i < response.data["data"].length; i++) {
             if (response.data["data"][i]["market_pair"] == pair) {
-                msg = `market_pair: ${response.data["data"][i]["market_pair"]}
-                symbol: ${response.data["data"][i]["symbol"]}
+                msg = `parite: ${response.data["data"][i]["market_pair"]}
+                coinin adı: ${response.data["data"][i]["symbol"]}
                 fiyat: ${response.data["data"][i]["price"]}
                 usd fiyatı: ${response.data["data"][i]["usd_price"]}
-                high: ${response.data["data"][i]["high"]}
-                low: ${response.data["data"][i]["low"]}
-                volume_24: ${response.data["data"][i]["volume_24"]}
-                change_24h: ${response.data["data"][i]["change_24h"]}
-                change_1h: ${response.data["data"][i]["change_1h"]}
-                change_7d: ${response.data["data"][i]["change_7h"]}
-                change_30d: ${response.data["data"][i]["change_24h"]}
-                change_90d:-37.67
-                change_ytd:-23.7`;
+                en yüksek: ${response.data["data"][i]["high"]}
+                en alçak: ${response.data["data"][i]["low"]}
+                24 saatlik volume: ${response.data["data"][i]["volume_24"]}
+                24 saatlik değişim: ${response.data["data"][i]["change_24h"]}
+                1 saatlik değişim: ${response.data["data"][i]["change_1h"]}
+                7 günlük değişim: ${response.data["data"][i]["change_7h"]}
+                30 günlük değişim: ${response.data["data"][i]["change_30d"]}
+                90 günlük değişim: ${response.data["data"][i]["change_90d"]}
+                yıllık değişim: ${response.data["data"][i]["change_ytd"]}`;
                 break;
             }
         }

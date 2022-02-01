@@ -7,6 +7,8 @@ export const MESSAGES = {
 
         USER_DELETE:'Kullanicilar silinemedi.',
 
+        VILLAGER_DAY:"Bir hata oluştu.",
+
         MESSAGE: {
             SEND: 'Mesaj gönderilemedi.'
         },
@@ -54,6 +56,9 @@ export const MESSAGES = {
     },
 
     SUCCESS: {
+
+        VILLAGER_DAY_STARTED: "Halk günü başlatıldı!",
+        VILLAGER_DAY_ENDED:"Halk günü sonlandırıldı!",
 
         MESSAGE: {
             SEND: 'Mesaj gönderildi!'

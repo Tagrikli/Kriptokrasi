@@ -159,6 +159,36 @@ class ExpressApp {
             } else {
                 res.sendStatus(201);
             }
+        })
+
+        this.app.post(ENDPOINTS.UPDATE_VILLAGER_DAY, async (req, res) => {
+
+            const villager_day = req.body.is_villager_day;
+            const timeout = req.body.timeout;
+
+            try {
+                await this.db.updateVillagerDay(villager_day, timeout);
+                res.sendStatus(200);
+            } catch (reason) {
+                res.sendStatus(500);
+                logger.error(reason);
+            }
+
+        })
+
+        this.app.get(ENDPOINTS.GET_VILLAGER_DAY, async (req, res) => {
+            
+            try {
+                
+                const villager = await this.db.getVillagerDay(); 
+                res.send(villager);
+
+            } catch (reason) {
+                res.sendStatus(500);                
+                logger.error(reason);
+
+            }
+
 
 
         })
@@ -241,7 +271,7 @@ class ExpressApp {
                 if (type === EStatus.WAITING)
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_ as TOrder[]));
                 if (type === EStatus.ACTIVE)
-                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[],1234));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[], 1234));
 
 
                 this.brain.updateOrders();

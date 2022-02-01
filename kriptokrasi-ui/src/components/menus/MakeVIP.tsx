@@ -1,5 +1,6 @@
 import { Label } from "@mui/icons-material";
-import { Backdrop, Button, Container, Divider, FormControl, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import { Backdrop, Slider, Button, Container, Divider, FormControl, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from "@mui/material";
 import { Box, minWidth } from "@mui/system";
 import { DataGrid, GridSelectionModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
@@ -8,7 +9,9 @@ import { TUserDB } from "../../kriptokrasi-common/order_types";
 import { USER_COLUMNS } from "../../utils/consts";
 import { EXPRESS_ENDPOINTS } from "../../utils/endpoint_manager";
 import { MESSAGES } from "../../utils/messages";
-import { beautifyUsers } from "../../utils/order_functions";
+import { beautifyUsers, timeFormatter } from "../../utils/order_functions";
+
+const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 export default function MakeVIP() {
 
@@ -19,6 +22,9 @@ export default function MakeVIP() {
     const [search, setSearch] = useState('');
     const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
     const [duration, setDuration] = useState(0);
+
+    const [villager, setVillager] = useState<{ is_villager_day: number, timeout: number }>({ is_villager_day: 1, timeout: 0 });
+    const [timeout, setTimeout] = useState(1);
 
     useEffect(() => {
         console.log(selectionModel);
@@ -41,6 +47,15 @@ export default function MakeVIP() {
                 setUsers(beautified);
                 setUsers_(beautified);
             });
+
+        fetch(EXPRESS_ENDPOINTS.GET_VILLAGER_DAY)
+            .then(data => data.json())
+            .then(data => {
+                console.log(data);
+
+                setVillager(data);
+            })
+
 
     }, [loading])
 
@@ -125,7 +140,48 @@ export default function MakeVIP() {
         setLoading(false);
 
 
+    }
 
+    const onVillagerClick = async () => {
+
+        setLoading(true);
+
+        const timeout_ = timeout * DAY_IN_MS;
+        const data = {
+            is_villager_day: !villager.is_villager_day,
+            timeout: villager.is_villager_day ? 0 : timeout_
+        };
+
+        let result = await fetch(EXPRESS_ENDPOINTS.UPDATE_VILLAGER_DAY, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+
+        if (result.status === 200) {
+
+            if (data.is_villager_day) {
+                toast.success(MESSAGES.SUCCESS.VILLAGER_DAY_STARTED)
+            } else {
+                toast.success(MESSAGES.SUCCESS.VILLAGER_DAY_ENDED)
+            }
+
+
+        } else {
+            toast.error(MESSAGES.ERROR.VILLAGER_DAY)
+        }
+
+        setLoading(false);
+
+    }
+
+    const villagerDurationChangeHandler = (event: any) => {
+
+        const timeout = parseInt(event.target.value);
+        setTimeout(timeout)
     }
 
     const durationChangeHandler = (event: any) => {
@@ -139,7 +195,9 @@ export default function MakeVIP() {
 
     const selectionModelChangeHandler = (selection_model: GridSelectionModel) => {
         setSelectionModel(selection_model);
+
     }
+
 
 
     return <Container maxWidth="xl" sx={{
@@ -147,93 +205,106 @@ export default function MakeVIP() {
     }}
     >
 
+
+
         <Stack spacing={5}>
 
 
-            <Box sx={{
-                display: 'flex',
-                flexDirection: { md: 'row', xs: 'column' },
-                justifyContent: 'space-evenly',
-                alignItems: 'stretch',
-                flexWrap: "wrap"
-            }}>
+            <Paper elevation={4} sx={{ padding: 4 }}>
+                <Stack spacing={4} direction={'row'} alignItems='center'>
+                    <Button variant='contained' onClick={onVillagerClick} color={villager.is_villager_day ? 'success' : 'info'}>{villager.is_villager_day ? "Halk günü yayında!" : "Halk gününü başlat"}</Button>
+                    {villager.is_villager_day ? <Typography><Typography fontWeight={'bold'}>Bitis Zamani</Typography>{timeFormatter(villager.timeout)}</Typography> : <div></div>}
 
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 3
-                }}>
+                    <Divider orientation="vertical"></Divider>
 
 
-                    <Button sx={{ margin: 1 }} color='success' id='make-vip' onClick={onVIPClick}>VIP YAP</Button>
-                    <Button sx={{ margin: 1 }} color='error' id='cancel-vip' onClick={onVIPClick}>VIP KALDIR</Button>
+                    {!villager.is_villager_day ?
+                        <FormControl >
+                            <InputLabel id="vil-duration-label">Süre</InputLabel>
+                            <Select
+                                labelId="vil-duration-label"
+                                id="vil-duration-select"
+                                value={timeout}
+                                label="Süre"
+                                onChange={villagerDurationChangeHandler}
 
-                    <FormControl >
-                        <InputLabel id="duration-label">Süre</InputLabel>
-                        <Select
-                            labelId="duration-label"
-                            id="duration-select"
-                            value={duration}
-                            label="Süre"
-                            onChange={durationChangeHandler}
+                            >
+                                <MenuItem value={1}>1 Gun</MenuItem>
+                                <MenuItem value={2}>2 Gün</MenuItem>
+                                <MenuItem value={7}>1 Hafta</MenuItem>
+                                <MenuItem value={14}>2 Hafta</MenuItem>
+                            </Select>
+                        </FormControl> : <div></div>}
+                </Stack>
+            </Paper>
 
-                        >
-                            <MenuItem value={0}>Hiç</MenuItem>
-                            <MenuItem value={7}>1 Hafta</MenuItem>
-                            <MenuItem value={15}>15 Gün</MenuItem>
-                            <MenuItem value={30}>1 Ay</MenuItem>
-                            <MenuItem value={365 * 100}>Hep</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
-
-
-
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 3
-                }}>
-
-                    <Typography>Herkes</Typography>
-                    <Switch onChange={onFilterChange} />
-                    <Typography>Sadece VIP</Typography>
-
-                </Box>
-
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 3
-                }}>
-
-                    <TextField sx={{ maxWidth: 300 }} label='Kullanici Adi' onChange={onFilterUsername}></TextField>
-
-                </Box>
+            <Paper elevation={4} sx={{ padding: 4 }}>
 
 
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 3
-                }}>
+                <Stack sx={{ flexDirection: { lg: 'row', md: 'column' } }} spacing={1} alignItems='center' justifyContent={'space-between'}>
 
-                    <Button sx={{ margin: 1 }} color='error' id='delete-user' onClick={onUserDelete}>Kullanicilari Sil</Button>
 
-                </Box>
+                    <Stack direction='row' spacing={4} alignItems='center'>
 
-            </Box>
+                        <Box>
+                            <Button sx={{ margin: 1 }} color='success' id='make-vip' onClick={onVIPClick}>VIP YAP</Button>
+                            <Button sx={{ margin: 1 }} color='error' id='cancel-vip' onClick={onVIPClick}>VIP KALDIR</Button>
+                        </Box>
+
+                        <Box>
+                            <FormControl >
+                                <InputLabel id="duration-label">Süre</InputLabel>
+                                <Select
+                                    labelId="duration-label"
+                                    id="duration-select"
+                                    value={duration}
+                                    label="Süre"
+                                    onChange={durationChangeHandler}
+
+                                >
+                                    <MenuItem value={0}>Hiç</MenuItem>
+                                    <MenuItem value={7}>1 Hafta</MenuItem>
+                                    <MenuItem value={15}>15 Gün</MenuItem>
+                                    <MenuItem value={30}>1 Ay</MenuItem>
+                                    <MenuItem value={365 * 100}>Hep</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+
+                    </Stack>
 
 
 
+
+
+
+
+                    <Stack direction='row' spacing={1} alignItems='center'>
+
+                        <Typography>Herkes</Typography>
+                        <Switch onChange={onFilterChange} />
+                        <Typography>Sadece VIP</Typography>
+
+                    </Stack>
+
+                    <Stack direction='row' spacing={1} alignItems='center'>
+
+                        <TextField sx={{ maxWidth: 300 }} label='Kullanici Adi' onChange={onFilterUsername}></TextField>
+
+                    </Stack>
+
+
+                    <Stack direction='row' spacing={1} alignItems='center'>
+
+
+                        <Button sx={{ margin: 1 }} color='error' id='delete-user' onClick={onUserDelete}>Kullanicilari Sil</Button>
+
+                    </Stack>
+
+
+                </Stack>
+
+            </Paper>
 
 
 

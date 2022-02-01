@@ -65,9 +65,17 @@ class DatabaseManager {
         await this.db.run(QUERIES.CREATE_LOGIN_TABLE)
         logger.database('Login_data table created');
         await this.db.run(QUERIES.CREATE_VILLAGERDAY_TABLE);
+        this.createVillagerDay();
         logger.database('Villager_day table created');
     }
 
+    async createVillagerDay() {
+
+        const villager = await this.db.all(QUERIES.SELECT_VILLAGER_DAY);
+        if (!villager.length) {
+            await this.db.run(QUERIES.INSERT_DAY)
+        }
+    }
 
     async getPassword(username: string) {
         return await this.db.get(QUERIES.SELECT_PASSWORD_BY_USERNAME, [username])
@@ -181,7 +189,7 @@ class DatabaseManager {
 
     }
 
-    async cancelOrder(order_id: number, profit: number, momentary_price: number, cancel:number) {
+    async cancelOrder(order_id: number, profit: number, momentary_price: number, cancel: number) {
         let order = await this.getOrderById(order_id);
 
         if (order.status == EStatus.ACTIVE) { // the order is active
@@ -246,24 +254,25 @@ class DatabaseManager {
         return { timeout: timeout, vip: approved };
     }
 
-    async getTPByID(order_id:number){
+    async getTPByID(order_id: number) {
         let TPtable = await this.db.get(QUERIES.SELECT_TP_BY_ID, [order_id]);
         return TPtable.lastTP;
     }
 
-    async isVillagerDay(){
+    async isVillagerDay() {
         let villagerDay = await this.db.get(QUERIES.SELECT_VILLAGER_DAY);
-        if (villagerDay == undefined) {
-            await this.db.run(QUERIES.INSERT_DAY);
-            return false}
         return villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
+    }
+
+    async getVillagerDay() {
+        return await this.db.get(QUERIES.SELECT_VILLAGER_DAY);
     }
 
     async getAllUsers(vip: boolean, filter?: boolean): Promise<TUserDB[]> {
 
         let users: TUserDB[];
 
-        if ((!vip) || (this.isVillagerDay())) {
+        if ((!vip) || (await this.isVillagerDay())) {
             users = await this.db.all(QUERIES.SELECT_ALL_USERS);
 
         } else {
@@ -288,15 +297,9 @@ class DatabaseManager {
         await this.db.run(QUERIES.UPDATE_TP, [tp_index, order_id]);
     }
 
-    async startVillagerDay(){
-        let timeout = Date.now() + 3600*24;
-        await this.db.run(QUERIES.UPDATE_VILLAGER_DAY, [1]);
-        await this.db.run(QUERIES.UPDATE_TIMEOUT, [timeout]);
+    async updateVillagerDay(villager_day: boolean, timeout: number) {
+        await this.db.run(QUERIES.UPDATE_VILLAGER_DAY, [villager_day, Date.now() + timeout]);
         return "tugrulun fikriydi hadi hayirlisi"
-    }
-
-    async finishVillagerDay(){
-        return await this.db.run(QUERIES.UPDATE_VILLAGER_DAY, [0]);
     }
 
     //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
