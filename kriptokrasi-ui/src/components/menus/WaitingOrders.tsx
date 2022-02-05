@@ -19,8 +19,6 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
     props.ws.onmessage = (message) => {
 
         const data = JSON.parse(message.data);
-
-        console.log(data);
         
 
         const symbol: string = data.symbol;
