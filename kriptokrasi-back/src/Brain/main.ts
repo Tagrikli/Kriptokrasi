@@ -38,7 +38,7 @@ class Brain {
         this.binance = binance;
         this.notifier = notifier;
 
-        this.updateManager = new UpdateManager(1000);
+        this.updateManager = new UpdateManager(500);
     }
 
     bindWebsocket(ws: WebSocketServer) {
@@ -65,35 +65,34 @@ class Brain {
     async onTelegramAppMessage(event: NewMessageEvent) {
 
         const message = event.message.message;
-        this.telegram.sendMessageToAll(true, true, message);    
+        this.telegram.sendMessageToAll(true, true, message);
     }
 
     async onBinanceBookTicker(data: any) {
 
-        // if (process.env.LIVE_PRICE !== 'y') {
-        //     logger.brain(JSON.stringify(data, null, 4));
-        // } else {
-        //     //logger.brain(JSON.stringify(data, null, 4));            
-        // }
+        if (process.env.LIVE_PRICE !== 'y') {
+            logger.brain(JSON.stringify(data, null, 4));
+        }
 
         const symbol: string = data.symbol;
         const bid_price: number = data.bidPrice;
+        const type: EType = data.wsMarket === 'spot' ? EType.SPOT : EType.VADELI;
 
-        const in_inactives = this.inactive_orders_symbol.includes(symbol)
-        const in_actives = this.active_orders_symbol.includes(symbol)
+        const in_inactives = this.inactive_orders_symbol.includes(symbol);
+        const in_actives = this.active_orders_symbol.includes(symbol);
 
 
         if (in_actives || in_inactives) {
 
             //Send updates to react client if it should be updated.
-            this.updateManager.shouldUpdate(symbol) && this.reactUpdater.updateClients({ symbol: symbol, bid_price: bid_price });
+            this.updateManager.shouldUpdate(symbol) && this.reactUpdater.updateClients({ symbol: symbol, bid_price: bid_price, type: type });
 
 
             //If the data in the inactive symbols.
             if (in_inactives) {
 
                 //list of orders should be activated.
-                let orders: TOrder[] = this.gottaActivate(this.relevantInactives(symbol), bid_price);
+                let orders: TOrder[] = this.gottaActivate(this.relevantInactives(symbol, type), bid_price);
 
                 //For every order that should be activated.
                 orders.forEach(async order => {
@@ -122,7 +121,7 @@ class Brain {
             if (in_actives) {
 
 
-                let orders_sl: TOrder[] = this.gottaStopLoss(this.relevantActives(symbol), bid_price);
+                let orders_sl: TOrder[] = this.gottaStopLoss(this.relevantActives(symbol, type), bid_price);
 
                 orders_sl.forEach(async order => {
 
@@ -131,15 +130,15 @@ class Brain {
                         activationProcess.addProcess(order.id);
                         const lastTP = await this.db.getTPByID(order.id);
 
-                        let profits = await profitCalculatorAfterStop(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
+                        let profits = profitCalculatorAfterStop(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
                         if ((order.position == EPosition.SHORT)) profits = profits.map(tp => -tp);
                         console.log("stoploss tps", profits);
 
-                        await this.db.cancelOrder(order.id, profits[lastTP+1], bid_price, 0);
+                        await this.db.cancelOrder(order.id, profits[lastTP + 1], bid_price, 0);
                         await this.updateOrders()
 
-                        
-                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP+1], lastTP);
+
+                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP + 1], lastTP);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
@@ -147,7 +146,7 @@ class Brain {
                 })
 
 
-                let orders_tp: { order: TOrder, lastTP: number }[] = this.gottaTP(this.relevantActives(symbol), bid_price);
+                let orders_tp: { order: TOrder, lastTP: number }[] = this.gottaTP(this.relevantActives(symbol, type), bid_price);
 
 
                 orders_tp.forEach(async pair => {
@@ -169,12 +168,12 @@ class Brain {
                         }
                         let profits = await profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
                         if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
-                        
+
                         await this.db.updateTP(order.id, lastTP);
                         await this.db.updateStopLoss(order.id);
                         await this.updateOrders()
 
-                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP+1]);
+                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
@@ -185,12 +184,12 @@ class Brain {
     }
 
 
-    relevantActives(symbol: string) {
-        return this.active_orders.filter(order => order.symbol === symbol);
+    relevantActives(symbol: string, type: EType) {
+        return this.active_orders.filter(order => order.symbol === symbol && order.type === type);
     }
 
-    relevantInactives(symbol: string) {
-        return this.inactive_orders.filter(order => order.symbol === symbol);
+    relevantInactives(symbol: string, type: EType) {
+        return this.inactive_orders.filter(order => order.symbol === symbol && order.type === type);
     }
 
 

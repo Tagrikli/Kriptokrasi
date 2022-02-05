@@ -17,7 +17,7 @@ class BinanceManager {
     }
     initSubscriptions() {
         this.wsClient.subscribeAllBookTickers('spot');
-        //this.wsClient.subscribeAllBookTickers('usdm')
+        this.wsClient.subscribeAllBookTickers('usdm');
     }
     async getAllSymbols() {
         const result = await this.client.getExchangeInfo();

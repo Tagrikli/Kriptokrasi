@@ -26,7 +26,7 @@ class Brain {
         this.telegram = telegram;
         this.binance = binance;
         this.notifier = notifier;
-        this.updateManager = new managers_1.UpdateManager(1000);
+        this.updateManager = new managers_1.UpdateManager(500);
     }
     bindWebsocket(ws) {
         this.wsServer = ws;
@@ -46,22 +46,21 @@ class Brain {
         this.telegram.sendMessageToAll(true, true, message);
     }
     async onBinanceBookTicker(data) {
-        // if (process.env.LIVE_PRICE !== 'y') {
-        //     logger.brain(JSON.stringify(data, null, 4));
-        // } else {
-        //     //logger.brain(JSON.stringify(data, null, 4));            
-        // }
+        if (process.env.LIVE_PRICE !== 'y') {
+            logger_1.default.brain(JSON.stringify(data, null, 4));
+        }
         const symbol = data.symbol;
         const bid_price = data.bidPrice;
+        const type = data.wsMarket === 'spot' ? order_types_1.EType.SPOT : order_types_1.EType.VADELI;
         const in_inactives = this.inactive_orders_symbol.includes(symbol);
         const in_actives = this.active_orders_symbol.includes(symbol);
         if (in_actives || in_inactives) {
             //Send updates to react client if it should be updated.
-            this.updateManager.shouldUpdate(symbol) && this.reactUpdater.updateClients({ symbol: symbol, bid_price: bid_price });
+            this.updateManager.shouldUpdate(symbol) && this.reactUpdater.updateClients({ symbol: symbol, bid_price: bid_price, type: type });
             //If the data in the inactive symbols.
             if (in_inactives) {
                 //list of orders should be activated.
-                let orders = this.gottaActivate(this.relevantInactives(symbol), bid_price);
+                let orders = this.gottaActivate(this.relevantInactives(symbol, type), bid_price);
                 //For every order that should be activated.
                 orders.forEach(async (order) => {
                     //If the orders activation is not in process (Since binance data coming too fast and writing to database takes some time.)
@@ -80,12 +79,12 @@ class Brain {
             }
             //If the data in the active symbols.
             if (in_actives) {
-                let orders_sl = this.gottaStopLoss(this.relevantActives(symbol), bid_price);
+                let orders_sl = this.gottaStopLoss(this.relevantActives(symbol, type), bid_price);
                 orders_sl.forEach(async (order) => {
                     if (!activationProcess.inProcess(order.id)) {
                         activationProcess.addProcess(order.id);
                         const lastTP = await this.db.getTPByID(order.id);
-                        let profits = await (0, helpers_1.profitCalculatorAfterStop)(bid_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+                        let profits = (0, helpers_1.profitCalculatorAfterStop)(bid_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
                         if ((order.position == order_types_1.EPosition.SHORT))
                             profits = profits.map(tp => -tp);
                         console.log("stoploss tps", profits);
@@ -96,7 +95,7 @@ class Brain {
                         activationProcess.removeProcess(order.id);
                     }
                 });
-                let orders_tp = this.gottaTP(this.relevantActives(symbol), bid_price);
+                let orders_tp = this.gottaTP(this.relevantActives(symbol, type), bid_price);
                 orders_tp.forEach(async (pair) => {
                     const order = pair.order;
                     const lastTP = pair.lastTP;
@@ -123,11 +122,11 @@ class Brain {
             }
         }
     }
-    relevantActives(symbol) {
-        return this.active_orders.filter(order => order.symbol === symbol);
+    relevantActives(symbol, type) {
+        return this.active_orders.filter(order => order.symbol === symbol && order.type === type);
     }
-    relevantInactives(symbol) {
-        return this.inactive_orders.filter(order => order.symbol === symbol);
+    relevantInactives(symbol, type) {
+        return this.inactive_orders.filter(order => order.symbol === symbol && order.type === type);
     }
     gottaActivate(orders, bid_price) {
         //Returns list of orders should be activated.

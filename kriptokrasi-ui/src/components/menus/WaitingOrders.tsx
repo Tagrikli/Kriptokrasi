@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { MESSAGES } from '../../utils/messages';
 import { GRID_COLUMNS } from '../../utils/consts';
 import { beautifyData } from '../../utils/order_functions';
-import { EStatus, TOrder } from '../../kriptokrasi-common/order_types';
+import { EStatus, EType, TOrder } from '../../kriptokrasi-common/order_types';
 import { EXPRESS_ENDPOINTS } from '../../utils/endpoint_manager';
 
 
@@ -20,12 +20,16 @@ export default function WaitingOrders(props: { ws: WebSocket }) {
 
         const data = JSON.parse(message.data);
 
+        console.log(data);
+        
+
         const symbol: string = data.symbol;
         const bid_price: number = data.bid_price;
+        const type: string = data.type === EType.SPOT ? 'SPOT' : 'VADELI';
 
 
         const rows_ = rows.map(row => {
-            if (row.symbol === symbol) {
+            if (row.symbol === symbol && (row.type as unknown as string) === type) {
                 row.live_price = bid_price;
                 row.difference = bid_price - row.buy_price;
             }

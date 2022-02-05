@@ -29,7 +29,8 @@ class BinanceManager {
 
     initSubscriptions() {
         this.wsClient.subscribeAllBookTickers('spot')
-        //this.wsClient.subscribeAllBookTickers('usdm')
+        
+        this.wsClient.subscribeAllBookTickers('usdm')
     }
 
     async getAllSymbols() {
@@ -50,7 +51,6 @@ class BinanceManager {
 
 
         const event_type = data.eventType;
-
 
 
         switch (event_type) {
