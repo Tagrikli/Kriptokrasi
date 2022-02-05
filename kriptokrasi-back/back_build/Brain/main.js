@@ -46,9 +46,11 @@ class Brain {
         this.telegram.sendMessageToAll(true, true, message);
     }
     async onBinanceBookTicker(data) {
-        if (process.env.LIVE_PRICE !== 'y') {
-            logger_1.default.brain(JSON.stringify(data, null, 4));
-        }
+        // if (process.env.LIVE_PRICE !== 'y') {
+        //     logger.brain(JSON.stringify(data, null, 4));
+        // } else {
+        //     //logger.brain(JSON.stringify(data, null, 4));            
+        // }
         const symbol = data.symbol;
         const bid_price = data.bidPrice;
         const in_inactives = this.inactive_orders_symbol.includes(symbol);

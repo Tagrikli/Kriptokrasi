@@ -11,8 +11,8 @@ export default class Waitlist {
     };
 
     push(user_id: number) {
-        this.waitlist.push(user_id);
-        setTimeout(() => this.waitlist.shift(), this.delay)
+        //this.waitlist.push(user_id);
+        //setTimeout(() => this.waitlist.shift(), this.delay)
     }
 
     find(user_id: number) {

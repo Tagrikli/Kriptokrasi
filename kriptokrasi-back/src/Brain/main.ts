@@ -70,9 +70,11 @@ class Brain {
 
     async onBinanceBookTicker(data: any) {
 
-        if (process.env.LIVE_PRICE !== 'y') {
-            logger.brain(JSON.stringify(data, null, 4));
-        }
+        // if (process.env.LIVE_PRICE !== 'y') {
+        //     logger.brain(JSON.stringify(data, null, 4));
+        // } else {
+        //     //logger.brain(JSON.stringify(data, null, 4));            
+        // }
 
         const symbol: string = data.symbol;
         const bid_price: number = data.bidPrice;

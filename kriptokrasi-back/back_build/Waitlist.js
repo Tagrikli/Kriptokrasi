@@ -14,8 +14,8 @@ class Waitlist {
     }
     ;
     push(user_id) {
-        this.waitlist.push(user_id);
-        setTimeout(() => this.waitlist.shift(), this.delay);
+        //this.waitlist.push(user_id);
+        //setTimeout(() => this.waitlist.shift(), this.delay)
     }
     find(user_id) {
         return this.waitlist.find(id => id === user_id);
