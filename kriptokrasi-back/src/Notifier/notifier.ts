@@ -146,12 +146,7 @@ export default class Notifier {
 
         return await Promise.all(orders.map(async order => {
 
-            let momentary_price = 0;
-            try {
-                momentary_price = await this.getMomentaryPrice(order.symbol);
-            } catch (error) {
-                logger.error(error);
-            }
+            let momentary_price = await this.getMomentaryPrice(order.symbol);
             let price_left = momentary_price - order.buy_price;
             if (order.type === EType.SPOT) {
 
@@ -253,17 +248,18 @@ Bekleyen emirler iptal edildi.
     }
 
 
-    activeOrderDeletion(orders: TOrder[], profit:number) { //profit should be the profit of the lastTP
+    activeOrderDeletion(orders: TOrder[], profits:any) { //profit should be the profit of the lastTP
 
         let prefix = `
 Aktif emirler iptal edildi.
 İptal edilen emirler:
 `
-        const orders_ = orders.map(order => new Compositor(order)
+        const orders_ = orders.map(order => {
+            new Compositor(order)
             .symbol()
             .buy_price()
-            .optional("Kâr:  %", profit.toFixed(2))
-            .composed)
+            .optional("Kâr:  %", profits[order.id].toFixed(2))
+            .composed})
 
         return [prefix, ...orders_].join('\n');
     }

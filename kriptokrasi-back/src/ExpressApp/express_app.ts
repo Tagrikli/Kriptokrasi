@@ -12,6 +12,7 @@ import { TTMessage } from "../kriptokrasi-common/message_types";
 import TelegramBot from "../TelegramBot/telegram_bot";
 import Notifier from "../Notifier/notifier";
 import { EnumPositionMarginChangeType } from "binance";
+import { profitCalculatorAfterStop } from "../Brain/helpers";
 
 
 const LOGIN_DATA = {
@@ -264,23 +265,33 @@ class ExpressApp {
             const type: EStatus = req.body.type;
 
             try {
-                const orders_ = await this.db.getOrdersById(order_ids, type)
+                const orders_ = await this.db.getOrdersById(order_ids, type) as TOrder[];
                 await this.db.deleteOrders(order_ids, type);
 
 
-                if (type === EStatus.WAITING)
+                if (type === EStatus.WAITING){ 
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_ as TOrder[]));
-                if (type === EStatus.ACTIVE)
-                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[], 1234));
-
+                }
+                if (type === EStatus.ACTIVE){
+                    let profits = {}
+                    for(let i=0; i<order_ids.length; i++){
+                        const lastTP = this.db.getTPByID(orders_[i].id)
+                        let momentary_price = 0;
+                        try {
+                            momentary_price = await this.binance.getPriceForSymbol(orders_[i].symbol);
+                        } catch (error) {
+                            logger.error(error);
+                        }
+                        profits[order_ids[i]] = profitCalculatorAfterStop(momentary_price, [orders_[i].buy_price, ...(orders_[i].tp_data as number[])], orders_[i].leverage, lastTP)
+                    }
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[], profits));
+                }
 
                 this.brain.updateOrders();
-
                 res.sendStatus(200);
             } catch (reason) {
                 res.sendStatus(500);
                 logger.error(reason);
-
             }
 
         });

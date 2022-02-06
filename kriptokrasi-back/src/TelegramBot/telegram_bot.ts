@@ -140,11 +140,11 @@ class TelegramBot {
                 case BUTTON_LIST.INITIAL[3]:
                     ctx.reply(HELP_TEXT, { reply_markup: KEYBOARDS.INITIAL });
                     break;
-                case BUTTON_LIST.INITIAL[4]:
+                case BUTTON_LIST.INITIAL[4]: //egitime basınca
                     ctx.reply("Eğitim konusunu seçiniz.", { reply_markup: KEYBOARDS.LESSON });
                     break;
-                case BUTTON_LIST.INITIAL[5]:
-                    ctx.reply("Ne vereyim abime?", { reply_markup: KEYBOARDS.DATA });
+                case BUTTON_LIST.INITIAL[5]: //anlık dataya basınca
+                    ctx.reply("Data seçiniz.", { reply_markup: KEYBOARDS.DATA });
                     break;
                 default:
                     ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL });
@@ -226,10 +226,10 @@ class TelegramBot {
                     Queries.newQuery(chat_id, PROC_CONTEXT.HOURLY24VF);
                     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
                     break;
-                case BUTTON_LIST.DATA[12]://OHLCV
-                    Queries.newQuery(chat_id, PROC_CONTEXT.OHLCV);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
-                    break;
+                // case BUTTON_LIST.DATA[12]://OHLCV
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.OHLCV);
+                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                //     break;
                 // case BUTTON_LIST.DATA[13]://Gunluk Volume
                 //     Queries.newQuery(chat_id, PROC_CONTEXT.DAILYVOL);
                 //     ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
@@ -273,25 +273,25 @@ class TelegramBot {
             Queries.addData(chat_id, message);
             switch (query.context) {
                 case PROC_CONTEXT.LONGSHORT:
-                    ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.RAPIDMOVEMENT:
-                    ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.OPENINTEREST:
-                    ctx.reply("mp yazip coin paritesi seciniz. ör: btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("mp yazip coin paritesi seciniz. ör: mp btcusdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.CURRENTLS:
-                    ctx.reply("symb yazip sembol seciniz. ör: btc", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("symb yazip sembol seciniz. ör: symb btc", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.TICKERLIST:
-                    ctx.reply("mp yazip parite seciniz. ör: btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("mp yazip parite seciniz. ör: mp btcusdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.XTRADE:
-                    ctx.reply("symb yazip sembol seciniz. ör: btc", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("symb yazip sembol seciniz. ör: symb btc", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.LIVETRADE:
-                    ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.OHLCV:
                     ctx.reply("Zaman aralığı seçiniz.", { reply_markup: KEYBOARDS.TIMEFRAME });
