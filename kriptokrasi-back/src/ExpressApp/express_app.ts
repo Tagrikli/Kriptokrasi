@@ -274,16 +274,16 @@ class ExpressApp {
                 }
                 if (type === EStatus.ACTIVE){
                     let profits = {}
-                    for(let i=0; i<order_ids.length; i++){
-                        const lastTP = this.db.getTPByID(orders_[i].id)
+                    orders_.forEach(async order => {
+                        const lastTP = this.db.getTPByID(order.id)
                         let momentary_price = 0;
                         try {
-                            momentary_price = await this.binance.getPriceForSymbol(orders_[i].symbol);
+                            momentary_price = await this.binance.getPriceForSymbol(order.symbol);
                         } catch (error) {
                             logger.error(error);
                         }
-                        profits[order_ids[i]] = profitCalculatorAfterStop(momentary_price, [orders_[i].buy_price, ...(orders_[i].tp_data as number[])], orders_[i].leverage, lastTP)
-                    }
+                        profits[order.id] = profitCalculatorAfterStop(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP)
+                    })
                     this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[], profits));
                 }
 
