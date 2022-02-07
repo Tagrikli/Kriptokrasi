@@ -76,7 +76,7 @@ export default class Notifier {
     binance: BinanceManager
 
 
-    async getMomentaryPrice(symbol: string) {
+    async getMomentaryPrice(symbol: string, type: EType) { ////////////////////BURAYI DUZELT TUGRUL AMA ONCE YEMEK YE
         let momentary_price = 0;
         try {
             momentary_price = await this.binance.getPriceForSymbol(symbol);
@@ -85,7 +85,6 @@ export default class Notifier {
         }
         return momentary_price;
     }
-
 
 
     async prepareActiveOrders() {
@@ -98,7 +97,7 @@ export default class Notifier {
 
         return await Promise.all(orders.map(async order => {
 
-            let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
+            let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
             let lastTP = await this.database.getTPByID(order.id);
             let tps = await profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
             console.log("activelere basildi", tps);
@@ -146,7 +145,7 @@ export default class Notifier {
 
         return await Promise.all(orders.map(async order => {
 
-            let momentary_price = await this.getMomentaryPrice(order.symbol);
+            let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
             let price_left = momentary_price - order.buy_price;
             if (order.type === EType.SPOT) {
 
@@ -223,8 +222,6 @@ export default class Notifier {
     }
 
     async waitingOrderActivated(order: TOrder) {
-
-        const momentary_price = await this.getMomentaryPrice(order.symbol);
 
         return new Compositor(order)
             .optional(order.symbol, 'işlemine giriş yapılmıştır.')
