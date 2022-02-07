@@ -1,11 +1,14 @@
-import { BasicSymbolParam, MainClient, SymbolPrice, WebsocketClient } from 'binance';
+import { BasicSymbolParam, ExchangeInfo, FuturesExchangeInfo, MainClient, SymbolPrice, USDMClient, WebsocketClient } from 'binance';
 import logger from '../Logger/logger';
 import Brain from '../Brain/main';
+import { EType } from '../kriptokrasi-common/order_types';
+import { identity } from 'lodash';
 
 
 
 class BinanceManager {
-    client: MainClient
+    spotClient: MainClient
+    usdmClient: USDMClient
     wsClient: WebsocketClient
     symbols: string[]
     onBookTicker: (data: any) => void;
@@ -13,7 +16,8 @@ class BinanceManager {
     constructor() {
         this.symbols = [];
 
-        this.client = new MainClient();
+        this.spotClient = new MainClient();
+        this.usdmClient = new USDMClient();
         this.wsClient = new WebsocketClient({ beautify: true });
 
         this.wsClient.on('formattedMessage', (data) => this.onFormattedMessage(data));
@@ -33,14 +37,29 @@ class BinanceManager {
         this.wsClient.subscribeAllBookTickers('usdm')
     }
 
-    async getAllSymbols() {
-        const result = await this.client.getExchangeInfo();
-        return result.symbols.map(symbol => symbol.symbol);
+    async getAllSymbols(type: EType): Promise<string[]> {
+        
+        let result:ExchangeInfo | FuturesExchangeInfo;
+
+        if (type === EType.SPOT) {
+            result = await this.spotClient.getExchangeInfo();
+        } else if (type === EType.VADELI) {
+            result = await this.usdmClient.getExchangeInfo();
+        }
+        return result.symbols.map((symbol) => symbol.symbol);
+
     }
 
-    async getPriceForSymbol(symbol: string): Promise<number> {
-        const result = await this.client.getSymbolPriceTicker({ symbol: symbol });
-        return (result as SymbolPrice).price as number;
+    async getPriceForSymbol(symbol: string, type: EType): Promise<number> {
+        
+        let result: SymbolPrice;
+        if (type === EType.SPOT) {
+            result = (await this.spotClient.getSymbolPriceTicker({ symbol: symbol })) as SymbolPrice;
+        } else if (type === EType.VADELI) {
+            result = (await this.usdmClient.getSymbolPriceTicker({ symbol: symbol })) as SymbolPrice;            
+        }
+
+        return parseFloat((result as SymbolPrice).price.toString());
     }
 
     updateSymbols(symbols: string[]) {

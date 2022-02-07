@@ -88,7 +88,7 @@ class TelegramBot {
             switch (message) {
                 case consts_1.BUTTON_LIST.INITIAL[0]:
                     reply_arr = await this.notifier.prepareWaitingOrders();
-                    reply_arr.push('Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.');
+                    reply_arr.push('Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.');
                     for (let reply of reply_arr) {
                         await ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     }
@@ -96,7 +96,7 @@ class TelegramBot {
                     break;
                 case consts_1.BUTTON_LIST.INITIAL[1]:
                     reply_arr = await this.notifier.prepareActiveOrders();
-                    reply_arr.push('Bireysel işlemlerdir. Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.');
+                    reply_arr.push('Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.');
                     for (let reply of reply_arr) {
                         await ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     }
@@ -113,11 +113,11 @@ class TelegramBot {
                 case consts_1.BUTTON_LIST.INITIAL[3]:
                     ctx.reply(consts_1.HELP_TEXT, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
-                case consts_1.BUTTON_LIST.INITIAL[4]:
+                case consts_1.BUTTON_LIST.INITIAL[4]: //egitime basınca
                     ctx.reply("Eğitim konusunu seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.LESSON });
                     break;
-                case consts_1.BUTTON_LIST.INITIAL[5]:
-                    ctx.reply("Ne vereyim abime?", { reply_markup: keyboards_1.KEYBOARDS.DATA });
+                case consts_1.BUTTON_LIST.INITIAL[5]: //anlık dataya basınca
+                    ctx.reply("Data seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.DATA });
                     break;
                 default:
                     ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
@@ -194,10 +194,10 @@ class TelegramBot {
                     Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.HOURLY24VF);
                     ctx.reply("Borsa türünü seçiniz:", { reply_markup: keyboards_1.KEYBOARDS.STOCK });
                     break;
-                case consts_1.BUTTON_LIST.DATA[12]: //OHLCV
-                    Query_1.Queries.newQuery(chat_id, types_1.PROC_CONTEXT.OHLCV);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: keyboards_1.KEYBOARDS.STOCK });
-                    break;
+                // case BUTTON_LIST.DATA[12]://OHLCV
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.OHLCV);
+                //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                //     break;
                 // case BUTTON_LIST.DATA[13]://Gunluk Volume
                 //     Queries.newQuery(chat_id, PROC_CONTEXT.DAILYVOL);
                 //     ctx.reply("symb yazip sembol seciniz:", { reply_markup: KEYBOARDS.INITIAL });
@@ -234,28 +234,32 @@ class TelegramBot {
             const message = ctx.message.text;
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             Query_1.Queries.addData(chat_id, message);
             switch (query.context) {
                 case types_1.PROC_CONTEXT.LONGSHORT:
-                    ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.RAPIDMOVEMENT:
-                    ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.OPENINTEREST:
-                    ctx.reply("mp yazip coin paritesi seciniz. ör: btc-usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("mp yazip coin paritesi seciniz. ör: mp btcusdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.CURRENTLS:
-                    ctx.reply("symb yazip sembol seciniz. ör: btc", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("symb yazip sembol seciniz. ör: symb btc", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.TICKERLIST:
-                    ctx.reply("mp yazip parite seciniz. ör: btc-usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("mp yazip parite seciniz. ör: mp btcusdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.XTRADE:
-                    ctx.reply("symb yazip sembol seciniz. ör: btc", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("symb yazip sembol seciniz. ör: symb btc", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.LIVETRADE:
-                    ctx.reply("pa yazip parite seciniz. ör: btcusdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     break;
                 case types_1.PROC_CONTEXT.OHLCV:
                     ctx.reply("Zaman aralığı seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.TIMEFRAME });
@@ -318,6 +322,10 @@ class TelegramBot {
             const message = ctx.message.text;
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             let timeframe = '';
             switch (message) {
                 case consts_1.BUTTON_LIST.TIMEFRAME[0]:
@@ -363,6 +371,10 @@ class TelegramBot {
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             if (query.context == types_1.PROC_CONTEXT.HOURLY24VF) {
                 let reply = await (0, bot_functions_1.getTradeVol24h)([query.data[0], coin]);
                 ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
@@ -376,6 +388,10 @@ class TelegramBot {
             const message = ctx.message.text;
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             if (query.context == types_1.PROC_CONTEXT.INDICATOR) {
                 Query_1.Queries.addDataSafe(chat_id, types_1.PROC_CONTEXT.INDICATOR, message);
                 ctx.reply("Zaman araligi seciniz.", { reply_markup: keyboards_1.KEYBOARDS.TIMEFRAME });
@@ -389,6 +405,10 @@ class TelegramBot {
             const coin = message.replace('symb ', '');
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             let reply = "";
             switch (query.context) {
                 case types_1.PROC_CONTEXT.MERGEDVOL:
@@ -428,6 +448,10 @@ class TelegramBot {
             const coin = message.replace('pa ', '');
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             let reply = "";
             switch (query.context) {
                 case types_1.PROC_CONTEXT.LIVETRADE:
@@ -457,6 +481,10 @@ class TelegramBot {
             const coin = message.replace('mp ', '');
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             Query_1.Queries.addData(chat_id, coin);
             let reply = "";
             switch (query.context) {
@@ -492,44 +520,79 @@ class TelegramBot {
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             if (query.context == types_1.PROC_CONTEXT.CURRENTLS) {
                 let reply = await (0, bot_functions_1.getCurrentLS)([coin]);
-                ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                let msg = reply[0];
+                let status = reply[1];
+                ctx.reply(msg, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                if (status == 200) {
+                    Query_1.Queries.removeQuery(chat_id);
+                    Waitlist_1.waitlist.push(chat_id);
+                }
             }
-            else
+            else {
                 ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
-            Query_1.Queries.removeQuery(chat_id);
-            Waitlist_1.waitlist.push(chat_id);
+                Query_1.Queries.removeQuery(chat_id);
+                Waitlist_1.waitlist.push(chat_id);
+            }
         });
         this.bot.hears(/(?<=ls ).*/i, async (ctx) => {
             const message = ctx.message.text;
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
-            if (query.context === types_1.PROC_CONTEXT.LONGSHORT) {
-                let reply = await (0, bot_functions_1.getLongShort)([coin]);
-                ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
             }
-            else
-                ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
-            Query_1.Queries.removeQuery(chat_id);
-            Waitlist_1.waitlist.push(chat_id);
+            console.log("longshort secildi", query);
+            switch (query.context) {
+                case types_1.PROC_CONTEXT.LONGSHORT:
+                    let reply = await (0, bot_functions_1.getLongShort)([coin]);
+                    let msg = reply[0];
+                    let status = reply[1];
+                    ctx.reply(msg, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    if (status == 200) {
+                        Query_1.Queries.removeQuery(chat_id);
+                        Waitlist_1.waitlist.push(chat_id);
+                    }
+                    break;
+                default:
+                    ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    Query_1.Queries.removeQuery(chat_id);
+                    break;
+            }
         });
         this.bot.hears(/(?<=para ).*/i, async (ctx) => {
             const message = ctx.message.text;
-            const coins = message.split(' '); //split yapicammmmmm
+            const coins = message.split(' ');
             const chat_id = ctx.message.chat.id;
             let query = Query_1.Queries.getQuery(chat_id);
+            if (query == undefined) {
+                ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                return;
+            }
             if (query.context == types_1.PROC_CONTEXT.VOLUMEFLOW) {
                 Query_1.Queries.addDataSafe(chat_id, query.context, coins[1]);
                 Query_1.Queries.addDataSafe(chat_id, query.context, coins[2]);
                 let reply = await (0, bot_functions_1.getVolFlow)(query.data);
-                ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.DATA });
+                let msg = reply[0];
+                let status = reply[1];
+                ctx.reply(msg, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                if (status == 200) {
+                    Query_1.Queries.removeQuery(chat_id);
+                    Waitlist_1.waitlist.push(chat_id);
+                }
             }
-            else
+            else {
                 ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
-            Query_1.Queries.removeQuery(chat_id);
-            Waitlist_1.waitlist.push(chat_id);
+                Query_1.Queries.removeQuery(chat_id);
+                Waitlist_1.waitlist.push(chat_id);
+            }
         });
         this.bot.hears(/.*/, async (ctx) => {
             Query_1.Queries.removeQuery(ctx.chat.id);

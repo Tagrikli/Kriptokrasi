@@ -99,7 +99,7 @@ class TelegramBot {
             if ((!ctx.vip) && (!await this.db.isVillagerDay())) {
                 ctx.reply('Botu kullanabilmek için üye olunuz.', { reply_markup: KEYBOARDS.INITIAL });
                 return;
-            }    
+            }
 
             await next();
         })
@@ -269,7 +269,7 @@ class TelegramBot {
         this.bot.hears(BUTTON_LIST.STOCK, async (ctx) => {
             const message = ctx.message.text;
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             Queries.addData(chat_id, message);
             switch (query.context) {
                 case PROC_CONTEXT.LONGSHORT:
@@ -361,7 +361,7 @@ class TelegramBot {
         this.bot.hears(BUTTON_LIST.TIMEFRAME, async (ctx) => {
             const message = ctx.message.text;
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             let timeframe = ''
             switch (message) {
                 case BUTTON_LIST.TIMEFRAME[0]:
@@ -407,7 +407,7 @@ class TelegramBot {
             const message = ctx.message.text;
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             if (query.context == PROC_CONTEXT.HOURLY24VF) {
                 let reply = await getTradeVol24h([query.data[0], coin]);
                 ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
@@ -422,7 +422,7 @@ class TelegramBot {
         this.bot.hears(/^[0-9]{1,3}/, async (ctx) => {
             const message = ctx.message.text;
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             if (query.context == PROC_CONTEXT.INDICATOR) {
                 Queries.addDataSafe(chat_id, PROC_CONTEXT.INDICATOR, message);
                 ctx.reply("Zaman araligi seciniz.", { reply_markup: KEYBOARDS.TIMEFRAME })
@@ -436,7 +436,7 @@ class TelegramBot {
             const message = ctx.message.text;
             const coin = message.replace('symb ', '');
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             let reply = "";
 
             switch (query.context) {
@@ -479,7 +479,7 @@ class TelegramBot {
             const message = ctx.message.text;
             const coin = message.replace('pa ', '');
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             let reply = "";
 
             switch (query.context) {
@@ -512,7 +512,7 @@ class TelegramBot {
             const message = ctx.message.text;
             const coin = message.replace('mp ', '');
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             Queries.addData(chat_id, coin);
             let reply = "";
 
@@ -550,12 +550,12 @@ class TelegramBot {
             const message = ctx.message.text;
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             if (query.context == PROC_CONTEXT.CURRENTLS) {
                 let reply = await getCurrentLS([coin]);
                 let msg = reply[0] as string;
                 let status = reply[1] as number;
-                ctx.reply(msg, {reply_markup: KEYBOARDS.INITIAL });
+                ctx.reply(msg, { reply_markup: KEYBOARDS.INITIAL });
                 if (status == 200) {
                     Queries.removeQuery(chat_id);
                     waitlist.push(chat_id);
@@ -572,7 +572,7 @@ class TelegramBot {
             const message = ctx.message.text;
             const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             console.log("longshort secildi", query);
             switch (query.context) {
                 case PROC_CONTEXT.LONGSHORT:
@@ -597,7 +597,7 @@ class TelegramBot {
             const message = ctx.message.text;
             const coins = message.split(' ');
             const chat_id = ctx.message.chat.id;
-            let query = Queries.getQuery(chat_id); if (query ==undefined) {ctx.reply("Lutfen once islem seciniz.", {reply_markup: KEYBOARDS.INITIAL}); return;}
+            let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             if (query.context == PROC_CONTEXT.VOLUMEFLOW) {
                 Queries.addDataSafe(chat_id, query.context, coins[1]);
                 Queries.addDataSafe(chat_id, query.context, coins[2]);

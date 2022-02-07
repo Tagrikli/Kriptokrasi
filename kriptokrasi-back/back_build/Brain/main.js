@@ -103,7 +103,7 @@ class Brain {
                         activationProcess.addProcess(order.id);
                         let momentary_price = 0;
                         try {
-                            momentary_price = await this.binance.getPriceForSymbol(order.symbol);
+                            momentary_price = await this.binance.getPriceForSymbol(order.symbol, order.type);
                         }
                         catch (error) {
                             logger_1.default.error(error);

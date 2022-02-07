@@ -60,10 +60,10 @@ class Compositor {
 class Notifier {
     database;
     binance;
-    async getMomentaryPrice(symbol) {
+    async getMomentaryPrice(symbol, type) {
         let momentary_price = 0;
         try {
-            momentary_price = await this.binance.getPriceForSymbol(symbol);
+            momentary_price = await this.binance.getPriceForSymbol(symbol, type);
         }
         catch (error) {
             logger_1.default.error(error);
@@ -75,9 +75,9 @@ class Notifier {
         if (!orders.length)
             return [`Aktif emir yok`];
         return await Promise.all(orders.map(async (order) => {
-            let momentary_price = await this.binance.getPriceForSymbol(order.symbol);
+            let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
             let lastTP = await this.database.getTPByID(order.id);
-            let tps = await (0, helpers_1.profitCalculator)(momentary_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+            let tps = (0, helpers_1.profitCalculator)(momentary_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
             console.log("activelere basildi", tps);
             if ((order.position === order_types_1.EPosition.SHORT))
                 tps = tps.map(tp => -tp);
@@ -114,13 +114,7 @@ class Notifier {
         if (orders.length === 0)
             return [`Bekleyen emir yok`];
         return await Promise.all(orders.map(async (order) => {
-            let momentary_price = 0;
-            try {
-                momentary_price = await this.getMomentaryPrice(order.symbol);
-            }
-            catch (error) {
-                logger_1.default.error(error);
-            }
+            let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
             let price_left = momentary_price - order.buy_price;
             if (order.type === order_types_1.EType.SPOT) {
                 return new Compositor(order)
@@ -184,7 +178,6 @@ class Notifier {
             .composed;
     }
     async waitingOrderActivated(order) {
-        const momentary_price = await this.getMomentaryPrice(order.symbol);
         return new Compositor(order)
             .optional(order.symbol, 'işlemine giriş yapılmıştır.')
             .buy_price()
@@ -201,7 +194,7 @@ Bekleyen emirler iptal edildi.
             .composed);
         return [prefix, ...orders_].join('\n');
     }
-    activeOrderDeletion(orders, profit) {
+    activeOrderDeletion(orders, profits) {
         let prefix = `
 Aktif emirler iptal edildi.
 İptal edilen emirler:
@@ -209,7 +202,7 @@ Aktif emirler iptal edildi.
         const orders_ = orders.map(order => new Compositor(order)
             .symbol()
             .buy_price()
-            .optional("Kâr:  %", profit.toFixed(2))
+            .optional(`Kâr: %${parseFloat(profits[order.id]).toFixed(3)}`)
             .composed);
         return [prefix, ...orders_].join('\n');
     }

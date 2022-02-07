@@ -45,11 +45,11 @@ async function getLongShort(data) {
         if ((response4.status == 200) && (parseFloat(response4.data['data'][0]["buy"]) < 50.0))
             pressure4 = `Sell {down}`;
         msg = `15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
+        return [msg, 200];
     }
     catch {
-        msg = `Coin yazmayı tekrar deneyin. ör: ls btc-usdt`;
+        return [`Coin yazmayı tekrar deneyin. ör: ls btc-usdt`, 401];
     }
-    return msg;
 }
 exports.getLongShort = getLongShort;
 async function getCurrentLS(data) {
@@ -58,10 +58,11 @@ async function getCurrentLS(data) {
         const symbol = data[0].toLowerCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/current-day-long-short-v2/?symbol=${symbol}&e=binance_futures&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         msg = `Longs: ${response.data["data"][0]["longs"]}, Shorts: ${response.data["data"][0]["shorts"]}`;
+        return [msg, 200];
     }
     catch {
         console.log("currentLS mistake");
-        msg = `yanlis coin`;
+        return [`Coin yazmayı tekrar deneyin. ör: gls btc`, 401];
     }
     return msg;
 }
@@ -166,10 +167,11 @@ async function getVolFlow(data) {
         }
         if (msg === ``)
             msg = `Aradığınız coinlerde hacim akışı bulunamadı.`;
+        return [msg, 200];
     }
     catch {
         console.log("volume flow mistake");
-        msg = `yanlis coin`;
+        return [`Coinleri yazmayı tekrar deneyin. ör: para btc usdt`, 401];
     }
     return msg;
 }

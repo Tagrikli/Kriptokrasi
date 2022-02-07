@@ -10,6 +10,7 @@ const order_types_1 = require("../kriptokrasi-common/order_types");
 const ws_1 = require("ws");
 const http_1 = __importDefault(require("http"));
 const endpoints_1 = __importDefault(require("../kriptokrasi-common/endpoints"));
+const helpers_1 = require("../Brain/helpers");
 const LOGIN_DATA = {
     ayca: {
         username: "Ayca",
@@ -142,8 +143,11 @@ class ExpressApp {
         });
         this.app.get(endpoints_1.default.GET_SYMBOLS, async (req, res) => {
             try {
-                const symbol_list = await this.binance.getAllSymbols();
-                res.send(symbol_list);
+                const spot_list = await this.binance.getAllSymbols(order_types_1.EType.SPOT);
+                const usdm_list = await this.binance.getAllSymbols(order_types_1.EType.VADELI);
+                console.log(spot_list.length);
+                console.log(usdm_list.length);
+                res.send({ 0: spot_list, 1: usdm_list });
             }
             catch (reason) {
                 res.sendStatus(500);
@@ -197,10 +201,25 @@ class ExpressApp {
             try {
                 const orders_ = await this.db.getOrdersById(order_ids, type);
                 await this.db.deleteOrders(order_ids, type);
-                if (type === order_types_1.EStatus.WAITING)
+                if (type === order_types_1.EStatus.WAITING) {
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_));
-                if (type === order_types_1.EStatus.ACTIVE)
-                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_, 1234));
+                }
+                else if (type === order_types_1.EStatus.ACTIVE) {
+                    let profits = {};
+                    for (const order of orders_) {
+                        const lastTP = await this.db.getTPByID(order.id);
+                        let momentary_price = 0;
+                        try {
+                            momentary_price = await this.binance.getPriceForSymbol(order.symbol, order.type);
+                        }
+                        catch (error) {
+                            logger_1.default.error(error);
+                        }
+                        profits[order.id] = (0, helpers_1.profitCalculatorAfterStop)(momentary_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+                    }
+                    logger_1.default.debug(JSON.stringify(profits, null, 4));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_, profits));
+                }
                 this.brain.updateOrders();
                 res.sendStatus(200);
             }

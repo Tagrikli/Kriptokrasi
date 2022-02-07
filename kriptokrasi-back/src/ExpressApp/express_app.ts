@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import logger from "../Logger/logger";
 import cors from 'cors';
 import DatabaseManager from "../Database/database";
-import { TOrder, EStatus } from '../kriptokrasi-common/order_types';
+import { TOrder, EStatus, EType } from '../kriptokrasi-common/order_types';
 import { WebSocket, WebSocketServer } from 'ws';
 import http from 'http';
 import Brain from "../Brain/main";
@@ -11,7 +11,6 @@ import ENDPOINTS from "../kriptokrasi-common/endpoints";
 import { TTMessage } from "../kriptokrasi-common/message_types";
 import TelegramBot from "../TelegramBot/telegram_bot";
 import Notifier from "../Notifier/notifier";
-import { EnumPositionMarginChangeType } from "binance";
 import { profitCalculatorAfterStop } from "../Brain/helpers";
 
 
@@ -178,14 +177,14 @@ class ExpressApp {
         })
 
         this.app.get(ENDPOINTS.GET_VILLAGER_DAY, async (req, res) => {
-            
+
             try {
-                
-                const villager = await this.db.getVillagerDay(); 
+
+                const villager = await this.db.getVillagerDay();
                 res.send(villager);
 
             } catch (reason) {
-                res.sendStatus(500);                
+                res.sendStatus(500);
                 logger.error(reason);
 
             }
@@ -197,8 +196,14 @@ class ExpressApp {
         this.app.get(ENDPOINTS.GET_SYMBOLS, async (req, res) => {
 
             try {
-                const symbol_list = await this.binance.getAllSymbols();
-                res.send(symbol_list);
+                const spot_list = await this.binance.getAllSymbols(EType.SPOT);
+                const usdm_list = await this.binance.getAllSymbols(EType.VADELI);
+
+                console.log(spot_list.length);
+                console.log(usdm_list.length);
+
+
+                res.send({ 0: spot_list, 1: usdm_list });
             } catch (reason) {
                 res.sendStatus(500);
                 logger.error(reason);
@@ -269,22 +274,34 @@ class ExpressApp {
                 await this.db.deleteOrders(order_ids, type);
 
 
-                if (type === EStatus.WAITING){ 
+                if (type === EStatus.WAITING) {
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_ as TOrder[]));
-                }
-                if (type === EStatus.ACTIVE){
+                } else if (type === EStatus.ACTIVE) {
+
                     let profits = {}
-                    orders_.forEach(async order => {
-                        const lastTP = this.db.getTPByID(order.id)
+
+                    for (const order of orders_) {
+
+                        const lastTP = await this.db.getTPByID(order.id)
+
+
                         let momentary_price = 0;
                         try {
-                            momentary_price = await this.binance.getPriceForSymbol(order.symbol);
+                            momentary_price = await this.binance.getPriceForSymbol(order.symbol, order.type);
                         } catch (error) {
                             logger.error(error);
                         }
+
+
+
                         profits[order.id] = profitCalculatorAfterStop(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP)
-                    })
+
+                    }
+
+                    logger.debug(JSON.stringify(profits, null, 4));
+
                     this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[], profits));
+
                 }
 
                 this.brain.updateOrders();

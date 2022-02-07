@@ -74,7 +74,7 @@ export default function AddOrder() {
     const [data, setData] = useState(DEFAULT_ORDER);
     const [spot, setSpot] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [symbols, setSymbols] = useState<string[]>([]);
+    const [symbols, setSymbols] = useState<any>({ 0: [], 1: [] });
 
     useEffect(() => {
         getSymbols();
@@ -129,7 +129,7 @@ export default function AddOrder() {
     const getSymbols = async () => {
         setLoading(true);
         fetch(EXPRESS_ENDPOINTS.GET_SYMBOLS).then(values => values.json()).then((values: string[]) => {
-            setSymbols(values.sort());
+            setSymbols(values);
             setLoading(false);
         });
     }
@@ -206,6 +206,7 @@ export default function AddOrder() {
 
 
     const changeHandler = (event: any, ...other: any[]) => {
+
 
         const id: string = event.target.id;
         const name = event.target.name;
@@ -315,7 +316,7 @@ export default function AddOrder() {
             <Autocomplete
                 disablePortal
                 id={FIELD_IDS.SYMBOL_SELECT}
-                options={symbols}
+                options={symbols[spot ? EType.SPOT : EType.VADELI]}
                 onChange={changeHandler}
                 renderInput={(params) => <TextField {...params} label="Sembol" />} />
 

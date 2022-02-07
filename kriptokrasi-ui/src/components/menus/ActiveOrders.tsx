@@ -47,7 +47,6 @@ export default function ActiveOrders(props: { ws: WebSocket }) {
 
         if (sel_count) {
             setLoading(true);
-            const selections = selectionModel;
 
             try {
                 let response = await fetch(EXPRESS_ENDPOINTS.DELETE_ORDERS, {
@@ -55,7 +54,7 @@ export default function ActiveOrders(props: { ws: WebSocket }) {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ selections, type: EStatus.ACTIVE })
+                    body: JSON.stringify({ selections:selectionModel, type: EStatus.ACTIVE })
                 })
 
                 if (response.status === 200) {
