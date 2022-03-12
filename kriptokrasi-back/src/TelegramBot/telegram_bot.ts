@@ -70,6 +70,7 @@ class TelegramBot {
             if (!(await this.db.userExists(ctx.message.from.id))) this.db.createUser(ctx.message.from);
             ctx.reply("Seçiminizi yapınız...", { reply_markup: KEYBOARDS.INITIAL });
         })
+        //buraya satin al butonu koyulcak
 
 
         this.bot.use(async (ctx, next) => {

@@ -179,7 +179,6 @@ export default class Notifier {
 
     async preparePastOrders() {
 
-
         let orders = await this.database.getAllOrders(EStatus.PAST) as TOrder_Past[];
 
         if (!orders.length) return [`Gecmis emir yok`];
@@ -214,11 +213,20 @@ export default class Notifier {
 
     }
 
-    waitingOrderAdded(order: TOrder) {
+    async waitingOrderAdded(order: TOrder) {
+        let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
+        let price_left = momentary_price - order.buy_price;
         return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
+            .type()
+            .buy_price()
+            .momentary_price(momentary_price)
+            .price_left(price_left)
+            .tp_data()
+            .stop_loss()
             .optional('Bekleyen emirlerden kontrol ediniz.')
             .composed
+
     }
 
     async waitingOrderActivated(order: TOrder) {
@@ -249,8 +257,8 @@ Bekleyen emirler iptal edildi.
     activeOrderDeletion(orders: TOrder[], profits: { [key: number]: any }) { //profit should be the profit of the lastTP
 
         let prefix = `
-Aktif emirler iptal edildi.
-İptal edilen emirler:
+Aktif işlem kapanmıştır.
+Kapanan emirler:
 `
         const orders_ = orders.map(order =>
             new Compositor(order)

@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import logger from "../Logger/logger";
 import cors from 'cors';
 import DatabaseManager from "../Database/database";
-import { TOrder, EStatus, EType } from '../kriptokrasi-common/order_types';
+import { TOrder, EStatus, EType, EPosition } from '../kriptokrasi-common/order_types';
 import { WebSocket, WebSocketServer } from 'ws';
 import http from 'http';
 import Brain from "../Brain/main";
@@ -216,7 +216,7 @@ class ExpressApp {
 
             try {
                 await this.db.createOrder(order);
-                this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderAdded(order));
+                this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderAdded(order));
                 this.brain.updateOrders();
                 res.sendStatus(200);
             } catch (reason) {
@@ -278,7 +278,7 @@ class ExpressApp {
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_ as TOrder[]));
                 } else if (type === EStatus.ACTIVE) {
 
-                    let profits = {}
+                    let profits = []
 
                     for (const order of orders_) {
 
@@ -295,6 +295,7 @@ class ExpressApp {
 
 
                         profits[order.id] = profitCalculatorAfterStop(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP)
+                        if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
 
                     }
 
