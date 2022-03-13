@@ -145,8 +145,6 @@ class ExpressApp {
             try {
                 const spot_list = await this.binance.getAllSymbols(order_types_1.EType.SPOT);
                 const usdm_list = await this.binance.getAllSymbols(order_types_1.EType.VADELI);
-                console.log(spot_list.length);
-                console.log(usdm_list.length);
                 res.send({ 0: spot_list, 1: usdm_list });
             }
             catch (reason) {

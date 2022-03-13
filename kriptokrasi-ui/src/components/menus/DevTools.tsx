@@ -28,7 +28,7 @@ export default function DevTools() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ symbol: symbol, bidPrice: values[id] })
+            body: JSON.stringify({ symbol: symbol, bidPrice: values[id], wsMarket: 'spot' })
         });
 
     }

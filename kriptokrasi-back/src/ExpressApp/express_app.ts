@@ -199,9 +199,6 @@ class ExpressApp {
                 const spot_list = await this.binance.getAllSymbols(EType.SPOT);
                 const usdm_list = await this.binance.getAllSymbols(EType.VADELI);
 
-                console.log(spot_list.length);
-                console.log(usdm_list.length);
-
 
                 res.send({ 0: spot_list, 1: usdm_list });
             } catch (reason) {
@@ -214,8 +211,9 @@ class ExpressApp {
             const order: TOrder = req.body;
             logger.express('New order!');
 
+            
             try {
-                await this.db.createOrder(order);
+                await this.db.createOrder(order);     
                 let msg = await this.notifier.waitingOrderAdded(order);
                 await this.telegram.sendMessageToAll(true, true, msg);
                 this.brain.updateOrders();

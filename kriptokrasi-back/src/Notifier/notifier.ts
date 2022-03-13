@@ -215,7 +215,10 @@ export default class Notifier {
 
     async waitingOrderAdded(order: TOrder) {
         let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
+        
         let price_left = momentary_price - order.buy_price;
+        
+        
         return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
             .type()

@@ -10,14 +10,16 @@ const queries_1 = __importDefault(require("./queries"));
 const logger_1 = __importDefault(require("../Logger/logger"));
 const order_types_1 = require("../kriptokrasi-common/order_types");
 function orderTpListify(order) {
-    let tp_data = order.tp_data.split(',').map(tp => parseFloat(tp));
-    delete order.tp_data;
-    return { ...order, tp_data: tp_data };
+    let temp = JSON.parse(JSON.stringify(order));
+    let tp_data = temp.tp_data.split(',').map(tp => parseFloat(tp));
+    delete temp.tp_data;
+    return { ...temp, tp_data: tp_data };
 }
 function orderTpStringfy(order) {
-    let tp_data = order.tp_data.join(',');
-    delete order.tp_data;
-    return { ...order, tp_data: tp_data };
+    let temp = JSON.parse(JSON.stringify(order));
+    let tp_data = temp.tp_data.join(',');
+    delete temp.tp_data;
+    return { ...temp, tp_data: tp_data };
 }
 class DatabaseManager {
     db;

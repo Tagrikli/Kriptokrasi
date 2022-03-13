@@ -14,15 +14,17 @@ import { time } from 'console';
 
 
 function orderTpListify(order: TOrder): Omit<TOrder, 'tp_data'> & { tp_data: number[] } {
-    let tp_data = (order.tp_data as string).split(',').map(tp => parseFloat(tp));
-    delete order.tp_data;
-    return { ...order, tp_data: tp_data };
+    let temp = JSON.parse(JSON.stringify(order));
+    let tp_data = (temp.tp_data as string).split(',').map(tp => parseFloat(tp));
+    delete temp.tp_data;
+    return { ...temp, tp_data: tp_data };
 }
 
 function orderTpStringfy(order: TOrder): Omit<TOrder, 'tp_data'> & { tp_data: string } {
-    let tp_data = (order.tp_data as number[]).join(',');
-    delete order.tp_data;
-    return { ...order, tp_data: tp_data };
+    let temp = JSON.parse(JSON.stringify(order));
+    let tp_data = (temp.tp_data as number[]).join(',');
+    delete temp.tp_data;
+    return { ...temp, tp_data: tp_data };
 }
 
 
