@@ -159,7 +159,7 @@ class ExpressApp {
             logger_1.default.express('New order!');
             try {
                 await this.db.createOrder(order);
-                this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderAdded(order));
+                this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderAdded(order));
                 this.brain.updateOrders();
                 res.sendStatus(200);
             }
@@ -205,7 +205,7 @@ class ExpressApp {
                     this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_));
                 }
                 else if (type === order_types_1.EStatus.ACTIVE) {
-                    let profits = {};
+                    let profits = [];
                     for (const order of orders_) {
                         const lastTP = await this.db.getTPByID(order.id);
                         let momentary_price = 0;
@@ -216,6 +216,8 @@ class ExpressApp {
                             logger_1.default.error(error);
                         }
                         profits[order.id] = (0, helpers_1.profitCalculatorAfterStop)(momentary_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+                        if ((order.position === order_types_1.EPosition.SHORT))
+                            profits = profits.map(tp => -tp);
                     }
                     logger_1.default.debug(JSON.stringify(profits, null, 4));
                     this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_, profits));

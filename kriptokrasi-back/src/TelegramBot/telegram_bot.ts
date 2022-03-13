@@ -71,7 +71,9 @@ class TelegramBot {
             ctx.reply("Seçiminizi yapınız...", { reply_markup: KEYBOARDS.INITIAL });
         })
         //buraya satin al butonu koyulcak
-
+        // this.bot.hears(BUTTON_LIST.INITIAL[6],async (ctx) => {
+        //     ctx.reply("Satın Al Botu", {reply_markup: KEYBOARDS.INITIAL})
+        // })
 
         this.bot.use(async (ctx, next) => {
             const user_id = ctx.from.id;
