@@ -159,7 +159,7 @@ class ExpressApp {
             logger_1.default.express('New order!');
             try {
                 await this.db.createOrder(order);
-                let msg = await this.notifier.waitingOrderActivated(order);
+                let msg = await this.notifier.waitingOrderAdded(order);
                 await this.telegram.sendMessageToAll(true, true, msg);
                 this.brain.updateOrders();
                 res.sendStatus(200);
