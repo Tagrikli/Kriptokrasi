@@ -246,12 +246,12 @@ class TelegramBot {
                 //     Queries.newQuery(chat_id, PROC_CONTEXT.MERGEDVOL);
                 //     ctx.reply("Exchange tipini seciniz:", { reply_markup: KEYBOARDS.EXCHANGE });
                 //     break;
-                case BUTTON_LIST.DATA[6]://TickerList
+                case BUTTON_LIST.DATA[6]://TickerList (coinGBT)
                     Queries.newQuery(chat_id, PROC_CONTEXT.TICKERLIST);
-                    ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
+                    ctx.reply("mp yazip parite seçiniz. ör: mp btcusdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 // case BUTTON_LIST.DATA[17]://Acik Kar
-                //     Queries.newQuery(chat_id, PROC_CONTEXT.TICKERLIST);
+                //     Queries.newQuery(chat_id, PROC_CONTEXT.OPENINTEREST);
                 //     ctx.reply("Borsa türünü seçiniz:", { reply_markup: KEYBOARDS.STOCK });
                 //     break;
                 default:
@@ -277,31 +277,28 @@ class TelegramBot {
             Queries.addData(chat_id, message);
             switch (query.context) {
                 case PROC_CONTEXT.LONGSHORT:
-                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seçiniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.RAPIDMOVEMENT:
-                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seçiniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.OPENINTEREST:
-                    ctx.reply("mp yazip coin paritesi seciniz. ör: mp btcusdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("mp yazip coin paritesi seçiniz. ör: mp btcusdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.CURRENTLS:
                     ctx.reply("symb yazip sembol seciniz. ör: symb btc", { reply_markup: KEYBOARDS.INITIAL });
                     break;
-                case PROC_CONTEXT.TICKERLIST:
-                    ctx.reply("mp yazip parite seciniz. ör: mp btcusdt", { reply_markup: KEYBOARDS.INITIAL });
-                    break;
                 case PROC_CONTEXT.XTRADE:
-                    ctx.reply("symb yazip sembol seciniz. ör: symb btc", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("symb yazip sembol seçiniz. ör: symb btc", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.LIVETRADE:
-                    ctx.reply("pa yazip parite seciniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("pa yazip parite seçiniz. ör: pa btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.OHLCV:
                     ctx.reply("Zaman aralığı seçiniz.", { reply_markup: KEYBOARDS.TIMEFRAME });
                     break;
                 case PROC_CONTEXT.HOURLY24VF:
-                    ctx.reply("24saat yazıp parite giriniz. ör: 24saat btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
+                    ctx.reply("24saat yazıp parite seçiniz. ör: 24saat btc-usdt", { reply_markup: KEYBOARDS.INITIAL });
                     break;
                 case PROC_CONTEXT.INDICATOR:
                     ctx.reply("Kaynak seçiniz:", { reply_markup: KEYBOARDS.SOURCE });
@@ -438,34 +435,34 @@ class TelegramBot {
 
         this.bot.hears(/(?<=symb ).*/i, async (ctx) => {
             const message = ctx.message.text;
-            const coin = message.replace('symb ', '');
+            const coin = message.split(' ');
             const chat_id = ctx.message.chat.id;
             let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             let reply = "";
 
             switch (query.context) {
                 case PROC_CONTEXT.MERGEDVOL:
-                    reply = await getMergedVolume([query.data[0], query.data[1], coin]);
+                    reply = await getMergedVolume([query.data[0], query.data[1], coin[1]]);
                     ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
                     Queries.removeQuery(chat_id);
                     break;
                 case PROC_CONTEXT.XTRADE:
-                    reply = await getXTrade([query.data[0], coin]);
+                    reply = await getXTrade([query.data[0], coin[1]]);
                     ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
                     Queries.removeQuery(chat_id);
                     break;
                 case PROC_CONTEXT.TOTALLIQUIDATION:
-                    reply = await getTotalLiq([coin]);
+                    reply = await getTotalLiq([coin[1]]);
                     ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
                     Queries.removeQuery(chat_id);
                     break;
                 case PROC_CONTEXT.HOURLYVOL:
-                    reply = await getHourlyVolume([coin]);
+                    reply = await getHourlyVolume([coin[1]]);
                     ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
                     Queries.removeQuery(chat_id);
                     break;
                 case PROC_CONTEXT.DAILYVOL:
-                    reply = await getDailyVolume([coin]);
+                    reply = await getDailyVolume([coin[1]]);
                     ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL });
                     Queries.removeQuery(chat_id);
                     break;
@@ -481,7 +478,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=pa ).*/i, async (ctx) => {
             const message = ctx.message.text;
-            const coin = message.replace('pa ', '');
+            const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             let reply = "";
@@ -514,7 +511,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=mp ).*/i, async (ctx) => {
             const message = ctx.message.text;
-            const coin = message.replace('mp ', '');
+            const coin = message.split(' ')[1];
             const chat_id = ctx.message.chat.id;
             let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL }); return; }
             Queries.addData(chat_id, coin);
