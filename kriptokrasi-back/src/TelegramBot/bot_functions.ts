@@ -187,8 +187,6 @@ export async function getXTrade(data: string[]) {
         if (response.data['success'] == false) {
             return "Yanlis exchange - parite"
         }
-
-
         let maxB = 0.0
         let maxS = 0.0
         for (let i = 0; i < response.data["data"].length; i++) {
