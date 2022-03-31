@@ -180,13 +180,9 @@ export default class Notifier {
     async preparePastOrders() {
 
         let orders = await this.database.getAllOrders(EStatus.PAST) as TOrder_Past[];
-
         if (!orders.length) return [`Gecmis emir yok`];
-
         return await Promise.all(orders.map(async order => {
-
             if (order.type === EType.SPOT) {
-
                 return new Compositor(order)
                     .type()
                     .timestamp()
@@ -197,7 +193,6 @@ export default class Notifier {
                     .composed
 
             } else {
-
                 return new Compositor(order)
                     .position()
                     .timestamp()
@@ -208,18 +203,16 @@ export default class Notifier {
                     .profit()
                     .composed
             }
-
         }));
 
     }
 
     async waitingOrderAdded(order: TOrder) {
         let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
-        
         let price_left = momentary_price - order.buy_price;
         
-        
-        return new Compositor(order)
+        if (order.type === EType.SPOT) {
+            return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
             .type()
             .buy_price()
@@ -229,7 +222,19 @@ export default class Notifier {
             .stop_loss()
             .optional('Bekleyen emirlerden kontrol ediniz.')
             .composed
-
+        }else{
+            return new Compositor(order)
+            .optional(order.symbol, 'işlemi eklenmiştir.')
+            .type()
+            .position()
+            .buy_price()
+            .momentary_price(momentary_price)
+            .price_left(price_left)
+            .tp_data()
+            .stop_loss()
+            .optional('Bekleyen emirlerden kontrol ediniz.')
+            .composed
+        }
     }
 
     async waitingOrderActivated(order: TOrder) {
@@ -275,7 +280,8 @@ Kapanan emirler:
     }
 
 
-    async activeOrderStopped(order: TOrder, profit: number, lastTP: number) {
+    async activeOrderStopped(order: TOrder, profit: number, lastTP: number, buy_price:number) {
+        let reg_profit = profitCalculator(buy_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
 
         if (profit < 0) {
             return new Compositor(order)
@@ -289,6 +295,7 @@ Kapanan emirler:
             return new Compositor(order)
                 .symbol()
                 .type()
+                .optional(`Kâr: %${reg_profit[lastTP+1]}`)
                 .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
                 .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(2))
                 .composed

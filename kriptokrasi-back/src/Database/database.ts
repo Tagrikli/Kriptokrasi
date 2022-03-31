@@ -72,33 +72,48 @@ class DatabaseManager {
     }
 
     async createVillagerDay() {
-
-        const villager = await this.db.all(QUERIES.SELECT_VILLAGER_DAY);
-        if (!villager.length) {
-            await this.db.run(QUERIES.INSERT_DAY)
+        try{
+            const villager = await this.db.all(QUERIES.SELECT_VILLAGER_DAY);
+            if (!villager.length) {
+                await this.db.run(QUERIES.INSERT_DAY)
+            }
+        }catch(error){
+            logger.error(error);
         }
     }
 
     async getPassword(username: string) {
-        return await this.db.get(QUERIES.SELECT_PASSWORD_BY_USERNAME, [username])
+        try{
+            return await this.db.get(QUERIES.SELECT_PASSWORD_BY_USERNAME, [username])
+        }catch(error){
+            logger.error(error);
+        }
     }
 
 
     async userExists(user_id: number) {
-        return (await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id])) ? true : false;
+        try{
+            return (await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id])) ? true : false;
+        }catch(error){
+            logger.error(error);
+        }
     }
 
 
     async createUser(user: User) {
-        await this.db.run(QUERIES.INSERT_USER,
-            [user.id,
-            user.is_bot,
-            user.first_name,
-            user.last_name,
-            user.username,
-                0,
-                false]);
-        logger.database('New user created');
+        try{
+            await this.db.run(QUERIES.INSERT_USER,
+                [user.id,
+                user.is_bot,
+                user.first_name,
+                user.last_name,
+                user.username,
+                    0,
+                    false]);
+            logger.database('New user created');
+        }catch(error){
+            logger.error(error);
+        }
     }
 
     async deleteUser(user_id: number) {
