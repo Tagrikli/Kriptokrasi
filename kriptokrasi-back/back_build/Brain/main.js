@@ -90,7 +90,7 @@ class Brain {
                         console.log("stoploss tps", profits);
                         await this.db.cancelOrder(order.id, profits[lastTP + 1], bid_price, 0);
                         await this.updateOrders();
-                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP + 1], lastTP);
+                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP + 1], lastTP, bid_price);
                         await this.telegram.sendMessageToAll(true, true, msg);
                         activationProcess.removeProcess(order.id);
                     }

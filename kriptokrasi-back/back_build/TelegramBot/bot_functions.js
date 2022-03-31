@@ -64,7 +64,6 @@ async function getCurrentLS(data) {
         console.log("currentLS mistake");
         return [`Coin yazmayı tekrar deneyin. ör: gls btc`, 401];
     }
-    return msg;
 }
 exports.getCurrentLS = getCurrentLS;
 async function getTotalLiq(data) {
@@ -99,7 +98,7 @@ async function getBitmexLiq(data) {
     try {
         const market_pair = data[0].toUpperCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/bitmex-liquidation/?market_pair=${market_pair}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        let msg = `Miktar: ${response.data["data"][0]['quantity']}   Taraf: ${response.data["data"][0]['side']}`;
+        msg = `Miktar: ${response.data["data"][0]['quantity']}   Taraf: ${response.data["data"][0]['side']}`;
     }
     catch {
         console.log("bitmexliq mistake");
@@ -223,11 +222,13 @@ async function getLiveTrade(data) {
 exports.getLiveTrade = getLiveTrade;
 async function getTradeVol24h(data) {
     const e = data[0].toLowerCase();
-    let msg = ``;
+    let msg = `Coin ve borsa türü uyumsuz veya hatali`;
     try {
         const pair = data[1].toUpperCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/24h-trade-volume-v2/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        msg = `Alış: ${response.data["data"][0]["buy"]}  Satış: ${response.data["data"][0]["sell"]}`;
+        console.log(response);
+        if (response.status == 200)
+            msg = `Alış: ${response.data["data"][0]["buy"]}  Satış: ${response.data["data"][0]["sell"]}`;
     }
     catch {
         console.log("tradevol 24h mistake");
@@ -326,26 +327,25 @@ async function getMergedVolume(data) {
 }
 exports.getMergedVolume = getMergedVolume;
 async function getTickerList(data) {
-    const e = data[0].toLowerCase();
-    let msg = ``;
+    let msg = `Yanlis coin`;
     try {
-        const pair = data[1].toUpperCase();
-        let response = await axios_1.default.get(`https://api.cryptometer.io/tickerlist-pro/?&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+        const pair = data[0].toUpperCase();
+        let response = await axios_1.default.get(`https://api.cryptometer.io/tickerlist-pro/?&e=binance&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         for (let i = 0; i < response.data["data"].length; i++) {
             if (response.data["data"][i]["market_pair"] == pair) {
                 msg = `parite: ${response.data["data"][i]["market_pair"]}
-                coinin adı: ${response.data["data"][i]["symbol"]}
-                fiyat: ${response.data["data"][i]["price"]}
-                usd fiyatı: ${response.data["data"][i]["usd_price"]}
-                en yüksek: ${response.data["data"][i]["high"]}
-                en alçak: ${response.data["data"][i]["low"]}
-                24 saatlik volume: ${response.data["data"][i]["volume_24"]}
-                24 saatlik değişim: ${response.data["data"][i]["change_24h"]}
-                1 saatlik değişim: ${response.data["data"][i]["change_1h"]}
-                7 günlük değişim: ${response.data["data"][i]["change_7h"]}
-                30 günlük değişim: ${response.data["data"][i]["change_30d"]}
-                90 günlük değişim: ${response.data["data"][i]["change_90d"]}
-                yıllık değişim: ${response.data["data"][i]["change_ytd"]}`;
+coinin adı: ${response.data["data"][i]["symbol"]}
+fiyat: ${response.data["data"][i]["price"]}
+usd fiyatı: ${response.data["data"][i]["usd_price"]}
+en yüksek: ${response.data["data"][i]["high"]}
+en alçak: ${response.data["data"][i]["low"]}
+24 saatlik volume: ${response.data["data"][i]["volume_24"]}
+24 saatlik değişim: ${response.data["data"][i]["change_24h"]}
+1 saatlik değişim: ${response.data["data"][i]["change_1h"]}
+7 günlük değişim: ${response.data["data"][i]["change_7h"]}
+30 günlük değişim: ${response.data["data"][i]["change_30d"]}
+90 günlük değişim: ${response.data["data"][i]["change_90d"]}
+yıllık değişim: ${response.data["data"][i]["change_ytd"]}`;
                 break;
             }
         }
@@ -364,7 +364,8 @@ async function getOpenInterest(data) {
         const market_pair = data[1].toLowerCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/merged--trade-volume/?market_pair=${market_pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         if (response.status != 200)
-            msg = "Toplam veri yetersiz.";
+            return msg = "Toplam veri yetersiz.";
+        msg = response.data['data'];
     }
     catch {
         console.log("live trade mistake");

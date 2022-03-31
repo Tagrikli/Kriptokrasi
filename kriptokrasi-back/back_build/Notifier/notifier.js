@@ -174,16 +174,31 @@ class Notifier {
     async waitingOrderAdded(order) {
         let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
         let price_left = momentary_price - order.buy_price;
-        return new Compositor(order)
-            .optional(order.symbol, 'işlemi eklenmiştir.')
-            .type()
-            .buy_price()
-            .momentary_price(momentary_price)
-            .price_left(price_left)
-            .tp_data()
-            .stop_loss()
-            .optional('Bekleyen emirlerden kontrol ediniz.')
-            .composed;
+        if (order.type === order_types_1.EType.SPOT) {
+            return new Compositor(order)
+                .optional(order.symbol, 'işlemi eklenmiştir.')
+                .type()
+                .buy_price()
+                .momentary_price(momentary_price)
+                .price_left(price_left)
+                .tp_data()
+                .stop_loss()
+                .optional('Bekleyen emirlerden kontrol ediniz.')
+                .composed;
+        }
+        else {
+            return new Compositor(order)
+                .optional(order.symbol, 'işlemi eklenmiştir.')
+                .type()
+                .position()
+                .buy_price()
+                .momentary_price(momentary_price)
+                .price_left(price_left)
+                .tp_data()
+                .stop_loss()
+                .optional('Bekleyen emirlerden kontrol ediniz.')
+                .composed;
+        }
     }
     async waitingOrderActivated(order) {
         return new Compositor(order)
@@ -214,7 +229,8 @@ Kapanan emirler:
             .composed);
         return [prefix, ...orders_].join('\n');
     }
-    async activeOrderStopped(order, profit, lastTP) {
+    async activeOrderStopped(order, profit, lastTP, buy_price) {
+        let reg_profit = (0, helpers_1.profitCalculator)(buy_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
         if (profit < 0) {
             return new Compositor(order)
                 .symbol()
@@ -227,6 +243,7 @@ Kapanan emirler:
             return new Compositor(order)
                 .symbol()
                 .type()
+                .optional(`Kâr: %${reg_profit[lastTP + 1]}`)
                 .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
                 .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(2))
                 .composed;

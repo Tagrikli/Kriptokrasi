@@ -56,26 +56,46 @@ class DatabaseManager {
         logger_1.default.database('Villager_day table created');
     }
     async createVillagerDay() {
-        const villager = await this.db.all(queries_1.default.SELECT_VILLAGER_DAY);
-        if (!villager.length) {
-            await this.db.run(queries_1.default.INSERT_DAY);
+        try {
+            const villager = await this.db.all(queries_1.default.SELECT_VILLAGER_DAY);
+            if (!villager.length) {
+                await this.db.run(queries_1.default.INSERT_DAY);
+            }
+        }
+        catch (error) {
+            logger_1.default.error(error);
         }
     }
     async getPassword(username) {
-        return await this.db.get(queries_1.default.SELECT_PASSWORD_BY_USERNAME, [username]);
+        try {
+            return await this.db.get(queries_1.default.SELECT_PASSWORD_BY_USERNAME, [username]);
+        }
+        catch (error) {
+            logger_1.default.error(error);
+        }
     }
     async userExists(user_id) {
-        return (await this.db.get(queries_1.default.SELECT_USER_BY_ID, [user_id])) ? true : false;
+        try {
+            return (await this.db.get(queries_1.default.SELECT_USER_BY_ID, [user_id])) ? true : false;
+        }
+        catch (error) {
+            logger_1.default.error(error);
+        }
     }
     async createUser(user) {
-        await this.db.run(queries_1.default.INSERT_USER, [user.id,
-            user.is_bot,
-            user.first_name,
-            user.last_name,
-            user.username,
-            0,
-            false]);
-        logger_1.default.database('New user created');
+        try {
+            await this.db.run(queries_1.default.INSERT_USER, [user.id,
+                user.is_bot,
+                user.first_name,
+                user.last_name,
+                user.username,
+                0,
+                false]);
+            logger_1.default.database('New user created');
+        }
+        catch (error) {
+            logger_1.default.error(error);
+        }
     }
     async deleteUser(user_id) {
         await this.db.run(queries_1.default.DELETE_USER, [user_id]);
