@@ -295,9 +295,9 @@ Kapanan emirler:
             return new Compositor(order)
                 .symbol()
                 .type()
-                .optional(`Kâr: %${reg_profit[lastTP+1]}`)
+                .optional(`Kâr: %${reg_profit[lastTP+1].toFixed(3)}`)
                 .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
-                .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(2))
+                .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(3))
                 .composed
         }
     }

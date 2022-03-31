@@ -283,22 +283,18 @@ class ExpressApp {
 
                         const lastTP = await this.db.getTPByID(order.id)
 
-
                         let momentary_price = 0;
                         try {
                             momentary_price = await this.binance.getPriceForSymbol(order.symbol, order.type);
+                            profits[order.id] = profitCalculatorAfterStop(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP)
+                            if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
                         } catch (error) {
                             logger.error(error);
                         }
-
-
-
-                        profits[order.id] = profitCalculatorAfterStop(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP)
-                        if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
-
                     }
 
                     logger.debug(JSON.stringify(profits, null, 4));
+                    console.log("NAN GELEN KAR", profits);
 
                     this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[], profits));
 
