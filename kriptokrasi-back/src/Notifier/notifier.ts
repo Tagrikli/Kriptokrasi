@@ -1,5 +1,5 @@
 import BinanceManager from "../BinanceAPI/main";
-import { profitCalculator } from "../Brain/helpers";
+import { profitCalculator, profitCalculatorAfterStop } from "../Brain/helpers";
 import DatabaseManager from "../Database/database";
 import { EPosition, EStatus, EType, TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
 import logger from "../Logger/logger";
@@ -161,7 +161,7 @@ export default class Notifier {
 
             } else {
 
-                if (order.position == EPosition.SHORT) price_left *= -1;
+                if (order.position === EPosition.SHORT) price_left *= -1;
 
                 return new Compositor(order)
                     .position()
@@ -281,7 +281,7 @@ Kapanan emirler:
 
 
     async activeOrderStopped(order: TOrder, profit: number, lastTP: number, buy_price:number) {
-        let reg_profit = profitCalculator(buy_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
+        let reg_profit = profitCalculatorAfterStop(buy_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
 
         if (profit < 0) {
             return new Compositor(order)
@@ -295,9 +295,9 @@ Kapanan emirler:
             return new Compositor(order)
                 .symbol()
                 .type()
-                .optional(`Kâr: %${reg_profit[lastTP+1].toFixed(3)}`)
+                .optional(`Kâr: %${profit.toFixed(3)}`)
                 .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
-                .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(3))
+                .optional('Parçalı Satış Sonrası Kâr: %', reg_profit[lastTP+1].toFixed(3))
                 .composed
         }
     }

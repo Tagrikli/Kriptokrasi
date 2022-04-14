@@ -288,6 +288,7 @@ class ExpressApp {
                             momentary_price = await this.binance.getPriceForSymbol(order.symbol, order.type);
                             profits[order.id] = profitCalculatorAfterStop(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP)
                             if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
+                            this.db.cancelOrder(order.id, profits[order.id], momentary_price, 1)
                         } catch (error) {
                             logger.error(error);
                         }

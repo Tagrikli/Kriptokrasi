@@ -84,8 +84,8 @@ class Brain {
                     if (!activationProcess.inProcess(order.id)) {
                         activationProcess.addProcess(order.id);
                         const lastTP = await this.db.getTPByID(order.id);
-                        let profits = (0, helpers_1.profitCalculatorAfterStop)(bid_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
-                        if ((order.position == order_types_1.EPosition.SHORT))
+                        let profits = (0, helpers_1.profitCalculator)(bid_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+                        if ((order.position === order_types_1.EPosition.SHORT))
                             profits = profits.map(tp => -tp);
                         console.log("stoploss tps", profits);
                         await this.db.cancelOrder(order.id, profits[lastTP + 1], bid_price, 0);

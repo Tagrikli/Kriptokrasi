@@ -128,7 +128,7 @@ class Notifier {
                     .composed;
             }
             else {
-                if (order.position == order_types_1.EPosition.SHORT)
+                if (order.position === order_types_1.EPosition.SHORT)
                     price_left *= -1;
                 return new Compositor(order)
                     .position()
@@ -230,7 +230,7 @@ Kapanan emirler:
         return [prefix, ...orders_].join('\n');
     }
     async activeOrderStopped(order, profit, lastTP, buy_price) {
-        let reg_profit = (0, helpers_1.profitCalculator)(buy_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
+        let reg_profit = (0, helpers_1.profitCalculatorAfterStop)(buy_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
         if (profit < 0) {
             return new Compositor(order)
                 .symbol()
@@ -243,9 +243,9 @@ Kapanan emirler:
             return new Compositor(order)
                 .symbol()
                 .type()
-                .optional(`Kâr: %${reg_profit[lastTP + 1].toFixed(3)}`)
+                .optional(`Kâr: %${profit.toFixed(3)}`)
                 .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
-                .optional('Parçalı Satış Sonrası Kâr: %', profit.toFixed(3))
+                .optional('Parçalı Satış Sonrası Kâr: %', reg_profit[lastTP + 1].toFixed(3))
                 .composed;
         }
     }
