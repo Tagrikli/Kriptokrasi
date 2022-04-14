@@ -130,13 +130,12 @@ class Brain {
                         activationProcess.addProcess(order.id);
                         const lastTP = await this.db.getTPByID(order.id);
 
-                        let profits = profitCalculatorAfterStop(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
-                        if ((order.position == EPosition.SHORT)) profits = profits.map(tp => -tp);
+                        let profits = profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
+                        if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
                         console.log("stoploss tps", profits);
 
                         await this.db.cancelOrder(order.id, profits[lastTP + 1], bid_price, 0);
                         await this.updateOrders()
-
 
                         let msg = await this.notifier.activeOrderStopped(order, profits[lastTP + 1], lastTP, bid_price);
                         await this.telegram.sendMessageToAll(true, true, msg);
@@ -156,7 +155,6 @@ class Brain {
 
 
                     if (!activationProcess.inProcess(order.id)) {
-
 
                         activationProcess.addProcess(order.id);
 
