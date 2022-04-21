@@ -116,7 +116,6 @@ class Brain {
                 })
             }
 
-
             //If the data in the active symbols.
             if (in_actives) {
 
