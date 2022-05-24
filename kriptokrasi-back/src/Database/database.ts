@@ -11,6 +11,7 @@ import { TLastTPDB } from '../utils/types';
 import { TUserDB } from '../kriptokrasi-common/order_types';
 import { Queries } from '../Query';
 import { time } from 'console';
+import { each } from 'async';
 
 
 function orderTpListify(order: TOrder): Omit<TOrder, 'tp_data'> & { tp_data: number[] } {
@@ -109,7 +110,8 @@ class DatabaseManager {
                 user.last_name,
                 user.username,
                     0,
-                    false]);
+                    false,
+                    "tr"]);
             logger.database('New user created');
         }catch(error){
             logger.error(error);
@@ -317,6 +319,17 @@ class DatabaseManager {
     async updateVillagerDay(villager_day: boolean, timeout: number) {
         await this.db.run(QUERIES.UPDATE_VILLAGER_DAY, [villager_day, Date.now() + timeout]);
         return "tugrulun fikriydi hadi hayirlisi"
+    }
+
+    async getUserLangPref() {
+        
+        let data = {};
+        let users = await this.db.all(QUERIES.SELECT_ALL_USERS);
+        users.forEach(user => {
+            data[user.user_id] = user.lang;
+        });
+
+        return data;
     }
 
     //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM

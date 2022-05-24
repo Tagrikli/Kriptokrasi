@@ -13,6 +13,7 @@ const QUERIES = {
         username TEXT,
         vip_timeout INTEGER,
         vip INTEGER,
+        lang TEXT,
         PRIMARY KEY(user_id))`,
 
     SELECT_USER_BY_ID: /*sql*/`
@@ -32,7 +33,7 @@ const QUERIES = {
 
     INSERT_USER: /*sql*/`
         INSERT OR IGNORE INTO users
-        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
 
     UPDATE_VIP:/*sql*/`
         UPDATE users

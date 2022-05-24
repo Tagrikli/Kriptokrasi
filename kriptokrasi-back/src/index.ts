@@ -13,6 +13,7 @@ import Brain from './Brain/main';
 import ExpressApp from './ExpressApp/express_app';
 import NETWORK from './kriptokrasi-common/network.json';
 import Notifier from './Notifier/notifier';
+import MessageGenerator from './messages/messages_parser';
 
 
 
@@ -32,6 +33,11 @@ import Notifier from './Notifier/notifier';
     //Initialize database connection, prepare for process.
     const dbManager = new DatabaseManager();
     await dbManager.init();
+    
+    //Initialize MessageGenerator
+    const messageGen = new MessageGenerator(await dbManager.getUserLangPref());
+
+    console.log(messageGen.getMessage(1699315911,"INVALID_REQUEST"));
 
     //Initialize Telegram app and acquire relevant session string.
     const telegramApp = new TelegramApp(
@@ -46,7 +52,6 @@ import Notifier from './Notifier/notifier';
 
     //Initialize binance.
     const binanceManager = new BinanceManager();
-
 
 
     //Initialize Brain.
