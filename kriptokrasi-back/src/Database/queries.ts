@@ -30,7 +30,11 @@ const QUERIES = {
         FROM users
         WHERE vip = 1`,
 
-
+    SELECT_LANG_BY_ID: /*sql*/`
+        SELECT lang 
+        FROM users
+        WHERE user_id = ?`,
+    
     INSERT_USER: /*sql*/`
         INSERT OR IGNORE INTO users
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -43,6 +47,13 @@ const QUERIES = {
     DELETE_USER: /*sql*/`
         DELETE FROM users
         WHERE user_id = ?`,
+
+    
+    UPDATE_LANG: /*sql*/`
+        UPDATE users 
+        SET lang = ? 
+        WHERE user_id = ?`,
+    
 
     //orders
 

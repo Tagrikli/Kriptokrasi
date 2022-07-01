@@ -7,14 +7,24 @@ export const BUTTON_LIST = {
     TIMEFRAME: ['5 Dakika', '15 Dakika', '30 Dakika', '1 Saat', '4 Saat', '1 Gun'],
     EXCHANGE: ['Spot', 'Vadeli'],
     STOCK: ['Binance', 'Binance_Futures', 'Bitmex'],
-    INITIAL : ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Anlık Data'],
-    LESSON: ["Trade Eğitimi","Vadeli İşlem ve Borsa Eğitimi"],
-    ZERO: ["OKUDUM, ANLADIM", "READ AND UNDERSTOOD"]
-
+    INITIAL_TR: ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Anlık Data'],
+    INITIAL_EN: ['Waiting Orders', 'Active Orders', 'Past Orders', 'Help','Instant Data'],
+    LESSON: ["Trade Eğitimi", "Vadeli İşlem ve Borsa Eğitimi"],
+    ZERO: ["OKUDUM, ANLADIM"],
+    LANGUAGE: ["Türkçe", "English"]
 }
 
-export const OKUDUM_ANLADIM = 
-`Burada yer alan yatırım bilgi, yorum ve tavsiyeler yatırım danışmanlığı kapsamında değildir. Yatırım danışmanlığı hizmeti, aracı kurumlar, portföy yönetim şirketleri, mevduat kabul etmeyen bankalar ile müşteri arasında imzalanacak yatırım danışmanlığı  sözleşmesi çerçevesinde sunulmaktadır. Burada yer alan yorumlar, olusturulan algoritmaya dayanmaktadır. Bu veriler mali durumunuz ile risk getiri  tercihlerinize uygun olmayabilir. Bu nedenle, sadece burada yer  alan bilgilere dayanılarak yatırım kararı verilmesi beklentilerinize  uygun sonuçlar doğurmayabilir. 
+export const UNKNOWN_ERROR = ["Bir şeyler yanlış gitti, yeniden deneyiniz.", "Something went wrong, please try again."]
+
+export const CHOOSE_ACTION = ["Seçiminizi yapınız.", "Please choose an action."];
+
+export const SELECT_LANGUAGE = `
+Lütfen dil seçiniz...
+Please select a language...
+`
+
+export const OKUDUM_ANLADIM =
+    `Burada yer alan yatırım bilgi, yorum ve tavsiyeler yatırım danışmanlığı kapsamında değildir. Yatırım danışmanlığı hizmeti, aracı kurumlar, portföy yönetim şirketleri, mevduat kabul etmeyen bankalar ile müşteri arasında imzalanacak yatırım danışmanlığı  sözleşmesi çerçevesinde sunulmaktadır. Burada yer alan yorumlar, olusturulan algoritmaya dayanmaktadır. Bu veriler mali durumunuz ile risk getiri  tercihlerinize uygun olmayabilir. Bu nedenle, sadece burada yer  alan bilgilere dayanılarak yatırım kararı verilmesi beklentilerinize  uygun sonuçlar doğurmayabilir. 
 
 Kriptokrasi Telegram botu bağlı olduğu telegram ve twitter hesaplarindan sağlanan bilgiler ve paylaşılan materyallerin hiçbiri , herhangi bir yatırım veya alım satım yapmanız için bir teklif yada teşvik niteliği taşımaz. Her türlü yatırım ve işlemi kendi araştırmanızı yaparak kendi namınıza yapmakta olduğunuzu kabul ediyorsunuz. Ana paranızdan edeceğiniz zararı kabullenmeye hazırlıklı olmadığınız sürece yatırım yapmayınız ! İşlemlerin risk taşıdığını ve uzman olmayan kişilerin bu işlemleri kolayca anlamalarının mümkün olmadığını bilmeniz gerekir. 
 
@@ -28,8 +38,8 @@ Aşağıda yazan okudum anladim butonuna tikladiginizda yukarida yazan tum madde
 
 Teşekkür eder bol kazançlar dileriz.`
 
-export const trade_egitimi = 
-`Eğitim içeriği
+export const trade_egitimi =
+    `Eğitim içeriği
 
 ☄️Grafik çizimi ve Yön bulma
 +Destek-Direnç çizimi
@@ -60,8 +70,8 @@ export const trade_egitimi =
 
 iletişim @Ayca1 @TheKingOfNorthh`
 
-export const vadeli_egitimi = 
-`vadeli işlem ve borsa eğitimi 
+export const vadeli_egitimi =
+    `vadeli işlem ve borsa eğitimi 
 
 * spot alım satım kuralları 
 * spot işlem komut mantıkları ve kuralları 
@@ -78,10 +88,9 @@ export const vadeli_egitimi =
 iletişim @Ayca1 @TheKingOfNorthh`
 
 
-export const HELP_TEXT = 
-`Birden fazla işlem olduğunda tek bir işlemi takip etmek için: 
+export const HELP_TEXT =
+    `Birden fazla işlem olduğunda tek bir işlemi takip etmek için: 
 coin xrp
 Geçmiş işlemlerde tek bir coinin kar zarar durumunu aramak için:
 geçmiş xrp`
 
-    

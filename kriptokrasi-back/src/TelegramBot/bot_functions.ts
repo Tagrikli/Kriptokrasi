@@ -51,7 +51,7 @@ export async function getLongShort(data: string[], lang:string) {
         //`15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
         return [msg, 200]
     } catch{
-        if (lang='tr')
+        if (lang='TR')
             msg = MSG.LONGSHORT_ERROR.tr
         else
             msg = MSG.LONGSHORT_ERROR.en
@@ -68,8 +68,9 @@ export async function getCurrentLS(data: string[], lang:string) {
         msg = `Longs: ${response.data["data"][0]["longs"]}, Shorts: ${response.data["data"][0]["shorts"]}`;
         return [msg, 200]
     }catch{
-        console.log("currentLS mistake");
-        if (lang='tr')
+        console.log("currentLS mistake", lang);
+
+        if ( lang === 'TR')
             msg = MSG.CURRENTLS_ERROR.tr
         else
             msg = MSG.CURRENTLS_ERROR.en
@@ -85,7 +86,7 @@ export async function getTotalLiq(data: string[], lang:string) {
         msg =response.data["data"][0]
     } catch{
         console.log("totalLiq mistake");
-        if (lang='tr')
+        if (lang==='tr')
             msg = MSG.ERROR.tr
         else
             msg = MSG.ERROR.en
@@ -165,7 +166,7 @@ export async function getVolFlow(data: string[], lang:string) { //data: timefram
             for (let i = 0; i < buy_flow.length; i++) {
                 if ((buy_flow[i]["from"] == fromCoin) && (buy_flow[i]["to"] == toCoin)) {
                     vol = buy_flow[i]["volume"]
-                    if (lang=='tr')
+                    if (lang=='TR')
                         msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Alım
     `
                     else
@@ -178,7 +179,7 @@ export async function getVolFlow(data: string[], lang:string) { //data: timefram
                 for (let i = 0; i < sell_flow.length; i++) {
                     if ((sell_flow[i]["from"] == fromCoin) && (sell_flow[i]["to"] == toCoin)) {
                         vol = sell_flow[i]["volume"]
-                    if (lang=='tr')
+                    if (lang=='TR')
                         msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Satım
     `
                     else
@@ -188,12 +189,12 @@ export async function getVolFlow(data: string[], lang:string) { //data: timefram
                 }
             }
         }
-        if ((msg === ``) && (lang=='tr')) msg = `Aradığınız coinlerde hacim akışı bulunamadı.`
+        if ((msg === ``) && (lang=='TR')) msg = `Aradığınız coinlerde hacim akışı bulunamadı.`
         else if((msg === ``)) msg= 'There is no volume flow in the coin you searched.'
         return [msg, 200]
     }catch{
         console.log("volume flow mistake");
-        if (lang='tr')
+        if (lang='TR')
             msg = MSG.VOLUMEFLOW_ERROR.tr
         else
             msg = MSG.VOLUMEFLOW_ERROR.en
@@ -250,7 +251,7 @@ export async function getLiveTrade(data: string[]) {
 export async function getTradeVol24h(data: string[], lang:string) {
     const e = data[0].toLowerCase();
     let msg ='';
-    if (lang == 'TR')
+    if (lang === 'TR')
         msg =MSG.HOUR24_NOCOIN.tr;
     else
         msg = MSG.HOUR24_NOCOIN.en;
@@ -261,7 +262,7 @@ export async function getTradeVol24h(data: string[], lang:string) {
         if (response.status == 200) msg = MSG.HOUR24(lang, response.data["data"][0]["buy"], response.data["data"][0]["sell"]);
     } catch{
         console.log("tradevol 24h mistake");
-        if (lang == 'TR') msg = MSG.ERROR.tr;
+        if (lang === 'TR') msg = MSG.ERROR.tr;
         else msg = MSG.HOUR24_NOCOIN.en;
     }
     return msg;
@@ -369,7 +370,7 @@ export async function getTickerList(data: string[], lang:string) {
         }
     }catch{
         console.log("tickerlist mistake");
-        if (lang == 'TR') msg = MSG.ERROR.tr;
+        if (lang === 'TR') msg = MSG.ERROR.tr;
         else msg = MSG.HOUR24_NOCOIN.en;
     }
     return msg;

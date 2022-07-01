@@ -73,36 +73,36 @@ class DatabaseManager {
     }
 
     async createVillagerDay() {
-        try{
+        try {
             const villager = await this.db.all(QUERIES.SELECT_VILLAGER_DAY);
             if (!villager.length) {
                 await this.db.run(QUERIES.INSERT_DAY)
             }
-        }catch(error){
+        } catch (error) {
             logger.error(error);
         }
     }
 
     async getPassword(username: string) {
-        try{
+        try {
             return await this.db.get(QUERIES.SELECT_PASSWORD_BY_USERNAME, [username])
-        }catch(error){
+        } catch (error) {
             logger.error(error);
         }
     }
 
 
     async userExists(user_id: number) {
-        try{
+        try {
             return (await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id])) ? true : false;
-        }catch(error){
+        } catch (error) {
             logger.error(error);
         }
     }
 
 
     async createUser(user: User) {
-        try{
+        try {
             await this.db.run(QUERIES.INSERT_USER,
                 [user.id,
                 user.is_bot,
@@ -113,7 +113,7 @@ class DatabaseManager {
                     false,
                     "tr"]);
             logger.database('New user created');
-        }catch(error){
+        } catch (error) {
             logger.error(error);
         }
     }
@@ -123,7 +123,7 @@ class DatabaseManager {
         logger.database('User deleted');
     }
 
-    async getUserLangByID(user_id:number){
+    async getUserLangByID(user_id: number) {
         let user = await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id]);
         console.log('user????', user);
         return user.lang;
@@ -282,6 +282,10 @@ class DatabaseManager {
         return TPtable.lastTP;
     }
 
+    async updateLang(user_id: number, lang: string) {
+        await this.db.run(QUERIES.UPDATE_LANG, [lang, user_id]);
+    }
+
     async isVillagerDay() {
         let villagerDay = await this.db.get(QUERIES.SELECT_VILLAGER_DAY);
         return villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
@@ -325,8 +329,8 @@ class DatabaseManager {
         return "tugrulun fikriydi hadi hayirlisi"
     }
 
-    async getUserLangPref() {
-        
+    async getAllUserLangPref() {
+
         let data = {};
         let users = await this.db.all(QUERIES.SELECT_ALL_USERS);
         users.forEach(user => {
@@ -334,6 +338,11 @@ class DatabaseManager {
         });
 
         return data;
+    }
+
+    async getUserLangPrefbyID(user_id: number) {
+        let lang = await this.db.get(QUERIES.SELECT_LANG_BY_ID, [user_id]);
+        return lang;
     }
 
     async updateStopLoss(order_id: number) {
