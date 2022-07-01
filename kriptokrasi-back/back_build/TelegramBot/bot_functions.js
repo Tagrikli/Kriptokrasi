@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOpenInterest = exports.getTickerList = exports.getMergedVolume = exports.getHourlyVolume = exports.getDailyVolume = exports.getOhlcv = exports.getTradeVol24h = exports.getLiveTrade = exports.getXTrade = exports.getVolFlow = exports.getRapidMov = exports.getTrendInd = exports.getBitmexLiq = exports.getBtcLiq = exports.getTotalLiq = exports.getCurrentLS = exports.getLongShort = exports.getIndicator = void 0;
 const axios_1 = __importDefault(require("axios"));
+const message_data_1 = __importDefault(require("../Messages/message_data"));
 async function getIndicator(data) {
     const ind = data[0].toLowerCase();
     const e = data[1].toLowerCase();
@@ -24,7 +25,7 @@ async function getIndicator(data) {
     return msg;
 }
 exports.getIndicator = getIndicator;
-async function getLongShort(data) {
+async function getLongShort(data, lang) {
     let msg = ``;
     try {
         const pair = data[0].toUpperCase();
@@ -44,11 +45,16 @@ async function getLongShort(data) {
         let pressure4 = `Long {up}`;
         if ((response4.status == 200) && (parseFloat(response4.data['data'][0]["buy"]) < 50.0))
             pressure4 = `Sell {down}`;
-        msg = `15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
+        msg = message_data_1.default.LONGSHORT(response1.data['data'][0]["ratio"], pressure1, response2.data['data'][0]["ratio"], pressure2, response3.data['data'][0]["ratio"], pressure3, response4.data['data'][0]["ratio"], pressure4, lang);
+        //`15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
         return [msg, 200];
     }
     catch {
-        return [`Coin yazmayı tekrar deneyin. ör: ls btc-usdt`, 401];
+        if (lang = 'tr')
+            msg = message_data_1.default.LONGSHORT_ERROR.tr;
+        else
+            msg = message_data_1.default.LONGSHORT_ERROR.en;
+        return [msg, 401];
     }
 }
 exports.getLongShort = getLongShort;

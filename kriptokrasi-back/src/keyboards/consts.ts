@@ -7,9 +7,9 @@ export const BUTTON_LIST = {
     TIMEFRAME: ['5 Dakika', '15 Dakika', '30 Dakika', '1 Saat', '4 Saat', '1 Gun'],
     EXCHANGE: ['Spot', 'Vadeli'],
     STOCK: ['Binance', 'Binance_Futures', 'Bitmex'],
-    INITIAL : ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Eğitim', 'Anlık Data'],
+    INITIAL : ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Anlık Data'],
     LESSON: ["Trade Eğitimi","Vadeli İşlem ve Borsa Eğitimi"],
-    ZERO: ["OKUDUM, ANLADIM"]
+    ZERO: ["OKUDUM, ANLADIM", "READ AND UNDERSTOOD"]
 
 }
 

@@ -119,10 +119,14 @@ class DatabaseManager {
     }
 
     async deleteUser(user_id: number) {
-
         await this.db.run(QUERIES.DELETE_USER, [user_id]);
         logger.database('User deleted');
+    }
 
+    async getUserLangByID(user_id:number){
+        let user = await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id]);
+        console.log('user????', user);
+        return user.lang;
     }
 
 
@@ -332,7 +336,6 @@ class DatabaseManager {
         return data;
     }
 
-    //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
     async updateStopLoss(order_id: number) {
 
         const order = await this.getOrderById(order_id);

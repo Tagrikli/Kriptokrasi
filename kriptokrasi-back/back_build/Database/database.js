@@ -90,7 +90,8 @@ class DatabaseManager {
                 user.last_name,
                 user.username,
                 0,
-                false]);
+                false,
+                "tr"]);
             logger_1.default.database('New user created');
         }
         catch (error) {
@@ -100,6 +101,11 @@ class DatabaseManager {
     async deleteUser(user_id) {
         await this.db.run(queries_1.default.DELETE_USER, [user_id]);
         logger_1.default.database('User deleted');
+    }
+    async getUserLangByID(user_id) {
+        let user = await this.db.get(queries_1.default.SELECT_USER_BY_ID, [user_id]);
+        console.log('user????', user);
+        return user.lang;
     }
     async getOrdersById(order_ids, type) {
         //Cok efficient degil sanki digerleri cok efficientmis gibi.
@@ -252,7 +258,14 @@ class DatabaseManager {
         await this.db.run(queries_1.default.UPDATE_VILLAGER_DAY, [villager_day, Date.now() + timeout]);
         return "tugrulun fikriydi hadi hayirlisi";
     }
-    //LOGICAL SEYLERI BRAINDE YAPMAMIZ LAZIM
+    async getUserLangPref() {
+        let data = {};
+        let users = await this.db.all(queries_1.default.SELECT_ALL_USERS);
+        users.forEach(user => {
+            data[user.user_id] = user.lang;
+        });
+        return data;
+    }
     async updateStopLoss(order_id) {
         const order = await this.getOrderById(order_id);
         let tpTable = await this.db.get(queries_1.default.SELECT_TP_BY_ID, [order_id]);

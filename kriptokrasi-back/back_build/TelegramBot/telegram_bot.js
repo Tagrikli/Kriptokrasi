@@ -59,6 +59,31 @@ class TelegramBot {
             ctx.reply('Welcome.');
         });
         this.bot.hears(consts_1.BUTTON_LIST.ZERO, async (ctx) => {
+            const message = ctx.message.text;
+            switch (message) {
+                case consts_1.BUTTON_LIST.ZERO[0]:
+                    try {
+                        if (!(await this.db.userExists(ctx.message.from.id)))
+                            this.db.createUser(ctx.message.from);
+                        ctx.reply("Seçiminizi yapınız...", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    }
+                    catch (error) {
+                        logger_1.default.error(error);
+                        console.log('something went wrong in okudum anladim');
+                        ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    }
+                case consts_1.BUTTON_LIST.ZERO[1]:
+                    try {
+                        if (!(await this.db.userExists(ctx.message.from.id)))
+                            this.db.createUser(ctx.message.from);
+                        ctx.reply("Choose an action...", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    }
+                    catch (error) {
+                        logger_1.default.error(error);
+                        console.log('something went wrong in okudum anladim');
+                        ctx.reply("Something went wrong. Try again.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    }
+            }
             try {
                 if (!(await this.db.userExists(ctx.message.from.id)))
                     this.db.createUser(ctx.message.from);
@@ -95,7 +120,7 @@ class TelegramBot {
                 let isVip = await this.db.isVIP(user_id);
                 ctx.vip = isVip.vip && isVip.timeout;
                 if ((!ctx.vip) && (!await this.db.isVillagerDay())) {
-                    ctx.reply('Botu kullanabilmek için üye olunuz.', { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
+                    ctx.reply('Botu Kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.', { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                     return;
                 }
                 await next();
@@ -121,7 +146,8 @@ class TelegramBot {
                         ;
                         break;
                     case consts_1.BUTTON_LIST.INITIAL[1]:
-                        reply_arr = await this.notifier.prepareActiveOrders();
+                        let lang = await this.db.getUserLangByID(ctx.from.id);
+                        reply_arr = await this.notifier.prepareActiveOrders(lang);
                         reply_arr.push('Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.');
                         for (let reply of reply_arr) {
                             await ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
@@ -139,10 +165,10 @@ class TelegramBot {
                     case consts_1.BUTTON_LIST.INITIAL[3]:
                         ctx.reply(consts_1.HELP_TEXT, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
                         break;
-                    case consts_1.BUTTON_LIST.INITIAL[4]: //egitime basınca
-                        ctx.reply("Eğitim konusunu seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.LESSON });
-                        break;
-                    case consts_1.BUTTON_LIST.INITIAL[5]: //anlık dataya basınca
+                    // case BUTTON_LIST.INITIAL[4]: //egitime basınca
+                    //     ctx.reply("Eğitim konusunu seçiniz.", { reply_markup: KEYBOARDS.LESSON });
+                    //     break;
+                    case consts_1.BUTTON_LIST.INITIAL[4]: //anlık dataya basınca
                         ctx.reply("Data seçiniz.", { reply_markup: keyboards_1.KEYBOARDS.DATA });
                         break;
                     default:
@@ -672,6 +698,9 @@ class TelegramBot {
                 const message = ctx.message.text;
                 const coin = message.split(' ')[1];
                 const chat_id = ctx.message.chat.id;
+                const user_id = ctx.from.id;
+                const lang = await this.db.getUserLangByID(user_id);
+                console.log('botlanguage', lang);
                 let query = Query_1.Queries.getQuery(chat_id);
                 if (query == undefined) {
                     ctx.reply("Lutfen once islem seciniz.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL });
@@ -680,7 +709,7 @@ class TelegramBot {
                 console.log("longshort secildi", query);
                 switch (query.context) {
                     case types_1.PROC_CONTEXT.LONGSHORT:
-                        let reply = await (0, bot_functions_1.getLongShort)([coin]);
+                        let reply = await (0, bot_functions_1.getLongShort)([coin], lang);
                         let msg = reply[0];
                         let status = reply[1];
                         ctx.reply(msg, { reply_markup: keyboards_1.KEYBOARDS.INITIAL });

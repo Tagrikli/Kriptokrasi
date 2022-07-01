@@ -9,9 +9,9 @@ exports.BUTTON_LIST = {
     TIMEFRAME: ['5 Dakika', '15 Dakika', '30 Dakika', '1 Saat', '4 Saat', '1 Gun'],
     EXCHANGE: ['Spot', 'Vadeli'],
     STOCK: ['Binance', 'Binance_Futures', 'Bitmex'],
-    INITIAL: ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Eğitim', 'Anlık Data'],
+    INITIAL: ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Anlık Data'],
     LESSON: ["Trade Eğitimi", "Vadeli İşlem ve Borsa Eğitimi"],
-    ZERO: ["OKUDUM, ANLADIM"]
+    ZERO: ["OKUDUM, ANLADIM", "READ AND UNDERSTOOD"]
 };
 exports.OKUDUM_ANLADIM = `Burada yer alan yatırım bilgi, yorum ve tavsiyeler yatırım danışmanlığı kapsamında değildir. Yatırım danışmanlığı hizmeti, aracı kurumlar, portföy yönetim şirketleri, mevduat kabul etmeyen bankalar ile müşteri arasında imzalanacak yatırım danışmanlığı  sözleşmesi çerçevesinde sunulmaktadır. Burada yer alan yorumlar, olusturulan algoritmaya dayanmaktadır. Bu veriler mali durumunuz ile risk getiri  tercihlerinize uygun olmayabilir. Bu nedenle, sadece burada yer  alan bilgilere dayanılarak yatırım kararı verilmesi beklentilerinize  uygun sonuçlar doğurmayabilir. 
 

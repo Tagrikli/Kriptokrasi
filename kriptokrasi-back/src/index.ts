@@ -13,7 +13,7 @@ import Brain from './Brain/main';
 import ExpressApp from './ExpressApp/express_app';
 import NETWORK from './kriptokrasi-common/network.json';
 import Notifier from './Notifier/notifier';
-import MessageGenerator from './messages/messages_parser';
+import MessageGenerator from './Messages/messages_parser';
 
 
 

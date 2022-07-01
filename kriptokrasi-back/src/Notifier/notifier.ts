@@ -13,17 +13,24 @@ class Compositor {
     fielder = {
         id: (...d: any[]) => `Id: ${d[0]}`,
         type: (...d: any[]) => d[0] === EType.SPOT ? 'SPOT' : 'VADELI',
+        typeEng: (...d: any[])=> d[0] === EType.SPOT? 'SPOT' : 'FUTURES',
         position: (...d: any[]) => d[0] == EPosition.LONG ? 'LONG' : 'SHORT',
         symbol: (...d: any[]) => `Coin Adı: ${d[0]}`,
+        symbolEng: (...d: any[]) => `Coin Name: ${d[0]}`,
         buy_price: (...d: any[]) => `Giriş Fiyatı : ${d[0]}`,
+        buy_priceEng: (...d: any[]) => `Buy Price : ${d[0]}`,
         sell_price: (...d: any[]) => `Satış Fiyatı : ${(d[0]).toFixed(2)}`,
+        sell_priceEng: (...d: any[]) => `Sell Price : ${(d[0]).toFixed(2)}`,
         leverage: (...d: any[]) => `Kaldıraç : ${d[0]}`,
+        leverageEng: (...d: any[]) => `Leverage : ${d[0]}`,
         profit: (...d: any[]) => `Kar: %${(d[0]).toFixed(2)}`,
+        profitEng: (...d: any[]) => `Profit: %${(d[0]).toFixed(2)}`,
         momentary_profit: (...d: any[]) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
+        momentary_profitEng: (...d: any[]) => `Momentary Profit:  %${(d[0]).toFixed(2)}`,
         momentary_price: (...d: any[]) => `Anlık Fiyat: ${(Number(d[0])).toFixed(3)}`,
+        momentary_priceEng: (...d: any[]) => `Momentary Price: ${(Number(d[0])).toFixed(3)}`,
         tp_data: (...d: any[]) => {
             let profits = d[1];
-
             if (profits) {
                 let ind = profits.length;
                 console.log(d);
@@ -31,12 +38,16 @@ class Compositor {
             } else {
                 return d[0].map((v: string, i: number) => `TP${i + 1}: ${v}`).join('\n');
             }
-
-
         },
         stop_loss: (...d: any[]) => `Stop Fiyatı: ${d[0]}`,
-        timestamp: (...d: any[]) => `Tarih: ${d[0]}`,
+        stop_lossEng: (...d: any[]) => `Stop Loss Price: ${d[0]}`,
+        timestamp: (...d: any[]) =>{
+            const dateObject = new Date(parseInt(d[0]))
+            const humanDateFormat = dateObject.toLocaleDateString()
+            return `Tarih: ${humanDateFormat}`},
+        timestampEng: (...d: any[]) => `Time: ${d[0]}`,
         price_left: (...d: any[]) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
+        price_leftEng: (...d: any[]) => `Price Left: ${(d[0]).toFixed(2)}`,
         optional: (...d: any[]) => `${d.join(' ')}`
     }
 
@@ -87,12 +98,15 @@ export default class Notifier {
     }
 
 
-    async prepareActiveOrders() {
+    async prepareActiveOrders(lang: String) {
 
 
         let orders = await this.database.getAllOrders(EStatus.ACTIVE) as TOrder[];
 
-        if (!orders.length) return [`Aktif emir yok`];
+        if (!orders.length){
+            if (lang == 'TR') return [`Aktif emir yok.`];
+            else return ['No active orders.']
+        } 
 
 
         return await Promise.all(orders.map(async order => {
@@ -107,6 +121,17 @@ export default class Notifier {
             let tp_data = tps.slice(1);
 
             if (order.type === EType.SPOT) {
+                if (lang === 'EN'){
+                    return new Compositor(order)
+                    .typeEng()
+                    .symbolEng()
+                    .buy_priceEng()
+                    .momentary_priceEng(momentary_price)
+                    .momentary_profitEng(momentary_profit)
+                    .tp_data(tp_data)
+                    .stop_lossEng()
+                    .composed
+                }
 
                 return new Compositor(order)
                     .type()
@@ -119,6 +144,20 @@ export default class Notifier {
                     .composed
 
             } else {
+
+                if (lang === 'EN'){
+                    return new Compositor(order)
+                    .typeIng()
+                    .position()
+                    .symbolEng()
+                    .buy_priceEng()
+                    .momentary_priceEng(momentary_price)
+                    .momentary_profitEng(momentary_profit)
+                    .leverageEng()
+                    .tp_data(tp_data)
+                    .stop_lossEng()
+                    .composed
+                }
 
                 return new Compositor(order)
                     .type()
@@ -282,7 +321,7 @@ Kapanan emirler:
 
     async activeOrderStopped(order: TOrder, profit: number, lastTP: number, buy_price:number) {
         let reg_profit = profitCalculatorAfterStop(buy_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
-        if ((order.position === EPosition.SHORT)) reg_profit = reg_profit.map(tp => -tp);
+        //if ((order.position === EPosition.SHORT)) reg_profit = reg_profit.map(tp => -tp);
 
         if (profit < 0) {
             return new Compositor(order)

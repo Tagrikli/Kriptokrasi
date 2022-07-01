@@ -17,6 +17,7 @@ const main_2 = __importDefault(require("./Brain/main"));
 const express_app_1 = __importDefault(require("./ExpressApp/express_app"));
 const network_json_1 = __importDefault(require("./kriptokrasi-common/network.json"));
 const notifier_1 = __importDefault(require("./Notifier/notifier"));
+const messages_parser_1 = __importDefault(require("./Messages/messages_parser"));
 (async () => {
     logger_1.default.info('Program starting...');
     logger_1.default.info(`USER: ${process.env.NODE_USER}`);
@@ -26,6 +27,9 @@ const notifier_1 = __importDefault(require("./Notifier/notifier"));
     //Initialize database connection, prepare for process.
     const dbManager = new database_1.default();
     await dbManager.init();
+    //Initialize MessageGenerator
+    const messageGen = new messages_parser_1.default(await dbManager.getUserLangPref());
+    console.log(messageGen.getMessage(1699315911, "INVALID_REQUEST"));
     //Initialize Telegram app and acquire relevant session string.
     const telegramApp = new app_1.default(config.credentials.app.api_id, config.credentials.app.api_hash, config.credentials.app.session);
     const session_string = await telegramApp.start();

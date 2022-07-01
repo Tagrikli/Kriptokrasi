@@ -213,7 +213,7 @@ class ExpressApp {
                             profits[order.id] = (0, helpers_1.profitCalculatorAfterStop)(momentary_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
                             if ((order.position === order_types_1.EPosition.SHORT))
                                 profits = profits.map(tp => -tp);
-                            this.db.cancelOrder(order.id, profits[order.id], momentary_price, 1);
+                            await this.db.cancelOrder(order.id, profits[order.id], momentary_price, 1);
                         }
                         catch (error) {
                             logger_1.default.error(error);

@@ -3,7 +3,7 @@ import { response } from "express";
 import BinanceManager from "../BinanceAPI/main";
 import { TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
 import logger from "../Logger/logger";
-
+import MSG from "../Messages/message_data";
 
 export async function getIndicator(data: string[]) {
     const ind = data[0].toLowerCase();
@@ -25,7 +25,7 @@ export async function getIndicator(data: string[]) {
 
 
 
-export async function getLongShort(data: string[]) {
+export async function getLongShort(data: string[], lang:string) {
     let msg = ``;
     try {
         const pair = data[0].toUpperCase();
@@ -47,15 +47,20 @@ export async function getLongShort(data: string[]) {
         let pressure4 = `Long {up}`
         if ((response4.status == 200) && (parseFloat(response4.data['data'][0]["buy"]) < 50.0))
             pressure4 = `Sell {down}`
-        msg = `15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
+        msg = MSG.LONGSHORT(response1.data['data'][0]["ratio"], pressure1, response2.data['data'][0]["ratio"], pressure2, response3.data['data'][0]["ratio"], pressure3, response4.data['data'][0]["ratio"], pressure4, lang, response1.data['data'][0]["delta"], response2.data['data'][0]["delta"], response3.data['data'][0]["delta"], response4.data['data'][0]["delta"]);
+        //`15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
         return [msg, 200]
     } catch{
-        return [`Coin yazmayı tekrar deneyin. ör: ls btc-usdt`, 401]
+        if (lang='tr')
+            msg = MSG.LONGSHORT_ERROR.tr
+        else
+            msg = MSG.LONGSHORT_ERROR.en
+        return [msg, 401]
     }
     
 }
 
-export async function getCurrentLS(data: string[]) {
+export async function getCurrentLS(data: string[], lang:string) {
     let msg =``;
     try{
         const symbol = data[0].toLowerCase();
@@ -64,12 +69,15 @@ export async function getCurrentLS(data: string[]) {
         return [msg, 200]
     }catch{
         console.log("currentLS mistake");
-        return [`Coin yazmayı tekrar deneyin. ör: gls btc`, 401]
-
+        if (lang='tr')
+            msg = MSG.CURRENTLS_ERROR.tr
+        else
+            msg = MSG.CURRENTLS_ERROR.en
+        return [msg, 401]
     }
 }
 
-export async function getTotalLiq(data: string[]) {
+export async function getTotalLiq(data: string[], lang:string) {
     let msg =``;
     try{
         const symbol = data[0].toLowerCase();
@@ -77,7 +85,11 @@ export async function getTotalLiq(data: string[]) {
         msg =response.data["data"][0]
     } catch{
         console.log("totalLiq mistake");
-        msg = `yanlis coin`;
+        if (lang='tr')
+            msg = MSG.ERROR.tr
+        else
+            msg = MSG.ERROR.en
+        return [msg, 401]
     }
 
     return msg;
@@ -108,10 +120,9 @@ export async function getBitmexLiq(data: string[]) {
     return msg;
 }
 
-export async function getTrendInd() {
+export async function getTrendInd(lang:string) {
     let response = await axios.get(`https://api.cryptometer.io/trend-indicator-v3/?api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-    let msg = `Trend Skoru: ${response.data["data"][0]['trend_score']} \n Alış Baskısı: ${response.data["data"][0]['buy_pressure']} \n Satış Baskısı: ${response.data["data"][0]['sell_pressure']}`
-
+    let msg = MSG.TRENDSORGU(response.data['data'][0]['trend_score'], response.data["data"][0]['buy_pressure'],response.data["data"][0]['sell_pressure'], lang)
     return msg;
 }
 
@@ -137,10 +148,11 @@ export async function getRapidMov(data: string[]) { //data: pair exchange
     return msg
 }
 
-export async function getVolFlow(data: string[]) { //data: timeframe fromcoin tocoin
+export async function getVolFlow(data: string[], lang:string) { //data: timeframe fromcoin tocoin
     let msg = ``;
     const timeframes = ['15m', '1h', '4h', 'd'];
     const timeframesTR = ['15 Dakika', '1 Saat', '4 Saat', '1 Gün'];
+    const timeframesEN = ['15 Minutes', '1 Hour', '4 Hours', '1 Day']
     try{
         const fromCoin = data[0].toUpperCase();
         const toCoin = data[1].toUpperCase();
@@ -153,28 +165,40 @@ export async function getVolFlow(data: string[]) { //data: timeframe fromcoin to
             for (let i = 0; i < buy_flow.length; i++) {
                 if ((buy_flow[i]["from"] == fromCoin) && (buy_flow[i]["to"] == toCoin)) {
                     vol = buy_flow[i]["volume"]
-                    msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Alım
+                    if (lang=='tr')
+                        msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Alım
     `
+                    else
+                        msg += `${timeframesEN[j]} => Volume: ${vol}, Flow: Buy
+    `
+
                 }
             }
             if (!found) {
                 for (let i = 0; i < sell_flow.length; i++) {
                     if ((sell_flow[i]["from"] == fromCoin) && (sell_flow[i]["to"] == toCoin)) {
                         vol = sell_flow[i]["volume"]
+                    if (lang=='tr')
                         msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Satım
+    `
+                    else
+                        msg += `${timeframesEN[j]} => Volume: ${vol}, Flow: Sell
     `
                     }
                 }
             }
         }
-        if (msg === ``) msg = `Aradığınız coinlerde hacim akışı bulunamadı.`
+        if ((msg === ``) && (lang=='tr')) msg = `Aradığınız coinlerde hacim akışı bulunamadı.`
+        else if((msg === ``)) msg= 'There is no volume flow in the coin you searched.'
         return [msg, 200]
     }catch{
         console.log("volume flow mistake");
-        return [`Coinleri yazmayı tekrar deneyin. ör: para btc usdt`, 401]
+        if (lang='tr')
+            msg = MSG.VOLUMEFLOW_ERROR.tr
+        else
+            msg = MSG.VOLUMEFLOW_ERROR.en
+        return [msg, 401]
     }
-    
-    return msg
 }
 
 export async function getXTrade(data: string[]) {
@@ -223,17 +247,22 @@ export async function getLiveTrade(data: string[]) {
     return msg;
 }
 
-export async function getTradeVol24h(data: string[]) {
+export async function getTradeVol24h(data: string[], lang:string) {
     const e = data[0].toLowerCase();
-    let msg =`Coin ve borsa türü uyumsuz veya hatali`;
+    let msg ='';
+    if (lang == 'TR')
+        msg =MSG.HOUR24_NOCOIN.tr;
+    else
+        msg = MSG.HOUR24_NOCOIN.en;
     try{
         const pair = data[1].toUpperCase();
         let response = await axios.get(`https://api.cryptometer.io/24h-trade-volume-v2/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         console.log(response);
-        if (response.status == 200) msg = `Alış: ${response.data["data"][0]["buy"]}  Satış: ${response.data["data"][0]["sell"]}`;
+        if (response.status == 200) msg = MSG.HOUR24(lang, response.data["data"][0]["buy"], response.data["data"][0]["sell"]);
     } catch{
         console.log("tradevol 24h mistake");
-        msg = `yanlis coin`;
+        if (lang == 'TR') msg = MSG.ERROR.tr;
+        else msg = MSG.HOUR24_NOCOIN.en;
     }
     return msg;
 }
@@ -327,32 +356,21 @@ export async function getMergedVolume(data: string[]) {
 }
 
 
-export async function getTickerList(data: string[]) {
+export async function getTickerList(data: string[], lang:string) {
     let msg =`Yanlis coin`;
     try{
         const pair = data[0].toUpperCase();
         let response = await axios.get(`https://api.cryptometer.io/tickerlist-pro/?&e=binance&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         for (let i = 0; i < response.data["data"].length; i++) {
             if (response.data["data"][i]["market_pair"] == pair) {
-                msg = `parite: ${response.data["data"][i]["market_pair"]}
-coinin adı: ${response.data["data"][i]["symbol"]}
-fiyat: ${response.data["data"][i]["price"]}
-usd fiyatı: ${response.data["data"][i]["usd_price"]}
-en yüksek: ${response.data["data"][i]["high"]}
-en alçak: ${response.data["data"][i]["low"]}
-24 saatlik volume: ${response.data["data"][i]["volume_24"]}
-24 saatlik değişim: ${response.data["data"][i]["change_24h"]}
-1 saatlik değişim: ${response.data["data"][i]["change_1h"]}
-7 günlük değişim: ${response.data["data"][i]["change_7h"]}
-30 günlük değişim: ${response.data["data"][i]["change_30d"]}
-90 günlük değişim: ${response.data["data"][i]["change_90d"]}
-yıllık değişim: ${response.data["data"][i]["change_ytd"]}`;
+                msg = MSG.TICKERLIST(lang, response.data["data"][i]["market_pair"], response.data["data"][i]["symbol"], response.data["data"][i]["price"], response.data["data"][i]["usd_price"], response.data["data"][i]["high"], response.data["data"][i]["low"], response.data["data"][i]["volume_24"], response.data["data"][i]["change_24h"],response.data["data"][i]["change_1h"],response.data["data"][i]["change_7h"], response.data["data"][i]["change_30d"], response.data["data"][i]["change_90d"], response.data["data"][i]["change_ytd"]);
                 break;
             }
         }
     }catch{
         console.log("tickerlist mistake");
-        msg = `yanlis coin`;
+        if (lang == 'TR') msg = MSG.ERROR.tr;
+        else msg = MSG.HOUR24_NOCOIN.en;
     }
     return msg;
 }

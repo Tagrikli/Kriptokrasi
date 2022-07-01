@@ -12,14 +12,22 @@ class Compositor {
     fielder = {
         id: (...d) => `Id: ${d[0]}`,
         type: (...d) => d[0] === order_types_1.EType.SPOT ? 'SPOT' : 'VADELI',
+        typeEng: (...d) => d[0] === order_types_1.EType.SPOT ? 'SPOT' : 'FUTURES',
         position: (...d) => d[0] == order_types_1.EPosition.LONG ? 'LONG' : 'SHORT',
         symbol: (...d) => `Coin Adı: ${d[0]}`,
+        symbolEng: (...d) => `Coin Name: ${d[0]}`,
         buy_price: (...d) => `Giriş Fiyatı : ${d[0]}`,
+        buy_priceEng: (...d) => `Buy Price : ${d[0]}`,
         sell_price: (...d) => `Satış Fiyatı : ${(d[0]).toFixed(2)}`,
+        sell_priceEng: (...d) => `Sell Price : ${(d[0]).toFixed(2)}`,
         leverage: (...d) => `Kaldıraç : ${d[0]}`,
+        leverageEng: (...d) => `Leverage : ${d[0]}`,
         profit: (...d) => `Kar: %${(d[0]).toFixed(2)}`,
+        profitEng: (...d) => `Profit: %${(d[0]).toFixed(2)}`,
         momentary_profit: (...d) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
+        momentary_profitEng: (...d) => `Momentary Profit:  %${(d[0]).toFixed(2)}`,
         momentary_price: (...d) => `Anlık Fiyat: ${(Number(d[0])).toFixed(3)}`,
+        momentary_priceEng: (...d) => `Momentary Price: ${(Number(d[0])).toFixed(3)}`,
         tp_data: (...d) => {
             let profits = d[1];
             if (profits) {
@@ -32,8 +40,15 @@ class Compositor {
             }
         },
         stop_loss: (...d) => `Stop Fiyatı: ${d[0]}`,
-        timestamp: (...d) => `Tarih: ${d[0]}`,
+        stop_lossEng: (...d) => `Stop Loss Price: ${d[0]}`,
+        timestamp: (...d) => {
+            const dateObject = new Date(parseInt(d[0]));
+            const humanDateFormat = dateObject.toLocaleDateString();
+            return `Tarih: ${humanDateFormat}`;
+        },
+        timestampEng: (...d) => `Time: ${d[0]}`,
         price_left: (...d) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
+        price_leftEng: (...d) => `Price Left: ${(d[0]).toFixed(2)}`,
         optional: (...d) => `${d.join(' ')}`
     };
     constructor(order) {
@@ -70,10 +85,14 @@ class Notifier {
         }
         return momentary_price;
     }
-    async prepareActiveOrders() {
+    async prepareActiveOrders(lang) {
         let orders = await this.database.getAllOrders(order_types_1.EStatus.ACTIVE);
-        if (!orders.length)
-            return [`Aktif emir yok`];
+        if (!orders.length) {
+            if (lang == 'TR')
+                return [`Aktif emir yok.`];
+            else
+                return ['No active orders.'];
+        }
         return await Promise.all(orders.map(async (order) => {
             let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
             let lastTP = await this.database.getTPByID(order.id);
@@ -84,6 +103,17 @@ class Notifier {
             let momentary_profit = tps[0];
             let tp_data = tps.slice(1);
             if (order.type === order_types_1.EType.SPOT) {
+                if (lang === 'EN') {
+                    return new Compositor(order)
+                        .typeEng()
+                        .symbolEng()
+                        .buy_priceEng()
+                        .momentary_priceEng(momentary_price)
+                        .momentary_profitEng(momentary_profit)
+                        .tp_data(tp_data)
+                        .stop_lossEng()
+                        .composed;
+                }
                 return new Compositor(order)
                     .type()
                     .symbol()
@@ -95,6 +125,19 @@ class Notifier {
                     .composed;
             }
             else {
+                if (lang === 'EN') {
+                    return new Compositor(order)
+                        .typeIng()
+                        .position()
+                        .symbolEng()
+                        .buy_priceEng()
+                        .momentary_priceEng(momentary_price)
+                        .momentary_profitEng(momentary_profit)
+                        .leverageEng()
+                        .tp_data(tp_data)
+                        .stop_lossEng()
+                        .composed;
+                }
                 return new Compositor(order)
                     .type()
                     .position()
