@@ -3,7 +3,7 @@ import { response } from "express";
 import BinanceManager from "../BinanceAPI/main";
 import { TOrder, TOrder_Past } from "../kriptokrasi-common/order_types";
 import logger from "../Logger/logger";
-import MSG from "../Messages/message_data";
+import MSG from "../messages/message_data";
 
 export async function getIndicator(data: string[]) {
     const ind = data[0].toLowerCase();

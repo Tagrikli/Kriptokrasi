@@ -13,7 +13,6 @@ import Brain from './Brain/main';
 import ExpressApp from './ExpressApp/express_app';
 import NETWORK from './kriptokrasi-common/network.json';
 import Notifier from './Notifier/notifier';
-import MessageGenerator from './Messages/messages_parser';
 
 
 
@@ -35,9 +34,7 @@ import MessageGenerator from './Messages/messages_parser';
     await dbManager.init();
     
     //Initialize MessageGenerator
-    const messageGen = new MessageGenerator(await dbManager.getUserLangPref());
 
-    console.log(messageGen.getMessage(1699315911,"INVALID_REQUEST"));
 
     //Initialize Telegram app and acquire relevant session string.
     const telegramApp = new TelegramApp(
