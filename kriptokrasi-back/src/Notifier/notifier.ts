@@ -27,7 +27,7 @@ class Compositor {
         profit_en: (...d: any[]) => `Profit: %${(d[0]).toFixed(2)}`,
         momentary_profit_tr: (...d: any[]) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
         momentary_profit_en: (...d: any[]) => `Momentary Profit:  %${(d[0]).toFixed(2)}`,
-        momentary_price: (...d: any[]) => `Anlık Fiyat: ${(Number(d[0])).toFixed(3)}`,
+        momentary_price_tr: (...d: any[]) => `Anlık Fiyat: ${(Number(d[0])).toFixed(3)}`,
         momentary_price_en: (...d: any[]) => `Momentary Price: ${(Number(d[0])).toFixed(3)}`,
         tp_data: (...d: any[]) => {
             let profits = d[1];
@@ -40,12 +40,12 @@ class Compositor {
         },
         stop_loss_tr: (...d: any[]) => `Stop Fiyatı: ${d[0]}`,
         stop_loss_en: (...d: any[]) => `Stop Loss Price: ${d[0]}`,
-        timestamp: (...d: any[]) =>{
+        timestamp_tr: (...d: any[]) =>{
             const dateObject = new Date(parseInt(d[0]))
             const humanDateFormat = dateObject.toLocaleDateString()
             return `Tarih: ${humanDateFormat}`},
         timestamp_en: (...d: any[]) => `Time: ${d[0]}`,
-        price_left: (...d: any[]) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
+        price_left_tr: (...d: any[]) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
         price_left_en: (...d: any[]) => `Price Left: ${(d[0]).toFixed(2)}`,
         optional: (...d: any[]) => `${d.join(' ')}`
     }
@@ -137,7 +137,7 @@ export default class Notifier {
                     .type_tr()
                     .symbol_tr()
                     .buy_price_tr()
-                    .momentary_price(momentary_price)
+                    .momentary_price_tr(momentary_price)
                     .momentary_profit_tr(momentary_profit)
                     .tp_data(tp_data)
                     .stop_loss_tr()
@@ -192,8 +192,8 @@ export default class Notifier {
                     .type_tr()
                     .symbol_tr()
                     .buy_price_tr()
-                    .momentary_price(momentary_price)
-                    .price_left(price_left)
+                    .momentary_price_tr(momentary_price)
+                    .price_left_tr(price_left)
                     .tp_data()
                     .stop_loss_tr()
                     .composed
@@ -206,8 +206,8 @@ export default class Notifier {
                     .position()
                     .symbol_tr()
                     .buy_price_tr()
-                    .momentary_price(momentary_price)
-                    .price_left(price_left)
+                    .momentary_price_tr(momentary_price)
+                    .price_left_tr(price_left)
                     .leverage_tr()
                     .tp_data()
                     .stop_loss_tr()
@@ -224,7 +224,7 @@ export default class Notifier {
             if (order.type === EType.SPOT) {
                 return new Compositor(order)
                     .type_tr()
-                    .timestamp()
+                    .timestamp_tr()
                     .symbol_tr()
                     .buy_price_tr()
                     .sell_price_tr()
@@ -234,7 +234,7 @@ export default class Notifier {
             } else {
                 return new Compositor(order)
                     .position()
-                    .timestamp()
+                    .timestamp_tr()
                     .symbol_tr()
                     .buy_price_tr()
                     .sell_price_tr()
@@ -255,8 +255,8 @@ export default class Notifier {
             .optional(order.symbol, 'işlemi eklenmiştir.')
             .type_tr()
             .buy_price_tr()
-            .momentary_price(momentary_price)
-            .price_left(price_left)
+            .momentary_price_tr(momentary_price)
+            .price_left_tr(price_left)
             .tp_data()
             .stop_loss_tr()
             .optional('Bekleyen emirlerden kontrol ediniz.')
@@ -267,8 +267,8 @@ export default class Notifier {
             .type_tr()
             .position()
             .buy_price_tr()
-            .momentary_price(momentary_price)
-            .price_left(price_left)
+            .momentary_price_tr(momentary_price)
+            .price_left_tr(price_left)
             .tp_data()
             .stop_loss_tr()
             .optional('Bekleyen emirlerden kontrol ediniz.')
