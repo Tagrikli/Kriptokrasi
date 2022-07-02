@@ -9,10 +9,30 @@ const MSG = {
 Lütfen dil seçiniz...
 Please select a language...
 `,
+  NOT_ADVISE: {
+    tr: 'Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.',
+    en: 'It is not an invesment advise. Please use StopLoss in your orders.'
+  },
+  
+  CHOOSE_DATA: {
+    tr: 'Data seçiniz.',
+    en: 'Choose your information type'
+  },
 
   REQUEST_PRIVATE : {tr: 'Botu kullanabilmek için bota özel mesaj atınız.', en: 'Please send private messages to be able to use the bot.'},
 
-  GET_MEMBERSHIP: {tr: 'Botu kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.', en: 'Sign up to use the bot. For more information: @kriptokrasibilgilendirme_bot . Click to start the bot.'},
+  GET_MEMBERSHIP: {tr: 'Botu kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.',
+   en: 'Sign up to use the bot. For more information: @kriptokrasibilgilendirme_bot . Click to start the bot.'},
+
+  WRITE_LS: {
+    tr: "ls yazıp parite giriniz. ör: ls btc-usdt.",
+    en: "write ls and enter a pair. ör: ls btc-usdt."
+  },
+
+  WRITE_GLS: {
+    tr: "gls yazıp coin ismi giriniz. ör: gls btc",
+    en: "write gls and enter a coin symbol. ör: gls btc"
+  },
 
   GENERAL_ERROR: {
     tr: "Bir hata olustu",

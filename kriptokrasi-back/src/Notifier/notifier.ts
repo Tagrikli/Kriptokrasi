@@ -13,7 +13,7 @@ class Compositor {
     fielder = {
         id: (...d: any[]) => `Id: ${d[0]}`,
         type_tr: (...d: any[]) => d[0] === EType.SPOT ? 'SPOT' : 'VADELI',
-        type_en: (...d: any[])=> d[0] === EType.SPOT? 'SPOT' : 'FUTURES',
+        type_en: (...d: any[]) => d[0] === EType.SPOT ? 'SPOT' : 'FUTURES',
         position: (...d: any[]) => d[0] == EPosition.LONG ? 'LONG' : 'SHORT',
         symbol_tr: (...d: any[]) => `Coin Adı: ${d[0]}`,
         symbol_en: (...d: any[]) => `Coin Name: ${d[0]}`,
@@ -97,14 +97,12 @@ export default class Notifier {
     }
 
 
-    async prepareActiveOrders(lang: String) {
-
+    async prepareActiveOrdersTR() {
 
         let orders = await this.database.getAllOrders(EStatus.ACTIVE) as TOrder[];
 
         if (!orders.length){
-            if (lang === 'TR') return [`Aktif emir yok.`];
-            else return ['No active orders.']
+            return [`Aktif emir yok.`];
         } 
 
 
@@ -120,55 +118,28 @@ export default class Notifier {
             let tp_data = tps.slice(1);
 
             if (order.type === EType.SPOT) {
-                if (lang === 'EN'){
-                    console.log(order);
-                    return new Compositor(order)
-                    .type_en()
-                    .symbol_en()
-                    .buy_price_en()
-                    .momentary_price_en(momentary_price)
-                    .momentary_profit_en(momentary_profit)
-                    .tp_data(tp_data)
-                    .stop_loss_en()
-                    .composed
-                }
 
                 return new Compositor(order)
-                    .type_tr()
-                    .symbol_tr()
-                    .buy_price_tr()
+                    .type_tr(order.type)
+                    .symbol_tr(order.symbol)
+                    .buy_price_tr(order.buy_price)
                     .momentary_price_tr(momentary_price)
                     .momentary_profit_tr(momentary_profit)
                     .tp_data(tp_data)
-                    .stop_loss_tr()
+                    .stop_loss_tr(order.stop_loss)
                     .composed
 
             } else {
-
-                if (lang === 'EN'){
-                    return new Compositor(order)
-                    .type_en()
-                    .position()
-                    .symbol_en()
-                    .buy_price_en()
-                    .momentary_price_en(momentary_price)
-                    .momentary_profit_en(momentary_profit)
-                    .leverage_en()
-                    .tp_data(tp_data)
-                    .stop_loss_en()
-                    .composed
-                }
-
                 return new Compositor(order)
-                    .type_tr()
+                    .type_tr(order.type)
                     .position()
-                    .symbol_tr()
-                    .buy_price_tr()
+                    .symbol_tr(order.symbol)
+                    .buy_price_tr(order.buy_price)
                     .momentary_price_tr(momentary_price)
                     .momentary_profit_tr(momentary_profit)
-                    .leverage_tr()
+                    .leverage_tr(order.leverage)
                     .tp_data(tp_data)
-                    .stop_loss_tr()
+                    .stop_loss_tr(order.stop_loss)
                     .composed
             }
 
@@ -176,7 +147,55 @@ export default class Notifier {
     }
 
 
-    async prepareWaitingOrders() {
+    async prepareActiveOrdersEN() {
+
+        let orders = await this.database.getAllOrders(EStatus.ACTIVE) as TOrder[];
+
+        if (!orders.length){
+            return [`No active orders.`];
+        } 
+
+        return await Promise.all(orders.map(async order => {
+
+            let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
+            let lastTP = await this.database.getTPByID(order.id);
+            let tps = profitCalculator(momentary_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
+            console.log("activelere basildi", tps);
+
+            if ((order.position === EPosition.SHORT)) tps = tps.map(tp => -tp);
+            let momentary_profit = tps[0];
+            let tp_data = tps.slice(1);
+
+            if (order.type === EType.SPOT) {
+                console.log(order);
+                return new Compositor(order)
+                    .type_en(order.type)
+                    .symbol_en(order.symbol)
+                    .buy_price_en(order.buy_price)
+                    .momentary_price_en(momentary_price)
+                    .momentary_profit_en(momentary_profit)
+                    .tp_data(tp_data)
+                    .stop_loss_en(order.stop_loss)
+                    .composed
+
+            } else {
+                return new Compositor(order)
+                    .type_en(order.type)
+                    .position()
+                    .symbol_en(order.symbol)
+                    .buy_price_en(order.buy_price)
+                    .momentary_price_en(momentary_price)
+                    .momentary_profit_en(momentary_profit)
+                    .leverage_en(order.leverage)
+                    .tp_data(tp_data)
+                    .stop_loss_en(order.stop_loss)
+                    .composed
+            }
+
+        }));
+    }
+
+    async prepareWaitingOrdersTR() {
 
         let orders = await this.database.getAllOrders(EStatus.WAITING) as TOrder[];
 
@@ -189,13 +208,13 @@ export default class Notifier {
             if (order.type === EType.SPOT) {
 
                 return new Compositor(order)
-                    .type_tr()
-                    .symbol_tr()
-                    .buy_price_tr()
+                    .type_tr(order.type)
+                    .symbol_tr(order.symbol)
+                    .buy_price_tr(order.buy_price)
                     .momentary_price_tr(momentary_price)
                     .price_left_tr(price_left)
                     .tp_data()
-                    .stop_loss_tr()
+                    .stop_loss_tr(order.stop_loss)
                     .composed
 
             } else {
@@ -204,49 +223,118 @@ export default class Notifier {
 
                 return new Compositor(order)
                     .position()
-                    .symbol_tr()
-                    .buy_price_tr()
+                    .symbol_tr(order.symbol)
+                    .buy_price_tr(order.buy_price)
                     .momentary_price_tr(momentary_price)
                     .price_left_tr(price_left)
-                    .leverage_tr()
+                    .leverage_tr(order.leverage)
                     .tp_data()
-                    .stop_loss_tr()
+                    .stop_loss_tr(order.stop_loss)
                     .composed
             }
         }));
     }
 
-    async preparePastOrders() {
+    async prepareWaitingOrdersEN() {
+
+        let orders = await this.database.getAllOrders(EStatus.WAITING) as TOrder[];
+
+        if (orders.length === 0) return [`Bekleyen emir yok`];
+
+        return await Promise.all(orders.map(async order => {
+
+            let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
+            let price_left = momentary_price - order.buy_price;
+            if (order.type === EType.SPOT) {
+
+                return new Compositor(order)
+                    .type_en(order.type)
+                    .symbol_en(order.symbol)
+                    .buy_price_en(order.buy_price)
+                    .momentary_price_en(momentary_price)
+                    .price_left_en(price_left)
+                    .tp_data()
+                    .stop_loss_en(order.stop_loss)
+                    .composed
+
+            } else {
+
+                if (order.position === EPosition.SHORT) price_left *= -1;
+
+                return new Compositor(order)
+                    .position()
+                    .symbol_en(order.symbol)
+                    .buy_price_en(order.buy_price)
+                    .momentary_price_en(momentary_price)
+                    .price_left_en(price_left)
+                    .leverage_en(order.leverage)
+                    .tp_data()
+                    .stop_loss_en(order.stop_loss)
+                    .composed
+            }
+        }));
+    }
+
+    async preparePastOrdersTR() {
 
         let orders = await this.database.getAllOrders(EStatus.PAST) as TOrder_Past[];
         if (!orders.length) return [`Gecmis emir yok`];
         return await Promise.all(orders.map(async order => {
             if (order.type === EType.SPOT) {
                 return new Compositor(order)
-                    .type_tr()
-                    .timestamp_tr()
-                    .symbol_tr()
-                    .buy_price_tr()
-                    .sell_price_tr()
-                    .profit_tr()
+                    .type_tr(order.type)
+                    .timestamp_tr(order.timestamp)
+                    .symbol_tr(order.symbol)
+                    .buy_price_tr(order.buy_price)
+                    .sell_price_tr(order.sell_price)
+                    .profit_tr(order.profit)
                     .composed
 
             } else {
                 return new Compositor(order)
                     .position()
-                    .timestamp_tr()
-                    .symbol_tr()
-                    .buy_price_tr()
-                    .sell_price_tr()
-                    .leverage_tr()
-                    .profit_tr()
+                    .timestamp_tr(order.timestamp)
+                    .symbol_tr(order.symbol)
+                    .buy_price_tr(order.buy_price)
+                    .sell_price_tr(order.sell_price)
+                    .leverage_tr(order.leverage)
+                    .profit_tr(order.profit)
+                    .composed
+            }
+        }));
+    }
+
+    async preparePastOrdersEN() {
+
+        let orders = await this.database.getAllOrders(EStatus.PAST) as TOrder_Past[];
+        if (!orders.length) return [`Gecmis emir yok`];
+        return await Promise.all(orders.map(async order => {
+            if (order.type === EType.SPOT) {
+                return new Compositor(order)
+                    .type_en(order.type)
+                    .timestamp_en(order.timestamp)
+                    .symbol_en(order.symbol)
+                    .buy_price_en(order.buy_price)
+                    .sell_price_en(order.sell_price)
+                    .profit_en(order.profit)
+                    .composed
+
+            } else {
+                return new Compositor(order)
+                    .position()
+                    .timestamp_en(order.timestamp)
+                    .symbol_en(order.symbol)
+                    .buy_price_en(order.buy_price)
+                    .sell_price_en(order.sell_price)
+                    .leverage_en(order.leverage)
+                    .profit_en(order.profit)
                     .composed
             }
         }));
 
     }
 
-    async waitingOrderAdded(order: TOrder) {
+    async waitingOrderAddedTR(order: TOrder) {
         let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
         let price_left = momentary_price - order.buy_price;
         

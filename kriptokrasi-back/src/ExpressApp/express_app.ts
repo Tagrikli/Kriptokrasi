@@ -214,7 +214,7 @@ class ExpressApp {
             
             try {
                 await this.db.createOrder(order);     
-                let msg = await this.notifier.waitingOrderAdded(order);
+                let msg = await this.notifier.waitingOrderAddedTR(order);
                 await this.telegram.sendMessageToAll(true, true, msg);
                 this.brain.updateOrders();
                 res.sendStatus(200);

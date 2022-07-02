@@ -125,7 +125,6 @@ class DatabaseManager {
 
     async getUserLangByID(user_id: number) {
         let user = await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id]);
-        console.log('user????', user);
         return user.lang;
     }
 
