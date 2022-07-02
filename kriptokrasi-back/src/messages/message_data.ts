@@ -1,4 +1,18 @@
 const MSG = {
+  UNKNOWN_ERROR: { tr: "Bir şeyler yanlış gitti, yeniden deneyiniz.", en: "Something went wrong, please try again."},
+
+  CHOOSE_ACTION : {tr: "Seçiminizi yapınız.",en:  "Please choose an action."},
+
+  WAIT_10_SECS: { tr:'⏰⏰ Lütfen mesaj atmadan önce 10 saniye bekleyin.', en:'⏰⏰ Please wait for 10 seconds before you send a message.'},
+
+  SELECT_LANGUAGE : `
+Lütfen dil seçiniz...
+Please select a language...
+`,
+
+  REQUEST_PRIVATE : {tr: 'Botu kullanabilmek için bota özel mesaj atınız.', en: 'Please send private messages to be able to use the bot.'},
+
+  GET_MEMBERSHIP: {tr: 'Botu kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.', en: 'Sign up to use the bot. For more information: @kriptokrasibilgilendirme_bot . Click to start the bot.'},
 
   GENERAL_ERROR: {
     tr: "Bir hata olustu",

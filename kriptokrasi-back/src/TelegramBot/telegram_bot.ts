@@ -1,7 +1,7 @@
 import { Context, Telegraf } from "telegraf";
 import { getBitmexLiq, getBtcLiq, getCurrentLS, getDailyVolume, getHourlyVolume, getIndicator, getLiveTrade, getLongShort, getMergedVolume, getOhlcv, getOpenInterest, getRapidMov, getTickerList, getTotalLiq, getTradeVol24h, getTrendInd, getVolFlow, getXTrade } from "./bot_functions";
 import DatabaseManager from "../Database/database";
-import { BUTTON_LIST, HELP_TEXT, trade_egitimi, vadeli_egitimi, OKUDUM_ANLADIM, SELECT_LANGUAGE, UNKNOWN_ERROR, CHOOSE_ACTION } from "../keyboards/consts";
+import { BUTTON_LIST, HELP_TEXT, trade_egitimi, vadeli_egitimi, OKUDUM_ANLADIM } from "../keyboards/consts";
 import { KEYBOARDS } from "../keyboards/keyboards";
 import { Queries } from "../Query";
 import { PROC_CONTEXT, TContext } from "../utils/types";
@@ -10,8 +10,7 @@ import logger from "../Logger/logger";
 import BinanceManager from "../BinanceAPI/main";
 import { TOrder, EStatus, TOrder_Past } from '../kriptokrasi-common/order_types';
 import Notifier from "../Notifier/notifier";
-import { replace, StringNullableChain } from "lodash";
-import QUERIES from "../Database/queries";
+import MSG from "../Messages/message_data";
 
 
 class TelegramBot {
@@ -60,7 +59,7 @@ class TelegramBot {
 
                 if (!(await this.db.userExists(ctx.message.from.id))) {
                     await this.db.createUser(ctx.message.from);
-                    ctx.reply(SELECT_LANGUAGE, { reply_markup: KEYBOARDS.LANGUAGE });
+                    ctx.reply(MSG.SELECT_LANGUAGE, { reply_markup: KEYBOARDS.LANGUAGE });
                 } else {
                     let lang = await this.db.getUserLangPrefbyID(ctx.message.from.id);
                     if (lang === 'TR') {
@@ -73,8 +72,8 @@ class TelegramBot {
                 }
             } catch (error) {
                 ctx.reply(`
-                ${UNKNOWN_ERROR[0]}
-                ${UNKNOWN_ERROR[1]}
+                ${MSG.UNKNOWN_ERROR.tr}
+                ${MSG.UNKNOWN_ERROR.tr}
                 `, {
                     reply_markup: KEYBOARDS.LANGUAGE
                 })
@@ -101,25 +100,24 @@ class TelegramBot {
                     ctx.reply(OKUDUM_ANLADIM, { reply_markup: KEYBOARDS.ZERO });
                 } else {
                     await this.db.updateLang(user_id, "EN")
-                    ctx.reply(CHOOSE_ACTION[1], { reply_markup: KEYBOARDS.INITIAL_EN });
+                    ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                 }
 
             } catch (error) {
                 logger.error(error);
-                ctx.reply(UNKNOWN_ERROR[0], { reply_markup: KEYBOARDS.INITIAL_TR });
+                ctx.reply(MSG.UNKNOWN_ERROR.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
             }
-
 
         })
 
         this.bot.hears(BUTTON_LIST.ZERO, async (ctx) => {
 
             try {
-                ctx.reply(CHOOSE_ACTION[0], { reply_markup: KEYBOARDS.INITIAL_TR });
+                ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
             } catch (error) {
                 logger.error(error);
                 console.log('something went wrong in okudum anladim');
-                ctx.reply(UNKNOWN_ERROR[0], { reply_markup: KEYBOARDS.INITIAL_TR });
+                ctx.reply(MSG.UNKNOWN_ERROR.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
             }
 
         })
@@ -132,9 +130,11 @@ class TelegramBot {
             try {
                 const user_id = ctx.from.id;
                 const chat_type: string = ctx.chat.type;
+                const lang = await this.db.getUserLangPrefbyID(user_id);
 
                 if (waitlist.find(user_id)) {
-                    ctx.reply('⏰⏰ Lütfen 10 saniye bekleyin...');
+                    if (lang === 'TR') ctx.reply(MSG.WAIT_10_SECS.tr);
+                    else ctx.reply(MSG.WAIT_10_SECS.en);
                     return;
                 }
 
@@ -147,7 +147,8 @@ class TelegramBot {
 
 
                 if (chat_type !== 'private') {
-                    ctx.reply('Botu kullanabilmek için bota özel mesaj atınız.', { reply_markup: KEYBOARDS.INITIAL_TR });
+                    if (lang === 'TR') ctx.reply(MSG.REQUEST_PRIVATE.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
+                    else ctx.reply(MSG.REQUEST_PRIVATE.en, {reply_markup: KEYBOARDS.INITIAL_EN})
                     return;
                 }
 
@@ -155,15 +156,16 @@ class TelegramBot {
                 ctx.vip = isVip.vip && isVip.timeout;
 
                 if ((!ctx.vip) && (!await this.db.isVillagerDay())) {
-                    ctx.reply('Botu Kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.', { reply_markup: KEYBOARDS.INITIAL_TR });
+                    if (lang === 'TR') ctx.reply(MSG.GET_MEMBERSHIP.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
+                    else ctx.reply(MSG.GET_MEMBERSHIP.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return;
                 }
-
                 await next();
             } catch (error) {
                 logger.error(error);
                 console.log('something went wrong in vip check');
-                ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: KEYBOARDS.INITIAL_TR });
+                ctx.reply(MSG.UNKNOWN_ERROR.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
+                ctx.reply(MSG.UNKNOWN_ERROR.en, {reply_markup: KEYBOARDS.INITIAL_EN});
             }
         })
 

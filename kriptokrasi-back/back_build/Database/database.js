@@ -225,6 +225,9 @@ class DatabaseManager {
         let TPtable = await this.db.get(queries_1.default.SELECT_TP_BY_ID, [order_id]);
         return TPtable.lastTP;
     }
+    async updateLang(user_id, lang) {
+        await this.db.run(queries_1.default.UPDATE_LANG, [lang, user_id]);
+    }
     async isVillagerDay() {
         let villagerDay = await this.db.get(queries_1.default.SELECT_VILLAGER_DAY);
         return villagerDay.is_villager_day && (villagerDay.timeout > Date.now());
@@ -258,13 +261,17 @@ class DatabaseManager {
         await this.db.run(queries_1.default.UPDATE_VILLAGER_DAY, [villager_day, Date.now() + timeout]);
         return "tugrulun fikriydi hadi hayirlisi";
     }
-    async getUserLangPref() {
+    async getAllUserLangPref() {
         let data = {};
         let users = await this.db.all(queries_1.default.SELECT_ALL_USERS);
         users.forEach(user => {
             data[user.user_id] = user.lang;
         });
         return data;
+    }
+    async getUserLangPrefbyID(user_id) {
+        let lang = await this.db.get(queries_1.default.SELECT_LANG_BY_ID, [user_id]);
+        return lang;
     }
     async updateStopLoss(order_id) {
         const order = await this.getOrderById(order_id);

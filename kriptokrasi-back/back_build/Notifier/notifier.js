@@ -274,8 +274,7 @@ Kapanan emirler:
     }
     async activeOrderStopped(order, profit, lastTP, buy_price) {
         let reg_profit = (0, helpers_1.profitCalculatorAfterStop)(buy_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
-        if ((order.position === order_types_1.EPosition.SHORT))
-            reg_profit = reg_profit.map(tp => -tp);
+        //if ((order.position === EPosition.SHORT)) reg_profit = reg_profit.map(tp => -tp);
         if (profit < 0) {
             return new Compositor(order)
                 .symbol()

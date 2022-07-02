@@ -14,15 +14,6 @@ export const BUTTON_LIST = {
     LANGUAGE: ["Türkçe", "English"]
 }
 
-export const UNKNOWN_ERROR = ["Bir şeyler yanlış gitti, yeniden deneyiniz.", "Something went wrong, please try again."]
-
-export const CHOOSE_ACTION = ["Seçiminizi yapınız.", "Please choose an action."];
-
-export const SELECT_LANGUAGE = `
-Lütfen dil seçiniz...
-Please select a language...
-`
-
 export const OKUDUM_ANLADIM =
     `Burada yer alan yatırım bilgi, yorum ve tavsiyeler yatırım danışmanlığı kapsamında değildir. Yatırım danışmanlığı hizmeti, aracı kurumlar, portföy yönetim şirketleri, mevduat kabul etmeyen bankalar ile müşteri arasında imzalanacak yatırım danışmanlığı  sözleşmesi çerçevesinde sunulmaktadır. Burada yer alan yorumlar, olusturulan algoritmaya dayanmaktadır. Bu veriler mali durumunuz ile risk getiri  tercihlerinize uygun olmayabilir. Bu nedenle, sadece burada yer  alan bilgilere dayanılarak yatırım kararı verilmesi beklentilerinize  uygun sonuçlar doğurmayabilir. 
 

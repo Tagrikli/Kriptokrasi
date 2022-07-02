@@ -12,42 +12,41 @@ class Compositor {
 
     fielder = {
         id: (...d: any[]) => `Id: ${d[0]}`,
-        type: (...d: any[]) => d[0] === EType.SPOT ? 'SPOT' : 'VADELI',
-        typeEng: (...d: any[])=> d[0] === EType.SPOT? 'SPOT' : 'FUTURES',
+        type_tr: (...d: any[]) => d[0] === EType.SPOT ? 'SPOT' : 'VADELI',
+        type_en: (...d: any[])=> d[0] === EType.SPOT? 'SPOT' : 'FUTURES',
         position: (...d: any[]) => d[0] == EPosition.LONG ? 'LONG' : 'SHORT',
-        symbol: (...d: any[]) => `Coin Adı: ${d[0]}`,
-        symbolEng: (...d: any[]) => `Coin Name: ${d[0]}`,
-        buy_price: (...d: any[]) => `Giriş Fiyatı : ${d[0]}`,
-        buy_priceEng: (...d: any[]) => `Buy Price : ${d[0]}`,
-        sell_price: (...d: any[]) => `Satış Fiyatı : ${(d[0]).toFixed(2)}`,
-        sell_priceEng: (...d: any[]) => `Sell Price : ${(d[0]).toFixed(2)}`,
-        leverage: (...d: any[]) => `Kaldıraç : ${d[0]}`,
-        leverageEng: (...d: any[]) => `Leverage : ${d[0]}`,
-        profit: (...d: any[]) => `Kar: %${(d[0]).toFixed(2)}`,
-        profitEng: (...d: any[]) => `Profit: %${(d[0]).toFixed(2)}`,
-        momentary_profit: (...d: any[]) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
-        momentary_profitEng: (...d: any[]) => `Momentary Profit:  %${(d[0]).toFixed(2)}`,
+        symbol_tr: (...d: any[]) => `Coin Adı: ${d[0]}`,
+        symbol_en: (...d: any[]) => `Coin Name: ${d[0]}`,
+        buy_price_tr: (...d: any[]) => `Giriş Fiyatı : ${d[0]}`,
+        buy_price_en: (...d: any[]) => `Buy Price : ${d[0]}`,
+        sell_price_tr: (...d: any[]) => `Satış Fiyatı : ${(d[0]).toFixed(2)}`,
+        sell_price_en: (...d: any[]) => `Sell Price : ${(d[0]).toFixed(2)}`,
+        leverage_tr: (...d: any[]) => `Kaldıraç : ${d[0]}`,
+        leverage_en: (...d: any[]) => `Leverage : ${d[0]}`,
+        profit_tr: (...d: any[]) => `Kar: %${(d[0]).toFixed(2)}`,
+        profit_en: (...d: any[]) => `Profit: %${(d[0]).toFixed(2)}`,
+        momentary_profit_tr: (...d: any[]) => `Anlık Kâr:  %${(d[0]).toFixed(2)}`,
+        momentary_profit_en: (...d: any[]) => `Momentary Profit:  %${(d[0]).toFixed(2)}`,
         momentary_price: (...d: any[]) => `Anlık Fiyat: ${(Number(d[0])).toFixed(3)}`,
-        momentary_priceEng: (...d: any[]) => `Momentary Price: ${(Number(d[0])).toFixed(3)}`,
+        momentary_price_en: (...d: any[]) => `Momentary Price: ${(Number(d[0])).toFixed(3)}`,
         tp_data: (...d: any[]) => {
             let profits = d[1];
             if (profits) {
                 let ind = profits.length;
-                console.log(d);
                 return d[0].map((v: string, i: number) => `TP${i + 1}: ${i < ind ? `✅ %${(profits[i]).toFixed(2)}` : v}`).join('\n');
             } else {
                 return d[0].map((v: string, i: number) => `TP${i + 1}: ${v}`).join('\n');
             }
         },
-        stop_loss: (...d: any[]) => `Stop Fiyatı: ${d[0]}`,
-        stop_lossEng: (...d: any[]) => `Stop Loss Price: ${d[0]}`,
+        stop_loss_tr: (...d: any[]) => `Stop Fiyatı: ${d[0]}`,
+        stop_loss_en: (...d: any[]) => `Stop Loss Price: ${d[0]}`,
         timestamp: (...d: any[]) =>{
             const dateObject = new Date(parseInt(d[0]))
             const humanDateFormat = dateObject.toLocaleDateString()
             return `Tarih: ${humanDateFormat}`},
-        timestampEng: (...d: any[]) => `Time: ${d[0]}`,
+        timestamp_en: (...d: any[]) => `Time: ${d[0]}`,
         price_left: (...d: any[]) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
-        price_leftEng: (...d: any[]) => `Price Left: ${(d[0]).toFixed(2)}`,
+        price_left_en: (...d: any[]) => `Price Left: ${(d[0]).toFixed(2)}`,
         optional: (...d: any[]) => `${d.join(' ')}`
     }
 
@@ -104,7 +103,7 @@ export default class Notifier {
         let orders = await this.database.getAllOrders(EStatus.ACTIVE) as TOrder[];
 
         if (!orders.length){
-            if (lang == 'TR') return [`Aktif emir yok.`];
+            if (lang === 'TR') return [`Aktif emir yok.`];
             else return ['No active orders.']
         } 
 
@@ -122,53 +121,54 @@ export default class Notifier {
 
             if (order.type === EType.SPOT) {
                 if (lang === 'EN'){
+                    console.log(order);
                     return new Compositor(order)
-                    .typeEng()
-                    .symbolEng()
-                    .buy_priceEng()
-                    .momentary_priceEng(momentary_price)
-                    .momentary_profitEng(momentary_profit)
+                    .type_en()
+                    .symbol_en()
+                    .buy_price_en()
+                    .momentary_price_en(momentary_price)
+                    .momentary_profit_en(momentary_profit)
                     .tp_data(tp_data)
-                    .stop_lossEng()
+                    .stop_loss_en()
                     .composed
                 }
 
                 return new Compositor(order)
-                    .type()
-                    .symbol()
-                    .buy_price()
+                    .type_tr()
+                    .symbol_tr()
+                    .buy_price_tr()
                     .momentary_price(momentary_price)
-                    .momentary_profit(momentary_profit)
+                    .momentary_profit_tr(momentary_profit)
                     .tp_data(tp_data)
-                    .stop_loss()
+                    .stop_loss_tr()
                     .composed
 
             } else {
 
                 if (lang === 'EN'){
                     return new Compositor(order)
-                    .typeIng()
+                    .type_en()
                     .position()
-                    .symbolEng()
-                    .buy_priceEng()
-                    .momentary_priceEng(momentary_price)
-                    .momentary_profitEng(momentary_profit)
-                    .leverageEng()
+                    .symbol_en()
+                    .buy_price_en()
+                    .momentary_price_en(momentary_price)
+                    .momentary_profit_en(momentary_profit)
+                    .leverage_en()
                     .tp_data(tp_data)
-                    .stop_lossEng()
+                    .stop_loss_en()
                     .composed
                 }
 
                 return new Compositor(order)
-                    .type()
+                    .type_tr()
                     .position()
-                    .symbol()
-                    .buy_price()
-                    .momentary_price(momentary_price)
-                    .momentary_profit(momentary_profit)
-                    .leverage()
+                    .symbol_tr()
+                    .buy_price_tr()
+                    .momentary_price_tr(momentary_price)
+                    .momentary_profit_tr(momentary_profit)
+                    .leverage_tr()
                     .tp_data(tp_data)
-                    .stop_loss()
+                    .stop_loss_tr()
                     .composed
             }
 
@@ -189,13 +189,13 @@ export default class Notifier {
             if (order.type === EType.SPOT) {
 
                 return new Compositor(order)
-                    .type()
-                    .symbol()
-                    .buy_price()
+                    .type_tr()
+                    .symbol_tr()
+                    .buy_price_tr()
                     .momentary_price(momentary_price)
                     .price_left(price_left)
                     .tp_data()
-                    .stop_loss()
+                    .stop_loss_tr()
                     .composed
 
             } else {
@@ -204,13 +204,13 @@ export default class Notifier {
 
                 return new Compositor(order)
                     .position()
-                    .symbol()
-                    .buy_price()
+                    .symbol_tr()
+                    .buy_price_tr()
                     .momentary_price(momentary_price)
                     .price_left(price_left)
-                    .leverage()
+                    .leverage_tr()
                     .tp_data()
-                    .stop_loss()
+                    .stop_loss_tr()
                     .composed
             }
         }));
@@ -223,23 +223,23 @@ export default class Notifier {
         return await Promise.all(orders.map(async order => {
             if (order.type === EType.SPOT) {
                 return new Compositor(order)
-                    .type()
+                    .type_tr()
                     .timestamp()
-                    .symbol()
-                    .buy_price()
-                    .sell_price()
-                    .profit()
+                    .symbol_tr()
+                    .buy_price_tr()
+                    .sell_price_tr()
+                    .profit_tr()
                     .composed
 
             } else {
                 return new Compositor(order)
                     .position()
                     .timestamp()
-                    .symbol()
-                    .buy_price()
-                    .sell_price()
-                    .leverage()
-                    .profit()
+                    .symbol_tr()
+                    .buy_price_tr()
+                    .sell_price_tr()
+                    .leverage_tr()
+                    .profit_tr()
                     .composed
             }
         }));
@@ -253,24 +253,24 @@ export default class Notifier {
         if (order.type === EType.SPOT) {
             return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
-            .type()
-            .buy_price()
+            .type_tr()
+            .buy_price_tr()
             .momentary_price(momentary_price)
             .price_left(price_left)
             .tp_data()
-            .stop_loss()
+            .stop_loss_tr()
             .optional('Bekleyen emirlerden kontrol ediniz.')
             .composed
         }else{
             return new Compositor(order)
             .optional(order.symbol, 'işlemi eklenmiştir.')
-            .type()
+            .type_tr()
             .position()
-            .buy_price()
+            .buy_price_tr()
             .momentary_price(momentary_price)
             .price_left(price_left)
             .tp_data()
-            .stop_loss()
+            .stop_loss_tr()
             .optional('Bekleyen emirlerden kontrol ediniz.')
             .composed
         }
@@ -280,7 +280,7 @@ export default class Notifier {
 
         return new Compositor(order)
             .optional(order.symbol, 'işlemine giriş yapılmıştır.')
-            .buy_price()
+            .buy_price_tr()
             .composed
     }
 
@@ -293,8 +293,8 @@ Bekleyen emirler iptal edildi.
 
         const orders_ = orders.map(order =>
             new Compositor(order)
-                .symbol()
-                .buy_price()
+                .symbol_tr()
+                .buy_price_tr()
                 .composed)
 
         return [prefix, ...orders_].join('\n');
@@ -309,8 +309,8 @@ Kapanan emirler:
 `
         const orders_ = orders.map(order =>
             new Compositor(order)
-                .symbol()
-                .buy_price()
+                .symbol_tr()
+                .buy_price_tr()
                 .optional(`Kâr: %${parseFloat(profits[order.id]).toFixed(3)}`)
                 .composed
         )
@@ -325,16 +325,16 @@ Kapanan emirler:
 
         if (profit < 0) {
             return new Compositor(order)
-                .symbol()
-                .type()
+                .symbol_tr()
+                .type_tr()
                 .optional('İşlem stop olmuştur.')
                 .optional('Zarar: %', profit.toFixed(2))
                 .composed
         }
         else {
             return new Compositor(order)
-                .symbol()
-                .type()
+                .symbol_tr()
+                .type_tr()
                 .optional(`Kâr: %${profit.toFixed(3)}`)
                 .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
                 .optional('Parçalı Satış Sonrası Kâr: %', reg_profit[lastTP+1].toFixed(3))
@@ -346,8 +346,8 @@ Kapanan emirler:
     tpActivated(order: TOrder, tp_no: number, profit: number) {
 
         return new Compositor(order)
-            .symbol()
-            .type()
+            .symbol_tr()
+            .type_tr()
             .optional(`TP${tp_no}`)
             .optional(`Kâr: %${profit.toFixed(2)}`)
             .composed
