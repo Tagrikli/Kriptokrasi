@@ -213,7 +213,7 @@ class ExpressApp {
 
             
             try {
-                await this.db.createOrder(order);     
+                await this.db.createOrder(order); 
                 let msg = await this.notifier.waitingOrderAddedTR(order);
                 await this.telegram.sendMessageToAll(true, true, msg);
                 this.brain.updateOrders();
@@ -274,7 +274,7 @@ class ExpressApp {
 
 
                 if (type === EStatus.WAITING) {
-                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_ as TOrder[]));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletionTR(orders_ as TOrder[]));
                 } else if (type === EStatus.ACTIVE) {
 
                     let profits = []
@@ -297,7 +297,7 @@ class ExpressApp {
                     logger.debug(JSON.stringify(profits, null, 4));
                     console.log("NAN GELEN KAR", profits);
 
-                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_ as TOrder[], profits));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletionTR(orders_ as TOrder[], profits));
 
                 }
 

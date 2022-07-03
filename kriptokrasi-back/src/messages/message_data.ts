@@ -26,12 +26,52 @@ Please select a language...
 
   WRITE_LS: {
     tr: "ls yazıp parite giriniz. ör: ls btc-usdt.",
-    en: "write ls and enter a pair. ör: ls btc-usdt."
+    en: "write ls and enter a pair. eg: ls btc-usdt."
   },
 
   WRITE_GLS: {
     tr: "gls yazıp coin ismi giriniz. ör: gls btc",
-    en: "write gls and enter a coin symbol. ör: gls btc"
+    en: "write gls and enter a coin symbol. eg: gls btc"
+  },
+
+  WRITE_SYMB: {
+    tr: "symb yazip sembol seciniz. ör: symb btc",
+    en: "write symb and enter a coin symbol eg: symb btc"
+  },
+
+  WRITE_PARA: {
+    tr: "para yazıp istediğiniz coinleri yazınız. ör: para chz usdt",
+    en: "write para and enter two coin names. eg: para chz usdt"
+  },
+
+  WRITE_MP: {
+    tr: "mp yazip parite seçiniz. ör: mp btcusdt",
+    en: "write mp and enter a pair. eg: mp btcusdt"
+  },
+
+  WRITE_PA : {
+    tr: "pa yazip parite seçiniz. ör: pa btc-usdt",
+    en: "write pa and enter a pair. eg: pa btc-usdt"
+  },
+
+  WRITE_24H: {
+    tr:"24h yazıp parite seçiniz. ör: 24saat btc-usdt",
+    en: "write 24h and enter a pair. eg: 24saat btc-usdt"
+  },
+
+  CHOOSE_TF: {
+    tr: "Zaman aralığı seçiniz.",
+    en: "Choose a timeframe."
+  },
+
+  CHOOSE_SOURCE:{
+    tr: "Kaynak seçiniz:",
+    en: "Choose a source:"
+  },
+
+  CHOOSE_STOCK:{
+    tr:"Borsa türünü seçiniz:",
+    en: "Choose a stock type:"
   },
 
   GENERAL_ERROR: {
@@ -81,7 +121,7 @@ Please select a language...
     if (language == 'TR')
       {let tr = `Alış: ${buy}  Satış: ${sell}`;
       return tr;}
-    let en =`Alış: ${buy}  Satış: ${sell}`;
+    let en =`Buy: ${buy}  Sell: ${sell}`;
     return en
   }, 
   HOUR24_NOCOIN: {
@@ -91,7 +131,8 @@ Please select a language...
 
   TICKERLIST: (language,mp, symb, price, usd, high, low, vol24, ch24h, ch1h, ch7h, ch30d, ch90d, chytd )=> {
     if (language == 'TR')
-    {let tr = `parite: ${mp}
+    {let tr = 
+    `parite: ${mp}
     coinin adı: ${symb}
     fiyat: ${price}
     usd fiyatı: ${usd}
@@ -106,7 +147,8 @@ Please select a language...
     yıllık değişim: ${chytd}`;
     return tr;}
     else {
-    let en = `parite: ${mp}
+    let en = `
+    pair: ${mp}
     coin symbol: ${symb}
     price: ${price}
     usd price: ${usd}
@@ -122,12 +164,6 @@ Please select a language...
     return en;
     }
   }
-
-
-
-
-
-
 
 };
 

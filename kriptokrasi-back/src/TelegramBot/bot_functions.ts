@@ -51,7 +51,7 @@ export async function getLongShort(data: string[], lang:string) {
         //`15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
         return [msg, 200]
     } catch{
-        if (lang='TR')
+        if (lang==='TR')
             msg = MSG.LONGSHORT_ERROR.tr
         else
             msg = MSG.LONGSHORT_ERROR.en
@@ -149,7 +149,7 @@ export async function getRapidMov(data: string[]) { //data: pair exchange
     return msg
 }
 
-export async function getVolFlow(data: string[], lang:string) { //data: timeframe fromcoin tocoin
+export async function getVolFlow(data: string[], lang:string) { //data: fromcoin tocoin
     let msg = ``;
     const timeframes = ['15m', '1h', '4h', 'd'];
     const timeframesTR = ['15 Dakika', '1 Saat', '4 Saat', '1 Gün'];
@@ -194,7 +194,7 @@ export async function getVolFlow(data: string[], lang:string) { //data: timefram
         return [msg, 200]
     }catch{
         console.log("volume flow mistake");
-        if (lang='TR')
+        if (lang=='TR')
             msg = MSG.VOLUMEFLOW_ERROR.tr
         else
             msg = MSG.VOLUMEFLOW_ERROR.en

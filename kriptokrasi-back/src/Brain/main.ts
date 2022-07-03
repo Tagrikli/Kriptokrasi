@@ -108,7 +108,7 @@ class Brain {
                         await this.updateOrders();
 
                         //Finally notify all vip users.
-                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivated(order));
+                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivatedTR(order));
 
                         //Remove the process since its not in inactive orders.
                         activationProcess.removeProcess(order.id);
@@ -136,7 +136,7 @@ class Brain {
                         await this.db.cancelOrder(order.id, profits[lastTP + 1], bid_price, 0);
                         await this.updateOrders()
 
-                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP + 1], lastTP, bid_price);
+                        let msg = await this.notifier.activeOrderStoppedTR(order, profits[lastTP + 1], lastTP, bid_price);
                         await this.telegram.sendMessageToAll(true, true, msg);
 
                         activationProcess.removeProcess(order.id);
@@ -165,7 +165,7 @@ class Brain {
                         }
                         let profits = await profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
                         if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
-                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
+                        let msg = await this.notifier.tpActivatedTR(order, lastTP + 1, profits[lastTP + 1]);
                         await this.telegram.sendMessageToAll(true, true, msg);
                         
                         await this.db.updateTP(order.id, lastTP);
