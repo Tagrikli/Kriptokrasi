@@ -123,11 +123,6 @@ class DatabaseManager {
         logger.database('User deleted');
     }
 
-    async getUserLangByID(user_id: number) {
-        let user = await this.db.get(QUERIES.SELECT_USER_BY_ID, [user_id]);
-        return user.lang;
-    }
-
 
     async getOrdersById(order_ids: number[], type: EStatus): Promise<TOrder[] | TOrder_Past[]> {
         //Cok efficient degil sanki digerleri cok efficientmis gibi.

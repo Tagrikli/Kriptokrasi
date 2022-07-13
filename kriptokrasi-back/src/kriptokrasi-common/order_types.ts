@@ -69,5 +69,6 @@ export type TUserDB = {
     last_name?: string,
     username: string,
     vip_timeout: number,
-    vip: boolean
+    vip: boolean,
+    language: string
 }

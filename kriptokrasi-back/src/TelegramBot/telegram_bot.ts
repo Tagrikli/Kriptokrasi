@@ -39,16 +39,18 @@ class TelegramBot {
     }
 
 
-    async sendMessageToAll(vip: boolean, filter: boolean, message: string) {
+    async sendMessageToAll(vip: boolean, filter: boolean, message: string, language: string) {
 
         const users = await this.db.getAllUsers(vip, filter);
 
         users.forEach(user => {
-
-            try {
-                this.bot.telegram.sendMessage(user.user_id, message);
-            } catch (error) {
-                logger.error(error);
+            if(user.language === language)
+            { 
+                try {
+                    this.bot.telegram.sendMessage(user.user_id, message);
+                } catch (error) {
+                    logger.error(error);
+                }
             }
         })
     }
@@ -682,7 +684,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=24h ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 const message = ctx.message.text;
                 const coin = message.split(' ')[1];
@@ -735,7 +737,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=symb ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 const message = ctx.message.text;
                 const coin = message.split(' ');
@@ -793,7 +795,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=pa ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 const message = ctx.message.text;
                 const coin = message.split(' ')[1];
@@ -841,7 +843,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=mp ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 const message = ctx.message.text;
                 const coin = message.split(' ')[1];
@@ -895,7 +897,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=gls ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 const message = ctx.message.text;
                 const coin = message.split(' ')[1];
@@ -933,7 +935,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=ls ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 const message = ctx.message.text;
                 const coin = message.split(' ')[1];
@@ -974,7 +976,7 @@ class TelegramBot {
 
         this.bot.hears(/(?<=para ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 const message = ctx.message.text;
                 const coins = message.split(' ');
@@ -1014,7 +1016,7 @@ class TelegramBot {
 
         this.bot.hears(/.*/, async (ctx) => {
             const user_id = ctx.from.id;
-            const lang = await this.db.getUserLangByID(user_id);
+            const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 Queries.removeQuery(ctx.chat.id);
                 ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL_TR })

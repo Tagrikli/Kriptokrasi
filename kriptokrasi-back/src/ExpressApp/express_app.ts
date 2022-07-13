@@ -215,7 +215,9 @@ class ExpressApp {
             try {
                 await this.db.createOrder(order); 
                 let msg = await this.notifier.waitingOrderAddedTR(order);
-                await this.telegram.sendMessageToAll(true, true, msg);
+                await this.telegram.sendMessageToAll(true, true, msg,'TR');
+                let msg2 = await this.notifier.waitingOrderAddedEN(order);
+                await this.telegram.sendMessageToAll(true, true, msg2,'EN');
                 this.brain.updateOrders();
                 res.sendStatus(200);
             } catch (reason) {
@@ -274,7 +276,8 @@ class ExpressApp {
 
 
                 if (type === EStatus.WAITING) {
-                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletionTR(orders_ as TOrder[]));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletionTR(orders_ as TOrder[]), 'TR');
+                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletionEN(orders_ as TOrder[]), 'EN');
                 } else if (type === EStatus.ACTIVE) {
 
                     let profits = []
@@ -297,7 +300,8 @@ class ExpressApp {
                     logger.debug(JSON.stringify(profits, null, 4));
                     console.log("NAN GELEN KAR", profits);
 
-                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletionTR(orders_ as TOrder[], profits));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletionTR(orders_ as TOrder[], profits), 'TR');
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletionEN(orders_ as TOrder[], profits), 'EN');
 
                 }
 
@@ -329,11 +333,9 @@ class ExpressApp {
         this.app.post(ENDPOINTS.SEND_TELEGRAM_MESSAGE, async (req, res) => {
 
             const data: TTMessage = req.body;
-
-
             try {
 
-                this.telegram.sendMessageToAll(data.vip, data.filter, data.message);
+                this.telegram.sendMessageToAll(data.vip, data.filter, data.message, 'TR');
                 res.sendStatus(200);
 
             } catch (reason) {
@@ -341,7 +343,6 @@ class ExpressApp {
                 logger.error(reason);
                 res.sendStatus(500);
             }
-
 
         })
 

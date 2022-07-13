@@ -65,7 +65,7 @@ class Brain {
     async onTelegramAppMessage(event: NewMessageEvent) {
 
         const message = event.message.message;
-        this.telegram.sendMessageToAll(true, true, message);
+        this.telegram.sendMessageToAll(true, true, message, 'TR');
     }
 
     async onBinanceBookTicker(data: any) {
@@ -108,7 +108,8 @@ class Brain {
                         await this.updateOrders();
 
                         //Finally notify all vip users.
-                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivatedTR(order));
+                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivatedTR(order), 'TR');
+                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivatedEN(order), 'EN');
 
                         //Remove the process since its not in inactive orders.
                         activationProcess.removeProcess(order.id);
@@ -137,7 +138,9 @@ class Brain {
                         await this.updateOrders()
 
                         let msg = await this.notifier.activeOrderStoppedTR(order, profits[lastTP + 1], lastTP, bid_price);
-                        await this.telegram.sendMessageToAll(true, true, msg);
+                        await this.telegram.sendMessageToAll(true, true, msg, 'TR');
+                        let msg2 = await this.notifier.activeOrderStoppedEN(order, profits[lastTP + 1], lastTP, bid_price);
+                        await this.telegram.sendMessageToAll(true, true, msg2, 'EN');
 
                         activationProcess.removeProcess(order.id);
                     }
@@ -166,7 +169,9 @@ class Brain {
                         let profits = await profitCalculator(bid_price, [order.buy_price, ...(order.tp_data as number[])], order.leverage, lastTP);
                         if ((order.position === EPosition.SHORT)) profits = profits.map(tp => -tp);
                         let msg = await this.notifier.tpActivatedTR(order, lastTP + 1, profits[lastTP + 1]);
-                        await this.telegram.sendMessageToAll(true, true, msg);
+                        await this.telegram.sendMessageToAll(true, true, msg, 'TR');
+                        let msg2 = await this.notifier.tpActivatedEN(order, lastTP + 1, profits[lastTP + 1]);
+                        await this.telegram.sendMessageToAll(true, true, msg, 'EN');
                         
                         await this.db.updateTP(order.id, lastTP);
                         await this.db.updateStopLoss(order.id);
