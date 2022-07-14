@@ -157,8 +157,10 @@ class ExpressApp {
             logger_1.default.express('New order!');
             try {
                 await this.db.createOrder(order);
-                let msg = await this.notifier.waitingOrderAdded(order);
-                await this.telegram.sendMessageToAll(true, true, msg);
+                let msg = await this.notifier.waitingOrderAddedTR(order);
+                await this.telegram.sendMessageToAll(true, true, msg, 'TR');
+                let msg2 = await this.notifier.waitingOrderAddedEN(order);
+                await this.telegram.sendMessageToAll(true, true, msg2, 'EN');
                 this.brain.updateOrders();
                 res.sendStatus(200);
             }
@@ -201,7 +203,8 @@ class ExpressApp {
                 const orders_ = await this.db.getOrdersById(order_ids, type);
                 await this.db.deleteOrders(order_ids, type);
                 if (type === order_types_1.EStatus.WAITING) {
-                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletion(orders_));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletionTR(orders_), 'TR');
+                    this.telegram.sendMessageToAll(true, true, this.notifier.waitingOrderDeletionEN(orders_), 'EN');
                 }
                 else if (type === order_types_1.EStatus.ACTIVE) {
                     let profits = [];
@@ -221,7 +224,8 @@ class ExpressApp {
                     }
                     logger_1.default.debug(JSON.stringify(profits, null, 4));
                     console.log("NAN GELEN KAR", profits);
-                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletion(orders_, profits));
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletionTR(orders_, profits), 'TR');
+                    this.telegram.sendMessageToAll(true, true, this.notifier.activeOrderDeletionEN(orders_, profits), 'EN');
                 }
                 this.brain.updateOrders();
                 res.sendStatus(200);
@@ -244,7 +248,7 @@ class ExpressApp {
         this.app.post(endpoints_1.default.SEND_TELEGRAM_MESSAGE, async (req, res) => {
             const data = req.body;
             try {
-                this.telegram.sendMessageToAll(data.vip, data.filter, data.message);
+                this.telegram.sendMessageToAll(data.vip, data.filter, data.message, 'TR');
                 res.sendStatus(200);
             }
             catch (reason) {

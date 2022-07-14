@@ -1,12 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HELP_TEXT = exports.vadeli_egitimi = exports.trade_egitimi = exports.OKUDUM_ANLADIM = exports.BUTTON_LIST = void 0;
+exports.HELP_TEXT_EN = exports.HELP_TEXT = exports.vadeli_egitimi = exports.trade_egitimi = exports.OKUDUM_ANLADIM = exports.BUTTON_LIST = void 0;
 exports.BUTTON_LIST = {
     INDICATOR: ["RSI", "MACD", "SMA", "EMA", "MA", "ATR", "CCI"],
-    SOURCE: ["Açılış", "Kapanış", "En Yüksek", "En Alçak", "Volume"],
+    SOURCE_TR: ["Açılış", "Kapanış", "En Yüksek", "En Alçak", "Volume"],
+    SOURCE_EN: ['Open', 'Close', 'High', 'Low', 'Volume'],
     //DATA: ["Indikatorler", "Long-Short", "Gunluk Long-Short", "Likidite (Toplam)", "Likidite (BTC Ozel)", "Likidite (Bitmex Ozel)", "Trend Sorgu", "Hizli Hareket", "Hacim Akisi", "Balina Ticareti", "Canli Ticaret", "24 Saatlik Islem Hacmi", "OHLCV", "Gunluk Volume", "Saatlik Volume", "Birlestirilmis Volume", "TickerList", "Acik Kar"]
-    DATA: ["Long-Short", "Günlük Long-Short", "Likidite (Toplam)", "Trend Sorgu", "Hacim Akışı", "24 Saatlik İşlem Hacmi", "Coin GBT"],
-    TIMEFRAME: ['5 Dakika', '15 Dakika', '30 Dakika', '1 Saat', '4 Saat', '1 Gun'],
+    DATATR: ["ALım-Satım (Long-Short)", "Günlük Long-Short", "Likidite (Toplam)", "Trend Sorgu", "Hacim Akışı", "24 Saatlik İşlem Hacmi", "Coin GBT"],
+    DATAEN: ["Long-Short", "Current Long-Short", "Liquidation (Total)", "Trend Score", "Volume Flow", "24 Hour Trade Volume", "Coin GBT 2"],
+    TIMEFRAME_TR: ['5 Dakika', '15 Dakika', '30 Dakika', '1 Saat', '4 Saat', '1 Gün'],
+    TIMEFRAME_EN: ['5 Minutes', '15 Minutes', '30 Minutes', '1 Hour', '4 Hour', '1 Day'],
     EXCHANGE: ['Spot', 'Vadeli'],
     STOCK: ['Binance', 'Binance_Futures', 'Bitmex'],
     INITIAL_TR: ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Anlık Data'],
@@ -74,6 +77,10 @@ exports.vadeli_egitimi = `vadeli işlem ve borsa eğitimi
 
 iletişim @Ayca1 @TheKingOfNorthh`;
 exports.HELP_TEXT = `Birden fazla işlem olduğunda tek bir işlemi takip etmek için: 
+coin xrp
+Geçmiş işlemlerde tek bir coinin kar zarar durumunu aramak için:
+geçmiş xrp`;
+exports.HELP_TEXT_EN = `Birden fazla işlem olduğunda tek bir işlemi takip etmek için: 
 coin xrp
 Geçmiş işlemlerde tek bir coinin kar zarar durumunu aramak için:
 geçmiş xrp`;

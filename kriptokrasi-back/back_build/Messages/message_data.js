@@ -8,8 +8,57 @@ const MSG = {
 Lütfen dil seçiniz...
 Please select a language...
 `,
+    NOT_ADVISE: {
+        tr: 'Yatırım Tavsiyesi Değildir. Stopsuz işlem yapmayınız.',
+        en: 'It is not an invesment advise. Please use StopLoss in your orders.'
+    },
+    CHOOSE_DATA: {
+        tr: 'Data seçiniz.',
+        en: 'Choose your information type'
+    },
     REQUEST_PRIVATE: { tr: 'Botu kullanabilmek için bota özel mesaj atınız.', en: 'Please send private messages to be able to use the bot.' },
-    GET_MEMBERSHIP: { tr: 'Botu kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.', en: 'Sign up to use the bot. For more information: @kriptokrasibilgilendirme_bot . Click to start the bot.' },
+    GET_MEMBERSHIP: { tr: 'Botu kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.',
+        en: 'Sign up to use the bot. For more information: @kriptokrasibilgilendirme_bot . Click to start the bot.' },
+    WRITE_LS: {
+        tr: "ls yazıp parite giriniz. ör: ls btc-usdt.",
+        en: "write ls and enter a pair. eg: ls btc-usdt."
+    },
+    WRITE_GLS: {
+        tr: "gls yazıp coin ismi giriniz. ör: gls btc",
+        en: "write gls and enter a coin symbol. eg: gls btc"
+    },
+    WRITE_SYMB: {
+        tr: "symb yazip sembol seciniz. ör: symb btc",
+        en: "write symb and enter a coin symbol eg: symb btc"
+    },
+    WRITE_PARA: {
+        tr: "para yazıp istediğiniz coinleri yazınız. ör: para chz usdt",
+        en: "write para and enter two coin names. eg: para chz usdt"
+    },
+    WRITE_MP: {
+        tr: "mp yazip parite seçiniz. ör: mp btcusdt",
+        en: "write mp and enter a pair. eg: mp btcusdt"
+    },
+    WRITE_PA: {
+        tr: "pa yazip parite seçiniz. ör: pa btc-usdt",
+        en: "write pa and enter a pair. eg: pa btc-usdt"
+    },
+    WRITE_24H: {
+        tr: "24h yazıp parite seçiniz. ör: 24saat btc-usdt",
+        en: "write 24h and enter a pair. eg: 24saat btc-usdt"
+    },
+    CHOOSE_TF: {
+        tr: "Zaman aralığı seçiniz.",
+        en: "Choose a timeframe."
+    },
+    CHOOSE_SOURCE: {
+        tr: "Kaynak seçiniz:",
+        en: "Choose a source:"
+    },
+    CHOOSE_STOCK: {
+        tr: "Borsa türünü seçiniz:",
+        en: "Choose a stock type:"
+    },
     GENERAL_ERROR: {
         tr: "Bir hata olustu",
         en: "Something is wrong."
@@ -58,7 +107,7 @@ Please select a language...
             let tr = `Alış: ${buy}  Satış: ${sell}`;
             return tr;
         }
-        let en = `Alış: ${buy}  Satış: ${sell}`;
+        let en = `Buy: ${buy}  Sell: ${sell}`;
         return en;
     },
     HOUR24_NOCOIN: {
@@ -83,7 +132,8 @@ Please select a language...
             return tr;
         }
         else {
-            let en = `parite: ${mp}
+            let en = `
+    pair: ${mp}
     coin symbol: ${symb}
     price: ${price}
     usd price: ${usd}

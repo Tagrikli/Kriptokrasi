@@ -50,7 +50,7 @@ async function getLongShort(data, lang) {
         return [msg, 200];
     }
     catch {
-        if (lang = 'TR')
+        if (lang === 'TR')
             msg = message_data_1.default.LONGSHORT_ERROR.tr;
         else
             msg = message_data_1.default.LONGSHORT_ERROR.en;
@@ -195,7 +195,7 @@ async function getVolFlow(data, lang) {
     }
     catch {
         console.log("volume flow mistake");
-        if (lang = 'TR')
+        if (lang == 'TR')
             msg = message_data_1.default.VOLUMEFLOW_ERROR.tr;
         else
             msg = message_data_1.default.VOLUMEFLOW_ERROR.en;

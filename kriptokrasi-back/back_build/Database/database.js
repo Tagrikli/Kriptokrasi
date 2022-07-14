@@ -102,11 +102,6 @@ class DatabaseManager {
         await this.db.run(queries_1.default.DELETE_USER, [user_id]);
         logger_1.default.database('User deleted');
     }
-    async getUserLangByID(user_id) {
-        let user = await this.db.get(queries_1.default.SELECT_USER_BY_ID, [user_id]);
-        console.log('user????', user);
-        return user.lang;
-    }
     async getOrdersById(order_ids, type) {
         //Cok efficient degil sanki digerleri cok efficientmis gibi.
         //6 satir koddan daha efficient ne olabilir teallam

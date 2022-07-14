@@ -43,7 +43,7 @@ class Brain {
     }
     async onTelegramAppMessage(event) {
         const message = event.message.message;
-        this.telegram.sendMessageToAll(true, true, message);
+        this.telegram.sendMessageToAll(true, true, message, 'TR');
     }
     async onBinanceBookTicker(data) {
         if (process.env.LIVE_PRICE !== 'y') {
@@ -71,7 +71,8 @@ class Brain {
                         await this.db.activateOrders(order.id);
                         await this.updateOrders();
                         //Finally notify all vip users.
-                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivated(order));
+                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivatedTR(order), 'TR');
+                        this.telegram.sendMessageToAll(true, true, await this.notifier.waitingOrderActivatedEN(order), 'EN');
                         //Remove the process since its not in inactive orders.
                         activationProcess.removeProcess(order.id);
                     }
@@ -90,8 +91,10 @@ class Brain {
                         console.log("stoploss tps", profits);
                         await this.db.cancelOrder(order.id, profits[lastTP + 1], bid_price, 0);
                         await this.updateOrders();
-                        let msg = await this.notifier.activeOrderStopped(order, profits[lastTP + 1], lastTP, bid_price);
-                        await this.telegram.sendMessageToAll(true, true, msg);
+                        let msg = await this.notifier.activeOrderStoppedTR(order, profits[lastTP + 1], lastTP, bid_price);
+                        await this.telegram.sendMessageToAll(true, true, msg, 'TR');
+                        let msg2 = await this.notifier.activeOrderStoppedEN(order, profits[lastTP + 1], lastTP, bid_price);
+                        await this.telegram.sendMessageToAll(true, true, msg2, 'EN');
                         activationProcess.removeProcess(order.id);
                     }
                 });
@@ -111,8 +114,10 @@ class Brain {
                         let profits = await (0, helpers_1.profitCalculator)(bid_price, [order.buy_price, ...order.tp_data], order.leverage, lastTP);
                         if ((order.position === order_types_1.EPosition.SHORT))
                             profits = profits.map(tp => -tp);
-                        let msg = await this.notifier.tpActivated(order, lastTP + 1, profits[lastTP + 1]);
-                        await this.telegram.sendMessageToAll(true, true, msg);
+                        let msg = await this.notifier.tpActivatedTR(order, lastTP + 1, profits[lastTP + 1]);
+                        await this.telegram.sendMessageToAll(true, true, msg, 'TR');
+                        let msg2 = await this.notifier.tpActivatedEN(order, lastTP + 1, profits[lastTP + 1]);
+                        await this.telegram.sendMessageToAll(true, true, msg, 'EN');
                         await this.db.updateTP(order.id, lastTP);
                         await this.db.updateStopLoss(order.id);
                         await this.updateOrders();
