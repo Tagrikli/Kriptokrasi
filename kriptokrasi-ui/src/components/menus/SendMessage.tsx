@@ -9,7 +9,7 @@ import { MESSAGES } from "../../utils/messages";
 
 export default function SendMessage() {
 
-    const [data, setData] = useState<TTMessage>({ vip: true, filter: true, message: '' });
+    const [data, setData] = useState<TTMessage>({ vip: true, filter: true, message: '',lang:'TR' });
     const [filterEnabled, setFilterEnabled] = useState(true);
     const [sendEnabled, setSendEnabled] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -22,6 +22,11 @@ export default function SendMessage() {
 
     const onFilterChange = (event: any, checked: boolean) => {
         setData({ ...data, filter: checked });
+    }
+
+    const onLangChange = (event: any, checked: boolean) => {
+        let lang = checked ? "EN" : "TR";
+        setData({ ...data, lang: lang });
     }
 
     const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -82,6 +87,12 @@ export default function SendMessage() {
                 <Typography>Tum VIP</Typography>
                 <Switch defaultChecked onChange={onFilterChange} disabled={!filterEnabled} />
                 <Typography>Aktif VIP</Typography>
+            </Stack>
+
+            <Stack direction="row" spacing={1} alignItems="center">
+                <Typography>TR</Typography>
+                <Switch defaultChecked onChange={onLangChange} />
+                <Typography>EN</Typography>
             </Stack>
 
             <TextField
