@@ -74,9 +74,15 @@ Please select a language...
         tr: `Coin yazmayı tekrar deneyin. ör: ls btc-usdt`,
         en: 'Try writing the coin name again. ex: ls btc-usdt'
     },
-    LONGSHORT: (ratio1, pressure1, ratio2, pressure2, ratio3, pressure3, ratio4, pressure4, language, delta1, delta2, delta3, delta4) => {
+    LONGSHORT: (ratio1, pressure1, ratio2, pressure2, ratio3, pressure3, ratio4, pressure4, language, delta1, delta2, delta3, delta4, l1, s1, l2, s2, l3, s3, l4, s4) => {
         if (language == 'TR') {
-            let tr = `15 Dakika -> Ratio: ${ratio1} -> ${pressure1} -> Delta: ${delta1} \n 1 Saat -> Ratio: ${ratio2} -> ${pressure2} -> Delta: ${delta2} \n 4 Saat -> Ratio: ${ratio3} -> ${pressure3} -> Delta: ${delta3} \n 1 Gün -> Ratio: ${ratio4} -> ${pressure4} -> Delta: ${delta4}`;
+            let tr = `15 Dakika -> Ratio: ${ratio1} -> ${pressure1} \n Long: %${l1} -> Short: %${s1} -> \n Best Guide: ${delta1} 
+      
+1 Saat -> Ratio: ${ratio2} -> ${pressure2} \n Long: %${l2} -> Short: %${s2} -> \n Best Guide: ${delta2}
+
+4 Saat -> Ratio: ${ratio3} -> ${pressure3} \n Long: %${l3} -> Short: %${s3} -> \n Best Guide: ${delta3}
+
+1 Gün -> Ratio: ${ratio4} -> ${pressure4} \n Long: %${l4} -> Short: %${s4} -> \n Best Guide: ${delta4}`;
             return tr;
         }
         let en = `15 Minutes ->  Ratio: ${ratio1} -> ${pressure1} \n 1 Hour -> Ratio: ${ratio2} -> ${pressure2} \n 4 Hours -> Ratio: ${ratio3} -> ${pressure3} \n 1 Day -> Ratio: ${ratio4} -> ${pressure4}`;

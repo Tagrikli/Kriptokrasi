@@ -33,6 +33,14 @@ async function getLongShort(data, lang) {
         let response2 = await axios_1.default.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=binance_futures&timeframe=1h&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         let response3 = await axios_1.default.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=binance_futures&timeframe=4h&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
         let response4 = await axios_1.default.get(`https://api.cryptometer.io/ls-ratio/?pair=${pair}&e=binance_futures&timeframe=d&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
+        let long1 = response1.data['data'][0]["buy"];
+        let short1 = response1.data['data'][0]["sell"];
+        let long2 = response2.data['data'][0]["buy"];
+        let short2 = response2.data['data'][0]["sell"];
+        let long3 = response3.data['data'][0]["buy"];
+        let short3 = response3.data['data'][0]["sell"];
+        let long4 = response4.data['data'][0]["buy"];
+        let short4 = response4.data['data'][0]["sell"];
         let pressure1 = `Long {up}`;
         if ((response1.status == 200) && (parseFloat(response1.data['data'][0]["buy"]) < 50.0))
             pressure1 = `Sell {down}`;
@@ -45,8 +53,7 @@ async function getLongShort(data, lang) {
         let pressure4 = `Long {up}`;
         if ((response4.status == 200) && (parseFloat(response4.data['data'][0]["buy"]) < 50.0))
             pressure4 = `Sell {down}`;
-        msg = message_data_1.default.LONGSHORT(response1.data['data'][0]["ratio"], pressure1, response2.data['data'][0]["ratio"], pressure2, response3.data['data'][0]["ratio"], pressure3, response4.data['data'][0]["ratio"], pressure4, lang, response1.data['data'][0]["delta"], response2.data['data'][0]["delta"], response3.data['data'][0]["delta"], response4.data['data'][0]["delta"]);
-        //`15Dakika -> Ratio: ${response1.data['data'][0]["ratio"]} -> ${pressure1} \n 1 Saat -> Ratio: ${response2.data['data'][0]["ratio"]} -> ${pressure2} \n 4 Saat -> Ratio: ${response3.data['data'][0]["ratio"]} -> ${pressure3} \n 1 Gun -> Ratio: ${response4.data['data'][0]["ratio"]} -> ${pressure4}`;
+        msg = message_data_1.default.LONGSHORT(response1.data['data'][0]["ratio"], pressure1, response2.data['data'][0]["ratio"], pressure2, response3.data['data'][0]["ratio"], pressure3, response4.data['data'][0]["ratio"], pressure4, lang, response1.data['data'][0]["delta"], response2.data['data'][0]["delta"], response3.data['data'][0]["delta"], response4.data['data'][0]["delta"], long1, short1, long2, short2, long3, short3, long4, short4);
         return [msg, 200];
     }
     catch {

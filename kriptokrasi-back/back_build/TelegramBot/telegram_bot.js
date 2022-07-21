@@ -33,7 +33,9 @@ class TelegramBot {
     }
     async sendMessageToAll(vip, filter, message, language) {
         const users = await this.db.getAllUsers(vip, filter);
+        //console.log('helllo', );
         users.forEach(user => {
+            console.log('rooney', user);
             if (user.language === language) {
                 try {
                     this.bot.telegram.sendMessage(user.user_id, message);
@@ -53,13 +55,13 @@ class TelegramBot {
                 }
                 else {
                     let lang = await this.db.getUserLangPrefbyID(ctx.message.from.id);
-                    if (lang === 'TR') {
+                    if (lang == 'TR') {
                         ctx.reply(consts_1.OKUDUM_ANLADIM, {
-                            reply_markup: keyboards_1.KEYBOARDS.ZERO
+                            reply_markup: keyboards_1.KEYBOARDS.ZEROTR
                         });
                     }
                     else {
-                        ctx.reply("Choose an action.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_EN });
+                        ctx.reply(consts_1.READ_UNDERSTOOD, { reply_markup: keyboards_1.KEYBOARDS.ZEROEN });
                     }
                 }
             }
@@ -93,7 +95,7 @@ class TelegramBot {
                 ctx.reply(message_data_1.default.UNKNOWN_ERROR.tr, { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
             }
         });
-        this.bot.hears(consts_1.BUTTON_LIST.ZERO, async (ctx) => {
+        this.bot.hears(consts_1.BUTTON_LIST.ZEROTR, async (ctx) => {
             try {
                 ctx.reply(message_data_1.default.CHOOSE_ACTION.tr, { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
             }
@@ -101,6 +103,16 @@ class TelegramBot {
                 logger_1.default.error(error);
                 console.log('something went wrong in okudum anladim');
                 ctx.reply(message_data_1.default.UNKNOWN_ERROR.tr, { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
+            }
+        });
+        this.bot.hears(consts_1.BUTTON_LIST.ZEROEN, async (ctx) => {
+            try {
+                ctx.reply(message_data_1.default.CHOOSE_ACTION.en, { reply_markup: keyboards_1.KEYBOARDS.INITIAL_EN });
+            }
+            catch (error) {
+                logger_1.default.error(error);
+                console.log('something went wrong in okudum anladim in english');
+                ctx.reply("Choose an action.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_EN });
             }
         });
         //buraya satin al butonu koyulcak

@@ -11,7 +11,7 @@ const QUERIES = {
         username TEXT,
         vip_timeout INTEGER,
         vip INTEGER,
-        lang TEXT,
+        language TEXT,
         PRIMARY KEY(user_id))`,
     SELECT_USER_BY_ID: /*sql*/ `
         SELECT *
@@ -25,7 +25,7 @@ const QUERIES = {
         FROM users
         WHERE vip = 1`,
     SELECT_LANG_BY_ID: /*sql*/ `
-        SELECT lang 
+        SELECT language 
         FROM users
         WHERE user_id = ?`,
     INSERT_USER: /*sql*/ `
@@ -40,7 +40,7 @@ const QUERIES = {
         WHERE user_id = ?`,
     UPDATE_LANG: /*sql*/ `
         UPDATE users 
-        SET lang = ? 
+        SET language = ? 
         WHERE user_id = ?`,
     //orders
     CREATE_ORDERS_TABLE: /*sql*/ `

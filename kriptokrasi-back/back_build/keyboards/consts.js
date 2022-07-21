@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HELP_TEXT_EN = exports.HELP_TEXT = exports.vadeli_egitimi = exports.trade_egitimi = exports.OKUDUM_ANLADIM = exports.BUTTON_LIST = void 0;
+exports.HELP_TEXT_EN = exports.HELP_TEXT = exports.vadeli_egitimi = exports.trade_egitimi = exports.READ_UNDERSTOOD = exports.OKUDUM_ANLADIM = exports.BUTTON_LIST = void 0;
 exports.BUTTON_LIST = {
     INDICATOR: ["RSI", "MACD", "SMA", "EMA", "MA", "ATR", "CCI"],
     SOURCE_TR: ["Açılış", "Kapanış", "En Yüksek", "En Alçak", "Volume"],
@@ -15,7 +15,8 @@ exports.BUTTON_LIST = {
     INITIAL_TR: ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Anlık Data'],
     INITIAL_EN: ['Waiting Orders', 'Active Orders', 'Past Orders', 'Help', 'Instant Data'],
     LESSON: ["Trade Eğitimi", "Vadeli İşlem ve Borsa Eğitimi"],
-    ZERO: ["OKUDUM, ANLADIM"],
+    ZEROTR: ["OKUDUM, ANLADIM"],
+    ZEROEN: ["READ AND UNDERSTOOD"],
     LANGUAGE: ["Türkçe", "English"]
 };
 exports.OKUDUM_ANLADIM = `Burada yer alan yatırım bilgi, yorum ve tavsiyeler yatırım danışmanlığı kapsamında değildir. Yatırım danışmanlığı hizmeti, aracı kurumlar, portföy yönetim şirketleri, mevduat kabul etmeyen bankalar ile müşteri arasında imzalanacak yatırım danışmanlığı  sözleşmesi çerçevesinde sunulmaktadır. Burada yer alan yorumlar, olusturulan algoritmaya dayanmaktadır. Bu veriler mali durumunuz ile risk getiri  tercihlerinize uygun olmayabilir. Bu nedenle, sadece burada yer  alan bilgilere dayanılarak yatırım kararı verilmesi beklentilerinize  uygun sonuçlar doğurmayabilir. 
@@ -31,6 +32,31 @@ Paylasimlar Herhangi bir tavsiye niteliği tasimamakla birlikte risk tarafiniza 
 Aşağıda yazan okudum anladim butonuna tikladiginizda yukarida yazan tum maddeleri kabul etmis olucaksiniz ve bu durum sistem tarafindan her kişi icin kayıt altina alinicaktir. Sozlesmeyi onaylamadan botu calistiramazsiniz. 
 
 Teşekkür eder bol kazançlar dileriz.`;
+exports.READ_UNDERSTOOD = `Hello everyone 🖐
+
+Our advanced algorithme psychological and analistic is predicting the markets ( crypto and forex ) like Never before . 
+
+Our indicator have an high accuracy of 80% that's mean on 10 traders you will win 8 and loss 2 . 
+
+Today with our indicator you will become a Pro trader and you start trade without any stress or emotion.
+
+We always try to facilitate trading for our coustumer to earn money .
+
+1-High accuracy 8/2..
+
+2-Alert on all buy or sell Signals..
+
+3-Autotrading for the busy person in their life..
+
+4-Works on all platforms 'crypto (Binance spot and Futures , Bitrex, BitMEX) Forex, stock. 
+
+5- Get Access for chat groupe indecator to share all our best alert on scripte 'daily..' 😍
+
+6-Support 24/7
+
+7-This is only an indicator. You have the control of your own money. Please don't use all your money for your orders.
+
+Contact : @kriptokrasiinformation_bot to get license now 🔥`;
 exports.trade_egitimi = `Eğitim içeriği
 
 ☄️Grafik çizimi ve Yön bulma
