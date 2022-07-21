@@ -35,7 +35,7 @@ Teşekkür eder bol kazançlar dileriz.`
 
 export const READ_UNDERSTOOD = `Hello everyone 🖐
 
-Our advanced algorithme psychological and analistic is predicting the markets ( crypto and forex ) like Never before . 
+Our advanced algorithme psychological and analistic is predicting the markets ( crypto ) like Never before . 
 
 Our indicator have an high accuracy of 80% that's mean on 10 traders you will win 8 and loss 2 . 
 
@@ -49,7 +49,7 @@ We always try to facilitate trading for our coustumer to earn money .
 
 3-Autotrading for the busy person in their life..
 
-4-Works on all platforms 'crypto (Binance spot and Futures , Bitrex, BitMEX) Forex, stock. 
+4-Works on all platforms 'crypto (Binance spot and Futures , Bitrex, BitMEX). 
 
 5- Get Access for chat groupe indecator to share all our best alert on scripte 'daily..' 😍
 
