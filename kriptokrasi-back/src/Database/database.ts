@@ -328,15 +328,15 @@ class DatabaseManager {
         let data = {};
         let users = await this.db.all(QUERIES.SELECT_ALL_USERS);
         users.forEach(user => {
-            data[user.user_id] = user.lang;
+            data[user.user_id] = user.language;
         });
 
         return data;
     }
 
-    async getUserLangPrefbyID(user_id: number) {
+    async getUserLangPrefbyID(user_id: number) {    
         let lang = await this.db.get(QUERIES.SELECT_LANG_BY_ID, [user_id]);
-        return lang;
+        return lang.language;
     }
 
     async updateStopLoss(order_id: number) {

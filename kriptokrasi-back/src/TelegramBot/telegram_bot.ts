@@ -1,7 +1,7 @@
 import { Context, Telegraf } from "telegraf";
 import { getBitmexLiq, getBtcLiq, getCurrentLS, getDailyVolume, getHourlyVolume, getIndicator, getLiveTrade, getLongShort, getMergedVolume, getOhlcv, getOpenInterest, getRapidMov, getTickerList, getTotalLiq, getTradeVol24h, getTrendInd, getVolFlow, getXTrade } from "./bot_functions";
 import DatabaseManager from "../Database/database";
-import { BUTTON_LIST, HELP_TEXT, trade_egitimi, vadeli_egitimi, OKUDUM_ANLADIM, HELP_TEXT_EN } from "../keyboards/consts";
+import { BUTTON_LIST, HELP_TEXT, trade_egitimi, vadeli_egitimi, OKUDUM_ANLADIM, HELP_TEXT_EN, READ_UNDERSTOOD } from "../keyboards/consts";
 import { KEYBOARDS } from "../keyboards/keyboards";
 import { Queries } from "../Query";
 import { PROC_CONTEXT, TContext } from "../utils/types";
@@ -42,8 +42,9 @@ class TelegramBot {
     async sendMessageToAll(vip: boolean, filter: boolean, message: string, language: string) {
 
         const users = await this.db.getAllUsers(vip, filter);
-
+        //console.log('helllo', );
         users.forEach(user => {
+            console.log('rooney', user);
             if(user.language === language)
             { 
                 try {
@@ -59,7 +60,6 @@ class TelegramBot {
 
         this.bot.start(async (ctx) => {
 
-
             try {
 
                 if (!(await this.db.userExists(ctx.message.from.id))) {
@@ -67,12 +67,12 @@ class TelegramBot {
                     ctx.reply(MSG.SELECT_LANGUAGE, { reply_markup: KEYBOARDS.LANGUAGE });
                 } else {
                     let lang = await this.db.getUserLangPrefbyID(ctx.message.from.id);
-                    if (lang === 'TR') {
+                    if (lang == 'TR') {
                         ctx.reply(OKUDUM_ANLADIM, {
-                            reply_markup: KEYBOARDS.ZERO
+                            reply_markup: KEYBOARDS.ZEROTR
                         });
                     } else {
-                        ctx.reply("Choose an action.", { reply_markup: KEYBOARDS.INITIAL_EN });
+                        ctx.reply(READ_UNDERSTOOD, {reply_markup: KEYBOARDS.ZEROEN});
                     }
                 }
             } catch (error) {
@@ -83,8 +83,6 @@ class TelegramBot {
                     reply_markup: KEYBOARDS.LANGUAGE
                 })
             }
-
-
         });
 
 
@@ -115,7 +113,7 @@ class TelegramBot {
 
         })
 
-        this.bot.hears(BUTTON_LIST.ZERO, async (ctx) => {
+        this.bot.hears(BUTTON_LIST.ZEROTR, async (ctx) => {
 
             try {
                 ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
@@ -123,6 +121,18 @@ class TelegramBot {
                 logger.error(error);
                 console.log('something went wrong in okudum anladim');
                 ctx.reply(MSG.UNKNOWN_ERROR.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
+            }
+
+        })
+
+        this.bot.hears(BUTTON_LIST.ZEROEN, async (ctx) => {
+
+            try {
+                ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+            } catch (error) {
+                logger.error(error);
+                console.log('something went wrong in okudum anladim in english');
+                ctx.reply("Choose an action.", { reply_markup: KEYBOARDS.INITIAL_EN });
             }
 
         })
@@ -763,8 +773,8 @@ class TelegramBot {
                         break;
                     case PROC_CONTEXT.TOTALLIQUIDATION:
                         reply = await getTotalLiq([coin[1]], lang) as string; //?
-                        if (lang === 'TR') ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL_TR });
-                        else ctx.reply(reply, { reply_markup: KEYBOARDS.INITIAL_EN });
+                        if (lang === 'TR') ctx.reply(reply[0], { reply_markup: KEYBOARDS.INITIAL_TR });
+                        else ctx.reply(reply[0], { reply_markup: KEYBOARDS.INITIAL_EN });
                         Queries.removeQuery(chat_id);
                         break;
                     case PROC_CONTEXT.HOURLYVOL:
@@ -988,6 +998,7 @@ class TelegramBot {
                     return; 
                 }
                 if (query.context == PROC_CONTEXT.VOLUMEFLOW) {
+                    Queries.clearData(chat_id, query.context);
                     Queries.addDataSafe(chat_id, query.context, coins[1]);
                     Queries.addDataSafe(chat_id, query.context, coins[2]);
                     let reply = await getVolFlow(query.data, lang);
@@ -1019,7 +1030,8 @@ class TelegramBot {
             const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 Queries.removeQuery(ctx.chat.id);
-                ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL_TR })
+                if (lang === 'TR') ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL_TR });
+                else ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL_TR });
             } catch (error) {
                 logger.error(error);
                 console.log('naaptin kral');

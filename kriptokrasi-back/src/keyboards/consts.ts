@@ -13,7 +13,8 @@ export const BUTTON_LIST = {
     INITIAL_TR: ['Bekleyen Emirler', 'Aktif İşlemler', 'Geçmiş İşlemler', 'Yardım', 'Anlık Data'],
     INITIAL_EN: ['Waiting Orders', 'Active Orders', 'Past Orders', 'Help','Instant Data'],
     LESSON: ["Trade Eğitimi", "Vadeli İşlem ve Borsa Eğitimi"],
-    ZERO: ["OKUDUM, ANLADIM"],
+    ZEROTR: ["OKUDUM, ANLADIM"],
+    ZEROEN: ["READ AND UNDERSTOOD"],
     LANGUAGE: ["Türkçe", "English"]
 }
 
@@ -31,6 +32,32 @@ Paylasimlar Herhangi bir tavsiye niteliği tasimamakla birlikte risk tarafiniza 
 Aşağıda yazan okudum anladim butonuna tikladiginizda yukarida yazan tum maddeleri kabul etmis olucaksiniz ve bu durum sistem tarafindan her kişi icin kayıt altina alinicaktir. Sozlesmeyi onaylamadan botu calistiramazsiniz. 
 
 Teşekkür eder bol kazançlar dileriz.`
+
+export const READ_UNDERSTOOD = `Hello everyone 🖐
+
+Our advanced algorithme psychological and analistic is predicting the markets ( crypto and forex ) like Never before . 
+
+Our indicator have an high accuracy of 80% that's mean on 10 traders you will win 8 and loss 2 . 
+
+Today with our indicator you will become a Pro trader and you start trade without any stress or emotion.
+
+We always try to facilitate trading for our coustumer to earn money .
+
+1-High accuracy 8/2..
+
+2-Alert on all buy or sell Signals..
+
+3-Autotrading for the busy person in their life..
+
+4-Works on all platforms 'crypto (Binance spot and Futures , Bitrex, BitMEX) Forex, stock. 
+
+5- Get Access for chat groupe indecator to share all our best alert on scripte 'daily..' 😍
+
+6-Support 24/7
+
+7-This is only an indicator. You have the control of your own money. Please don't use all your money for your orders.
+
+Contact : @kriptokrasiinformation_bot to get license now 🔥`
 
 export const trade_egitimi =
     `Eğitim içeriği

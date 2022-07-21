@@ -45,6 +45,18 @@ export class QueryList {
             throw new Error(ERROR_MESSAGES.NAN_QUERY);
         }
     }
+    clearData(chat_id: number, context: PROC_CONTEXT){
+        let query = this.queries[chat_id];
+        if (query) {
+            if (query.context === context) {
+                query.data = [];
+            } else {
+                throw new Error(ERROR_MESSAGES.INV_CONTX);
+            }
+        } else {
+            throw new Error(ERROR_MESSAGES.NAN_QUERY);
+        }
+    }
 
     getContext(chat_id:number) {
         let query = this.queries[chat_id];
