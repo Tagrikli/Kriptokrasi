@@ -68,8 +68,7 @@ class TelegramBot {
                 } else {
                     let lang = await this.db.getUserLangPrefbyID(ctx.message.from.id);
                     if (lang == 'TR') {
-                        ctx.reply(OKUDUM_ANLADIM, {
-                            reply_markup: KEYBOARDS.ZEROTR
+                        ctx.reply(OKUDUM_ANLADIM, {reply_markup: KEYBOARDS.ZEROTR
                         });
                     } else {
                         ctx.reply(READ_UNDERSTOOD, {reply_markup: KEYBOARDS.ZEROEN});

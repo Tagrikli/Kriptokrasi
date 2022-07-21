@@ -32,8 +32,8 @@ Please select a language...
         en: "write symb and enter a coin symbol eg: symb btc"
     },
     WRITE_PARA: {
-        tr: "para yazıp istediğiniz coinleri yazınız. ör: para chz usdt",
-        en: "write para and enter two coin names. eg: para chz usdt"
+        tr: "para yazıp istediğiniz coinleri yazınız. ör: para btc usdt",
+        en: "write para and enter two coin names. eg: para btc usdt"
     },
     WRITE_MP: {
         tr: "mp yazip parite seçiniz. ör: mp btcusdt",
@@ -44,8 +44,8 @@ Please select a language...
         en: "write pa and enter a pair. eg: pa btc-usdt"
     },
     WRITE_24H: {
-        tr: "24h yazıp parite seçiniz. ör: 24saat btc-usdt",
-        en: "write 24h and enter a pair. eg: 24saat btc-usdt"
+        tr: "24h yazıp parite seçiniz. ör: 24h btc-usdt",
+        en: "write 24h and enter a pair. eg: 24h btc-usdt"
     },
     CHOOSE_TF: {
         tr: "Zaman aralığı seçiniz.",
@@ -67,9 +67,6 @@ Please select a language...
         tr: "Gecersiz istek",
         en: "Invalid Request"
     },
-    ORNEK_FUNC: (a) => {
-        return "Selamlar";
-    },
     LONGSHORT_ERROR: {
         tr: `Coin yazmayı tekrar deneyin. ör: ls btc-usdt`,
         en: 'Try writing the coin name again. ex: ls btc-usdt'
@@ -85,7 +82,13 @@ Please select a language...
 1 Gün -> Ratio: ${ratio4} -> ${pressure4} \n Long: %${l4} -> Short: %${s4} -> \n Best Guide: ${delta4}`;
             return tr;
         }
-        let en = `15 Minutes ->  Ratio: ${ratio1} -> ${pressure1} \n 1 Hour -> Ratio: ${ratio2} -> ${pressure2} \n 4 Hours -> Ratio: ${ratio3} -> ${pressure3} \n 1 Day -> Ratio: ${ratio4} -> ${pressure4}`;
+        let en = `15 Minutes ->  Ratio: ${ratio1} -> ${pressure1} \n Long: %${l1} -> Short: %${s1} -> \n Best Guide: ${delta1}
+    
+1 Hour -> Ratio: ${ratio2} -> ${pressure2} \n Long: %${l2} -> Short: %${s2} -> \n Best Guide: ${delta2}
+
+4 Hours -> Ratio: ${ratio3} -> ${pressure3} \n Long: %${l3} -> Short: %${s3} -> \n Best Guide: ${delta3}
+
+1 Day -> Ratio: ${ratio4} -> ${pressure4} \n Long: %${l4} -> Short: %${s4} -> \n Best Guide: ${delta4}`;
         return en;
     },
     CURRENTLS_ERROR: {
@@ -101,7 +104,7 @@ Please select a language...
             let tr = `Trend Skoru: ${trend} \n Alış Baskısı: ${sell} \n Satış Baskısı: ${buy}`;
             return tr;
         }
-        let en = `Trend Score: ${trend} \n Buy Pressure: ${sell} \n Sell Pressure: ${buy}`;
+        let en = `Trend Score: ${trend} \nBuy Pressure: ${sell} \nSell Pressure: ${buy}`;
         return en;
     },
     VOLUMEFLOW_ERROR: {
@@ -123,35 +126,34 @@ Please select a language...
     TICKERLIST: (language, mp, symb, price, usd, high, low, vol24, ch24h, ch1h, ch7h, ch30d, ch90d, chytd) => {
         if (language == 'TR') {
             let tr = `parite: ${mp}
-    coinin adı: ${symb}
-    fiyat: ${price}
-    usd fiyatı: ${usd}
-    en yüksek: ${high}
-    en alçak: ${low}
-    24 saatlik volume: ${vol24}
-    24 saatlik değişim: ${ch24h}
-    1 saatlik değişim: ${ch1h}
-    7 günlük değişim: ${ch7h}
-    30 günlük değişim: ${ch30d}
-    90 günlük değişim: ${ch90d}
-    yıllık değişim: ${chytd}`;
+coinin adı: ${symb}
+fiyat: ${price}
+usd fiyatı: ${usd}
+en yüksek: ${high}
+en alçak: ${low}
+24 saatlik volume: ${vol24}
+24 saatlik değişim: ${ch24h}
+1 saatlik değişim: ${ch1h}
+7 günlük değişim: ${ch7h}
+30 günlük değişim: ${ch30d}
+90 günlük değişim: ${ch90d}
+yıllık değişim: ${chytd}`;
             return tr;
         }
         else {
-            let en = `
-    pair: ${mp}
-    coin symbol: ${symb}
-    price: ${price}
-    usd price: ${usd}
-    high price: ${high}
-    low price: ${low}
-    24 hours volume: ${vol24}
-    24 hours change: ${ch24h}
-    1 hour change: ${ch1h}
-    7 days change: ${ch7h}
-    30 days change: ${ch30d}
-    90 days change: ${ch90d}
-    yearly change: ${chytd}`;
+            let en = `pair: ${mp}
+coin symbol: ${symb}
+price: ${price}
+usd price: ${usd}
+high price: ${high}
+low price: ${low}
+24 hours volume: ${vol24}
+24 hours change: ${ch24h}
+1 hour change: ${ch1h}
+7 days change: ${ch7h}
+30 days change: ${ch30d}
+90 days change: ${ch90d}
+yearly change: ${chytd}`;
             return en;
         }
     }

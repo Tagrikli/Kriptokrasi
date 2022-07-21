@@ -161,6 +161,7 @@ async function getVolFlow(data, lang) {
     const timeframesTR = ['15 Dakika', '1 Saat', '4 Saat', '1 Gün'];
     const timeframesEN = ['15 Minutes', '1 Hour', '4 Hours', '1 Day'];
     try {
+        console.log(data);
         const fromCoin = data[0].toUpperCase();
         const toCoin = data[1].toUpperCase();
         for (let j = 0; j < 4; j++) {
@@ -174,10 +175,10 @@ async function getVolFlow(data, lang) {
                     vol = buy_flow[i]["volume"];
                     if (lang == 'TR')
                         msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Alım
-    `;
+`;
                     else
                         msg += `${timeframesEN[j]} => Volume: ${vol}, Flow: Buy
-    `;
+`;
                 }
             }
             if (!found) {
@@ -186,10 +187,10 @@ async function getVolFlow(data, lang) {
                         vol = sell_flow[i]["volume"];
                         if (lang == 'TR')
                             msg += `${timeframesTR[j]}=> Volume: ${vol}, Akış: Satım
-    `;
+`;
                         else
                             msg += `${timeframesEN[j]} => Volume: ${vol}, Flow: Sell
-    `;
+`;
                     }
                 }
             }
@@ -200,7 +201,8 @@ async function getVolFlow(data, lang) {
             msg = 'There is no volume flow in the coin you searched.';
         return [msg, 200];
     }
-    catch {
+    catch (e) {
+        console.log(e);
         console.log("volume flow mistake");
         if (lang == 'TR')
             msg = message_data_1.default.VOLUMEFLOW_ERROR.tr;
@@ -265,14 +267,13 @@ async function getTradeVol24h(data, lang) {
     try {
         const pair = data[1].toUpperCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/24h-trade-volume-v2/?pair=${pair}&e=${e}&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
-        console.log(response);
         if (response.status == 200)
             msg = message_data_1.default.HOUR24(lang, response.data["data"][0]["buy"], response.data["data"][0]["sell"]);
     }
     catch {
         console.log("tradevol 24h mistake");
         if (lang === 'TR')
-            msg = message_data_1.default.ERROR.tr;
+            msg = message_data_1.default.HOUR24_NOCOIN.tr;
         else
             msg = message_data_1.default.HOUR24_NOCOIN.en;
     }
@@ -369,7 +370,9 @@ async function getMergedVolume(data) {
 }
 exports.getMergedVolume = getMergedVolume;
 async function getTickerList(data, lang) {
-    let msg = `Yanlis coin`;
+    let msg = message_data_1.default.ERROR.tr;
+    if (lang === 'EN')
+        msg = message_data_1.default.ERROR.en;
     try {
         const pair = data[0].toUpperCase();
         let response = await axios_1.default.get(`https://api.cryptometer.io/tickerlist-pro/?&e=binance&api_key=fT3TiQG131f3ZEqVPmK45WeFZJ90Z4pPpk6XYf1e`);
@@ -382,10 +385,6 @@ async function getTickerList(data, lang) {
     }
     catch {
         console.log("tickerlist mistake");
-        if (lang === 'TR')
-            msg = message_data_1.default.ERROR.tr;
-        else
-            msg = message_data_1.default.HOUR24_NOCOIN.en;
     }
     return msg;
 }

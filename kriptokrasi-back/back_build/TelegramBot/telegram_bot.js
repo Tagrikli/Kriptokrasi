@@ -56,8 +56,7 @@ class TelegramBot {
                 else {
                     let lang = await this.db.getUserLangPrefbyID(ctx.message.from.id);
                     if (lang == 'TR') {
-                        ctx.reply(consts_1.OKUDUM_ANLADIM, {
-                            reply_markup: keyboards_1.KEYBOARDS.ZEROTR
+                        ctx.reply(consts_1.OKUDUM_ANLADIM, { reply_markup: keyboards_1.KEYBOARDS.ZEROTR
                         });
                     }
                     else {
@@ -787,9 +786,9 @@ class TelegramBot {
                     case types_1.PROC_CONTEXT.TOTALLIQUIDATION:
                         reply = await (0, bot_functions_1.getTotalLiq)([coin[1]], lang); //?
                         if (lang === 'TR')
-                            ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
+                            ctx.reply(reply[0], { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
                         else
-                            ctx.reply(reply, { reply_markup: keyboards_1.KEYBOARDS.INITIAL_EN });
+                            ctx.reply(reply[0], { reply_markup: keyboards_1.KEYBOARDS.INITIAL_EN });
                         Query_1.Queries.removeQuery(chat_id);
                         break;
                     case types_1.PROC_CONTEXT.HOURLYVOL:
@@ -1042,6 +1041,7 @@ class TelegramBot {
                     return;
                 }
                 if (query.context == types_1.PROC_CONTEXT.VOLUMEFLOW) {
+                    Query_1.Queries.clearData(chat_id, query.context);
                     Query_1.Queries.addDataSafe(chat_id, query.context, coins[1]);
                     Query_1.Queries.addDataSafe(chat_id, query.context, coins[2]);
                     let reply = await (0, bot_functions_1.getVolFlow)(query.data, lang);
@@ -1079,7 +1079,10 @@ class TelegramBot {
             const lang = await this.db.getUserLangPrefbyID(user_id);
             try {
                 Query_1.Queries.removeQuery(ctx.chat.id);
-                ctx.reply("Everything is fine.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
+                if (lang === 'TR')
+                    ctx.reply("Everything is fine.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
+                else
+                    ctx.reply("Everything is fine.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
             }
             catch (error) {
                 logger_1.default.error(error);

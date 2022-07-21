@@ -33,6 +33,20 @@ class QueryList {
             throw new Error(errors_1.ERROR_MESSAGES.NAN_QUERY);
         }
     }
+    clearData(chat_id, context) {
+        let query = this.queries[chat_id];
+        if (query) {
+            if (query.context === context) {
+                query.data = [];
+            }
+            else {
+                throw new Error(errors_1.ERROR_MESSAGES.INV_CONTX);
+            }
+        }
+        else {
+            throw new Error(errors_1.ERROR_MESSAGES.NAN_QUERY);
+        }
+    }
     getContext(chat_id) {
         let query = this.queries[chat_id];
         if (query) {
