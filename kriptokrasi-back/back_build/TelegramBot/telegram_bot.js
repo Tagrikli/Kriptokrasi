@@ -82,11 +82,11 @@ class TelegramBot {
             try {
                 if (message === consts_1.BUTTON_LIST.LANGUAGE[0]) {
                     await this.db.updateLang(user_id, "TR");
-                    ctx.reply(consts_1.OKUDUM_ANLADIM, { reply_markup: keyboards_1.KEYBOARDS.ZERO });
+                    ctx.reply(consts_1.OKUDUM_ANLADIM, { reply_markup: keyboards_1.KEYBOARDS.ZEROTR });
                 }
                 else {
                     await this.db.updateLang(user_id, "EN");
-                    ctx.reply(message_data_1.default.CHOOSE_ACTION.en, { reply_markup: keyboards_1.KEYBOARDS.INITIAL_EN });
+                    ctx.reply(consts_1.READ_UNDERSTOOD, { reply_markup: keyboards_1.KEYBOARDS.ZEROEN });
                 }
             }
             catch (error) {

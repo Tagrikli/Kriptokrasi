@@ -91,18 +91,16 @@ class TelegramBot {
 
 
         this.bot.hears(BUTTON_LIST.LANGUAGE, async (ctx) => {
-
             const user_id = ctx.message.from.id;
             const message = ctx.message.text;
-
             try {
 
                 if (message === BUTTON_LIST.LANGUAGE[0]) {
                     await this.db.updateLang(user_id, "TR");
-                    ctx.reply(OKUDUM_ANLADIM, { reply_markup: KEYBOARDS.ZERO });
+                    ctx.reply(OKUDUM_ANLADIM, { reply_markup: KEYBOARDS.ZEROTR });
                 } else {
                     await this.db.updateLang(user_id, "EN")
-                    ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    ctx.reply(READ_UNDERSTOOD, { reply_markup: KEYBOARDS.ZEROEN });
                 }
 
             } catch (error) {
