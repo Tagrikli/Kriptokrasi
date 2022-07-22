@@ -370,26 +370,26 @@ export default class Notifier {
         
         if (order.type === EType.SPOT) {
             return new Compositor(order)
-            .optional(order.symbol, 'işlemi eklenmiştir.')
+            .optional(order.symbol, 'order added.')
             .type_en(order.type)
             .buy_price_en(order.buy_price)
             .momentary_price_en(momentary_price)
             .price_left_en(price_left)
             .tp_data()
             .stop_loss_en(order.stop_loss)
-            .optional('Bekleyen emirlerden kontrol ediniz.')
+            .optional('You can control them from the Waiting Orders button.')
             .composed
         }else{
             return new Compositor(order)
-            .optional(order.symbol, 'işlemi eklenmiştir.')
+            .optional(order.symbol, 'order added.')
             .type_en(order.type)
             .position()
-            .buy_price_tr(order.buy_price)
-            .momentary_price_tr(momentary_price)
-            .price_left_tr(price_left)
+            .buy_price_en(order.buy_price)
+            .momentary_price_en(momentary_price)
+            .price_left_en(price_left)
             .tp_data()
-            .stop_loss_tr(order.stop_loss)
-            .optional('Bekleyen emirlerden kontrol ediniz.')
+            .stop_loss_en(order.stop_loss)
+            .optional('You can control them from the Waiting Orders button.')
             .composed
         }
     }
@@ -405,7 +405,7 @@ export default class Notifier {
     async waitingOrderActivatedEN(order: TOrder) {
 
         return new Compositor(order)
-            .optional(order.symbol, 'işlemine giriş yapılmıştır.')
+            .optional(order.symbol, 'entered the order.')
             .buy_price_en(order.buy_price)
             .composed
     }
@@ -429,8 +429,8 @@ Bekleyen emirler iptal edildi.
     waitingOrderDeletionEN(orders: TOrder[]) { //duzelcek
 
         let prefix = `
-Bekleyen emirler iptal edildi.
-İptal edilen emirler:
+Waiting order cancelled.
+Cancelled orders:
 `
 
         const orders_ = orders.map(order =>
@@ -462,8 +462,8 @@ Kapanan emirler:
     activeOrderDeletionEN(orders: TOrder[], profits: { [key: number]: any }) { //profit should be the profit of the lastTP
 
         let prefix = `
-Aktif işlem kapanmıştır.
-Kapanan emirler:
+Active order closed.
+Closed orders:
 `
         const orders_ = orders.map(order =>
             new Compositor(order)
@@ -508,17 +508,17 @@ Kapanan emirler:
             return new Compositor(order)
                 .symbol_tr(order.symbol)
                 .type_tr(order.type)
-                .optional('İşlem stop olmuştur.')
-                .optional('Zarar: %', profit.toFixed(2))
+                .optional('Order stopped.')
+                .optional('Loss: %', profit.toFixed(2))
                 .composed
         }
         else {
             return new Compositor(order)
                 .symbol_tr(order.symbol)
                 .type_tr(order.type)
-                .optional(`Kâr: %${profit.toFixed(3)}`)
-                .optional(`İşlem TP${lastTP + 1} 'de stop olmuştur.`)
-                .optional('Parçalı Satış Sonrası Kâr: %', reg_profit[lastTP+1].toFixed(3))
+                .optional(`Profit: %${profit.toFixed(3)}`)
+                .optional(`Order stopped at TP${lastTP + 1}.`)
+                .optional('Profit after partial sell: %', reg_profit[lastTP+1].toFixed(3))
                 .composed
         }
     }
@@ -540,7 +540,7 @@ Kapanan emirler:
             .symbol_tr(order.symbol)
             .type_tr(order.type)
             .optional(`TP${tp_no}`)
-            .optional(`Kâr: %${profit.toFixed(2)}`)
+            .optional(`Profit: %${profit.toFixed(2)}`)
             .composed
     }
 
