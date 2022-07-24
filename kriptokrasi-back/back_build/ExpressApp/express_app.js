@@ -248,7 +248,7 @@ class ExpressApp {
         this.app.post(endpoints_1.default.SEND_TELEGRAM_MESSAGE, async (req, res) => {
             const data = req.body;
             try {
-                this.telegram.sendMessageToAll(data.vip, data.filter, data.message, 'TR');
+                this.telegram.sendMessageToAll(data.vip, data.filter, data.message, data.lang);
                 res.sendStatus(200);
             }
             catch (reason) {

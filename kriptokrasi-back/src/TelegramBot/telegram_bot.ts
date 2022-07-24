@@ -42,9 +42,8 @@ class TelegramBot {
     async sendMessageToAll(vip: boolean, filter: boolean, message: string, language: string) {
 
         const users = await this.db.getAllUsers(vip, filter);
-        //console.log('helllo', );
+        console.log('helllo', message, language );
         users.forEach(user => {
-            console.log('rooney', user);
             if(user.language === language)
             { 
                 try {

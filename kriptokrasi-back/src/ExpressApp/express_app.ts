@@ -335,7 +335,7 @@ class ExpressApp {
             const data: TTMessage = req.body;
             try {
 
-                this.telegram.sendMessageToAll(data.vip, data.filter, data.message, 'TR');
+                this.telegram.sendMessageToAll(data.vip, data.filter, data.message, data.lang);
                 res.sendStatus(200);
 
             } catch (reason) {
