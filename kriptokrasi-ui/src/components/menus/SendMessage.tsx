@@ -1,7 +1,6 @@
 import { Backdrop, Button, CircularProgress, Container, Stack, Switch, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { Toast } from "react-toastify/dist/components";
 import { TTMessage } from "../../kriptokrasi-common/message_types";
 import { EXPRESS_ENDPOINTS } from "../../utils/endpoint_manager";
 import { MESSAGES } from "../../utils/messages";
