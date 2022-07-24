@@ -44,7 +44,10 @@ class Compositor {
             const dateObject = new Date(parseInt(d[0]))
             const humanDateFormat = dateObject.toLocaleDateString()
             return `Tarih: ${humanDateFormat}`},
-        timestamp_en: (...d: any[]) => `Time: ${d[0]}`,
+        timestamp_en: (...d: any[]) => {
+            const dateObject = new Date(parseInt(d[0]))
+            const humanDateFormat = dateObject.toLocaleDateString()
+            return `Time: ${humanDateFormat}`},
         price_left_tr: (...d: any[]) => `Emire Kalan Fiyat Farkı: ${(d[0]).toFixed(2)}`,
         price_left_en: (...d: any[]) => `Price Left: ${(d[0]).toFixed(2)}`,
         optional: (...d: any[]) => `${d.join(' ')}`
@@ -435,8 +438,8 @@ Cancelled orders:
 
         const orders_ = orders.map(order =>
             new Compositor(order)
-                .symbol_tr(order.symbol)
-                .buy_price_tr(order.buy_price)
+                .symbol_en(order.symbol)
+                .buy_price_en(order.buy_price)
                 .composed)
 
         return [prefix, ...orders_].join('\n');
@@ -467,9 +470,9 @@ Closed orders:
 `
         const orders_ = orders.map(order =>
             new Compositor(order)
-                .symbol_tr(order.symbol)
-                .buy_price_tr(order.buy_price)
-                .optional(`Kâr: %${parseFloat(profits[order.id]).toFixed(3)}`)
+                .symbol_en(order.symbol)
+                .buy_price_en(order.buy_price)
+                .optional(`Profit: %${parseFloat(profits[order.id]).toFixed(3)}`)
                 .composed
         )
 
