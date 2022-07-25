@@ -22,7 +22,7 @@ Please select a language...
   REQUEST_PRIVATE : {tr: 'Botu kullanabilmek için bota özel mesaj atınız.', en: 'Please send private messages to be able to use the bot.'},
 
   GET_MEMBERSHIP: {tr: 'Botu kullanabilmek için üye olunuz. Detaylı bilgi @kriptokrasibilgilendirme_bot da. Lütfen tıklayıp botu başlatınız.',
-   en: 'Sign up to use the bot. For more information: @kriptokrasibilgilendirme_bot . Click to start the bot.'},
+   en: 'Sign up to use the bot. For more information: @kriptokrasiinformation_bot . Click to start the bot.'},
 
   WRITE_LS: {
     tr: "ls yazıp parite giriniz. ör: ls btc-usdt.",
