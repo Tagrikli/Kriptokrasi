@@ -1039,7 +1039,7 @@ class TelegramBot {
             try {
                 Queries.removeQuery(ctx.chat.id);
                 if (lang === 'TR') ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL_TR });
-                else ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL_TR });
+                else ctx.reply("Everything is fine.", { reply_markup: KEYBOARDS.INITIAL_EN });
             } catch (error) {
                 logger.error(error);
                 console.log('naaptin kral');
