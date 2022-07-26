@@ -150,8 +150,8 @@ class TelegramBot {
                 }
 
                 if (!(await this.db.userExists(ctx.message.from.id))) {
-                    ctx.reply("Lütfen kullanıma başlamak icin okudum, anladıma basınız.", { reply_markup: KEYBOARDS.ZERO });
-                    ctx.reply(OKUDUM_ANLADIM, { reply_markup: KEYBOARDS.ZERO });
+                    if (lang === 'TR')ctx.reply(MSG.START_FIRST.tr, { reply_markup: KEYBOARDS.ZEROTR });
+                    else ctx.reply(MSG.START_FIRST.en, { reply_markup: KEYBOARDS.ZEROEN });
                     waitlist.push(user_id);
                     return;
                 }
@@ -508,26 +508,32 @@ class TelegramBot {
         });
 
         //english version will be added
-        this.bot.hears(BUTTON_LIST.INDICATOR, async (ctx) => {
-            try {
-                const message = ctx.message.text;
-                const chat_id = ctx.message.chat.id;
-                const context = PROC_CONTEXT.INDICATOR;
-                Queries.addDataSafe(chat_id, context, message);
-                ctx.reply("Borsa türünü seçiniz.", { reply_markup: KEYBOARDS.STOCK });
-            } catch (error) {
-                logger.error(error);
-                console.log('something went wrong2');
-                ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: KEYBOARDS.INITIAL_TR });
-            }
-        });
+        // this.bot.hears(BUTTON_LIST.INDICATOR, async (ctx) => {
+        //     try {
+        //         const message = ctx.message.text;
+        //         const chat_id = ctx.message.chat.id;
+        //         const context = PROC_CONTEXT.INDICATOR;
+        //         Queries.addDataSafe(chat_id, context, message);
+        //         ctx.reply("Borsa türünü seçiniz.", { reply_markup: KEYBOARDS.STOCK });
+        //     } catch (error) {
+        //         logger.error(error);
+        //         console.log('something went wrong2');
+        //         ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //     }
+        // });
 
         this.bot.hears(BUTTON_LIST.STOCK, async (ctx) => {
             const lang = await this.db.getUserLangPrefbyID(ctx.from.id);
             try {
                 const message = ctx.message.text;
                 const chat_id = ctx.message.chat.id;
-                let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL_TR }); return; }
+                let query = Queries.getQuery(chat_id); 
+                if (query == undefined) 
+                { 
+                    if (lang === 'TR ') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, {reply_markup: KEYBOARDS.INITIAL_EN}); 
+                    return; 
+                } 
                 Queries.addData(chat_id, message);
                 switch (query.context) {
                     case PROC_CONTEXT.LONGSHORT:
@@ -563,8 +569,8 @@ class TelegramBot {
                         else ctx.reply(MSG.CHOOSE_SOURCE.en, { reply_markup: KEYBOARDS.SOURCE_EN });
                         break;
                     default:
-                        if (lang === 'TR ') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
-                        else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                        if (lang === 'TR ') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
+                        else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                         break;
                 }
             } catch (error) {
@@ -576,117 +582,117 @@ class TelegramBot {
         })
 
         //english version will be added
-        this.bot.hears(BUTTON_LIST.EXCHANGE, async (ctx) => {
-            try {
-                const message = ctx.message.text;
-                const chat_id = ctx.message.chat.id;
-                const context = PROC_CONTEXT.MERGEDVOL;
-                switch (message) {
-                    case BUTTON_LIST.EXCHANGE[0]://Spot
-                        Queries.addDataSafe(chat_id, context, "spot");
-                        break;
+        // this.bot.hears(BUTTON_LIST.EXCHANGE, async (ctx) => {
+        //     try {
+        //         const message = ctx.message.text;
+        //         const chat_id = ctx.message.chat.id;
+        //         const context = PROC_CONTEXT.MERGEDVOL;
+        //         switch (message) {
+        //             case BUTTON_LIST.EXCHANGE[0]://Spot
+        //                 Queries.addDataSafe(chat_id, context, "spot");
+        //                 break;
 
-                    case BUTTON_LIST.EXCHANGE[1]://Vadeli
-                        Queries.addDataSafe(chat_id, context, "futures");
-                        break;
+        //             case BUTTON_LIST.EXCHANGE[1]://Vadeli
+        //                 Queries.addDataSafe(chat_id, context, "futures");
+        //                 break;
 
-                    default:
-                        ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL_TR });
-                        break;
-                }
-                ctx.reply("Zaman araligi seciniz:", { reply_markup: KEYBOARDS.TIMEFRAME_TR });
-            } catch (error) {
-                logger.error(error);
-                console.log('something went wrong4');
-                ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: KEYBOARDS.INITIAL_TR });
-            }
-        })
+        //             default:
+        //                 ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //                 break;
+        //         }
+        //         ctx.reply("Zaman araligi seciniz:", { reply_markup: KEYBOARDS.TIMEFRAME_TR });
+        //     } catch (error) {
+        //         logger.error(error);
+        //         console.log('something went wrong4');
+        //         ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //     }
+        // })
 
         // english version will be added
-        this.bot.hears(BUTTON_LIST.SOURCE_TR, async (ctx) => {
-            try {
-                const message = ctx.message.text;
-                const chat_id = ctx.message.chat.id;
-                const context = PROC_CONTEXT.INDICATOR;
-                switch (message) {
-                    case BUTTON_LIST.SOURCE_TR[0]: //Acilis
-                        Queries.addDataSafe(chat_id, context, "open");
-                        break;
-                    case BUTTON_LIST.SOURCE_TR[1]://kapanis
-                        Queries.addDataSafe(chat_id, context, "close");
-                        break;
-                    case BUTTON_LIST.SOURCE_TR[2]: //en yuksek
-                        Queries.addDataSafe(chat_id, context, "high");
-                        break;
-                    case BUTTON_LIST.SOURCE_TR[3]://en dusuk
-                        Queries.addDataSafe(chat_id, context, "low");
-                        break;
-                    case BUTTON_LIST.SOURCE_TR[5]: //volume
-                        Queries.addDataSafe(chat_id, context, "volume");
-                        break;
-                    default:
-                        ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
-                        break;
-                }
-                ctx.reply("Period yaziniz", { reply_markup: KEYBOARDS.DATA });
-            } catch (error) {
-                logger.error(error);
-                console.log('something went wrong5');
-                ctx.reply(MSG.UNKNOWN_ERROR.en, { reply_markup: KEYBOARDS.INITIAL_EN });
-            }
-        })
+        // this.bot.hears(BUTTON_LIST.SOURCE_TR, async (ctx) => {
+        //     try {
+        //         const message = ctx.message.text;
+        //         const chat_id = ctx.message.chat.id;
+        //         const context = PROC_CONTEXT.INDICATOR;
+        //         switch (message) {
+        //             case BUTTON_LIST.SOURCE_TR[0]: //Acilis
+        //                 Queries.addDataSafe(chat_id, context, "open");
+        //                 break;
+        //             case BUTTON_LIST.SOURCE_TR[1]://kapanis
+        //                 Queries.addDataSafe(chat_id, context, "close");
+        //                 break;
+        //             case BUTTON_LIST.SOURCE_TR[2]: //en yuksek
+        //                 Queries.addDataSafe(chat_id, context, "high");
+        //                 break;
+        //             case BUTTON_LIST.SOURCE_TR[3]://en dusuk
+        //                 Queries.addDataSafe(chat_id, context, "low");
+        //                 break;
+        //             case BUTTON_LIST.SOURCE_TR[5]: //volume
+        //                 Queries.addDataSafe(chat_id, context, "volume");
+        //                 break;
+        //             default:
+        //                 ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR });
+        //                 break;
+        //         }
+        //         ctx.reply("Period yaziniz", { reply_markup: KEYBOARDS.DATA });
+        //     } catch (error) {
+        //         logger.error(error);
+        //         console.log('something went wrong5');
+        //         ctx.reply(MSG.UNKNOWN_ERROR.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+        //     }
+        // })
 
         //english version will be added
-        this.bot.hears(BUTTON_LIST.TIMEFRAME_TR, async (ctx) => {
-            try {
-                const message = ctx.message.text;
-                const chat_id = ctx.message.chat.id;
-                let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL_TR }); return; }
-                let timeframe = ''
-                switch (message) {
-                    case BUTTON_LIST.TIMEFRAME_TR[0]:
-                        timeframe = '5m';
-                        break;
-                    case BUTTON_LIST.TIMEFRAME_TR[1]:
-                        timeframe = '15m';
-                        break;
-                    case BUTTON_LIST.TIMEFRAME_TR[2]:
-                        timeframe = '30m';
-                        break;
-                    case BUTTON_LIST.TIMEFRAME_TR[3]:
-                        timeframe = '1h';
-                        break;
-                    case BUTTON_LIST.TIMEFRAME_TR[4]:
-                        timeframe = '4h';
-                        break;
-                    case BUTTON_LIST.TIMEFRAME_TR[5]:
-                        timeframe = 'd';
-                        break;
-                    default:
-                        ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL_TR });
-                        break;
-                }
-                Queries.addData(chat_id, timeframe);
-                switch (query.context) {
-                    case PROC_CONTEXT.OHLCV:
-                        ctx.reply("pa yazip parite seçiniz. ör: btcusdt", { reply_markup: KEYBOARDS.INITIAL_TR });
-                        break;
-                    case PROC_CONTEXT.INDICATOR:
-                        ctx.reply("mp yazip coin seciniz. ör: btc-usdt", { reply_markup: KEYBOARDS.INITIAL_TR });
-                        break;
-                    case PROC_CONTEXT.MERGEDVOL:
-                        ctx.reply("symb yazip coin seciniz. ör: btc", { reply_markup: KEYBOARDS.INITIAL_TR });
-                        break;
-                    default:
-                        ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL_TR });
-                        break;
-                }
-            } catch (error) {
-                logger.error(error);
-                console.log('something went wrong6');
-                ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: KEYBOARDS.INITIAL_TR });
-            }
-        })
+        // this.bot.hears(BUTTON_LIST.TIMEFRAME_TR, async (ctx) => {
+        //     try {
+        //         const message = ctx.message.text;
+        //         const chat_id = ctx.message.chat.id;
+        //         let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL_TR }); return; }
+        //         let timeframe = ''
+        //         switch (message) {
+        //             case BUTTON_LIST.TIMEFRAME_TR[0]:
+        //                 timeframe = '5m';
+        //                 break;
+        //             case BUTTON_LIST.TIMEFRAME_TR[1]:
+        //                 timeframe = '15m';
+        //                 break;
+        //             case BUTTON_LIST.TIMEFRAME_TR[2]:
+        //                 timeframe = '30m';
+        //                 break;
+        //             case BUTTON_LIST.TIMEFRAME_TR[3]:
+        //                 timeframe = '1h';
+        //                 break;
+        //             case BUTTON_LIST.TIMEFRAME_TR[4]:
+        //                 timeframe = '4h';
+        //                 break;
+        //             case BUTTON_LIST.TIMEFRAME_TR[5]:
+        //                 timeframe = 'd';
+        //                 break;
+        //             default:
+        //                 ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //                 break;
+        //         }
+        //         Queries.addData(chat_id, timeframe);
+        //         switch (query.context) {
+        //             case PROC_CONTEXT.OHLCV:
+        //                 ctx.reply("pa yazip parite seçiniz. ör: btcusdt", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //                 break;
+        //             case PROC_CONTEXT.INDICATOR:
+        //                 ctx.reply("mp yazip coin seciniz. ör: btc-usdt", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //                 break;
+        //             case PROC_CONTEXT.MERGEDVOL:
+        //                 ctx.reply("symb yazip coin seciniz. ör: btc", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //                 break;
+        //             default:
+        //                 ctx.reply("Lütfen önce işlem seçiniz.", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //                 break;
+        //         }
+        //     } catch (error) {
+        //         logger.error(error);
+        //         console.log('something went wrong6');
+        //         ctx.reply("Bir şeyler yanlış gitti. Yeniden deneyin.", { reply_markup: KEYBOARDS.INITIAL_TR });
+        //     }
+        // })
 
         this.bot.hears(/(?<=24h ).*/i, async (ctx) => {
             const user_id = ctx.from.id;
@@ -697,8 +703,8 @@ class TelegramBot {
                 const chat_id = ctx.message.chat.id;
                 let query = Queries.getQuery(chat_id); 
                 if (query == undefined) { 
-                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
-                    else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return; 
                 }
                 if (query.context == PROC_CONTEXT.HOURLY24VF) {
@@ -726,7 +732,13 @@ class TelegramBot {
             try {
                 const message = ctx.message.text;
                 const chat_id = ctx.message.chat.id;
-                let query = Queries.getQuery(chat_id); if (query == undefined) { ctx.reply("Lutfen once islem seciniz.", { reply_markup: KEYBOARDS.INITIAL_TR }); return; }
+                const lang = await this.db.getUserLangPrefbyID(chat_id);
+                let query = Queries.getQuery(chat_id); 
+                if (query == undefined) { 
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    return; 
+                }
                 if (query.context == PROC_CONTEXT.INDICATOR) {
                     Queries.addDataSafe(chat_id, PROC_CONTEXT.INDICATOR, message);
                     ctx.reply("Zaman araligi seciniz.", { reply_markup: KEYBOARDS.TIMEFRAME })
@@ -750,8 +762,8 @@ class TelegramBot {
                 const chat_id = ctx.message.chat.id; 
                 let query = Queries.getQuery(chat_id); 
                 if (query == undefined) { 
-                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
-                    else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return; 
                 }
                 let reply = "";
@@ -808,8 +820,8 @@ class TelegramBot {
                 const chat_id = ctx.message.chat.id;
                 let query = Queries.getQuery(chat_id);
                 if (query == undefined) { 
-                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
-                    else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return; 
                 }
                 let reply = "";
@@ -856,8 +868,8 @@ class TelegramBot {
                 const chat_id = ctx.message.chat.id;
                 let query = Queries.getQuery(chat_id); 
                 if (query == undefined) { 
-                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
-                    else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return; 
                 }
                 Queries.addData(chat_id, coin);
@@ -910,8 +922,8 @@ class TelegramBot {
                 const chat_id = ctx.message.chat.id;
                 let query = Queries.getQuery(chat_id); 
                 if (query == undefined) { 
-                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
-                    else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return; 
                 }
                 if (query.context == PROC_CONTEXT.CURRENTLS) {
@@ -948,8 +960,8 @@ class TelegramBot {
                 const chat_id = ctx.message.chat.id;
                 let query = Queries.getQuery(chat_id); 
                 if (query == undefined) { 
-                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
-                    else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return; 
                 }
                 console.log("longshort secildi", query);
@@ -989,8 +1001,8 @@ class TelegramBot {
                 const chat_id = ctx.message.chat.id;
                 let query = Queries.getQuery(chat_id); 
                 if (query == undefined) { 
-                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
-                    else ctx.reply(MSG.CHOOSE_ACTION.en, { reply_markup: KEYBOARDS.INITIAL_EN });
+                    if (lang === 'TR') ctx.reply(MSG.CHOOSE_ACTION_FIRST.tr, { reply_markup: KEYBOARDS.INITIAL_TR }); 
+                    else ctx.reply(MSG.CHOOSE_ACTION_FIRST.en, { reply_markup: KEYBOARDS.INITIAL_EN });
                     return; 
                 }
                 if (query.context == PROC_CONTEXT.VOLUMEFLOW) {

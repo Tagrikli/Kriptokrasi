@@ -3,6 +3,8 @@ const MSG = {
 
   CHOOSE_ACTION : {tr: "Seçiminizi yapınız.",en:  "Please choose an action."},
 
+  CHOOSE_ACTION_FIRST:{tr: "Lütfen önce işlem seçiniz.", en: 'Please choose an action first.'},
+
   WAIT_10_SECS: { tr:'⏰⏰ Lütfen mesaj atmadan önce 10 saniye bekleyin.', en:'⏰⏰ Please wait for 10 seconds before you send a message.'},
 
   SELECT_LANGUAGE : `
@@ -18,6 +20,8 @@ Please select a language...
     tr: 'Data seçiniz.',
     en: 'Choose your information type'
   },
+
+  START_FIRST :{tr: "Lütfen kullanıma başlamak icin okudum, anladıma basınız.", en: 'Please accept that you read and understood before using the bot.'},
 
   REQUEST_PRIVATE : {tr: 'Botu kullanabilmek için bota özel mesaj atınız.', en: 'Please send private messages to be able to use the bot.'},
 

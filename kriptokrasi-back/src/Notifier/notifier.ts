@@ -242,7 +242,7 @@ export default class Notifier {
 
         let orders = await this.database.getAllOrders(EStatus.WAITING) as TOrder[];
 
-        if (orders.length === 0) return [`Bekleyen emir yok`];
+        if (orders.length === 0) return [`No waiting orders`];
 
         return await Promise.all(orders.map(async order => {
 
@@ -310,7 +310,7 @@ export default class Notifier {
     async preparePastOrdersEN() {
 
         let orders = await this.database.getAllOrders(EStatus.PAST) as TOrder_Past[];
-        if (!orders.length) return [`Gecmis emir yok`];
+        if (!orders.length) return [`No past orders`];
         return await Promise.all(orders.map(async order => {
             if (order.type === EType.SPOT) {
                 return new Compositor(order)
@@ -509,16 +509,16 @@ Closed orders:
 
         if (profit < 0) {
             return new Compositor(order)
-                .symbol_tr(order.symbol)
-                .type_tr(order.type)
+                .symbol_en(order.symbol)
+                .type_en(order.type)
                 .optional('Order stopped.')
                 .optional('Loss: %', profit.toFixed(2))
                 .composed
         }
         else {
             return new Compositor(order)
-                .symbol_tr(order.symbol)
-                .type_tr(order.type)
+                .symbol_en(order.symbol)
+                .type_en(order.type)
                 .optional(`Profit: %${profit.toFixed(3)}`)
                 .optional(`Order stopped at TP${lastTP + 1}.`)
                 .optional('Profit after partial sell: %', reg_profit[lastTP+1].toFixed(3))
@@ -540,8 +540,8 @@ Closed orders:
     tpActivatedEN(order: TOrder, tp_no: number, profit: number) {
 
         return new Compositor(order)
-            .symbol_tr(order.symbol)
-            .type_tr(order.type)
+            .symbol_en(order.symbol)
+            .type_en(order.type)
             .optional(`TP${tp_no}`)
             .optional(`Profit: %${profit.toFixed(2)}`)
             .composed

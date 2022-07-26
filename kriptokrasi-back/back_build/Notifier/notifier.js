@@ -206,7 +206,7 @@ class Notifier {
     async prepareWaitingOrdersEN() {
         let orders = await this.database.getAllOrders(order_types_1.EStatus.WAITING);
         if (orders.length === 0)
-            return [`Bekleyen emir yok`];
+            return [`No waiting orders`];
         return await Promise.all(orders.map(async (order) => {
             let momentary_price = await this.getMomentaryPrice(order.symbol, order.type);
             let price_left = momentary_price - order.buy_price;
@@ -268,7 +268,7 @@ class Notifier {
     async preparePastOrdersEN() {
         let orders = await this.database.getAllOrders(order_types_1.EStatus.PAST);
         if (!orders.length)
-            return [`Gecmis emir yok`];
+            return [`No past orders`];
         return await Promise.all(orders.map(async (order) => {
             if (order.type === order_types_1.EType.SPOT) {
                 return new Compositor(order)
@@ -435,16 +435,16 @@ Closed orders:
         //if ((order.position === EPosition.SHORT)) reg_profit = reg_profit.map(tp => -tp);
         if (profit < 0) {
             return new Compositor(order)
-                .symbol_tr(order.symbol)
-                .type_tr(order.type)
+                .symbol_en(order.symbol)
+                .type_en(order.type)
                 .optional('Order stopped.')
                 .optional('Loss: %', profit.toFixed(2))
                 .composed;
         }
         else {
             return new Compositor(order)
-                .symbol_tr(order.symbol)
-                .type_tr(order.type)
+                .symbol_en(order.symbol)
+                .type_en(order.type)
                 .optional(`Profit: %${profit.toFixed(3)}`)
                 .optional(`Order stopped at TP${lastTP + 1}.`)
                 .optional('Profit after partial sell: %', reg_profit[lastTP + 1].toFixed(3))
@@ -461,8 +461,8 @@ Closed orders:
     }
     tpActivatedEN(order, tp_no, profit) {
         return new Compositor(order)
-            .symbol_tr(order.symbol)
-            .type_tr(order.type)
+            .symbol_en(order.symbol)
+            .type_en(order.type)
             .optional(`TP${tp_no}`)
             .optional(`Profit: %${profit.toFixed(2)}`)
             .composed;
