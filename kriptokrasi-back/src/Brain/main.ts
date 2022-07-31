@@ -66,6 +66,7 @@ class Brain {
 
         const message = event.message.message;
         this.telegram.sendMessageToAll(true, true, message, 'TR');
+        this.telegram.sendMessageToAll(true, true, message, 'EN');
     }
 
     async onBinanceBookTicker(data: any) {
