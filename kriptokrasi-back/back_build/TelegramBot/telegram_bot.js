@@ -1082,7 +1082,7 @@ class TelegramBot {
                 if (lang === 'TR')
                     ctx.reply("Everything is fine.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
                 else
-                    ctx.reply("Everything is fine.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_TR });
+                    ctx.reply("Everything is fine.", { reply_markup: keyboards_1.KEYBOARDS.INITIAL_EN });
             }
             catch (error) {
                 logger_1.default.error(error);
